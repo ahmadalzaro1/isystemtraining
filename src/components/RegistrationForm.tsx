@@ -53,24 +53,52 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   const currentStep = activeSteps[step - 1];
 
   const renderStepContent = () => {
-    const { Component } = currentStep;
+    const { Component, id } = currentStep;
     
-    if (currentStep.id === 'personal') {
-      return <Component data={formData} onChange={updateFormData} />;
+    switch (id) {
+      case 'experience':
+        return (
+          <Component 
+            value={formData.experience} 
+            onChange={(value: string) => updateFormData({ experience: value })} 
+          />
+        );
+      
+      case 'personal':
+        return (
+          <Component 
+            data={formData} 
+            onChange={updateFormData} 
+          />
+        );
+      
+      case 'occupation':
+        return (
+          <Component 
+            value={formData.occupation} 
+            onChange={(value: string) => updateFormData({ occupation: value })} 
+          />
+        );
+      
+      case 'devices':
+        return (
+          <Component 
+            devices={formData.devices} 
+            onChange={(data: Partial<{ devices: string[] }>) => updateFormData(data)} 
+          />
+        );
+      
+      case 'interests':
+        return (
+          <Component 
+            interests={formData.learningInterests} 
+            onChange={(data: Partial<{ learningInterests: string[] }>) => updateFormData(data)} 
+          />
+        );
+      
+      default:
+        return null;
     }
-    
-    if (currentStep.id === 'devices') {
-      return <Component devices={formData.devices} onChange={updateFormData} />;
-    }
-    
-    if (currentStep.id === 'interests') {
-      return <Component interests={formData.learningInterests} onChange={updateFormData} />;
-    }
-    
-    return <Component 
-      value={formData[currentStep.id as keyof typeof formData]} 
-      onChange={(value: any) => updateFormData({ [currentStep.id]: value })} 
-    />;
   };
 
   return (
