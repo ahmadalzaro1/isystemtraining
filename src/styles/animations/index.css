@@ -1,0 +1,9 @@
+
+/* Import all animation categories */
+@import './text.css';
+@import './transitions.css';
+@import './effects.css';
+@import './movement.css';
+@import './form.css';
+@import './decorative.css';
+@import './delays.css';

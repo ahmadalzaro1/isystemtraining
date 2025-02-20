@@ -1,4 +1,4 @@
 
 @import './styles/theme.css';
-@import './styles/animations.css';
+@import './styles/animations/index.css';
 @import './styles/components.css';
