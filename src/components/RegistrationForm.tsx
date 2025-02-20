@@ -1,61 +1,15 @@
 
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ExperienceStep } from "./registration/ExperienceStep";
-import { PersonalInfoStep } from "./registration/PersonalInfoStep";
-import { DevicesStep } from "./registration/DevicesStep";
-import { OccupationStep } from "./registration/OccupationStep";
-import { LearningInterestsStep } from "./registration/LearningInterestsStep";
 import { RegistrationFormProps, FormData } from "@/types/registration";
 import { useRegistrationSteps } from "@/hooks/useRegistrationSteps";
-import { Progress } from "@/components/ui/progress";
-import { useEffect, useState } from "react";
-
-type StepComponent = {
-  id: string;
-  title: string;
-  description: string;
-  Component: React.ComponentType<any>;
-  showIf?: (experience: string) => boolean;
-};
-
-const REGISTRATION_STEPS: StepComponent[] = [
-  {
-    id: 'experience',
-    title: "Experience Level",
-    description: "Tell us about your experience with Apple products",
-    Component: ExperienceStep,
-  },
-  {
-    id: 'personal',
-    title: "Personal Information",
-    description: "Enter your contact details",
-    Component: PersonalInfoStep,
-  },
-  {
-    id: 'occupation',
-    title: "Your Occupation",
-    description: "Tell us about your professional background",
-    Component: OccupationStep,
-  },
-  {
-    id: 'devices',
-    title: "Your Devices",
-    description: "Select the Apple devices you own",
-    Component: DevicesStep,
-    showIf: (experience: string) => experience !== "first-time",
-  },
-  {
-    id: 'interests',
-    title: "Learning Interests",
-    description: "What would you like to learn about in future workshops?",
-    Component: LearningInterestsStep,
-  },
-];
+import { useState } from "react";
+import { REGISTRATION_STEPS } from "./registration/config/steps";
+import { StepHeader } from "./registration/StepHeader";
+import { RegistrationProgress } from "./registration/RegistrationProgress";
+import { RegistrationNavigation } from "./registration/RegistrationNavigation";
 
 export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(onComplete);
-  const [progress, setProgress] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const activeSteps = REGISTRATION_STEPS.filter(stepConfig => 
@@ -64,10 +18,6 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
 
   const currentStepIndex = Math.min(step - 1, activeSteps.length - 1);
   const currentStep = activeSteps[currentStepIndex];
-
-  useEffect(() => {
-    setProgress((currentStepIndex / (activeSteps.length - 1)) * 100);
-  }, [currentStepIndex, activeSteps.length]);
 
   const handleTransition = async (direction: 'next' | 'previous') => {
     setIsTransitioning(true);
@@ -92,49 +42,27 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   }
 
   const renderStepContent = () => {
-    const { id } = currentStep;
+    const { id, Component } = currentStep;
     const stepClassName = `space-y-4 animate-fade-up transition-all duration-300 ${
       isTransitioning ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'
     }`;
     
+    const commonProps = {
+      onChange: updateFormData,
+      className: stepClassName,
+    };
+
     switch (id) {
       case 'experience':
-        return (
-          <ExperienceStep 
-            value={formData.experience}
-            onChange={updateFormData}
-            className={stepClassName}
-          />
-        );
+        return <Component value={formData.experience} {...commonProps} />;
       case 'personal':
-        return (
-          <PersonalInfoStep 
-            data={formData}
-            onChange={updateFormData}
-          />
-        );
+        return <Component data={formData} {...commonProps} />;
       case 'occupation':
-        return (
-          <OccupationStep 
-            value={formData.occupation}
-            onChange={updateFormData}
-            className={stepClassName}
-          />
-        );
+        return <Component value={formData.occupation} {...commonProps} />;
       case 'devices':
-        return (
-          <DevicesStep 
-            devices={formData.devices}
-            onChange={updateFormData}
-          />
-        );
+        return <Component devices={formData.devices} {...commonProps} />;
       case 'interests':
-        return (
-          <LearningInterestsStep 
-            interests={formData.learningInterests}
-            onChange={updateFormData}
-          />
-        );
+        return <Component interests={formData.learningInterests} {...commonProps} />;
       default:
         return null;
     }
@@ -143,32 +71,16 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6 px-4 sm:px-6 md:space-y-8">
       <div className="space-y-4">
-        <div className={`space-y-2 text-center sm:text-left transition-all duration-300 ${
-          isTransitioning ? 'opacity-0 transform -translate-y-4' : 'opacity-100 transform translate-y-0'
-        }`}>
-          <h2 className="text-xl sm:text-2xl font-medium tracking-tight">
-            {currentStep.title}
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600">
-            {currentStep.description}
-          </p>
-        </div>
-
-        <Progress 
-          value={progress} 
-          className="h-1 bg-gray-100 transition-all duration-500"
+        <StepHeader 
+          title={currentStep.title}
+          description={currentStep.description}
+          isTransitioning={isTransitioning}
         />
-      </div>
-
-      <div className="flex space-x-2 sm:space-x-4 overflow-hidden">
-        {activeSteps.map((_, index) => (
-          <div
-            key={index}
-            className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-              index <= currentStepIndex ? "bg-primary scale-100" : "bg-gray-200 scale-95"
-            }`}
-          />
-        ))}
+        <RegistrationProgress 
+          currentStepIndex={currentStepIndex}
+          totalSteps={activeSteps.length}
+          isTransitioning={isTransitioning}
+        />
       </div>
 
       <Card className="p-4 sm:p-6 relative overflow-hidden transition-all duration-300 hover:shadow-lg">
@@ -179,25 +91,12 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         </div>
       </Card>
 
-      <div className="flex justify-between gap-4 pb-8">
-        {step > 1 && (
-          <Button
-            variant="outline"
-            onClick={() => handleTransition('previous')}
-            className="flex-1 sm:flex-none animate-fade-up transition-all duration-300 hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98]"
-          >
-            Back
-          </Button>
-        )}
-        <Button
-          onClick={() => handleTransition('next')}
-          className={`flex-1 sm:flex-none animate-fade-up transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
-            step === 1 ? "w-full" : "ml-auto"
-          }`}
-        >
-          {step === activeSteps.length ? "Complete Registration" : "Continue"}
-        </Button>
-      </div>
+      <RegistrationNavigation 
+        currentStep={step}
+        totalSteps={activeSteps.length}
+        onNext={() => handleTransition('next')}
+        onPrevious={() => handleTransition('previous')}
+      />
 
       <div 
         className={`fixed inset-0 pointer-events-none transition-opacity duration-500 ${
