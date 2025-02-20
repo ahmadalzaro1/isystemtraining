@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,7 +21,7 @@ export const RegistrationSuccess = ({ workshop, onViewWorkshops }: RegistrationS
       text: workshop.name,
       dates: workshop.date.toISOString(),
       details: workshop.description,
-      location: "Apple Training Center",
+      location: workshop.location,
     };
 
     // Create calendar URLs (these are simplified examples)

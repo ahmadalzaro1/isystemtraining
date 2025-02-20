@@ -1,4 +1,3 @@
-
 // User Types
 export type UserType = "first-time" | "existing" | "switching";
 export type PlatformType = "windows" | "android" | "linux" | "other";
@@ -44,49 +43,23 @@ export type AppleApp =
 // Contact & Preferences
 export type ContactPreference = "email" | "sms" | "whatsapp";
 export type PaidInterest = "yes" | "maybe" | "no";
-
-// Workshop Topics
-export type WorkshopTopic = 
-  | "mac-basics" 
-  | "ios-setup" 
-  | "watch-features"
-  | "multitasking" 
-  | "shortcuts" 
-  | "time-management"
-  | "productivity-apps"
-  | "photo-editing"
-  | "video-editing"
-  | "music-production"
-  | "digital-art"
-  | "security"
-  | "passwords"
-  | "safe-browsing"
-  | "data-protection"
-  | "icloud"
-  | "handoff"
-  | "family-sharing"
-  | "siri"
-  | "ai-apps"
-  | "voice-dictation"
-  | "business-apps"
-  | "email-calendar"
-  | "remote-work"
-  | "business-tools"
-  | "terminal"
-  | "performance"
-  | "beta-features"
-  | "homekit"
-  | "apple-tv"
-  | "integration";
+export type Occupation = 
+  | "student"
+  | "professional"
+  | "entrepreneur"
+  | "creative"
+  | "developer"
+  | "other";
 
 export interface FormData {
   // Basic Profile
   isFirstTime: boolean;
   devices: DeviceType[];
   experienceLevel: ExperienceLevel;
+  occupation: Occupation;
   
   // Platform & Experience
-  platformSwitch: string;
+  platformSwitch: PlatformType;
   confidenceLevel: number;
   mainFrustration: Frustration;
   frustrationDetail?: string;
@@ -117,7 +90,7 @@ export interface Workshop {
   title: string;
   description: string;
   topic: WorkshopTopic;
-  date: string;
+  date: Date; // Changed from string to Date
   time: string;
   duration: number;
   maxParticipants: number;

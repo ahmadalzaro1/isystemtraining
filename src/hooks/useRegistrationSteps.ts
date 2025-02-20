@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { FormData } from "@/types/registration";
 import { toast } from "sonner";
@@ -45,6 +46,7 @@ export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
     isFirstTime: false,
     devices: [],
     experienceLevel: "beginner",
+    occupation: "other",
     
     // Platform & Experience
     platformSwitch: "windows",
