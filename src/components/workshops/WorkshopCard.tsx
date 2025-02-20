@@ -5,6 +5,7 @@ import { Clock, Users, CheckCircle, Flame, Zap } from "lucide-react";
 import { Workshop } from "@/types/workshop";
 import { SeatsProgressBar } from "./SeatsProgressBar";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface WorkshopCardProps {
   workshop: Workshop;
