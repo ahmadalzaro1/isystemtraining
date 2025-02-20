@@ -17,34 +17,33 @@ export const WorkshopNavigation = ({ currentWeek, onNavigate }: WorkshopNavigati
         Available Workshops
       </h1>
 
-      <div className="relative px-12 py-6 rounded-lg bg-white/50 backdrop-blur-sm border border-gray-100 shadow-sm">
+      <div className="flex items-center justify-between gap-4 max-w-2xl mx-auto">
+        <Button
+          variant="outline"
+          onClick={() => onNavigate('prev')}
+          className="flex items-center gap-2 px-4 py-6 text-base hover:bg-gray-50"
+        >
+          <ChevronLeft className="h-5 w-5" />
+          Previous Week
+        </Button>
+
         <div className="text-xl text-gray-600 font-medium">
-          Week of {format(currentWeek, "MMMM d")}
-          <span className="text-gray-400"> → </span>
-          {format(nextWeek, "MMMM d, yyyy")}
+          <div className="mb-1">Week of</div>
+          <div className="text-primary">
+            {format(currentWeek, "MMMM d")}
+            <span className="text-gray-400 mx-2">→</span>
+            {format(nextWeek, "MMMM d, yyyy")}
+          </div>
         </div>
-        
-        <div className="absolute inset-y-0 left-0 flex items-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onNavigate('prev')}
-            className="h-full px-3 rounded-l-lg hover:bg-gray-50/50"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-        </div>
-        
-        <div className="absolute inset-y-0 right-0 flex items-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onNavigate('next')}
-            className="h-full px-3 rounded-r-lg hover:bg-gray-50/50"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </Button>
-        </div>
+
+        <Button
+          variant="outline"
+          onClick={() => onNavigate('next')}
+          className="flex items-center gap-2 px-4 py-6 text-base hover:bg-gray-50"
+        >
+          Next Week
+          <ChevronRight className="h-5 w-5" />
+        </Button>
       </div>
 
       <p className="text-gray-500">
