@@ -12,7 +12,6 @@ const Index = () => {
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
   const [headlineLetters, setHeadlineLetters] = useState<string[]>([]);
   const [subheadlineLetters, setSubheadlineLetters] = useState<string[]>([]);
-  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const headline = "Master Your Apple Devices Like Never Before";
@@ -20,13 +19,6 @@ const Index = () => {
     
     setHeadlineLetters(headline.split(''));
     setSubheadlineLetters(subheadline.split(''));
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleWorkshopSelect = (workshop: any) => {
@@ -55,47 +47,44 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden">
-      {/* Depth Layers Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Layer 1 - Furthest back, moves slowest */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-b from-[#F9F9F9] to-white transition-transform duration-300"
-          style={{ 
-            transform: `translateY(${scrollY * 0.1}px)`,
-          }}
-        >
-          <div className="absolute inset-0 opacity-30 bg-grid-pattern" />
+      {/* Dynamic Lines Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F9F9F9] to-white">
+          {/* Dynamic animated lines */}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute animate-line"
+              style={{
+                width: '2px',
+                height: `${Math.random() * 150 + 100}px`,
+                background: 'linear-gradient(180deg, rgba(0,122,255,0.1) 0%, rgba(0,122,255,0.05) 100%)',
+                left: `${(i + 1) * 12.5}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${i * 0.5}s`,
+                transform: `rotate(${Math.random() * 45 - 22.5}deg)`
+              }}
+            />
+          ))}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={`b-${i}`}
+              className="absolute animate-line"
+              style={{
+                width: '2px',
+                height: `${Math.random() * 150 + 100}px`,
+                background: 'linear-gradient(180deg, rgba(0,122,255,0.1) 0%, rgba(0,122,255,0.05) 100%)',
+                right: `${(i + 1) * 12.5}%`,
+                bottom: `${Math.random() * 100}%`,
+                animationDelay: `${i * 0.5 + 0.25}s`,
+                transform: `rotate(${Math.random() * 45 - 22.5}deg)`
+              }}
+            />
+          ))}
         </div>
-
-        {/* Layer 2 - Middle layer */}
-        <div 
-          className="absolute inset-0 transition-transform duration-300"
-          style={{ 
-            transform: `translateY(${scrollY * 0.2}px)`,
-          }}
-        >
-          <div className="wave" style={{ 
-            opacity: "0.3",
-            background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
-          }}></div>
-        </div>
-
-        {/* Layer 3 - Closest layer, moves fastest */}
-        <div 
-          className="absolute inset-0 transition-transform duration-300"
-          style={{ 
-            transform: `translateY(${scrollY * 0.3}px)`,
-          }}
-        >
-          <div className="wave" style={{ 
-            animationDelay: "-2s",
-            opacity: "0.2",
-            background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
-          }}></div>
-        </div>
-
-        {/* Overlay gradient for smooth transitions */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white/80 pointer-events-none" />
+        
+        {/* Subtle overlay for better text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white/80" />
       </div>
 
       <ThemeToggle />
