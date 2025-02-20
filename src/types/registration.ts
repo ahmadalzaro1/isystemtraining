@@ -61,5 +61,6 @@ export interface FormData {
 }
 
 export interface RegistrationFormProps {
+  workshop: any; // Adding the workshop prop to the interface
   onComplete: (data: FormData) => void;
 }

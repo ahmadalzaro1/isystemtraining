@@ -8,7 +8,7 @@ import { StepHeader } from "./registration/StepHeader";
 import { RegistrationProgress } from "./registration/RegistrationProgress";
 import { RegistrationNavigation } from "./registration/RegistrationNavigation";
 
-export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
+export const RegistrationForm = ({ workshop, onComplete }: RegistrationFormProps) => {
   const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(onComplete);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
