@@ -76,6 +76,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         <p className="text-gray-600">{currentStep.description}</p>
       </div>
 
+      {/* Progress Steps */}
       <div className="flex space-x-4 overflow-hidden">
         {steps.map((_, index) => (
           <div
@@ -87,7 +88,15 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         ))}
       </div>
 
-      <Card className="p-6">{currentStep.content}</Card>
+      <Card className="p-6 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
+        
+        {/* Content */}
+        <div className="relative">
+          {currentStep.content}
+        </div>
+      </Card>
 
       <div className="flex justify-between">
         {step > 1 && (
