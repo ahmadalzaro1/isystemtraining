@@ -52,6 +52,15 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
 
   return (
     <div className="space-y-8 animate-fade-up">
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#1D1D1F]">
+          Select Your Workshop
+        </h2>
+        <p className="text-[#6E6E73] text-base sm:text-lg">
+          Choose a date to view available workshops
+        </p>
+      </div>
+
       <WorkshopNavigation 
         currentWeek={currentWeek}
         onNavigate={navigateWeek}
