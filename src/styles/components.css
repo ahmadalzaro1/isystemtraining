@@ -1,71 +1,31 @@
 
 /* Glassmorphism */
 .glass-morphism {
-  @apply backdrop-blur-xl bg-white/5 border border-white/10;
+  @apply backdrop-blur-xl bg-white/80 border border-white/20;
   box-shadow: 
-    0 4px 12px -2px rgba(0,0,0,0.08),
+    0 4px 12px -2px rgba(0,0,0,0.06),
     inset 0 0 0 1px rgba(255,255,255,0.1);
-}
-
-.glass-card {
-  @apply backdrop-blur-sm bg-white/50 hover:bg-white/60 transition-all duration-300;
-  box-shadow: 
-    0 2px 8px -2px rgba(0,0,0,0.05),
-    inset 0 0 0 1px rgba(255,255,255,0.2);
 }
 
 /* Button styles */
 .apple-button {
-  @apply bg-[#0071e3] text-white px-10 py-4 rounded-full 
-         hover:bg-[#0077ED] transition-all duration-300
-         font-medium text-lg tracking-[-.01em]
-         active:scale-[0.95] transform;
-  box-shadow: 
-    0 2px 4px rgba(0, 113, 227, 0.1),
-    0 4px 12px rgba(0, 113, 227, 0.2);
-  animation: buttonPulse 2s infinite;
+  @apply h-12 px-4 rounded-xl bg-[#007AFF] text-white
+         flex items-center justify-center gap-2
+         transition-all duration-600 ease-[cubic-bezier(0.25,0.1,0.25,1)]
+         active:scale-[0.98] transform;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
 }
 
 .apple-button:hover {
-  box-shadow: 
-    0 4px 8px rgba(0, 113, 227, 0.2),
-    0 8px 24px rgba(0, 113, 227, 0.3),
-    0 0 40px rgba(0, 113, 227, 0.2);
-  transform: translateY(-2px) scale(1.02);
-}
-
-.apple-button:active {
-  transform: scale(0.95);
-  box-shadow: 
-    0 2px 4px rgba(0, 113, 227, 0.1),
-    0 4px 8px rgba(0, 113, 227, 0.2);
-}
-
-.apple-button::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  border-radius: 9999px;
-}
-
-.apple-button:hover::after {
-  opacity: 1;
-  animation: shimmer 1.5s infinite;
+  transform: scale(1.02);
+  opacity: 0.9;
 }
 
 .apple-button-secondary {
-  @apply bg-[#E8E8ED] text-[#1D1D1F] px-8 py-3 rounded-full
-         hover:bg-[#D2D2D7] transition-colors duration-200
-         font-medium text-[17px] tracking-[-.01em]
-         active:scale-[0.98] transform;
+  @apply h-10 px-4 rounded-lg bg-[#F5F5F7] text-[#1D1D1F]
+         flex items-center justify-center gap-2
+         transition-all duration-200
+         hover:bg-[#E5E5E7] active:scale-[0.98];
 }
 
 /* Text styles */
@@ -73,100 +33,73 @@
   @apply bg-clip-text text-transparent;
   background-image: linear-gradient(
     135deg,
-    #0071e3 0%,
-    #42a1ff 50%,
-    #0071e3 100%
+    #007AFF 0%,
+    #5856D6 100%
   );
 }
 
 /* Card hover effects */
 .hover-card {
-  @apply transition-all duration-300 bg-white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  @apply transition-all duration-300 bg-white/80 backdrop-blur-xl
+         rounded-2xl border border-white/20;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.04);
 }
 
 .hover-card:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
   transform: translateY(-2px);
 }
 
 /* Workshop card styles */
 .workshop-card {
-  @apply bg-white rounded-2xl p-6 transition-all duration-300
-         border border-[#E8E8ED] hover:border-[#D2D2D7];
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  @apply bg-white/80 backdrop-blur-xl rounded-2xl p-6
+         transition-all duration-300 border border-[#E8E8ED];
+  box-shadow: 0 8px 16px rgba(0,0,0,0.04);
 }
 
 .workshop-card:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
   transform: translateY(-2px);
 }
 
 /* Navigation styles */
 .nav-link {
-  @apply text-[#1D1D1F] hover:text-[#0071e3] transition-colors duration-200;
+  @apply text-[#1D1D1F] hover:text-[#007AFF] 
+         transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)];
+}
+
+/* Form Elements */
+.form-input {
+  @apply h-12 px-4 rounded-xl border border-[#E8E8ED]
+         text-base text-[#1D1D1F] placeholder-[#86868B]
+         transition-all duration-300
+         focus:border-[#007AFF] focus:ring-2 focus:ring-[#007AFF]/20;
+}
+
+.form-label {
+  @apply text-sm font-medium text-[#1D1D1F] mb-2;
 }
 
 /* Background Effects */
 .bg-gradient-mesh {
   background: linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(225, 234, 238, 0.4) 25%,
-    rgba(245, 245, 247, 0.4) 50%,
-    rgba(230, 235, 245, 0.4) 75%,
-    rgba(255, 255, 255, 0.4) 100%
-  );
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-}
-
-.wave-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  transform: rotate(180deg);
-}
-
-.wave {
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    rgba(238, 242, 246, 0.3) 0%,
-    rgba(221, 226, 236, 0.3) 50%,
-    rgba(238, 242, 246, 0.3) 100%
-  );
-  border-radius: 40%;
-  transform-origin: 50% 48%;
-  animation: wave 12s infinite linear;
-}
-
-.wave:nth-child(2) {
-  background: linear-gradient(
-    45deg,
-    rgba(238, 242, 246, 0.2) 0%,
-    rgba(221, 226, 236, 0.2) 50%,
-    rgba(238, 242, 246, 0.2) 100%
+    180deg,
+    rgba(249, 249, 249, 0.8) 0%,
+    rgba(255, 255, 255, 0.8) 100%
   );
 }
 
-.wave:nth-child(3) {
-  background: linear-gradient(
-    45deg,
-    rgba(238, 242, 246, 0.1) 0%,
-    rgba(221, 226, 236, 0.1) 50%,
-    rgba(238, 242, 246, 0.1) 100%
-  );
+/* Interactive States */
+.touch-feedback {
+  @apply active:scale-[0.98] transition-transform duration-200;
 }
 
-.wave:nth-child(4) {
-  background: linear-gradient(
-    45deg,
-    rgba(238, 242, 246, 0.05) 0%,
-    rgba(221, 226, 236, 0.05) 50%,
-    rgba(238, 242, 246, 0.05) 100%
-  );
+/* Section Spacing */
+.section-spacing {
+  @apply space-y-10 py-10;
+}
+
+/* iOS-style Blur Effects */
+.ios-blur {
+  @apply backdrop-blur-xl bg-white/80;
 }
