@@ -2,8 +2,6 @@
 // User Types
 export type UserType = "first-time" | "existing" | "switching";
 export type PlatformType = "windows" | "android" | "linux" | "other";
-export type ExperienceLevel = "beginner" | "intermediate" | "advanced";
-export type DeviceType = "Mac" | "iPhone" | "iPad" | "Apple Watch" | "Apple TV" | "AirPods";
 export type TaskType = 
   | "email" 
   | "business" 
@@ -32,21 +30,12 @@ export type WorkshopTopic = {
   selected: boolean;
 };
 
-// System & App Types
-export type Frustration = 
-  | "battery" 
-  | "complexity" 
-  | "syncing" 
-  | "customization" 
-  | "compatibility" 
-  | "other";
-
 // Contact & Preferences
 export type ContactPreference = "email" | "sms" | "whatsapp";
 export type PaidInterest = "yes" | "maybe" | "no";
 
 export interface FormData {
-  // User Type
+  // User Type & Platform
   userType: UserType;
   platformSwitch?: PlatformType;
   
@@ -56,12 +45,12 @@ export interface FormData {
   // Learning Preferences
   learningStyles: LearningStyle[];
   
-  // Training Interest
-  paidTrainingInterest: PaidInterest;
-  
   // Workshop Topics
   workshopTopics: WorkshopTopic[];
   otherTopics?: string;
+  
+  // Training Interest
+  paidTrainingInterest: PaidInterest;
   
   // Contact Details
   name: string;

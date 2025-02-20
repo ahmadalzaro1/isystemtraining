@@ -4,8 +4,8 @@ import { FormData } from "@/types/registration";
 import { toast } from "sonner";
 
 const validateUserType = (data: FormData): boolean => {
-  if (!data.isFirstTime) {
-    toast.error("Please confirm if you are a first-time user");
+  if (!data.userType) {
+    toast.error("Please select your user type");
     return false;
   }
   return true;
@@ -42,27 +42,20 @@ const validateTopics = (data: FormData): boolean => {
 export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
-    // Basic Profile
-    isFirstTime: false,
-    devices: [],
-    experienceLevel: "beginner",
-    occupation: "other",
+    // User Type & Platform
+    userType: "first-time",
     
-    // Platform & Experience
-    platformSwitch: "windows",
-    confidenceLevel: 3,
-    mainFrustration: "complexity",
-    
-    // Learning & Interests
+    // Main Tasks
     mainTasks: [],
-    learningInterests: [],
-    learningStyles: [],
-    primaryUse: "personal",
-    appsToLearn: [],
     
-    // Workshop & Training
-    paidTrainingInterest: "maybe",
+    // Learning Preferences
+    learningStyles: [],
+    
+    // Workshop Topics
     workshopTopics: [],
+    
+    // Training Interest
+    paidTrainingInterest: "maybe",
     
     // Contact Details
     name: "",
