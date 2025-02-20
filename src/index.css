@@ -5,26 +5,26 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.75rem;
+    --background: 228 15% 12%;
+    --foreground: 210 40% 98%;
+    --card: 228 15% 15%;
+    --card-foreground: 210 40% 98%;
+    --popover: 228 15% 15%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 228 15% 12%;
+    --secondary: 266 100% 76%;
+    --secondary-foreground: 228 15% 12%;
+    --muted: 228 15% 20%;
+    --muted-foreground: 210 40% 80%;
+    --accent: 266 100% 76%;
+    --accent-foreground: 228 15% 12%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 228 15% 20%;
+    --input: 228 15% 20%;
+    --ring: 180 100% 50%;
+    --radius: 1rem;
   }
 }
 
@@ -32,47 +32,83 @@
   * {
     @apply border-border;
   }
+  
   body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-midnight text-foreground antialiased;
+    background-image: 
+      radial-gradient(circle at center, rgba(0,255,255,0.1) 0%, transparent 70%),
+      linear-gradient(to bottom, rgba(187,134,252,0.05) 0%, rgba(0,255,255,0.05) 100%);
+    background-attachment: fixed;
   }
 }
 
-/* Smooth scrolling for the entire page */
-html {
-  scroll-behavior: smooth;
+/* Glassmorphism */
+.glass {
+  @apply bg-white/10 backdrop-blur-xl border border-white/20;
+  box-shadow: 
+    0 4px 12px -2px rgba(0,0,0,0.3),
+    inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.glass-card {
+  @apply glass hover:shadow-neon transition-all duration-300;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Text effects */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-neon to-aurora animate-text-shimmer;
+  background-size: 200% auto;
+}
+
+/* Floating particles */
+.particle {
+  @apply absolute rounded-full opacity-0 animate-particles pointer-events-none;
+  background: linear-gradient(to right, #00FFFF, #BB86FC);
+}
+
+/* Button effects */
+.button-glow {
+  @apply relative overflow-hidden transition-all duration-300;
+}
+
+.button-glow::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-neon to-aurora opacity-0 transition-opacity duration-300;
+}
+
+.button-glow:hover::before {
+  @apply opacity-20;
+}
+
+/* Card hover effects */
+.hover-card {
+  @apply transition-all duration-300;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.hover-card:hover {
+  @apply shadow-neon;
+  transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
 }
 
 /* Focus styles */
 *:focus-visible {
-  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  @apply outline-none ring-2 ring-neon ring-offset-2 ring-offset-background;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Button press effect */
 button:active {
   transform: scale(0.98);
-}
-
-/* Transition utilities */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-/* Custom animations */
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
 }

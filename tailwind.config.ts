@@ -25,17 +25,19 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        midnight: "#0A192F",
+        cosmic: "#000014",
+        neon: "#00FFFF",
+        aurora: "#BB86FC",
+        silver: "#EAEAEA",
+        glass: "#F8F9FA",
         primary: {
-          DEFAULT: "#1D1D1F",
-          foreground: "#FFFFFF",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#F5F5F7",
-          foreground: "#1D1D1F",
-        },
-        success: {
-          DEFAULT: "#34C759",
-          foreground: "#FFFFFF",
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -60,9 +62,11 @@ export default {
       },
       backgroundImage: {
         'grid-pattern': "linear-gradient(to right, rgb(var(--foreground) / 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--foreground) / 0.1) 1px, transparent 1px)",
+        'glow-grid-gradient': "linear-gradient(to bottom, rgba(0,255,255,0.1) 0%, rgba(187,134,252,0.1) 100%)",
       },
-      backgroundSize: {
-        'grid-white': '4rem 4rem',
+      boxShadow: {
+        'neon': '0 0 20px rgba(0,255,255,0.3)',
+        'aurora': '0 0 20px rgba(187,134,252,0.3)',
       },
       keyframes: {
         "fade-up": {
@@ -93,11 +97,31 @@ export default {
             transform: "translateY(-20px)",
           },
         },
+        "text-shimmer": {
+          "0%": {
+            backgroundPosition: "0% 50%",
+          },
+          "100%": {
+            backgroundPosition: "100% 50%",
+          },
+        },
+        particles: {
+          "0%, 100%": {
+            transform: "translateY(0) rotate(0)",
+            opacity: "0",
+          },
+          "50%": {
+            transform: "translateY(-20px) rotate(45deg)",
+            opacity: "0.5",
+          },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out forwards",
         "fade-down": "fade-down 0.5s ease-out forwards",
         "float": "float 6s ease-in-out infinite",
+        "text-shimmer": "text-shimmer 2s linear infinite",
+        "particles": "particles 10s ease-in-out infinite",
       },
     },
   },
