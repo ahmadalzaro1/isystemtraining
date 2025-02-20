@@ -1,11 +1,11 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { format, addWeeks, startOfWeek, endOfWeek, addDays } from "date-fns";
-import { Workshop } from "@/types/workshop";
+import { Workshop, WorkshopFilters } from "@/types/workshop";
 import { WorkshopNavigation } from "./workshops/WorkshopNavigation";
 import { WorkshopDayGroup } from "./workshops/WorkshopDayGroup";
 import { WorkshopRecommender } from "./recommendation/WorkshopRecommender";
+import { WorkshopFilters as WorkshopFiltersComponent } from "./workshops/WorkshopFilters";
 
 interface WorkshopCalendarProps {
   onSelect: (workshop: Workshop) => void;
@@ -13,6 +13,11 @@ interface WorkshopCalendarProps {
 
 export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
+  const [filters, setFilters] = useState<WorkshopFilters>({
+    search: "",
+    skillLevel: "All",
+    category: "All"
+  });
 
   // Get start of current week for reference
   const thisWeekStart = startOfWeek(new Date());
@@ -26,6 +31,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "10:00 AM",
       description: "Learn essential macOS shortcuts & optimizations for power users",
       spotsRemaining: 8,
+      skillLevel: "Beginner",
+      category: "Productivity"
     },
     {
       id: "2",
@@ -34,6 +41,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "2:00 PM",
       description: "Optimize your iPhone for maximum efficiency & security",
       spotsRemaining: 6,
+      skillLevel: "Intermediate",
+      category: "Productivity"
     },
     {
       id: "3",
@@ -42,6 +51,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "11:00 AM",
       description: "Making the transition to macOS smooth and painless",
       spotsRemaining: 10,
+      skillLevel: "Intermediate",
+      category: "Productivity"
     },
     {
       id: "4",
@@ -50,6 +61,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "3:00 PM",
       description: "Protect your data like a pro on all Apple devices",
       spotsRemaining: 7,
+      skillLevel: "Advanced",
+      category: "Security"
     },
     {
       id: "5",
@@ -58,6 +71,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "10:00 AM",
       description: "Sync, share, and back up with confidence across devices",
       spotsRemaining: 5,
+      skillLevel: "Beginner",
+      category: "Productivity"
     },
     {
       id: "6",
@@ -66,6 +81,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "2:00 PM",
       description: "Essential Apple tools and workflows for business success",
       spotsRemaining: 4,
+      skillLevel: "Intermediate",
+      category: "Productivity"
     },
     {
       id: "7",
@@ -74,6 +91,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "11:00 AM",
       description: "Get started with Final Cut Pro & Logic Pro",
       spotsRemaining: 6,
+      skillLevel: "Advanced",
+      category: "Productivity"
     },
     {
       id: "8",
@@ -82,6 +101,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "3:00 PM",
       description: "Seamlessly integrate Mac, iPad, iPhone & Watch",
       spotsRemaining: 8,
+      skillLevel: "Advanced",
+      category: "Productivity"
     },
     {
       id: "9",
@@ -90,6 +111,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       time: "10:00 AM",
       description: "Keep your Apple devices running like new",
       spotsRemaining: 9,
+      skillLevel: "Beginner",
+      category: "Productivity"
     },
   ];
 
@@ -99,12 +122,26 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     );
   };
 
-  const currentWeekWorkshops = workshops.filter(workshop => {
-    const workshopDate = workshop.date;
-    const weekStart = startOfWeek(currentWeek);
-    const weekEnd = endOfWeek(currentWeek);
-    return workshopDate >= weekStart && workshopDate <= weekEnd;
-  });
+  const filterWorkshops = (workshops: Workshop[]) => {
+    return workshops.filter(workshop => {
+      const matchesSearch = workshop.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        workshop.description.toLowerCase().includes(filters.search.toLowerCase());
+      
+      const matchesSkillLevel = filters.skillLevel === "All" || workshop.skillLevel === filters.skillLevel;
+      const matchesCategory = filters.category === "All" || workshop.category === filters.category;
+
+      return matchesSearch && matchesSkillLevel && matchesCategory;
+    });
+  };
+
+  const currentWeekWorkshops = filterWorkshops(
+    workshops.filter(workshop => {
+      const workshopDate = workshop.date;
+      const weekStart = startOfWeek(currentWeek);
+      const weekEnd = endOfWeek(currentWeek);
+      return workshopDate >= weekStart && workshopDate <= weekEnd;
+    })
+  );
 
   // Group workshops by date
   const workshopsByDate = currentWeekWorkshops.reduce((acc, workshop) => {
@@ -121,6 +158,11 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       <WorkshopNavigation 
         currentWeek={currentWeek}
         onNavigate={navigateWeek}
+      />
+
+      <WorkshopFiltersComponent 
+        filters={filters}
+        onChange={setFilters}
       />
 
       <div className="flex justify-center mb-8">
@@ -143,15 +185,20 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
         {currentWeekWorkshops.length === 0 && (
           <div className="text-center py-12 bg-gray-50 rounded-lg animate-fade-up">
             <p className="text-xl text-gray-500">
-              No workshops available this week
+              No workshops found
+              {filters.search || filters.skillLevel !== "All" || filters.category !== "All"
+                ? " — try adjusting your filters!"
+                : " this week"}
             </p>
-            <Button 
-              variant="outline" 
-              className="mt-4"
-              onClick={() => navigateWeek('next')}
-            >
-              Check Next Week
-            </Button>
+            {(filters.search || filters.skillLevel !== "All" || filters.category !== "All") && (
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={() => setFilters({ search: "", skillLevel: "All", category: "All" })}
+              >
+                Reset Filters
+              </Button>
+            )}
           </div>
         )}
       </div>
