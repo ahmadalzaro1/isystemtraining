@@ -1,15 +1,10 @@
-
 import { useState } from "react";
 import { FormData } from "@/types/registration";
 import { toast } from "sonner";
 
 const validateUserType = (data: FormData): boolean => {
-  if (!data.userType) {
-    toast.error("Please select your user type");
-    return false;
-  }
-  if (data.userType === "switching" && !data.platform) {
-    toast.error("Please select the platform you're switching from");
+  if (!data.isFirstTime) {
+    toast.error("Please confirm if you are a first-time user");
     return false;
   }
   return true;
@@ -46,14 +41,33 @@ const validateTopics = (data: FormData): boolean => {
 export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
-    userType: "first-time",
+    // Basic Profile
+    isFirstTime: false,
+    devices: [],
+    experienceLevel: "beginner",
+    
+    // Platform & Experience
+    platformSwitch: "windows",
+    confidenceLevel: 3,
+    mainFrustration: "complexity",
+    
+    // Learning & Interests
     mainTasks: [],
+    learningInterests: [],
     learningStyles: [],
+    primaryUse: "personal",
+    appsToLearn: [],
+    
+    // Workshop & Training
     paidTrainingInterest: "maybe",
     workshopTopics: [],
+    
+    // Contact Details
     name: "",
     email: "",
     phone: "",
+    contactPreference: "email",
+    receiveUpdates: true,
   });
 
   const updateFormData = (data: Partial<FormData>) => {
