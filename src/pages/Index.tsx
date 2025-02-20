@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -9,7 +8,11 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 const FloatingLogo = ({ icon, className }: { icon: string; className: string }) => (
   <div className={`absolute glass-morphism p-4 rounded-2xl animate-float ${className}`}>
-    <img src={icon} alt="App Icon" className="w-12 h-12 opacity-30" />
+    <img 
+      src={`https://images.unsplash.com/${icon}`} 
+      alt="App Icon" 
+      className="w-12 h-12 opacity-30 object-cover rounded-lg" 
+    />
   </div>
 );
 
@@ -56,27 +59,27 @@ const Index = () => {
       {/* Floating App Icons */}
       <div className="fixed inset-0 pointer-events-none">
         <FloatingLogo 
-          icon="/logos/safari.png" 
+          icon="photo-1486312338219-ce68d2c6f44d" 
           className="top-[15%] left-[10%] animation-delay-100" 
         />
         <FloatingLogo 
-          icon="/logos/messages.png" 
+          icon="photo-1434494878577-86c23bcb06b9" 
           className="top-[30%] right-[15%] animation-delay-200" 
         />
         <FloatingLogo 
-          icon="/logos/photos.png" 
+          icon="photo-1483058712412-4245e9b90334" 
           className="bottom-[20%] left-[20%] animation-delay-300" 
         />
         <FloatingLogo 
-          icon="/logos/facetime.png" 
+          icon="photo-1486312338219-ce68d2c6f44d" 
           className="top-[45%] left-[25%] animation-delay-400" 
         />
         <FloatingLogo 
-          icon="/logos/notes.png" 
+          icon="photo-1434494878577-86c23bcb06b9" 
           className="bottom-[35%] right-[10%] animation-delay-500" 
         />
         <FloatingLogo 
-          icon="/logos/maps.png" 
+          icon="photo-1483058712412-4245e9b90334" 
           className="top-[20%] right-[30%] animation-delay-600" 
         />
       </div>
