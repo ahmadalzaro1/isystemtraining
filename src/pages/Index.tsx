@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
-import { useToast } from "@/hooks/use-toast";
+import { RegistrationSuccess } from "@/components/registration/RegistrationSuccess";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
@@ -11,7 +12,6 @@ const Index = () => {
     "calendar"
   );
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
-  const { toast } = useToast();
 
   const handleWorkshopSelect = (workshop: any) => {
     setSelectedWorkshop(workshop);
@@ -86,18 +86,11 @@ const Index = () => {
           <RegistrationForm onComplete={handleRegistrationComplete} />
         )}
         
-        {step === "success" && (
-          <div className="text-center space-y-4 animate-fade-up">
-            <h1 className="text-4xl font-medium tracking-tight">
-              Registration Complete!
-            </h1>
-            <p className="text-xl text-gray-600">
-              Thank you for registering for {selectedWorkshop?.name}
-            </p>
-            <p className="text-gray-500">
-              Check your email for confirmation details and next steps.
-            </p>
-          </div>
+        {step === "success" && selectedWorkshop && (
+          <RegistrationSuccess
+            workshop={selectedWorkshop}
+            onViewWorkshops={() => setStep("calendar")}
+          />
         )}
       </div>
     </div>
