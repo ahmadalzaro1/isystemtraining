@@ -46,19 +46,32 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-[#F9F9F9] to-white relative overflow-hidden">
       {/* Animated Background */}
-      <div className="fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[#F9F9F9]"></div>
+      <div className="fixed inset-0 z-0">
         <div className="absolute inset-0">
-          <div className="relative w-full h-full">
-            <div className="wave"></div>
-            <div className="wave" style={{ animationDelay: "-2s" }}></div>
-            <div className="wave" style={{ animationDelay: "-4s" }}></div>
-            <div className="wave" style={{ animationDelay: "-6s" }}></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute w-[200%] h-[200%] animate-wave opacity-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-[40%]" 
+                 style={{ animation: 'wave 8s linear infinite' }}></div>
+            <div className="absolute w-[200%] h-[200%] animate-wave opacity-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-[40%]" 
+                 style={{ animation: 'wave 8s linear infinite', animationDelay: '-2s' }}></div>
+            <div className="absolute w-[200%] h-[200%] animate-wave opacity-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-[40%]" 
+                 style={{ animation: 'wave 8s linear infinite', animationDelay: '-4s' }}></div>
+            <div className="absolute w-[200%] h-[200%] animate-wave opacity-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-[40%]" 
+                 style={{ animation: 'wave 8s linear infinite', animationDelay: '-6s' }}></div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes wave {
+          0% { transform: translate(-50%, -50%) rotate(0deg); }
+          100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .animate-wave {
+          animation: wave 8s linear infinite;
+        }
+      `}</style>
 
       <ThemeToggle />
       
@@ -66,7 +79,7 @@ const Index = () => {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center space-y-6 sm:space-y-8">
           {/* Headline */}
-          <h1 className="relative text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow">
+          <h1 className="relative text-[32px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow">
             {headlineLetters.map((letter, index) => (
               <span
                 key={index}
