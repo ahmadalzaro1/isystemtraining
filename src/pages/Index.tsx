@@ -47,29 +47,46 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* New Background Design */}
+      {/* Liquid Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-[#FAFAFA]">
-          {/* Gradient Mesh */}
-          <div className="absolute inset-0 opacity-40"
+        <div className="absolute inset-0 bg-gradient-to-b from-white to-[#FAFAFA]">
+          {/* Liquid Layers */}
+          <div className="absolute inset-0 opacity-[0.03]"
                style={{
-                 backgroundImage: `
-                   radial-gradient(at 40% 20%, rgba(247, 249, 251, 1) 0px, transparent 50%),
-                   radial-gradient(at 80% 0%, rgba(242, 245, 250, 1) 0px, transparent 50%),
-                   radial-gradient(at 0% 50%, rgba(245, 248, 250, 1) 0px, transparent 50%),
-                   radial-gradient(at 80% 50%, rgba(240, 244, 248, 1) 0px, transparent 50%),
-                   radial-gradient(at 0% 100%, rgba(243, 246, 249, 1) 0px, transparent 50%),
-                   radial-gradient(at 80% 100%, rgba(246, 248, 250, 1) 0px, transparent 50%),
-                   radial-gradient(at 0% 0%, rgba(244, 247, 250, 1) 0px, transparent 50%)
-                 `
-               }}
-          />
-          {/* Subtle Grid Pattern */}
-          <div className="absolute inset-0 opacity-[0.015]"
+                 transform: 'scale(1.2)',
+                 background: `
+                   radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 50%),
+                   radial-gradient(circle at 100% 0%, rgba(250, 250, 250, 0.4) 0%, transparent 50%),
+                   radial-gradient(circle at 0% 100%, rgba(250, 250, 250, 0.4) 0%, transparent 50%)
+                 `,
+                 filter: 'blur(40px)',
+               }}>
+            <div className="absolute inset-0 animate-float opacity-50"
+                 style={{
+                   backgroundImage: `
+                     radial-gradient(circle at 30% 30%, rgba(250, 250, 250, 0.4) 0%, transparent 70%),
+                     radial-gradient(circle at 70% 70%, rgba(250, 250, 250, 0.4) 0%, transparent 70%)
+                   `,
+                   animation: 'float 15s ease-in-out infinite alternate'
+                 }}
+            />
+            <div className="absolute inset-0 animate-float opacity-50"
+                 style={{
+                   backgroundImage: `
+                     radial-gradient(circle at 70% 30%, rgba(250, 250, 250, 0.4) 0%, transparent 70%),
+                     radial-gradient(circle at 30% 70%, rgba(250, 250, 250, 0.4) 0%, transparent 70%)
+                   `,
+                   animation: 'float 20s ease-in-out infinite alternate-reverse'
+                 }}
+            />
+          </div>
+          
+          {/* Subtle 3D Depth Layer */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-30"
                style={{
-                 backgroundImage: `linear-gradient(to right, #000 1px, transparent 1px),
-                                 linear-gradient(to bottom, #000 1px, transparent 1px)`,
-                 backgroundSize: '14px 14px'
+                 transform: 'translateZ(0)',
+                 backfaceVisibility: 'hidden',
+                 perspective: '1000px'
                }}
           />
         </div>
