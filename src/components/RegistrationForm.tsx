@@ -69,7 +69,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-6 px-4 sm:px-6 md:space-y-8">
+    <div className="w-full max-w-2xl mx-auto space-y-4 sm:space-y-6 px-4 sm:px-6">
       <div className="space-y-4">
         <StepHeader 
           title={currentStep.title}

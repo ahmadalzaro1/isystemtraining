@@ -12,14 +12,8 @@ export const RegistrationProgress = ({
   totalSteps,
   isTransitioning 
 }: RegistrationProgressProps) => {
-  const progress = (currentStepIndex / (totalSteps - 1)) * 100;
-
   return (
     <div className="space-y-4">
-      <Progress 
-        value={progress} 
-        className="h-1 bg-gray-100 transition-all duration-500"
-      />
       <div className="flex space-x-2 sm:space-x-4 overflow-hidden">
         {Array.from({ length: totalSteps }).map((_, index) => (
           <div
