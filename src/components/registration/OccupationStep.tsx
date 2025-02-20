@@ -8,6 +8,7 @@ import { FormData } from "@/types/registration";
 interface OccupationStepProps {
   value: string;
   onChange: (data: Partial<FormData>) => void;
+  className?: string;
 }
 
 const OCCUPATIONS = [
@@ -20,11 +21,11 @@ const OCCUPATIONS = [
   "Other",
 ];
 
-export const OccupationStep = ({ value, onChange }: OccupationStepProps) => {
+export const OccupationStep = ({ value, onChange, className }: OccupationStepProps) => {
   const [showCustom, setShowCustom] = useState(value !== "" && !OCCUPATIONS.includes(value));
 
   return (
-    <div className="space-y-4 animate-fade-up">
+    <div className={`space-y-4 animate-fade-up ${className || ''}`}>
       <div className="space-y-2">
         <Label>Select your occupation</Label>
         <Select

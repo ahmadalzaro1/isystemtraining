@@ -6,10 +6,11 @@ import { FormData } from "@/types/registration";
 interface ExperienceStepProps {
   value: string;
   onChange: (data: Partial<FormData>) => void;
+  className?: string;
 }
 
-export const ExperienceStep = ({ value, onChange }: ExperienceStepProps) => (
-  <div className="space-y-4 animate-fade-up">
+export const ExperienceStep = ({ value, onChange, className }: ExperienceStepProps) => (
+  <div className={`space-y-4 animate-fade-up ${className || ''}`}>
     <RadioGroup
       value={value}
       onValueChange={(newValue) => onChange({ experience: newValue })}
