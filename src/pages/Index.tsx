@@ -156,13 +156,17 @@ const Index = () => {
           <WorkshopCalendar onSelect={handleWorkshopSelect} />
         )}
         
-        {step === "registration" && (
-          <RegistrationForm onComplete={handleRegistrationComplete} />
+        {step === "registration" && selectedWorkshop && (
+          <RegistrationForm 
+            workshop={selectedWorkshop}
+            onComplete={handleRegistrationComplete} 
+          />
         )}
         
-        {step === "success" && selectedWorkshop && (
+        {step === "success" && selectedWorkshop && registrationData && (
           <RegistrationSuccess
             workshop={selectedWorkshop}
+            registrationData={registrationData}
             onViewWorkshops={handleViewWorkshops}
           />
         )}

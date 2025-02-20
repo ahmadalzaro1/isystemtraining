@@ -3,13 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Calendar, Share2 } from "lucide-react";
+import { FormData } from "@/types/registration";
+import { Workshop } from "@/types/workshop";
 
 interface RegistrationSuccessProps {
-  workshop: any;
+  workshop: Workshop;
+  registrationData: FormData;
   onViewWorkshops: () => void;
 }
 
-export const RegistrationSuccess = ({ workshop, onViewWorkshops }: RegistrationSuccessProps) => {
+export const RegistrationSuccess = ({ 
+  workshop, 
+  registrationData, 
+  onViewWorkshops 
+}: RegistrationSuccessProps) => {
   const handleShareWorkshop = () => {
     // Generate a shareable message
     const message = `Join me at ${workshop.name} on ${workshop.date.toLocaleDateString()}! It's going to be amazing!`;
@@ -64,8 +71,30 @@ export const RegistrationSuccess = ({ workshop, onViewWorkshops }: RegistrationS
       <div className="space-y-2 text-center">
         <h2 className="text-2xl font-bold tracking-tight">Registration Complete! 🎉</h2>
         <p className="text-muted-foreground">
-          You're all set for the workshop "{workshop.name}"
+          {registrationData.name}, you're all set for {workshop.name}
         </p>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="font-medium text-lg">Your Registration Details</h3>
+        <div className="grid gap-3 text-sm">
+          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="font-medium">Name</span>
+            <span>{registrationData.name}</span>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="font-medium">Email</span>
+            <span>{registrationData.email}</span>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="font-medium">Phone</span>
+            <span>{registrationData.phone}</span>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="font-medium">Preferred Contact</span>
+            <span>{registrationData.contactPreference}</span>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -80,12 +109,12 @@ export const RegistrationSuccess = ({ workshop, onViewWorkshops }: RegistrationS
             <span>{workshop.time}</span>
           </div>
           <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Duration</span>
-            <span>{workshop.duration}</span>
+            <span className="font-medium">Category</span>
+            <span>{workshop.category}</span>
           </div>
           <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Instructor</span>
-            <span>{workshop.instructor}</span>
+            <span className="font-medium">Skill Level</span>
+            <span>{workshop.skillLevel}</span>
           </div>
         </div>
       </div>
