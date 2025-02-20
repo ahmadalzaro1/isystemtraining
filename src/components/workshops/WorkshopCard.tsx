@@ -10,9 +10,10 @@ import { cn } from "@/lib/utils";
 interface WorkshopCardProps {
   workshop: Workshop;
   onSelect: (workshop: Workshop) => void;
+  index: number; // Add index prop for staggered animation
 }
 
-export const WorkshopCard = ({ workshop, onSelect }: WorkshopCardProps) => {
+export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) => {
   const totalSeats = 12;
   const isTrending = workshop.spotsRemaining <= 4;
   const isAlmostFull = workshop.spotsRemaining <= 2;
@@ -26,10 +27,18 @@ export const WorkshopCard = ({ workshop, onSelect }: WorkshopCardProps) => {
 
   return (
     <Card
-      className="p-6 hover:shadow-lg transition-all cursor-pointer group bg-white relative"
+      className={cn(
+        "p-6 hover:shadow-lg transition-all cursor-pointer group bg-white relative",
+        "opacity-0 translate-y-4",
+        "animate-[card-slide-up_0.5s_ease-out_forwards]"
+      )}
       onClick={() => onSelect(workshop)}
+      style={{ 
+        animationDelay: `${index * 0.2}s`,
+        transform: "perspective(1000px) translateZ(0)",
+      }}
     >
-      <div className="space-y-4">
+      <div className="space-y-4 transition-transform duration-300 group-hover:scale-[1.02]">
         {/* Header Section */}
         <div className="space-y-2">
           <div className="flex items-start justify-between">
@@ -47,13 +56,13 @@ export const WorkshopCard = ({ workshop, onSelect }: WorkshopCardProps) => {
             <div className="flex flex-col items-end gap-1">
               {isTrending && (
                 <span className="flex items-center gap-1 text-orange-500 text-sm font-medium">
-                  <Flame className="h-4 w-4" />
+                  <Flame className="h-4 w-4 animate-pulse" />
                   Trending
                 </span>
               )}
               {isAlmostFull && (
                 <span className="text-red-500 text-sm font-medium flex items-center gap-1">
-                  <Zap className="h-4 w-4" />
+                  <Zap className="h-4 w-4 animate-[pulse_2s_ease-in-out_infinite]" />
                   Limited Spots!
                 </span>
               )}

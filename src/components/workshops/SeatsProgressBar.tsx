@@ -22,11 +22,14 @@ export const SeatsProgressBar = ({ totalSeats, spotsRemaining }: SeatsProgressBa
     <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
       <div
         className={cn(
-          "h-full transition-all duration-500 ease-out rounded-full",
+          "h-full transition-all duration-500 ease-out rounded-full progress-bar-fill",
           getProgressColor(),
           shouldPulse && "animate-pulse"
         )}
-        style={{ width: `${percentageFilled}%` }}
+        style={{ 
+          width: `${percentageFilled}%`,
+          '--progress-width': `${percentageFilled}%`
+        } as React.CSSProperties}
       />
     </div>
   );

@@ -17,16 +17,17 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-up">
       <h2 className="text-2xl font-medium text-gray-800">
         {format(new Date(date), "EEEE, MMMM d")}
       </h2>
       <div className="grid md:grid-cols-2 gap-4">
-        {sortedWorkshops.map((workshop) => (
+        {sortedWorkshops.map((workshop, index) => (
           <WorkshopCard
             key={workshop.id}
             workshop={workshop}
             onSelect={onSelect}
+            index={index}
           />
         ))}
       </div>

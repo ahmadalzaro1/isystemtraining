@@ -586,3 +586,87 @@
     transform: rotate(360deg);
   }
 }
+
+/* Workshop Card Animations */
+@keyframes card-slide-up {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) translateY(20px) translateZ(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1000px) translateY(0) translateZ(0);
+  }
+}
+
+.card-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.card-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms, transform 500ms;
+}
+
+/* Spotlight Search Animation */
+.spotlight-search {
+  @apply backdrop-blur-sm bg-white/80 border border-gray-200/50 shadow-lg;
+  animation: spotlight-fade-in 0.3s ease-out;
+}
+
+@keyframes spotlight-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(-10px);
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Filter Animation */
+.filter-slide-in {
+  animation: filter-slide 0.5s ease-out forwards;
+}
+
+@keyframes filter-slide {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) translateX(-20px) rotateY(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) translateX(0) rotateY(0);
+  }
+}
+
+/* Limited Seats Pulse */
+@keyframes seats-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+}
+
+.seats-pulse {
+  animation: seats-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Progress Bar Animation */
+@keyframes progress-fill {
+  from { width: 0; }
+  to { width: var(--progress-width); }
+}
+
+.progress-bar-fill {
+  animation: progress-fill 1s ease-out forwards;
+}
