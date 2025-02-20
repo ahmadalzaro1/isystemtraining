@@ -1,33 +1,59 @@
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { FormData } from "@/types/registration";
+import { FormData, ExperienceLevel } from "@/types/registration";
+import { cn } from "@/lib/utils";
 
 interface ExperienceStepProps {
-  value: string;
+  data: Pick<FormData, "experienceLevel">;
   onChange: (data: Partial<FormData>) => void;
   className?: string;
 }
 
-export const ExperienceStep = ({ value, onChange, className }: ExperienceStepProps) => (
-  <div className={className}>
-    <RadioGroup
-      value={value}
-      onValueChange={(newValue) => onChange({ experience: newValue })}
-      className="space-y-4"
-    >
-      <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-        <RadioGroupItem value="first-time" />
-        <span>I'm a first-time Apple user</span>
+const EXPERIENCE_LEVELS: { value: ExperienceLevel; label: string; description: string }[] = [
+  {
+    value: "beginner",
+    label: "Beginner",
+    description: "I'm new to Apple devices and need help with basics",
+  },
+  {
+    value: "intermediate",
+    label: "Intermediate",
+    description: "I know the basics but want to learn more advanced features",
+  },
+  {
+    value: "advanced",
+    label: "Advanced",
+    description: "I'm experienced and looking to master advanced techniques",
+  },
+];
+
+export const ExperienceStep = ({ data, onChange, className }: ExperienceStepProps) => {
+  return (
+    <div className={cn("space-y-6", className)}>
+      <Label className="text-lg font-medium">
+        What's your experience level with Apple devices?
       </Label>
-      <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-        <RadioGroupItem value="new-device" />
-        <span>New to this specific Apple device</span>
-      </Label>
-      <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-        <RadioGroupItem value="switching" />
-        <span>Switching from Android or Windows</span>
-      </Label>
-    </RadioGroup>
-  </div>
-);
+      <RadioGroup
+        value={data.experienceLevel}
+        onValueChange={(value: ExperienceLevel) => onChange({ experienceLevel: value })}
+        className="space-y-4"
+      >
+        {EXPERIENCE_LEVELS.map((level) => (
+          <Label
+            key={level.value}
+            className="flex flex-col space-y-2 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+          >
+            <div className="flex items-center space-x-3">
+              <RadioGroupItem value={level.value} />
+              <span className="font-medium">{level.label}</span>
+            </div>
+            <p className="text-sm text-muted-foreground pl-6">
+              {level.description}
+            </p>
+          </Label>
+        ))}
+      </RadioGroup>
+    </div>
+  );
+};

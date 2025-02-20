@@ -2,27 +2,21 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FormData, UserType, PlatformType } from "@/types/registration";
+import { FormData, PlatformType } from "@/types/registration";
 import { cn } from "@/lib/utils";
 
 interface UserTypeStepProps {
-  data: Pick<FormData, "userType" | "platform">;
+  data: Pick<FormData, "isFirstTime" | "platformSwitch">;
   onChange: (data: Partial<FormData>) => void;
   className?: string;
 }
 
-const USER_TYPES = [
-  { value: "first-time", label: "First-time Apple user", icon: "🆕" },
-  { value: "existing", label: "No, I've always used Apple", icon: "🍏" },
-  { value: "switching", label: "Switching from another platform", icon: "🔄" },
-] as const;
-
-const PLATFORMS = [
+const PLATFORMS: { value: PlatformType; label: string }[] = [
   { value: "windows", label: "Windows" },
   { value: "android", label: "Android" },
   { value: "linux", label: "Linux" },
   { value: "other", label: "Other" },
-] as const;
+];
 
 export const UserTypeStep = ({ data, onChange, className }: UserTypeStepProps) => {
   return (
@@ -30,37 +24,33 @@ export const UserTypeStep = ({ data, onChange, className }: UserTypeStepProps) =
       <div className="space-y-4">
         <Label className="text-lg font-medium">Are you new to Apple?</Label>
         <RadioGroup
-          value={data.userType}
-          onValueChange={(value: UserType) => {
-            onChange({ 
-              userType: value,
-              // Clear platform if not switching
-              platform: value === "switching" ? data.platform : undefined 
-            });
-          }}
+          value={data.isFirstTime ? "yes" : "no"}
+          onValueChange={(value) => onChange({ isFirstTime: value === "yes" })}
           className="space-y-4"
         >
-          {USER_TYPES.map((type) => (
-            <Label
-              key={type.value}
-              className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-            >
-              <RadioGroupItem value={type.value} />
-              <div className="flex items-center gap-2">
-                <span>{type.icon}</span>
-                <span>{type.label}</span>
-              </div>
-            </Label>
-          ))}
+          <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+            <RadioGroupItem value="yes" />
+            <div className="flex items-center gap-2">
+              <span>🆕</span>
+              <span>First-time Apple user</span>
+            </div>
+          </Label>
+          <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+            <RadioGroupItem value="no" />
+            <div className="flex items-center gap-2">
+              <span>🍏</span>
+              <span>No, I've always used Apple</span>
+            </div>
+          </Label>
         </RadioGroup>
       </div>
 
-      {data.userType === "switching" && (
+      {!data.isFirstTime && (
         <div className="space-y-4">
-          <Label className="text-lg font-medium">What are you switching from?</Label>
+          <Label className="text-lg font-medium">What platform are you switching from?</Label>
           <Select
-            value={data.platform}
-            onValueChange={(value: PlatformType) => onChange({ platform: value })}
+            value={data.platformSwitch}
+            onValueChange={(value: PlatformType) => onChange({ platformSwitch: value })}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select your current platform" />

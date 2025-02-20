@@ -113,10 +113,12 @@ export interface FormData {
 
 export interface Workshop {
   id: string;
+  name: string;
   title: string;
   description: string;
   topic: WorkshopTopic;
   date: string;
+  time: string;
   duration: number;
   maxParticipants: number;
   currentParticipants: number;
