@@ -63,23 +63,13 @@ const Index = () => {
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes wave {
-          0% { transform: translate(-50%, -50%) rotate(0deg); }
-          100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        .animate-wave {
-          animation: wave 8s linear infinite;
-        }
-      `}</style>
-
       <ThemeToggle />
       
       {/* Hero Section */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center space-y-6 sm:space-y-8">
           {/* Headline */}
-          <h1 className="relative text-[32px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow">
+          <h1 className="relative text-[24px] xs:text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow px-2 leading-tight">
             {headlineLetters.map((letter, index) => (
               <span
                 key={index}
@@ -92,7 +82,7 @@ const Index = () => {
           </h1>
           
           {/* Subheadline */}
-          <p className="text-[#6E6E73] text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow">
+          <p className="text-[#6E6E73] text-base xs:text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow px-4 leading-relaxed">
             {subheadlineLetters.map((letter, index) => (
               <span
                 key={index}
@@ -105,10 +95,10 @@ const Index = () => {
           </p>
 
           {/* CTA Button */}
-          <div className="pt-8">
+          <div className="pt-8 px-4">
             <button
               onClick={scrollToWorkshops}
-              className="apple-button group relative flex items-center gap-3 mx-auto"
+              className="apple-button group relative flex items-center gap-3 mx-auto text-base sm:text-lg"
               style={{ 
                 animationDelay: `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s` 
               }}
@@ -128,7 +118,7 @@ const Index = () => {
       </div>
 
       {/* Workshops Section */}
-      <div id="workshops" className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8">
+      <div id="workshops" className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
         {step === "calendar" && (
           <WorkshopCalendar onSelect={handleWorkshopSelect} />
         )}
