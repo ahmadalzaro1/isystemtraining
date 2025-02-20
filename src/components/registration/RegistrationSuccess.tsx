@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Calendar, Share2 } from "lucide-react";
 import { FormData } from "@/types/registration";
@@ -67,88 +67,94 @@ export const RegistrationSuccess = ({
   };
 
   return (
-    <Card className="p-6 space-y-6">
-      <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-bold tracking-tight">Registration Complete! 🎉</h2>
-        <p className="text-muted-foreground">
-          {registrationData.name}, you're all set for {workshop.name}
+    <Card className="max-w-2xl mx-auto">
+      <CardHeader className="text-center">
+        <CardTitle className="text-3xl font-bold">Registration Complete! 🎉</CardTitle>
+        <CardDescription className="text-lg">
+          Welcome aboard, {registrationData.name}! You're all set for {workshop.name}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="space-y-8">
+        {/* Registration Details */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold tracking-tight">Your Registration Details</h3>
+          <div className="grid gap-4">
+            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
+              <span className="font-medium">Name</span>
+              <span>{registrationData.name}</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
+              <span className="font-medium">Email</span>
+              <span>{registrationData.email}</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
+              <span className="font-medium">Phone</span>
+              <span>{registrationData.phone}</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
+              <span className="font-medium">Contact Preference</span>
+              <span className="capitalize">{registrationData.contactPreference}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Workshop Details */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold tracking-tight">Workshop Information</h3>
+          <div className="grid gap-4">
+            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
+              <span className="font-medium">Date</span>
+              <span>{workshop.date.toLocaleDateString()}</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
+              <span className="font-medium">Time</span>
+              <span>{workshop.time}</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
+              <span className="font-medium">Category</span>
+              <span className="capitalize">{workshop.category}</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
+              <span className="font-medium">Skill Level</span>
+              <span className="capitalize">{workshop.skillLevel}</span>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="flex flex-col gap-4">
+        <div className="grid w-full gap-4">
+          <Button 
+            variant="outline" 
+            onClick={addToCalendar}
+            className="w-full"
+          >
+            <Calendar className="mr-2 h-4 w-4" />
+            Add to Calendar
+          </Button>
+          
+          <Button 
+            variant="outline"
+            onClick={handleShareWorkshop}
+            className="w-full"
+          >
+            <Share2 className="mr-2 h-4 w-4" />
+            Share with Friends
+          </Button>
+
+          <Button 
+            onClick={onViewWorkshops}
+            className="w-full"
+          >
+            Browse More Workshops
+          </Button>
+        </div>
+
+        <p className="text-sm text-muted-foreground text-center">
+          Need help? Contact us at support@isystem.com
         </p>
-      </div>
-
-      <div className="space-y-4">
-        <h3 className="font-medium text-lg">Your Registration Details</h3>
-        <div className="grid gap-3 text-sm">
-          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Name</span>
-            <span>{registrationData.name}</span>
-          </div>
-          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Email</span>
-            <span>{registrationData.email}</span>
-          </div>
-          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Phone</span>
-            <span>{registrationData.phone}</span>
-          </div>
-          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Preferred Contact</span>
-            <span>{registrationData.contactPreference}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <h3 className="font-medium text-lg">Workshop Details</h3>
-        <div className="grid gap-3 text-sm">
-          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Date</span>
-            <span>{workshop.date.toLocaleDateString()}</span>
-          </div>
-          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Time</span>
-            <span>{workshop.time}</span>
-          </div>
-          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Category</span>
-            <span>{workshop.category}</span>
-          </div>
-          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <span className="font-medium">Skill Level</span>
-            <span>{workshop.skillLevel}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid gap-4">
-        <Button 
-          variant="outline" 
-          onClick={addToCalendar}
-          className="w-full gap-2"
-        >
-          <Calendar className="h-4 w-4" />
-          Add to Calendar
-        </Button>
-        
-        <Button 
-          variant="outline"
-          onClick={handleShareWorkshop}
-          className="w-full gap-2"
-        >
-          <Share2 className="h-4 w-4" />
-          Invite a Friend
-        </Button>
-
-        <Button 
-          onClick={onViewWorkshops}
-          className="w-full"
-        >
-          Browse More Workshops
-        </Button>
-      </div>
-
-      <div className="text-center text-sm text-muted-foreground">
-        <p>Need help? Contact us at support@isystem.com</p>
-      </div>
+      </CardFooter>
     </Card>
   );
 };
