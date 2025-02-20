@@ -20,6 +20,18 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
     });
   };
 
+  const categories = [
+    { value: "All", label: "All Categories" },
+    { value: "Mac", label: "💻 Mac" },
+    { value: "iPhone", label: "📱 iPhone" },
+    { value: "Apple Watch", label: "⌚ Apple Watch" },
+    { value: "AI", label: "🤖 AI" },
+    { value: "Digital Safety", label: "🔐 Digital Safety" },
+    { value: "Creativity", label: "🎨 Creativity" },
+    { value: "Productivity", label: "🚀 Productivity" },
+    { value: "iCloud", label: "☁️ iCloud" }
+  ];
+
   return (
     <div className="space-y-6 animate-fade-up">
       {/* Search Bar */}
@@ -79,17 +91,17 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
             }
             className="flex flex-wrap gap-2"
           >
-            {["All", "Productivity", "Creativity", "Privacy & Security", "Business & Enterprise"].map((category) => (
+            {categories.map(({ value, label }) => (
               <Label
-                key={category}
+                key={value}
                 className={`px-4 py-2 rounded-full border cursor-pointer transition-all hover:bg-gray-50 ${
-                  filters.category === category 
+                  filters.category === value 
                     ? "border-primary bg-primary/5 text-primary" 
                     : "border-gray-200"
                 }`}
               >
-                <RadioGroupItem value={category} className="sr-only" />
-                {category}
+                <RadioGroupItem value={value} className="sr-only" />
+                {label}
               </Label>
             ))}
           </RadioGroup>

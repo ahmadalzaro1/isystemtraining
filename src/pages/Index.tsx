@@ -50,6 +50,11 @@ const Index = () => {
       {/* Liquid Background */}
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-white to-[#FAFAFA]">
+          {/* Animated wave effects */}
+          <div className="wave"></div>
+          <div className="wave" style={{ animationDelay: "-2s" }}></div>
+          <div className="wave" style={{ animationDelay: "-4s" }}></div>
+          
           {/* Liquid Layers */}
           <div className="absolute inset-0 opacity-[0.15]"
                style={{
