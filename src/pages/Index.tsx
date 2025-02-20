@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -45,12 +46,12 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       {/* Animated Background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-mesh opacity-30"></div>
+      <div className="fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[#F9F9F9]"></div>
         <div className="absolute inset-0">
-          <div className="wave-container">
+          <div className="relative w-full h-full">
             <div className="wave"></div>
             <div className="wave" style={{ animationDelay: "-2s" }}></div>
             <div className="wave" style={{ animationDelay: "-4s" }}></div>
@@ -65,7 +66,7 @@ const Index = () => {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center space-y-6 sm:space-y-8">
           {/* Headline */}
-          <h1 className="relative text-[32px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow">
+          <h1 className="relative text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow">
             {headlineLetters.map((letter, index) => (
               <span
                 key={index}
