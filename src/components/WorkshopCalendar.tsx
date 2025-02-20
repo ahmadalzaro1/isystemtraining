@@ -117,6 +117,8 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     return workshopDate >= weekStart && workshopDate <= weekEnd;
   });
 
+  console.log('Current week workshops:', currentWeekWorkshops); // Debug log
+
   return (
     <div className="space-y-8 animate-fade-up">
       <div className="text-center space-y-2">
