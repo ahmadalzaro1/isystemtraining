@@ -3,61 +3,73 @@ import { useState } from "react";
 import { FormData } from "@/types/registration";
 import { toast } from "sonner";
 
-const validatePersonalInfo = (data: FormData): boolean => {
-  // Name validation
-  if (!data.name.trim() || data.name.trim().length < 3 || !/^[a-zA-Z\s]+$/.test(data.name.trim())) {
-    toast.error("Please enter a valid name");
+const validateBasicProfile = (data: FormData): boolean => {
+  if (typeof data.isFirstTime !== 'boolean') {
+    toast.error("Please indicate if you're a first-time Apple user");
     return false;
   }
-
-  // Email validation
-  if (!data.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
-    toast.error("Please enter a valid email address");
-    return false;
-  }
-
-  // Jordanian phone number validation
-  if (!data.phone.trim() || !/^((\+962|00962|0)?)(7|9)([0-9]{7})$/.test(data.phone.replace(/\s/g, ''))) {
-    toast.error("Please enter a valid Jordanian phone number");
-    return false;
-  }
-
-  // Contact method validation
-  if (!data.contactMethod) {
-    toast.error("Please select a preferred contact method");
-    return false;
-  }
-
-  return true;
-};
-
-const validateExperience = (data: FormData): boolean => {
-  if (!data.experience) {
+  if (!data.experienceLevel) {
     toast.error("Please select your experience level");
     return false;
   }
-  return true;
-};
-
-const validateOccupation = (data: FormData): boolean => {
-  if (!data.occupation) {
-    toast.error("Please select your occupation");
-    return false;
-  }
-  return true;
-};
-
-const validateDevices = (data: FormData): boolean => {
-  if (!data.devices.length) {
+  if (!data.devices.length && !data.isFirstTime) {
     toast.error("Please select at least one device");
     return false;
   }
   return true;
 };
 
-const validateInterests = (data: FormData): boolean => {
+const validatePlatform = (data: FormData): boolean => {
+  if (!data.platformSwitch) {
+    toast.error("Please indicate if you're switching from another platform");
+    return false;
+  }
+  return true;
+};
+
+const validateLearning = (data: FormData): boolean => {
   if (!data.learningInterests.length) {
     toast.error("Please select at least one learning interest");
+    return false;
+  }
+  if (!data.primaryUse) {
+    toast.error("Please select your primary use case");
+    return false;
+  }
+  return true;
+};
+
+const validateConfidence = (data: FormData): boolean => {
+  if (!data.confidenceLevel) {
+    toast.error("Please indicate your confidence level");
+    return false;
+  }
+  if (!data.mainFrustration) {
+    toast.error("Please select your main frustration");
+    return false;
+  }
+  if (!data.appsToLearn.length) {
+    toast.error("Please select at least one app you'd like to learn more about");
+    return false;
+  }
+  return true;
+};
+
+const validateContact = (data: FormData): boolean => {
+  if (!data.name.trim() || data.name.length < 2) {
+    toast.error("Please enter your name");
+    return false;
+  }
+  if (!data.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    toast.error("Please enter a valid email address");
+    return false;
+  }
+  if (!data.phone.trim() || !/^((\+962|00962|0)?)(7|9)([0-9]{7})$/.test(data.phone.replace(/\s/g, ''))) {
+    toast.error("Please enter a valid Jordanian phone number");
+    return false;
+  }
+  if (!data.contactPreference) {
+    toast.error("Please select your preferred contact method");
     return false;
   }
   return true;
@@ -66,14 +78,21 @@ const validateInterests = (data: FormData): boolean => {
 export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
-    experience: "",
+    isFirstTime: false,
+    devices: [],
+    experienceLevel: "beginner",
+    platformSwitch: "always-apple",
+    learningInterests: [],
+    primaryUse: "personal",
+    confidenceLevel: 3,
+    mainFrustration: "complexity",
+    appsToLearn: [],
     name: "",
     email: "",
     phone: "",
-    contactMethod: "",
-    occupation: "",
-    devices: [],
-    learningInterests: [],
+    receiveUpdates: true,
+    contactPreference: "email",
+    paidTrainingInterest: "maybe",
   });
 
   const updateFormData = (data: Partial<FormData>) => {
@@ -83,15 +102,15 @@ export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
   const validateCurrentStep = (): boolean => {
     switch (step) {
       case 1:
-        return validateExperience(formData);
+        return validateBasicProfile(formData);
       case 2:
-        return validatePersonalInfo(formData);
+        return validatePlatform(formData);
       case 3:
-        return validateOccupation(formData);
+        return validateLearning(formData);
       case 4:
-        return validateDevices(formData);
+        return validateConfidence(formData);
       case 5:
-        return validateInterests(formData);
+        return validateContact(formData);
       default:
         return true;
     }

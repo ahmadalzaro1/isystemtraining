@@ -1,48 +1,46 @@
 
-import { ExperienceStep } from "../ExperienceStep";
-import { PersonalInfoStep } from "../PersonalInfoStep";
-import { DevicesStep } from "../DevicesStep";
-import { OccupationStep } from "../OccupationStep";
-import { LearningInterestsStep } from "../LearningInterestsStep";
+import { BasicProfileStep } from "../BasicProfileStep";
+import { PlatformStep } from "../PlatformStep";
+import { LearningNeedsStep } from "../LearningNeedsStep";
+import { ConfidenceStep } from "../ConfidenceStep";
+import { ContactStep } from "../ContactStep";
 
 export type StepComponent = {
   id: string;
   title: string;
   description: string;
   Component: React.ComponentType<any>;
-  showIf?: (experience: string) => boolean;
 };
 
 export const REGISTRATION_STEPS: StepComponent[] = [
   {
-    id: 'experience',
-    title: "Experience Level",
-    description: "Tell us about your experience with Apple products",
-    Component: ExperienceStep,
+    id: 'basic-profile',
+    title: "Your Apple Experience",
+    description: "Tell us about your experience with Apple devices",
+    Component: BasicProfileStep,
   },
   {
-    id: 'personal',
-    title: "Personal Information",
-    description: "Enter your contact details",
-    Component: PersonalInfoStep,
+    id: 'platform',
+    title: "Platform Switch",
+    description: "Are you switching from another platform?",
+    Component: PlatformStep,
   },
   {
-    id: 'occupation',
-    title: "Your Occupation",
-    description: "Tell us about your professional background",
-    Component: OccupationStep,
+    id: 'learning',
+    title: "Learning Needs",
+    description: "What would you like to learn?",
+    Component: LearningNeedsStep,
   },
   {
-    id: 'devices',
-    title: "Your Devices",
-    description: "Select the Apple devices you own",
-    Component: DevicesStep,
-    showIf: (experience: string) => experience !== "first-time",
+    id: 'confidence',
+    title: "Experience & Challenges",
+    description: "Help us understand your current comfort level",
+    Component: ConfidenceStep,
   },
   {
-    id: 'interests',
-    title: "Learning Interests",
-    description: "What would you like to learn about in future workshops?",
-    Component: LearningInterestsStep,
+    id: 'contact',
+    title: "Contact Details",
+    description: "How should we keep in touch?",
+    Component: ContactStep,
   },
 ];
