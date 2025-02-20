@@ -1,28 +1,16 @@
 
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExperienceStep } from "./registration/ExperienceStep";
 import { PersonalInfoStep } from "./registration/PersonalInfoStep";
 import { DevicesStep } from "./registration/DevicesStep";
-import { FormData, RegistrationFormProps } from "@/types/registration";
+import { OccupationStep } from "./registration/OccupationStep";
+import { LearningInterestsStep } from "./registration/LearningInterestsStep";
+import { RegistrationFormProps } from "@/types/registration";
+import { useRegistrationSteps } from "@/hooks/useRegistrationSteps";
 
 export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState<FormData>({
-    experience: "",
-    name: "",
-    email: "",
-    phone: "",
-    contactMethod: "",
-    occupation: "",
-    devices: [],
-    learningInterests: [],
-  });
-
-  const updateFormData = (data: Partial<FormData>) => {
-    setFormData((prev) => ({ ...prev, ...data }));
-  };
+  const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(onComplete);
 
   const steps = [
     {
@@ -46,11 +34,31 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
       ),
     },
     {
+      title: "Your Occupation",
+      description: "Tell us about your professional background",
+      content: (
+        <OccupationStep
+          value={formData.occupation}
+          onChange={updateFormData}
+        />
+      ),
+    },
+    {
       title: "Your Devices",
       description: "Select the Apple devices you own",
       content: (
         <DevicesStep
           devices={formData.devices}
+          onChange={updateFormData}
+        />
+      ),
+    },
+    {
+      title: "Learning Interests",
+      description: "What would you like to learn about in future workshops?",
+      content: (
+        <LearningInterestsStep
+          interests={formData.learningInterests}
           onChange={updateFormData}
         />
       ),
@@ -85,20 +93,14 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         {step > 1 && (
           <Button
             variant="outline"
-            onClick={() => setStep((s) => s - 1)}
+            onClick={previousStep}
             className="animate-fade-up"
           >
             Back
           </Button>
         )}
         <Button
-          onClick={() => {
-            if (step < steps.length) {
-              setStep((s) => s + 1);
-            } else {
-              onComplete(formData);
-            }
-          }}
+          onClick={nextStep}
           className="ml-auto animate-fade-up"
         >
           {step === steps.length ? "Complete Registration" : "Continue"}
