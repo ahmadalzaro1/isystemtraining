@@ -20,6 +20,16 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
     });
   };
 
+  const handleCategoryClick = (category: string) => {
+    onChange({
+      ...filters,
+      category: category as WorkshopFilters["category"]
+    });
+    // Show a visual feedback when category is selected
+    const el = document.activeElement as HTMLElement;
+    if (el) el.blur();
+  };
+
   const categories = [
     { value: "All", label: "All Categories" },
     { value: "Mac", label: "💻 Mac" },
@@ -84,27 +94,21 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
         {/* Category Filter */}
         <div className="space-y-2">
           <Label className="text-sm font-medium text-gray-700">Category</Label>
-          <RadioGroup
-            value={filters.category}
-            onValueChange={(value) => 
-              onChange({ ...filters, category: value as WorkshopFilters["category"] })
-            }
-            className="flex flex-wrap gap-2"
-          >
+          <div className="flex flex-wrap gap-2">
             {categories.map(({ value, label }) => (
-              <Label
+              <button
                 key={value}
-                className={`px-4 py-2 rounded-full border cursor-pointer transition-all hover:bg-gray-50 ${
+                onClick={() => handleCategoryClick(value)}
+                className={`px-4 py-2 rounded-full border transition-all hover:bg-gray-50 ${
                   filters.category === value 
                     ? "border-primary bg-primary/5 text-primary" 
                     : "border-gray-200"
                 }`}
               >
-                <RadioGroupItem value={value} className="sr-only" />
                 {label}
-              </Label>
+              </button>
             ))}
-          </RadioGroup>
+          </div>
         </div>
 
         {/* Reset Button */}
