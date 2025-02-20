@@ -1,10 +1,13 @@
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import { Calendar, Share2 } from "lucide-react";
+import { Calendar, Share2, Bell, Check, ChevronRight, Mail, MessageSquare } from "lucide-react";
 import { FormData } from "@/types/registration";
 import { Workshop } from "@/types/workshop";
+import { Switch } from "@/components/ui/switch";
+import { useEffect, useState } from "react";
 
 interface RegistrationSuccessProps {
   workshop: Workshop;
@@ -17,23 +20,25 @@ export const RegistrationSuccess = ({
   registrationData, 
   onViewWorkshops 
 }: RegistrationSuccessProps) => {
+  const [progress, setProgress] = useState(0);
+  const [smsReminders, setSmsReminders] = useState(false);
+
+  useEffect(() => {
+    // Animate progress bar on mount
+    const timer = setTimeout(() => setProgress(100), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleShareWorkshop = () => {
-    // Generate a shareable message
     const message = `Join me at ${workshop.name} on ${workshop.date.toLocaleDateString()}! It's going to be amazing!`;
     
-    // Check if the Web Share API is available
     if (navigator.share) {
       navigator.share({
         title: 'Join My Workshop!',
         text: message,
         url: window.location.href,
-      }).catch((error) => {
-        console.log('Error sharing:', error);
-        // Fallback to clipboard copy if sharing fails
-        copyToClipboard(message);
-      });
+      }).catch(() => copyToClipboard(message));
     } else {
-      // Fallback for browsers that don't support Web Share API
       copyToClipboard(message);
     }
   };
@@ -56,105 +61,152 @@ export const RegistrationSuccess = ({
       description: workshop.description,
       location: "Online",
       startTime: workshop.date,
-      endTime: new Date(workshop.date.getTime() + 2 * 60 * 60 * 1000), // Assuming 2 hours duration
+      endTime: new Date(workshop.date.getTime() + 2 * 60 * 60 * 1000),
     };
 
-    // Here you could integrate with specific calendar services
-    // For now, we'll just show a success message
     toast.success("Added to calendar!", {
       description: "Check your calendar app for details",
     });
   };
 
+  const toggleSmsReminders = () => {
+    setSmsReminders(!smsReminders);
+    toast.success(
+      !smsReminders ? "SMS reminders enabled" : "SMS reminders disabled",
+      { description: "Your preference has been saved" }
+    );
+  };
+
   return (
-    <Card className="max-w-2xl mx-auto">
-      <CardHeader className="text-center">
-        <CardTitle className="text-3xl font-bold">Registration Complete! 🎉</CardTitle>
-        <CardDescription className="text-lg">
-          Welcome aboard, {registrationData.name}! You're all set for {workshop.name}
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent className="space-y-8">
-        {/* Registration Details */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold tracking-tight">Your Registration Details</h3>
-          <div className="grid gap-4">
-            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
-              <span className="font-medium">Name</span>
-              <span>{registrationData.name}</span>
-            </div>
-            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
-              <span className="font-medium">Email</span>
-              <span>{registrationData.email}</span>
-            </div>
-            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
-              <span className="font-medium">Phone</span>
-              <span>{registrationData.phone}</span>
-            </div>
-            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
-              <span className="font-medium">Contact Preference</span>
-              <span className="capitalize">{registrationData.contactPreference}</span>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 p-4 md:p-8">
+      <div className="max-w-3xl mx-auto space-y-8 animate-fade-up-scale">
+        {/* Success Animation */}
+        <div className="flex flex-col items-center justify-center text-center mb-12">
+          <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-6 animate-scale-in">
+            <Check className="w-8 h-8 text-green-500 animate-checkmark" />
           </div>
+          <h1 className="text-4xl font-bold tracking-tight mb-3 animate-text-assemble">
+            You're all set, {registrationData.name}! 🎉
+          </h1>
+          <p className="text-xl text-muted-foreground mb-6">
+            Your journey to mastering Apple devices starts here
+          </p>
+          <Progress value={progress} className="w-full max-w-md" />
         </div>
 
-        {/* Workshop Details */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold tracking-tight">Workshop Information</h3>
-          <div className="grid gap-4">
-            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
-              <span className="font-medium">Date</span>
-              <span>{workshop.date.toLocaleDateString()}</span>
+        {/* Main Content */}
+        <div className="grid gap-8 md:grid-cols-2">
+          {/* Workshop Details Card */}
+          <Card className="glass-morphism p-6 hover:scale-[1.02] transition-all duration-300">
+            <h2 className="text-2xl font-semibold mb-4">Workshop Details</h2>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Workshop</span>
+                <span className="font-medium">{workshop.name}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Date</span>
+                <span className="font-medium">{workshop.date.toLocaleDateString()}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Time</span>
+                <span className="font-medium">{workshop.time}</span>
+              </div>
+              <Button 
+                variant="outline" 
+                onClick={addToCalendar}
+                className="w-full hover-glow"
+              >
+                <Calendar className="mr-2 h-4 w-4" />
+                Add to Calendar
+              </Button>
             </div>
-            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
-              <span className="font-medium">Time</span>
-              <span>{workshop.time}</span>
-            </div>
-            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
-              <span className="font-medium">Category</span>
-              <span className="capitalize">{workshop.category}</span>
-            </div>
-            <div className="flex items-center justify-between px-4 py-3 bg-muted rounded-lg">
-              <span className="font-medium">Skill Level</span>
-              <span className="capitalize">{workshop.skillLevel}</span>
-            </div>
-          </div>
-        </div>
-      </CardContent>
+          </Card>
 
-      <CardFooter className="flex flex-col gap-4">
-        <div className="grid w-full gap-4">
-          <Button 
-            variant="outline" 
-            onClick={addToCalendar}
-            className="w-full"
-          >
-            <Calendar className="mr-2 h-4 w-4" />
-            Add to Calendar
+          {/* Next Steps Card */}
+          <Card className="glass-morphism p-6">
+            <h2 className="text-2xl font-semibold mb-4">Next Steps</h2>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Mail className="w-4 h-4 text-primary" />
+                </div>
+                <span className="text-sm">
+                  Confirmation sent to {registrationData.email}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Bell className="w-4 h-4" />
+                  <span>SMS Reminders</span>
+                </div>
+                <Switch
+                  checked={smsReminders}
+                  onCheckedChange={toggleSmsReminders}
+                />
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Share Section */}
+        <Card className="glass-morphism p-6">
+          <h2 className="text-2xl font-semibold mb-4">Share with Friends</h2>
+          <p className="text-muted-foreground mb-4">
+            Know someone who'd love this session? Invite them to join!
+          </p>
+          <div className="flex gap-4">
+            <Button variant="outline" onClick={handleShareWorkshop} className="flex-1">
+              <MessageSquare className="mr-2 h-4 w-4" />
+              iMessage
+            </Button>
+            <Button variant="outline" onClick={handleShareWorkshop} className="flex-1">
+              <Share2 className="mr-2 h-4 w-4" />
+              Share Link
+            </Button>
+          </div>
+        </Card>
+
+        {/* What to Expect */}
+        <Card className="glass-morphism p-6">
+          <h2 className="text-2xl font-semibold mb-4">What to Expect</h2>
+          <ul className="space-y-3">
+            <li className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-green-500" />
+              <span>Interactive learning sessions with expert instructors</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-green-500" />
+              <span>Hands-on practice with Apple devices</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-green-500" />
+              <span>Exclusive learning resources and materials</span>
+            </li>
+          </ul>
+        </Card>
+
+        {/* Footer Actions */}
+        <div className="flex flex-col gap-4 items-center pt-8">
+          <Button onClick={onViewWorkshops} className="w-full max-w-md">
+            Browse More Workshops
+            <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
           
-          <Button 
-            variant="outline"
-            onClick={handleShareWorkshop}
-            className="w-full"
-          >
-            <Share2 className="mr-2 h-4 w-4" />
-            Share with Friends
-          </Button>
+          <p className="text-sm text-muted-foreground text-center">
+            Need help? Contact us at support@isystem.com
+          </p>
 
-          <Button 
-            onClick={onViewWorkshops}
-            className="w-full"
-          >
-            Browse More Workshops
-          </Button>
+          {/* Animated Logo */}
+          <div className="animate-float mt-8">
+            <img 
+              src="/placeholder.svg" 
+              alt="iSystem" 
+              className="h-8 opacity-50"
+            />
+          </div>
         </div>
-
-        <p className="text-sm text-muted-foreground text-center">
-          Need help? Contact us at support@isystem.com
-        </p>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 };
