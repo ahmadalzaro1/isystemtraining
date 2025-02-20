@@ -69,20 +69,53 @@
 
 /* Button styles */
 .apple-button {
-  @apply bg-[#9b87f5] text-white px-8 py-3 rounded-full 
-         hover:bg-[#8B5CF6] transition-all duration-300
-         font-medium text-[17px] tracking-[-.01em]
-         active:scale-[0.98] transform;
+  @apply bg-[#0071e3] text-white px-10 py-4 rounded-full 
+         hover:bg-[#0077ED] transition-all duration-300
+         font-medium text-lg tracking-[-.01em]
+         active:scale-[0.95] transform;
   box-shadow: 
-    0 2px 4px rgba(155, 135, 245, 0.1),
-    0 4px 12px rgba(155, 135, 245, 0.2);
+    0 2px 4px rgba(0, 113, 227, 0.1),
+    0 4px 12px rgba(0, 113, 227, 0.2);
 }
 
 .apple-button:hover {
   box-shadow: 
-    0 4px 8px rgba(155, 135, 245, 0.2),
-    0 8px 24px rgba(155, 135, 245, 0.3);
-  transform: translateY(-1px);
+    0 4px 8px rgba(0, 113, 227, 0.2),
+    0 8px 24px rgba(0, 113, 227, 0.3),
+    0 0 40px rgba(0, 113, 227, 0.2);
+  transform: translateY(-2px) scale(1.02);
+  animation: buttonPulse 2s infinite;
+}
+
+@keyframes buttonPulse {
+  0% {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+      0 4px 8px rgba(0, 113, 227, 0.2),
+      0 8px 24px rgba(0, 113, 227, 0.3),
+      0 0 40px rgba(0, 113, 227, 0.2);
+  }
+  50% {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: 
+      0 4px 8px rgba(0, 113, 227, 0.15),
+      0 8px 24px rgba(0, 113, 227, 0.25),
+      0 0 30px rgba(0, 113, 227, 0.15);
+  }
+  100% {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+      0 4px 8px rgba(0, 113, 227, 0.2),
+      0 8px 24px rgba(0, 113, 227, 0.3),
+      0 0 40px rgba(0, 113, 227, 0.2);
+  }
+}
+
+.apple-button:active {
+  transform: scale(0.95);
+  box-shadow: 
+    0 2px 4px rgba(0, 113, 227, 0.1),
+    0 4px 8px rgba(0, 113, 227, 0.2);
 }
 
 .apple-button::after {
