@@ -17,6 +17,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
     contactMethod: "",
     occupation: "",
     devices: [],
+    learningInterests: [],
   });
 
   const updateFormData = (data: Partial<FormData>) => {

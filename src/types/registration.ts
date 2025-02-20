@@ -7,6 +7,7 @@ export interface FormData {
   contactMethod: string;
   occupation: string;
   devices: string[];
+  learningInterests: string[];
 }
 
 export interface RegistrationFormProps {
