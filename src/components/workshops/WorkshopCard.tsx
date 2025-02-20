@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 interface WorkshopCardProps {
   workshop: Workshop;
   onSelect: (workshop: Workshop) => void;
-  index: number; // Add index prop for staggered animation
+  index: number;
 }
 
 export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) => {
@@ -29,8 +29,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
     <Card
       className={cn(
         "p-6 hover:shadow-lg transition-all cursor-pointer group bg-white relative",
-        "opacity-0 translate-y-4",
-        "animate-[card-slide-up_0.5s_ease-out_forwards]"
+        "animate-card-slide-up"
       )}
       onClick={() => onSelect(workshop)}
       style={{ 
