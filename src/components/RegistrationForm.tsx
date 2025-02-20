@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExperienceStep } from "./registration/ExperienceStep";
@@ -57,7 +58,22 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
     !stepConfig.showIf || stepConfig.showIf(formData.experience)
   );
 
-  const currentStep = activeSteps[step - 1];
+  // Ensure step doesn't exceed the number of active steps
+  const currentStepIndex = Math.min(step - 1, activeSteps.length - 1);
+  const currentStep = activeSteps[currentStepIndex];
+
+  // If no current step is found, show an error or return early
+  if (!currentStep) {
+    return (
+      <div className="w-full max-w-2xl mx-auto space-y-6 px-4 sm:px-6 md:space-y-8">
+        <Card className="p-4 sm:p-6">
+          <p className="text-center text-red-600">
+            Error loading registration form. Please try again.
+          </p>
+        </Card>
+      </div>
+    );
+  }
 
   const renderStepContent = () => {
     const { Component, id } = currentStep;
@@ -132,7 +148,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
 
       <Card className="p-4 sm:p-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
-        <div className="relative">
+        <div className="relative registration-step">
           {renderStepContent()}
         </div>
       </Card>
