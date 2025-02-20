@@ -1,9 +1,11 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { format, addWeeks, startOfWeek, endOfWeek, addDays } from "date-fns";
 import { Workshop } from "@/types/workshop";
 import { WorkshopNavigation } from "./workshops/WorkshopNavigation";
 import { WorkshopDayGroup } from "./workshops/WorkshopDayGroup";
+import { WorkshopRecommender } from "./recommendation/WorkshopRecommender";
 
 interface WorkshopCalendarProps {
   onSelect: (workshop: Workshop) => void;
@@ -120,6 +122,13 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
         currentWeek={currentWeek}
         onNavigate={navigateWeek}
       />
+
+      <div className="flex justify-center mb-8">
+        <WorkshopRecommender 
+          workshops={workshops}
+          onSelect={onSelect}
+        />
+      </div>
 
       <div className="grid gap-6">
         {Object.entries(workshopsByDate).map(([dateStr, dayWorkshops]) => (
