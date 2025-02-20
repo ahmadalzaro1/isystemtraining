@@ -62,16 +62,13 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
     !stepConfig.showIf || stepConfig.showIf(formData.experience)
   );
 
-  // Ensure step doesn't exceed the number of active steps
   const currentStepIndex = Math.min(step - 1, activeSteps.length - 1);
   const currentStep = activeSteps[currentStepIndex];
 
-  // Calculate progress percentage
   useEffect(() => {
     setProgress((currentStepIndex / (activeSteps.length - 1)) * 100);
   }, [currentStepIndex, activeSteps.length]);
 
-  // Handle transitions
   const handleTransition = async (direction: 'next' | 'previous') => {
     setIsTransitioning(true);
     if (direction === 'next') {
@@ -79,11 +76,9 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
     } else {
       previousStep();
     }
-    // Add a small delay to allow for the transition
     setTimeout(() => setIsTransitioning(false), 300);
   };
 
-  // If no current step is found, show an error or return early
   if (!currentStep) {
     return (
       <div className="w-full max-w-2xl mx-auto space-y-6 px-4 sm:px-6 md:space-y-8">
@@ -97,27 +92,49 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   }
 
   const renderStepContent = () => {
-    const { Component, id } = currentStep;
-    
-    const componentProps = {
-      value: formData[id as keyof FormData],
-      onChange: updateFormData,
-      className: `transition-all duration-300 ${
-        isTransitioning ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'
-      }`,
-    };
+    const { id } = currentStep;
+    const transitionClass = `transition-all duration-300 ${
+      isTransitioning ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'
+    }`;
     
     switch (id) {
       case 'experience':
-        return <ExperienceStep {...componentProps} />;
+        return (
+          <ExperienceStep 
+            value={formData.experience}
+            onChange={updateFormData}
+            className={transitionClass}
+          />
+        );
       case 'personal':
-        return <PersonalInfoStep data={formData} onChange={updateFormData} />;
+        return (
+          <PersonalInfoStep 
+            data={formData}
+            onChange={updateFormData}
+          />
+        );
       case 'occupation':
-        return <OccupationStep {...componentProps} />;
+        return (
+          <OccupationStep 
+            value={formData.occupation}
+            onChange={updateFormData}
+            className={transitionClass}
+          />
+        );
       case 'devices':
-        return <DevicesStep devices={formData.devices} onChange={updateFormData} />;
+        return (
+          <DevicesStep 
+            devices={formData.devices}
+            onChange={updateFormData}
+          />
+        );
       case 'interests':
-        return <LearningInterestsStep interests={formData.learningInterests} onChange={updateFormData} />;
+        return (
+          <LearningInterestsStep 
+            interests={formData.learningInterests}
+            onChange={updateFormData}
+          />
+        );
       default:
         return null;
     }
