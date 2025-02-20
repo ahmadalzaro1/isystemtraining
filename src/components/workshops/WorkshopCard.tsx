@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Clock, Users, CheckCircle, Flame, Zap, UserCircle2 } from "lucide-react";
+import { Clock, CheckCircle, Flame, Zap, UserCircle2 } from "lucide-react";
 import { Workshop } from "@/types/workshop";
 import { SeatsProgressBar } from "./SeatsProgressBar";
 import { toast } from "sonner";
@@ -26,42 +26,48 @@ export const WorkshopCard = ({ workshop, onSelect }: WorkshopCardProps) => {
 
   return (
     <Card
-      className="p-6 hover:shadow-lg transition-all cursor-pointer animate-fade-up group bg-white relative"
+      className="p-6 hover:shadow-lg transition-all cursor-pointer group bg-white relative"
       onClick={() => onSelect(workshop)}
     >
       <div className="space-y-4">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
+        {/* Header Section */}
+        <div className="space-y-2">
+          <div className="flex items-start justify-between">
+            <div className="space-y-1">
               <h3 className="font-medium text-xl group-hover:text-primary transition-colors">
                 {workshop.name}
               </h3>
+              <div className="flex items-center gap-2 text-gray-600">
+                <UserCircle2 className="h-4 w-4" />
+                <span className="font-medium">Instructor:</span>
+                <span>{workshop.instructor}</span>
+              </div>
+            </div>
+            
+            <div className="flex flex-col items-end gap-1">
               {isTrending && (
-                <span className="flex items-center gap-1 text-orange-500 animate-fade-in">
+                <span className="flex items-center gap-1 text-orange-500 text-sm font-medium">
                   <Flame className="h-4 w-4" />
                   Trending
                 </span>
               )}
+              {isAlmostFull && (
+                <span className="text-red-500 text-sm font-medium flex items-center gap-1">
+                  <Zap className="h-4 w-4" />
+                  Limited Spots!
+                </span>
+              )}
             </div>
-            {isAlmostFull && (
-              <div className="text-red-500 font-medium flex items-center gap-1 animate-fade-in">
-                <Zap className="h-4 w-4" />
-                Limited Spots Left!
-              </div>
-            )}
           </div>
         </div>
-        
+
+        {/* Description */}
         <p className="text-gray-600 leading-relaxed">
           {workshop.description}
         </p>
 
-        <div className="flex items-center gap-2 text-gray-500">
-          <UserCircle2 className="h-4 w-4" />
-          <span>{workshop.instructor}</span>
-        </div>
-
-        <div className="space-y-3">
+        {/* Seats Progress */}
+        <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-500">Available Spots</span>
             <span className={cn(
@@ -78,16 +84,18 @@ export const WorkshopCard = ({ workshop, onSelect }: WorkshopCardProps) => {
             spotsRemaining={workshop.spotsRemaining}
           />
         </div>
-        
+
+        {/* Footer */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <div className="flex items-center gap-2 text-gray-500">
             <Clock className="h-4 w-4" />
             <span>{workshop.time}</span>
           </div>
+          
           {workshop.spotsRemaining > 0 ? (
             <Button 
               size="sm"
-              className="opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center gap-2"
+              className="animate-[pulse_2s_ease-in-out_infinite] flex items-center gap-2 hover:animate-none"
             >
               <CheckCircle className="h-4 w-4" />
               Register Now
@@ -97,7 +105,6 @@ export const WorkshopCard = ({ workshop, onSelect }: WorkshopCardProps) => {
               size="sm"
               variant="outline"
               onClick={handleWaitlist}
-              className="opacity-0 group-hover:opacity-100 transition-all duration-200"
             >
               Join Waitlist
             </Button>
