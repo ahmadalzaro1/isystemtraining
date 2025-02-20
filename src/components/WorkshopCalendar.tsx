@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { format, addWeeks } from "date-fns";
 import { Workshop, WorkshopFilters } from "@/types/workshop";
@@ -15,6 +16,7 @@ interface WorkshopCalendarProps {
 
 export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [filters, setFilters] = useState<WorkshopFilters>({
     search: "",
     skillLevel: "All",
@@ -22,9 +24,11 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
   });
 
   const navigateWeek = (direction: 'next' | 'prev') => {
-    setCurrentWeek(prev => 
-      direction === 'next' ? addWeeks(prev, 1) : addWeeks(prev, -1)
-    );
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentWeek(prev => direction === 'next' ? addWeeks(prev, 1) : addWeeks(prev, -1));
+      setIsTransitioning(false);
+    }, 300);
   };
 
   const resetFilters = () => {
@@ -65,7 +69,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
         />
       </div>
 
-      <div className="grid gap-6">
+      <div className={`grid gap-6 transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
         {Object.entries(workshopsByDate).map(([dateStr, dayWorkshops]) => (
           <WorkshopDayGroup
             key={dateStr}

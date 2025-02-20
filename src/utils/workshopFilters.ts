@@ -1,6 +1,6 @@
 
 import { Workshop, WorkshopFilters } from "@/types/workshop";
-import { startOfWeek, endOfWeek } from "date-fns";
+import { startOfWeek, endOfWeek, getDay } from "date-fns";
 
 export const filterWorkshopsByWeek = (workshops: Workshop[], currentWeek: Date) => {
   const weekStart = startOfWeek(currentWeek);
@@ -8,7 +8,10 @@ export const filterWorkshopsByWeek = (workshops: Workshop[], currentWeek: Date) 
   
   return workshops.filter(workshop => {
     const workshopDate = workshop.date;
-    return workshopDate >= weekStart && workshopDate <= weekEnd;
+    const dayOfWeek = getDay(workshopDate);
+    // Only show workshops on Sunday (0), Tuesday (2), and Thursday (4)
+    const isValidDay = dayOfWeek === 0 || dayOfWeek === 2 || dayOfWeek === 4;
+    return workshopDate >= weekStart && workshopDate <= weekEnd && isValidDay;
   });
 };
 
