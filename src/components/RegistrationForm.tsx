@@ -8,6 +8,8 @@ import { OccupationStep } from "./registration/OccupationStep";
 import { LearningInterestsStep } from "./registration/LearningInterestsStep";
 import { RegistrationFormProps, FormData } from "@/types/registration";
 import { useRegistrationSteps } from "@/hooks/useRegistrationSteps";
+import { Progress } from "@/components/ui/progress";
+import { useEffect, useState } from "react";
 
 type StepComponent = {
   id: string;
@@ -53,6 +55,8 @@ const REGISTRATION_STEPS: StepComponent[] = [
 
 export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(onComplete);
+  const [progress, setProgress] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const activeSteps = REGISTRATION_STEPS.filter(stepConfig => 
     !stepConfig.showIf || stepConfig.showIf(formData.experience)
@@ -61,6 +65,23 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   // Ensure step doesn't exceed the number of active steps
   const currentStepIndex = Math.min(step - 1, activeSteps.length - 1);
   const currentStep = activeSteps[currentStepIndex];
+
+  // Calculate progress percentage
+  useEffect(() => {
+    setProgress((currentStepIndex / (activeSteps.length - 1)) * 100);
+  }, [currentStepIndex, activeSteps.length]);
+
+  // Handle transitions
+  const handleTransition = async (direction: 'next' | 'previous') => {
+    setIsTransitioning(true);
+    if (direction === 'next') {
+      nextStep();
+    } else {
+      previousStep();
+    }
+    // Add a small delay to allow for the transition
+    setTimeout(() => setIsTransitioning(false), 300);
+  };
 
   // If no current step is found, show an error or return early
   if (!currentStep) {
@@ -78,47 +99,25 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   const renderStepContent = () => {
     const { Component, id } = currentStep;
     
+    const componentProps = {
+      value: formData[id as keyof FormData],
+      onChange: updateFormData,
+      className: `transition-all duration-300 ${
+        isTransitioning ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'
+      }`,
+    };
+    
     switch (id) {
       case 'experience':
-        return (
-          <ExperienceStep 
-            value={formData.experience} 
-            onChange={updateFormData} 
-          />
-        );
-      
+        return <ExperienceStep {...componentProps} />;
       case 'personal':
-        return (
-          <PersonalInfoStep 
-            data={formData} 
-            onChange={updateFormData} 
-          />
-        );
-      
+        return <PersonalInfoStep data={formData} onChange={updateFormData} />;
       case 'occupation':
-        return (
-          <OccupationStep 
-            value={formData.occupation} 
-            onChange={updateFormData} 
-          />
-        );
-      
+        return <OccupationStep {...componentProps} />;
       case 'devices':
-        return (
-          <DevicesStep 
-            devices={formData.devices} 
-            onChange={updateFormData} 
-          />
-        );
-      
+        return <DevicesStep devices={formData.devices} onChange={updateFormData} />;
       case 'interests':
-        return (
-          <LearningInterestsStep 
-            interests={formData.learningInterests} 
-            onChange={updateFormData} 
-          />
-        );
-      
+        return <LearningInterestsStep interests={formData.learningInterests} onChange={updateFormData} />;
       default:
         return null;
     }
@@ -126,28 +125,38 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6 px-4 sm:px-6 md:space-y-8">
-      <div className="space-y-2 text-center sm:text-left">
-        <h2 className="text-xl sm:text-2xl font-medium tracking-tight">
-          {currentStep.title}
-        </h2>
-        <p className="text-sm sm:text-base text-gray-600">
-          {currentStep.description}
-        </p>
+      <div className="space-y-4">
+        <div className={`space-y-2 text-center sm:text-left transition-all duration-300 ${
+          isTransitioning ? 'opacity-0 transform -translate-y-4' : 'opacity-100 transform translate-y-0'
+        }`}>
+          <h2 className="text-xl sm:text-2xl font-medium tracking-tight">
+            {currentStep.title}
+          </h2>
+          <p className="text-sm sm:text-base text-gray-600">
+            {currentStep.description}
+          </p>
+        </div>
+
+        <Progress 
+          value={progress} 
+          className="h-1 bg-gray-100 transition-all duration-500"
+        />
       </div>
 
       <div className="flex space-x-2 sm:space-x-4 overflow-hidden">
         {activeSteps.map((_, index) => (
           <div
             key={index}
-            className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-              index + 1 <= step ? "bg-primary" : "bg-gray-200"
+            className={`h-1 flex-1 rounded-full transition-all duration-500 ${
+              index <= currentStepIndex ? "bg-primary scale-100" : "bg-gray-200 scale-95"
             }`}
           />
         ))}
       </div>
 
-      <Card className="p-4 sm:p-6 relative overflow-hidden">
+      <Card className="p-4 sm:p-6 relative overflow-hidden transition-all duration-300 hover:shadow-lg">
         <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-transparent pointer-events-none" />
         <div className="relative registration-step">
           {renderStepContent()}
         </div>
@@ -157,20 +166,29 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         {step > 1 && (
           <Button
             variant="outline"
-            onClick={previousStep}
-            className="flex-1 sm:flex-none animate-fade-up"
+            onClick={() => handleTransition('previous')}
+            className="flex-1 sm:flex-none animate-fade-up transition-all duration-300 hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98]"
           >
             Back
           </Button>
         )}
         <Button
-          onClick={nextStep}
-          className={`flex-1 sm:flex-none animate-fade-up ${
+          onClick={() => handleTransition('next')}
+          className={`flex-1 sm:flex-none animate-fade-up transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
             step === 1 ? "w-full" : "ml-auto"
           }`}
         >
           {step === activeSteps.length ? "Complete Registration" : "Continue"}
         </Button>
+      </div>
+
+      <div 
+        className={`fixed inset-0 pointer-events-none transition-opacity duration-500 ${
+          isTransitioning ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-gradient-mesh opacity-20" />
       </div>
     </div>
   );
