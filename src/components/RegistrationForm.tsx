@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Check, Smartphone, Laptop, Desktop, Watch, Headphones } from "lucide-react";
+import { Check, Smartphone, Laptop, Monitor, Watch, Headphones } from "lucide-react";
 
 interface RegistrationFormProps {
   onComplete: (data: any) => void;
@@ -118,7 +118,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
             }}
           />
           <DeviceOption
-            icon={<Desktop className="h-6 w-6" />}
+            icon={<Monitor className="h-6 w-6" />}
             label="iMac"
             selected={formData.devices.includes("iMac")}
             onClick={() => {
@@ -232,3 +232,5 @@ const DeviceOption = ({
     </div>
   </div>
 );
+
+export default RegistrationForm;
