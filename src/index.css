@@ -500,3 +500,89 @@
 .animation-delay-600 {
   animation-delay: 1.2s;
 }
+
+/* Gradient Mesh Background */
+.bg-gradient-mesh {
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(225, 234, 238, 0.4) 25%,
+    rgba(245, 245, 247, 0.4) 50%,
+    rgba(230, 235, 245, 0.4) 75%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Wave Animation */
+.wave-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform: rotate(180deg);
+}
+
+.wave {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    rgba(238, 242, 246, 0.3) 0%,
+    rgba(221, 226, 236, 0.3) 50%,
+    rgba(238, 242, 246, 0.3) 100%
+  );
+  border-radius: 40%;
+  transform-origin: 50% 48%;
+  animation: wave 12s infinite linear;
+}
+
+.wave:nth-child(2) {
+  background: linear-gradient(
+    45deg,
+    rgba(238, 242, 246, 0.2) 0%,
+    rgba(221, 226, 236, 0.2) 50%,
+    rgba(238, 242, 246, 0.2) 100%
+  );
+}
+
+.wave:nth-child(3) {
+  background: linear-gradient(
+    45deg,
+    rgba(238, 242, 246, 0.1) 0%,
+    rgba(221, 226, 236, 0.1) 50%,
+    rgba(238, 242, 246, 0.1) 100%
+  );
+}
+
+.wave:nth-child(4) {
+  background: linear-gradient(
+    45deg,
+    rgba(238, 242, 246, 0.05) 0%,
+    rgba(221, 226, 236, 0.05) 50%,
+    rgba(238, 242, 246, 0.05) 100%
+  );
+}
+
+@keyframes wave {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

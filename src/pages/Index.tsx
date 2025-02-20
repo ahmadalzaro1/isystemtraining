@@ -44,11 +44,24 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background apple-gradient-bg relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-mesh opacity-30"></div>
+        <div className="absolute inset-0">
+          <div className="wave-container">
+            <div className="wave"></div>
+            <div className="wave" style={{ animationDelay: "-2s" }}></div>
+            <div className="wave" style={{ animationDelay: "-4s" }}></div>
+            <div className="wave" style={{ animationDelay: "-6s" }}></div>
+          </div>
+        </div>
+      </div>
+
       <ThemeToggle />
       
       {/* Hero Section */}
-      <div className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center space-y-8">
           {/* Headline */}
           <h1 className="relative text-[#1D1D1F] text-4xl md:text-6xl lg:text-7xl font-semibold apple-headline apple-text-shadow hover-glow">
@@ -100,7 +113,7 @@ const Index = () => {
       </div>
 
       {/* Workshops Section */}
-      <div id="workshops" className="container py-16 px-4 sm:px-6 lg:px-8">
+      <div id="workshops" className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8">
         {step === "calendar" && (
           <WorkshopCalendar onSelect={handleWorkshopSelect} />
         )}
