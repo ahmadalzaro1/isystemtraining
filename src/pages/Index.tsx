@@ -38,26 +38,31 @@ const Index = () => {
       <ThemeToggle />
       
       {/* Hero Section */}
-      <div className="relative min-h-screen flex flex-col items-center justify-center px-4">
+      <div className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
         {/* Content */}
         <div className="max-w-5xl mx-auto text-center space-y-8">
           <h1 className="relative text-[#1D1D1F] text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight group">
-            <span className="inline-block animate-text-assemble overflow-hidden">
-              <span className="inline-block">Master</span>
-            </span>{" "}
-            <span className="inline-block animate-text-assemble animation-delay-100 overflow-hidden">
-              <span className="inline-block">Your</span>
-            </span>{" "}
-            <span className="inline-block animate-text-assemble animation-delay-200 overflow-hidden">
-              <span className="inline-block">Apple</span>
-            </span>{" "}
-            <span className="inline-block animate-text-assemble animation-delay-300 overflow-hidden">
-              <span className="inline-block">Devices</span>
-            </span>
-            <span className="block text-[#6E6E73] text-2xl md:text-3xl lg:text-4xl mt-4 font-normal animate-text-assemble animation-delay-400">
+            <div className="absolute inset-0 -z-10 animate-glow-fade opacity-0">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-[50px]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-[100px]" />
+            </div>
+            <div className="relative">
+              <span className="inline-block animate-text-assemble overflow-hidden">
+                <span className="inline-block font-semibold">Master</span>
+              </span>{" "}
+              <span className="inline-block animate-text-assemble animation-delay-100 overflow-hidden">
+                <span className="inline-block font-semibold">Your</span>
+              </span>{" "}
+              <span className="inline-block animate-text-assemble animation-delay-200 overflow-hidden">
+                <span className="inline-block font-semibold">Apple</span>
+              </span>{" "}
+              <span className="inline-block animate-text-assemble animation-delay-300 overflow-hidden">
+                <span className="inline-block font-semibold">Devices</span>
+              </span>
+            </div>
+            <span className="block text-[#6E6E73] text-2xl md:text-3xl lg:text-4xl mt-6 font-normal animate-text-assemble animation-delay-400">
               <span className="inline-block">Like Never Before</span>
             </span>
-            <div className="absolute inset-0 -z-10 animate-glow-fade opacity-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-2xl" />
           </h1>
           
           <p className="text-[#6E6E73] text-xl md:text-2xl max-w-3xl mx-auto animate-fade-up animation-delay-500">
