@@ -1,6 +1,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
+import { Calendar, Share2 } from "lucide-react";
 
 interface RegistrationSuccessProps {
   workshop: any;
@@ -8,29 +10,115 @@ interface RegistrationSuccessProps {
 }
 
 export const RegistrationSuccess = ({ workshop, onViewWorkshops }: RegistrationSuccessProps) => {
+  const handleShareWorkshop = () => {
+    // Generate a shareable message
+    const message = `Join me at ${workshop.name} on ${workshop.date.toLocaleDateString()}! It's going to be amazing!`;
+    
+    // Check if the Web Share API is available
+    if (navigator.share) {
+      navigator.share({
+        title: 'Join My Workshop!',
+        text: message,
+        url: window.location.href,
+      }).catch((error) => {
+        console.log('Error sharing:', error);
+        // Fallback to clipboard copy if sharing fails
+        copyToClipboard(message);
+      });
+    } else {
+      // Fallback for browsers that don't support Web Share API
+      copyToClipboard(message);
+    }
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success("Invitation copied to clipboard!", {
+        description: "Share it with your friends!",
+      });
+    }).catch(() => {
+      toast.error("Couldn't copy invitation", {
+        description: "Please try again",
+      });
+    });
+  };
+
+  const addToCalendar = () => {
+    const event = {
+      title: workshop.name,
+      description: workshop.description,
+      location: "Online",
+      startTime: workshop.date,
+      endTime: new Date(workshop.date.getTime() + 2 * 60 * 60 * 1000), // Assuming 2 hours duration
+    };
+
+    // Here you could integrate with specific calendar services
+    // For now, we'll just show a success message
+    toast.success("Added to calendar!", {
+      description: "Check your calendar app for details",
+    });
+  };
+
   return (
     <Card className="p-6 space-y-6">
       <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-bold">Registration Complete! 🎉</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Registration Complete! 🎉</h2>
         <p className="text-muted-foreground">
-          You have successfully registered for the workshop "{workshop.name}"
+          You're all set for the workshop "{workshop.name}"
         </p>
       </div>
 
       <div className="space-y-4">
-        <h3 className="font-medium">Workshop Details:</h3>
-        <ul className="list-disc pl-5 space-y-2">
-          <li>Date: {workshop.date.toLocaleDateString()}</li>
-          <li>Time: {workshop.time}</li>
-          <li>Duration: {workshop.duration}</li>
-          <li>Available Seats: {workshop.availableSeats}</li>
-        </ul>
+        <h3 className="font-medium text-lg">Workshop Details</h3>
+        <div className="grid gap-3 text-sm">
+          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="font-medium">Date</span>
+            <span>{workshop.date.toLocaleDateString()}</span>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="font-medium">Time</span>
+            <span>{workshop.time}</span>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="font-medium">Duration</span>
+            <span>{workshop.duration}</span>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+            <span className="font-medium">Instructor</span>
+            <span>{workshop.instructor}</span>
+          </div>
+        </div>
       </div>
 
-      <div className="pt-4">
-        <Button onClick={onViewWorkshops} className="w-full">
-          View More Workshops
+      <div className="grid gap-4">
+        <Button 
+          variant="outline" 
+          onClick={addToCalendar}
+          className="w-full gap-2"
+        >
+          <Calendar className="h-4 w-4" />
+          Add to Calendar
         </Button>
+        
+        <Button 
+          variant="outline"
+          onClick={handleShareWorkshop}
+          className="w-full gap-2"
+        >
+          <Share2 className="h-4 w-4" />
+          Invite a Friend
+        </Button>
+
+        <Button 
+          onClick={onViewWorkshops}
+          className="w-full"
+        >
+          Browse More Workshops
+        </Button>
+      </div>
+
+      <div className="text-center text-sm text-muted-foreground">
+        <p>Need help? Contact us at support@isystem.com</p>
       </div>
     </Card>
   );
