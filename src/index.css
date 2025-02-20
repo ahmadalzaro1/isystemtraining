@@ -93,6 +93,70 @@
   );
 }
 
+/* Text Assembly Animation */
+@keyframes textAssemble {
+  0% {
+    opacity: 0;
+    transform: translateY(100%) rotate(10deg) scale(0.5);
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 0.5;
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes glowFade {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-text-assemble > * {
+  animation: textAssemble 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.animate-glow-fade {
+  animation: glowFade 2s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
+/* Animation Delays */
+.animation-delay-100 > * {
+  animation-delay: 0.1s;
+}
+
+.animation-delay-200 > * {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-300 > * {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-400 > * {
+  animation-delay: 0.4s;
+}
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animation-delay-600 {
+  animation-delay: 0.6s;
+}
+
 /* Card hover effects */
 .hover-card {
   @apply transition-all duration-300 bg-white;

@@ -41,19 +41,31 @@ const Index = () => {
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4">
         {/* Content */}
         <div className="max-w-5xl mx-auto text-center space-y-8">
-          <h1 className="text-[#1D1D1F] text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight animate-float">
-            Master Your Apple Devices
-            <span className="block text-[#6E6E73] text-2xl md:text-3xl lg:text-4xl mt-4 font-normal">
-              Like Never Before
+          <h1 className="relative text-[#1D1D1F] text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight group">
+            <span className="inline-block animate-text-assemble overflow-hidden">
+              <span className="inline-block">Master</span>
+            </span>{" "}
+            <span className="inline-block animate-text-assemble animation-delay-100 overflow-hidden">
+              <span className="inline-block">Your</span>
+            </span>{" "}
+            <span className="inline-block animate-text-assemble animation-delay-200 overflow-hidden">
+              <span className="inline-block">Apple</span>
+            </span>{" "}
+            <span className="inline-block animate-text-assemble animation-delay-300 overflow-hidden">
+              <span className="inline-block">Devices</span>
             </span>
+            <span className="block text-[#6E6E73] text-2xl md:text-3xl lg:text-4xl mt-4 font-normal animate-text-assemble animation-delay-400">
+              <span className="inline-block">Like Never Before</span>
+            </span>
+            <div className="absolute inset-0 -z-10 animate-glow-fade opacity-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-2xl" />
           </h1>
           
-          <p className="text-[#6E6E73] text-xl md:text-2xl max-w-3xl mx-auto">
+          <p className="text-[#6E6E73] text-xl md:text-2xl max-w-3xl mx-auto animate-fade-up animation-delay-500">
             Unlock your device's full potential with exclusive iSystem Training Workshops 
             designed to transform the way you work and create.
           </p>
 
-          <div className="pt-8">
+          <div className="pt-8 animate-fade-up animation-delay-600">
             <button
               onClick={scrollToWorkshops}
               className="apple-button group flex items-center gap-2 mx-auto"
