@@ -41,7 +41,7 @@ const Index = () => {
     });
   };
 
-  const handleReset = () => {
+  const handleViewWorkshops = () => {
     setStep("calendar");
     setSelectedWorkshop(null);
     setRegistrationData(null);
@@ -160,10 +160,10 @@ const Index = () => {
           <RegistrationForm onComplete={handleRegistrationComplete} />
         )}
         
-        {step === "success" && registrationData && (
+        {step === "success" && selectedWorkshop && (
           <RegistrationSuccess
-            data={registrationData}
-            onReset={handleReset}
+            workshop={selectedWorkshop}
+            onViewWorkshops={handleViewWorkshops}
           />
         )}
       </div>
