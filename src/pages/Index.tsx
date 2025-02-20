@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -26,6 +25,8 @@ const Index = () => {
     setStep("registration");
     toast("Workshop Selected", {
       description: `You've selected ${workshop.name} on ${workshop.date.toLocaleDateString()}`,
+      position: "top-right",
+      className: "z-[1000]"
     });
   };
 
@@ -62,9 +63,9 @@ const Index = () => {
       
       {/* Hero Section */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
-        <div className="max-w-5xl mx-auto text-center space-y-8">
+        <div className="max-w-5xl mx-auto text-center space-y-6 sm:space-y-8">
           {/* Headline */}
-          <h1 className="relative text-[#1D1D1F] text-4xl md:text-6xl lg:text-7xl font-semibold apple-headline apple-text-shadow hover-glow">
+          <h1 className="relative text-[32px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow">
             {headlineLetters.map((letter, index) => (
               <span
                 key={index}
@@ -77,7 +78,7 @@ const Index = () => {
           </h1>
           
           {/* Subheadline */}
-          <p className="text-[#6E6E73] text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow">
+          <p className="text-[#6E6E73] text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow">
             {subheadlineLetters.map((letter, index) => (
               <span
                 key={index}

@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -51,11 +50,11 @@
   }
 
   h1 {
-    @apply text-2xl md:text-[28px] font-bold leading-tight tracking-[-0.02em];
+    @apply text-xl sm:text-2xl md:text-[28px] font-bold leading-tight tracking-[-0.02em];
   }
 
   h2 {
-    @apply text-xl md:text-2xl font-semibold leading-tight tracking-[-0.01em];
+    @apply text-lg sm:text-xl md:text-2xl font-semibold leading-tight tracking-[-0.01em];
   }
 }
 
@@ -66,11 +65,11 @@
   }
 
   .apple-headline {
-    @apply text-2xl md:text-[28px] font-bold leading-tight tracking-[-0.02em] text-[#1D1D1F];
+    @apply text-xl sm:text-2xl md:text-[28px] font-bold leading-tight tracking-[-0.02em] text-[#1D1D1F];
   }
 
   .apple-subheadline {
-    @apply text-xl md:text-2xl font-normal leading-relaxed tracking-[-0.01em] text-[#1D1D1F];
+    @apply text-lg sm:text-xl md:text-2xl font-normal leading-relaxed tracking-[-0.01em] text-[#1D1D1F];
   }
 
   .apple-body {
@@ -128,9 +127,21 @@
   .interactive-element {
     @apply min-w-[48px] min-h-[48px] cursor-pointer;
   }
+
+  .wave {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, #0071e3 0%, #42a1ff 50%, #0071e3 100%);
+    opacity: 0.05;
+    top: -50%;
+    left: -50%;
+    animation: wave 8s linear infinite;
+    transform-origin: 50% 50%;
+    border-radius: 40%;
+  }
 }
 
-/* Animation Keyframes */
 @keyframes textAssemble {
   0% {
     opacity: 0;
@@ -142,7 +153,15 @@
   }
 }
 
-/* Text Utilities */
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .text-gradient {
   @apply bg-clip-text text-transparent;
   background-image: linear-gradient(
@@ -153,19 +172,16 @@
   );
 }
 
-/* Focus styles */
 *:focus-visible {
   @apply outline-none ring-2 ring-[#0071e3] ring-offset-2;
 }
 
-/* Animations with reduced intensity for mobile */
 @media (max-width: 768px) {
   .parallax-element {
     transform: translateY(calc(var(--scroll) * 0.3)) !important;
   }
 }
 
-/* Hover Glow Effect */
 .hover-glow {
   transition: all 0.3s ease;
 }
