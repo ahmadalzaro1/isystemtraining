@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
-import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { format, addWeeks, startOfWeek, endOfWeek } from "date-fns";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Workshop = {
   id: string;
@@ -18,6 +20,7 @@ interface WorkshopCalendarProps {
 }
 
 export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
+  const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>();
 
   // Mock workshops data
@@ -101,6 +104,19 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       (w) => format(w.date, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
     );
 
+  const navigateWeek = (direction: 'next' | 'prev') => {
+    setCurrentWeek(prev => 
+      direction === 'next' ? addWeeks(prev, 1) : addWeeks(prev, -1)
+    );
+  };
+
+  const currentWeekWorkshops = workshops.filter(workshop => {
+    const workshopDate = workshop.date;
+    const weekStart = startOfWeek(currentWeek);
+    const weekEnd = endOfWeek(currentWeek);
+    return workshopDate >= weekStart && workshopDate <= weekEnd;
+  });
+
   return (
     <div className="space-y-8 animate-fade-up">
       <div className="text-center space-y-2">
@@ -108,50 +124,78 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
           Select Your Workshop
         </h1>
         <p className="text-lg text-gray-600">
-          Choose a date to view available workshops
+          Browse available workshops for the week of {format(currentWeek, "MMMM d, yyyy")}
         </p>
       </div>
       
       <div className="grid md:grid-cols-2 gap-8">
-        <Calendar
-          mode="single"
-          selected={selectedDate}
-          onSelect={setSelectedDate}
-          className="rounded-xl border shadow-sm bg-white"
-        />
+        <div className="space-y-4">
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            onSelect={setSelectedDate}
+            className="rounded-xl border shadow-sm bg-white"
+          />
+          
+          <div className="flex justify-between items-center mt-4">
+            <Button
+              variant="outline"
+              onClick={() => navigateWeek('prev')}
+              className="flex items-center gap-2"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Previous Week
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => navigateWeek('next')}
+              className="flex items-center gap-2"
+            >
+              Next Week
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
         
         <div className="space-y-4">
-          {selectedDate &&
-            workshopsForDate(selectedDate).map((workshop) => (
-              <Card
-                key={workshop.id}
-                className="p-4 hover:shadow-lg transition-all cursor-pointer animate-slide-in"
-                onClick={() => onSelect(workshop)}
-              >
-                <div className="space-y-2">
-                  <div className="flex justify-between items-start">
-                    <h3 className="font-medium text-lg">{workshop.name}</h3>
-                    <span className="text-success text-sm">
-                      {workshop.spotsRemaining} spots left
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600">{workshop.description}</p>
+          {currentWeekWorkshops.map((workshop) => (
+            <Card
+              key={workshop.id}
+              className="p-4 hover:shadow-lg transition-all cursor-pointer animate-slide-in group"
+              onClick={() => onSelect(workshop)}
+            >
+              <div className="space-y-2">
+                <div className="flex justify-between items-start">
+                  <h3 className="font-medium text-lg group-hover:text-primary transition-colors">
+                    {workshop.name}
+                  </h3>
+                  <span className={`text-sm px-2 py-1 rounded-full ${
+                    workshop.spotsRemaining <= 5 
+                      ? 'bg-red-100 text-red-600 animate-pulse' 
+                      : 'bg-green-100 text-green-600'
+                  }`}>
+                    {workshop.spotsRemaining} spots left
+                  </span>
+                </div>
+                <p className="text-sm text-gray-600">{workshop.description}</p>
+                <div className="flex justify-between items-center">
                   <div className="text-sm text-gray-500">
                     {format(workshop.date, "MMMM d, yyyy")} at {workshop.time}
                   </div>
+                  <Button 
+                    size="sm"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    Register Now
+                  </Button>
                 </div>
-              </Card>
-            ))}
+              </div>
+            </Card>
+          ))}
           
-          {selectedDate && workshopsForDate(selectedDate).length === 0 && (
+          {currentWeekWorkshops.length === 0 && (
             <div className="text-center py-8 text-gray-500 animate-fade-up">
-              No workshops available on this date
-            </div>
-          )}
-          
-          {!selectedDate && (
-            <div className="text-center py-8 text-gray-500 animate-fade-up">
-              Select a date to view available workshops
+              No workshops available this week
             </div>
           )}
         </div>
