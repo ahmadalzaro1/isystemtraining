@@ -45,15 +45,26 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Animated Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
+        <div className="absolute inset-0 bg-gradient-mesh opacity-30"></div>
+        <div className="absolute inset-0">
+          <div className="wave-container">
+            <div className="wave"></div>
+            <div className="wave" style={{ animationDelay: "-2s" }}></div>
+            <div className="wave" style={{ animationDelay: "-4s" }}></div>
+            <div className="wave" style={{ animationDelay: "-6s" }}></div>
+          </div>
+        </div>
       </div>
 
       <ThemeToggle />
       
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
-        <div className="max-w-[390px] mx-auto text-center space-y-5">
-          <h1 className="apple-headline">
+      {/* Hero Section */}
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
+        <div className="max-w-5xl mx-auto text-center space-y-8">
+          {/* Headline */}
+          <h1 className="relative text-[#1D1D1F] text-4xl md:text-6xl lg:text-7xl font-semibold apple-headline apple-text-shadow hover-glow">
             {headlineLetters.map((letter, index) => (
               <span
                 key={index}
@@ -65,7 +76,8 @@ const Index = () => {
             ))}
           </h1>
           
-          <p className="apple-subheadline text-[#424245]">
+          {/* Subheadline */}
+          <p className="text-[#6E6E73] text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow">
             {subheadlineLetters.map((letter, index) => (
               <span
                 key={index}
@@ -77,26 +89,31 @@ const Index = () => {
             ))}
           </p>
 
+          {/* CTA Button */}
           <div className="pt-8">
             <button
               onClick={scrollToWorkshops}
-              className="apple-button group"
+              className="apple-button group relative flex items-center gap-3 mx-auto"
               style={{ 
                 animationDelay: `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s` 
               }}
             >
-              <span>View Available Workshops</span>
-              <ChevronDown className="h-5 w-5 transition-all duration-300 group-hover:translate-y-1" />
+              <span className="relative z-10">View Available Workshops</span>
+              <ChevronDown 
+                className="h-5 w-5 transition-all duration-300 group-hover:translate-y-1 relative z-10" 
+              />
             </button>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <ChevronDown className="h-8 w-8 text-[#86868B]" />
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-60 hover-glow">
+          <ChevronDown className="h-8 w-8 text-[#6E6E73]" />
         </div>
       </div>
 
-      <div id="workshops" className="section-spacing">
+      {/* Workshops Section */}
+      <div id="workshops" className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8">
         {step === "calendar" && (
           <WorkshopCalendar onSelect={handleWorkshopSelect} />
         )}
