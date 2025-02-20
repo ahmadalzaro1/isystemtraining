@@ -15,15 +15,22 @@ export type TaskType =
 
 // Learning Types
 export type LearningStyle = "videos" | "guides" | "hands-on" | "qa";
-export type LearningInterest = 
-  | "basics" 
-  | "productivity" 
-  | "creativity" 
-  | "security" 
-  | "business" 
-  | "ai" 
-  | "icloud";
-export type PrimaryUse = "work" | "study" | "creativity" | "personal" | "home";
+export type WorkshopCategory =
+  | "fundamentals"
+  | "productivity"
+  | "creativity"
+  | "security"
+  | "cloud"
+  | "ai"
+  | "business"
+  | "advanced"
+  | "home";
+
+export type WorkshopTopic = {
+  category: WorkshopCategory;
+  topic: string;
+  selected: boolean;
+};
 
 // System & App Types
 export type Frustration = 
@@ -33,57 +40,26 @@ export type Frustration =
   | "customization" 
   | "compatibility" 
   | "other";
-export type AppleApp = 
-  | "safari" 
-  | "camera" 
-  | "notes" 
-  | "pro-apps" 
-  | "ai-features" 
-  | "apple-pay";
 
 // Contact & Preferences
 export type ContactPreference = "email" | "sms" | "whatsapp";
 export type PaidInterest = "yes" | "maybe" | "no";
-export type Occupation = 
-  | "student"
-  | "professional"
-  | "entrepreneur"
-  | "creative"
-  | "developer"
-  | "other";
-
-// Workshop Topics
-export type WorkshopTopic =
-  | "basics"
-  | "productivity"
-  | "creativity"
-  | "security"
-  | "business"
-  | "ai"
-  | "icloud";
 
 export interface FormData {
-  // Basic Profile
-  isFirstTime: boolean;
-  devices: DeviceType[];
-  experienceLevel: ExperienceLevel;
-  occupation: Occupation;
+  // User Type
+  userType: UserType;
+  platformSwitch?: PlatformType;
   
-  // Platform & Experience
-  platformSwitch: PlatformType;
-  confidenceLevel: number;
-  mainFrustration: Frustration;
-  frustrationDetail?: string;
-  
-  // Learning & Interests
+  // Main Tasks
   mainTasks: TaskType[];
-  learningInterests: LearningInterest[];
-  learningStyles: LearningStyle[];
-  primaryUse: PrimaryUse;
-  appsToLearn: AppleApp[];
   
-  // Workshop & Training
+  // Learning Preferences
+  learningStyles: LearningStyle[];
+  
+  // Training Interest
   paidTrainingInterest: PaidInterest;
+  
+  // Workshop Topics
   workshopTopics: WorkshopTopic[];
   otherTopics?: string;
   
@@ -93,22 +69,6 @@ export interface FormData {
   phone: string;
   contactPreference: ContactPreference;
   receiveUpdates: boolean;
-}
-
-export interface Workshop {
-  id: string;
-  name: string;
-  title: string;
-  description: string;
-  topic: WorkshopTopic;
-  date: Date;
-  time: string;
-  duration: number;
-  maxParticipants: number;
-  currentParticipants: number;
-  price: number;
-  location: string;
-  instructor: string;
 }
 
 export interface RegistrationFormProps {

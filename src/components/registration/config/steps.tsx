@@ -1,8 +1,8 @@
 
-import { BasicProfileStep } from "../BasicProfileStep";
-import { PlatformStep } from "../PlatformStep";
-import { LearningNeedsStep } from "../LearningNeedsStep";
-import { ConfidenceStep } from "../ConfidenceStep";
+import { UserTypeStep } from "../UserTypeStep";
+import { MainTasksStep } from "../MainTasksStep";
+import { LearningStylesStep } from "../LearningStylesStep";
+import { WorkshopTopicsStep } from "../WorkshopTopicsStep";
 import { ContactStep } from "../ContactStep";
 
 export type StepComponent = {
@@ -14,28 +14,28 @@ export type StepComponent = {
 
 export const REGISTRATION_STEPS: StepComponent[] = [
   {
-    id: 'basic-profile',
+    id: 'user-type',
     title: "Your Apple Experience",
     description: "Tell us about your experience with Apple devices",
-    Component: BasicProfileStep,
+    Component: UserTypeStep,
   },
   {
-    id: 'platform',
-    title: "Platform Switch",
-    description: "Are you switching from another platform?",
-    Component: PlatformStep,
+    id: 'main-tasks',
+    title: "Main Tasks",
+    description: "What do you primarily use your Apple devices for?",
+    Component: MainTasksStep,
   },
   {
-    id: 'learning',
-    title: "Learning Needs",
-    description: "What would you like to learn?",
-    Component: LearningNeedsStep,
+    id: 'learning-style',
+    title: "Learning Style",
+    description: "How do you prefer to learn new features?",
+    Component: LearningStylesStep,
   },
   {
-    id: 'confidence',
-    title: "Experience & Challenges",
-    description: "Help us understand your current comfort level",
-    Component: ConfidenceStep,
+    id: 'workshop-topics',
+    title: "Workshop Topics",
+    description: "What topics interest you for future workshops?",
+    Component: WorkshopTopicsStep,
   },
   {
     id: 'contact',
