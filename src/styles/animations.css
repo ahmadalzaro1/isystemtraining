@@ -137,6 +137,64 @@
   }
 }
 
+@keyframes form-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes checkbox-bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes topic-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.4);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(0, 113, 227, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 113, 227, 0);
+  }
+}
+
+@keyframes confetti {
+  0% {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes checkmark-draw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* Animation classes */
 .animate-text-assemble > * {
   animation: textAssemble 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -167,6 +225,29 @@
   opacity: 0;
 }
 
+.animate-form-slide {
+  animation: form-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-checkbox-bounce {
+  animation: checkbox-bounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.animate-topic-pulse {
+  animation: topic-pulse 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-checkmark {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: checkmark-draw 0.6s ease-in-out forwards;
+}
+
+.animate-confetti {
+  animation: confetti 2s ease-out forwards;
+}
+
 /* Animation Delays */
 .animation-delay-100 > * { animation-delay: 0.2s; }
 .animation-delay-200 > * { animation-delay: 0.4s; }
@@ -174,3 +255,34 @@
 .animation-delay-400 > * { animation-delay: 0.8s; }
 .animation-delay-500 { animation-delay: 1s; }
 .animation-delay-600 { animation-delay: 1.2s; }
+
+/* Registration Form Specific Animations */
+.registration-step {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: form-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.checkbox-selected {
+  animation: checkbox-bounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.topic-selected {
+  animation: topic-pulse 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.register-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.register-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+  animation: buttonPulse 2s infinite;
+}
