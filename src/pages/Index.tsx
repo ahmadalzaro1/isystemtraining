@@ -12,6 +12,7 @@ const Index = () => {
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
   const [headlineLetters, setHeadlineLetters] = useState<string[]>([]);
   const [subheadlineLetters, setSubheadlineLetters] = useState<string[]>([]);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const headline = "Master Your Apple Devices Like Never Before";
@@ -19,6 +20,13 @@ const Index = () => {
     
     setHeadlineLetters(headline.split(''));
     setSubheadlineLetters(subheadline.split(''));
+
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleWorkshopSelect = (workshop: any) => {
@@ -47,22 +55,47 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden">
-      {/* Liquid Background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F9F9F9] to-white">
-          {/* Animated wave effects with softer colors */}
+      {/* Depth Layers Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {/* Layer 1 - Furthest back, moves slowest */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-b from-[#F9F9F9] to-white transition-transform duration-300"
+          style={{ 
+            transform: `translateY(${scrollY * 0.1}px)`,
+          }}
+        >
+          <div className="absolute inset-0 opacity-30 bg-grid-pattern" />
+        </div>
+
+        {/* Layer 2 - Middle layer */}
+        <div 
+          className="absolute inset-0 transition-transform duration-300"
+          style={{ 
+            transform: `translateY(${scrollY * 0.2}px)`,
+          }}
+        >
           <div className="wave" style={{ 
-            background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
-          }}></div>
-          <div className="wave" style={{ 
-            animationDelay: "-2s",
-            background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
-          }}></div>
-          <div className="wave" style={{ 
-            animationDelay: "-4s",
+            opacity: "0.3",
             background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
           }}></div>
         </div>
+
+        {/* Layer 3 - Closest layer, moves fastest */}
+        <div 
+          className="absolute inset-0 transition-transform duration-300"
+          style={{ 
+            transform: `translateY(${scrollY * 0.3}px)`,
+          }}
+        >
+          <div className="wave" style={{ 
+            animationDelay: "-2s",
+            opacity: "0.2",
+            background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
+          }}></div>
+        </div>
+
+        {/* Overlay gradient for smooth transitions */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white/80 pointer-events-none" />
       </div>
 
       <ThemeToggle />
