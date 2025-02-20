@@ -3,9 +3,21 @@ import { useState } from "react";
 import { FormData } from "@/types/registration";
 import { toast } from "sonner";
 
+const validateContactDetails = (data: FormData): boolean => {
+  if (!data.name || !data.email || !data.phone) {
+    toast.error("Please fill in all contact details");
+    return false;
+  }
+  return true;
+};
+
 const validateUserType = (data: FormData): boolean => {
   if (!data.userType) {
     toast.error("Please select your user type");
+    return false;
+  }
+  if (data.userType === "switching" && !data.platformSwitch) {
+    toast.error("Please select the platform you're switching from");
     return false;
   }
   return true;
@@ -72,12 +84,14 @@ export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
   const validateCurrentStep = (): boolean => {
     switch (step) {
       case 1:
-        return validateUserType(formData);
+        return validateContactDetails(formData);
       case 2:
-        return validateMainTasks(formData);
+        return validateUserType(formData);
       case 3:
-        return validateLearningPreferences(formData);
+        return validateMainTasks(formData);
       case 4:
+        return validateLearningPreferences(formData);
+      case 5:
         return validateTopics(formData);
       default:
         return true;
@@ -86,7 +100,7 @@ export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
 
   const nextStep = () => {
     if (validateCurrentStep()) {
-      if (step < 4) {
+      if (step < 5) {
         setStep((s) => s + 1);
       } else {
         onComplete(formData);

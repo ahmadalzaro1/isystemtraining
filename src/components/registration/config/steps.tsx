@@ -14,6 +14,12 @@ export type StepComponent = {
 
 export const REGISTRATION_STEPS: StepComponent[] = [
   {
+    id: 'contact',
+    title: "Contact Details",
+    description: "How should we keep in touch?",
+    Component: ContactStep,
+  },
+  {
     id: 'user-type',
     title: "Your Apple Experience",
     description: "Tell us about your experience with Apple devices",
@@ -36,11 +42,5 @@ export const REGISTRATION_STEPS: StepComponent[] = [
     title: "Workshop Topics",
     description: "What topics interest you for future workshops?",
     Component: WorkshopTopicsStep,
-  },
-  {
-    id: 'contact',
-    title: "Contact Details",
-    description: "How should we keep in touch?",
-    Component: ContactStep,
-  },
+  }
 ];
