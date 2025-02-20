@@ -1,0 +1,65 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 210 100% 50%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(240, 245, 250, 1) 100%
+    );
+    min-height: 100vh;
+  }
+}
+
+/* Apple-style Typography */
+.apple-headline {
+  font-feature-settings: "salt" on, "liga" 1;
+  letter-spacing: -0.015em;
+}
+
+.apple-subheadline {
+  font-feature-settings: "salt" on, "liga" 1;
+  letter-spacing: -0.01em;
+}
+
+.apple-text-shadow {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+/* Focus styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-[#0071e3] ring-offset-2;
+}
