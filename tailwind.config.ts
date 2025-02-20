@@ -58,6 +58,12 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      backgroundImage: {
+        'grid-pattern': "linear-gradient(to right, rgb(var(--foreground) / 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--foreground) / 0.1) 1px, transparent 1px)",
+      },
+      backgroundSize: {
+        'grid-white': '4rem 4rem',
+      },
       keyframes: {
         "fade-up": {
           "0%": {
@@ -79,21 +85,19 @@ export default {
             transform: "translateY(0)",
           },
         },
-        "slide-in": {
-          "0%": {
-            opacity: "0",
-            transform: "translateX(-10px)",
+        float: {
+          "0%, 100%": {
+            transform: "translateY(0)",
           },
-          "100%": {
-            opacity: "1",
-            transform: "translateX(0)",
+          "50%": {
+            transform: "translateY(-20px)",
           },
         },
       },
       animation: {
-        "fade-up": "fade-up 0.5s ease-out",
-        "fade-down": "fade-down 0.5s ease-out",
-        "slide-in": "slide-in 0.5s ease-out",
+        "fade-up": "fade-up 0.5s ease-out forwards",
+        "fade-down": "fade-down 0.5s ease-out forwards",
+        "float": "float 6s ease-in-out infinite",
       },
     },
   },
