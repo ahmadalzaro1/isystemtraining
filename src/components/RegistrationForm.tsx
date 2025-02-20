@@ -6,10 +6,18 @@ import { PersonalInfoStep } from "./registration/PersonalInfoStep";
 import { DevicesStep } from "./registration/DevicesStep";
 import { OccupationStep } from "./registration/OccupationStep";
 import { LearningInterestsStep } from "./registration/LearningInterestsStep";
-import { RegistrationFormProps } from "@/types/registration";
+import { RegistrationFormProps, FormData } from "@/types/registration";
 import { useRegistrationSteps } from "@/hooks/useRegistrationSteps";
 
-const REGISTRATION_STEPS = [
+type StepComponent = {
+  id: string;
+  title: string;
+  description: string;
+  Component: React.ComponentType<any>;
+  showIf?: (experience: string) => boolean;
+};
+
+const REGISTRATION_STEPS: StepComponent[] = [
   {
     id: 'experience',
     title: "Experience Level",
@@ -58,7 +66,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
     switch (id) {
       case 'experience':
         return (
-          <Component 
+          <ExperienceStep 
             value={formData.experience} 
             onChange={(value: string) => updateFormData({ experience: value })} 
           />
@@ -66,7 +74,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
       
       case 'personal':
         return (
-          <Component 
+          <PersonalInfoStep 
             data={formData} 
             onChange={updateFormData} 
           />
@@ -74,7 +82,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
       
       case 'occupation':
         return (
-          <Component 
+          <OccupationStep 
             value={formData.occupation} 
             onChange={(value: string) => updateFormData({ occupation: value })} 
           />
@@ -82,17 +90,17 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
       
       case 'devices':
         return (
-          <Component 
+          <DevicesStep 
             devices={formData.devices} 
-            onChange={(data: Partial<{ devices: string[] }>) => updateFormData(data)} 
+            onChange={(data: Partial<FormData>) => updateFormData(data)} 
           />
         );
       
       case 'interests':
         return (
-          <Component 
+          <LearningInterestsStep 
             interests={formData.learningInterests} 
-            onChange={(data: Partial<{ learningInterests: string[] }>) => updateFormData(data)} 
+            onChange={(data: Partial<FormData>) => updateFormData(data)} 
           />
         );
       
