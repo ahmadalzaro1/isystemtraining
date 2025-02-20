@@ -1,59 +1,76 @@
 
-export type ExperienceLevel = "beginner" | "intermediate" | "advanced";
-export type Platform = "windows" | "android" | "pc" | "always-apple";
-export type PrimaryUse = "work" | "study" | "creativity" | "personal" | "home";
-export type DeviceType = "Mac" | "iPhone" | "iPad" | "Apple Watch" | "Apple TV" | "AirPods";
-export type LearningInterest = 
-  | "basics" 
-  | "productivity" 
-  | "creativity" 
-  | "security" 
+export type UserType = "first-time" | "existing" | "switching";
+export type PlatformType = "windows" | "android" | "linux" | "other";
+export type TaskType = 
+  | "email" 
   | "business" 
-  | "ai" 
-  | "icloud";
-export type AppleApp = 
-  | "safari" 
-  | "camera" 
-  | "notes" 
-  | "pro-apps" 
-  | "ai-features" 
-  | "apple-pay";
-export type Frustration = 
-  | "battery" 
-  | "complexity" 
-  | "syncing" 
-  | "customization" 
-  | "compatibility" 
-  | "other";
-export type ContactPreference = "email" | "sms" | "whatsapp";
+  | "creative" 
+  | "coding" 
+  | "privacy" 
+  | "social" 
+  | "ai";
+export type LearningStyle = 
+  | "videos" 
+  | "guides" 
+  | "hands-on" 
+  | "qa";
 export type PaidInterest = "yes" | "maybe" | "no";
 
+export type WorkshopTopic = 
+  | "mac-basics" 
+  | "ios-setup" 
+  | "watch-features"
+  | "multitasking" 
+  | "shortcuts" 
+  | "time-management"
+  | "productivity-apps"
+  | "photo-editing"
+  | "video-editing"
+  | "music-production"
+  | "digital-art"
+  | "security"
+  | "passwords"
+  | "safe-browsing"
+  | "data-protection"
+  | "icloud"
+  | "handoff"
+  | "family-sharing"
+  | "siri"
+  | "ai-apps"
+  | "voice-dictation"
+  | "business-apps"
+  | "email-calendar"
+  | "remote-work"
+  | "business-tools"
+  | "terminal"
+  | "performance"
+  | "beta-features"
+  | "homekit"
+  | "apple-tv"
+  | "integration";
+
 export interface FormData {
-  // Basic Profile
-  isFirstTime: boolean;
-  devices: DeviceType[];
-  experienceLevel: ExperienceLevel;
+  // User Type & Platform
+  userType: UserType;
+  platform?: PlatformType;
   
-  // Platform Switch
-  platformSwitch: Platform;
+  // Main Tasks
+  mainTasks: TaskType[];
   
-  // Learning Needs
-  learningInterests: LearningInterest[];
-  primaryUse: PrimaryUse;
+  // Learning Preferences
+  learningStyles: LearningStyle[];
   
-  // Confidence & Pain Points
-  confidenceLevel: number;
-  mainFrustration: Frustration;
-  frustrationDetail?: string;
-  appsToLearn: AppleApp[];
+  // Training Interest
+  paidTrainingInterest: PaidInterest;
   
-  // Contact & Engagement
+  // Workshop Topics
+  workshopTopics: WorkshopTopic[];
+  otherTopics?: string;
+  
+  // Contact Details
   name: string;
   email: string;
   phone: string;
-  receiveUpdates: boolean;
-  contactPreference: ContactPreference;
-  paidTrainingInterest: PaidInterest;
 }
 
 export interface RegistrationFormProps {

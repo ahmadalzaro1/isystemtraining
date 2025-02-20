@@ -3,73 +3,41 @@ import { useState } from "react";
 import { FormData } from "@/types/registration";
 import { toast } from "sonner";
 
-const validateBasicProfile = (data: FormData): boolean => {
-  if (typeof data.isFirstTime !== 'boolean') {
-    toast.error("Please indicate if you're a first-time Apple user");
+const validateUserType = (data: FormData): boolean => {
+  if (!data.userType) {
+    toast.error("Please select your user type");
     return false;
   }
-  if (!data.experienceLevel) {
-    toast.error("Please select your experience level");
-    return false;
-  }
-  if (!data.devices.length && !data.isFirstTime) {
-    toast.error("Please select at least one device");
+  if (data.userType === "switching" && !data.platform) {
+    toast.error("Please select the platform you're switching from");
     return false;
   }
   return true;
 };
 
-const validatePlatform = (data: FormData): boolean => {
-  if (!data.platformSwitch) {
-    toast.error("Please indicate if you're switching from another platform");
+const validateMainTasks = (data: FormData): boolean => {
+  if (!data.mainTasks.length) {
+    toast.error("Please select at least one main task");
+    return false;
+  }
+  if (data.mainTasks.length > 3) {
+    toast.error("Please select no more than 3 main tasks");
     return false;
   }
   return true;
 };
 
-const validateLearning = (data: FormData): boolean => {
-  if (!data.learningInterests.length) {
-    toast.error("Please select at least one learning interest");
-    return false;
-  }
-  if (!data.primaryUse) {
-    toast.error("Please select your primary use case");
+const validateLearningPreferences = (data: FormData): boolean => {
+  if (!data.learningStyles.length) {
+    toast.error("Please select at least one learning style");
     return false;
   }
   return true;
 };
 
-const validateConfidence = (data: FormData): boolean => {
-  if (!data.confidenceLevel) {
-    toast.error("Please indicate your confidence level");
-    return false;
-  }
-  if (!data.mainFrustration) {
-    toast.error("Please select your main frustration");
-    return false;
-  }
-  if (!data.appsToLearn.length) {
-    toast.error("Please select at least one app you'd like to learn more about");
-    return false;
-  }
-  return true;
-};
-
-const validateContact = (data: FormData): boolean => {
-  if (!data.name.trim() || data.name.length < 2) {
-    toast.error("Please enter your name");
-    return false;
-  }
-  if (!data.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    toast.error("Please enter a valid email address");
-    return false;
-  }
-  if (!data.phone.trim() || !/^((\+962|00962|0)?)(7|9)([0-9]{7})$/.test(data.phone.replace(/\s/g, ''))) {
-    toast.error("Please enter a valid Jordanian phone number");
-    return false;
-  }
-  if (!data.contactPreference) {
-    toast.error("Please select your preferred contact method");
+const validateTopics = (data: FormData): boolean => {
+  if (!data.workshopTopics.length) {
+    toast.error("Please select at least one workshop topic");
     return false;
   }
   return true;
@@ -78,21 +46,14 @@ const validateContact = (data: FormData): boolean => {
 export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
-    isFirstTime: false,
-    devices: [],
-    experienceLevel: "beginner",
-    platformSwitch: "always-apple",
-    learningInterests: [],
-    primaryUse: "personal",
-    confidenceLevel: 3,
-    mainFrustration: "complexity",
-    appsToLearn: [],
+    userType: "first-time",
+    mainTasks: [],
+    learningStyles: [],
+    paidTrainingInterest: "maybe",
+    workshopTopics: [],
     name: "",
     email: "",
     phone: "",
-    receiveUpdates: true,
-    contactPreference: "email",
-    paidTrainingInterest: "maybe",
   });
 
   const updateFormData = (data: Partial<FormData>) => {
@@ -102,15 +63,13 @@ export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
   const validateCurrentStep = (): boolean => {
     switch (step) {
       case 1:
-        return validateBasicProfile(formData);
+        return validateUserType(formData);
       case 2:
-        return validatePlatform(formData);
+        return validateMainTasks(formData);
       case 3:
-        return validateLearning(formData);
+        return validateLearningPreferences(formData);
       case 4:
-        return validateConfidence(formData);
-      case 5:
-        return validateContact(formData);
+        return validateTopics(formData);
       default:
         return true;
     }
@@ -118,7 +77,7 @@ export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
 
   const nextStep = () => {
     if (validateCurrentStep()) {
-      if (step < 5) {
+      if (step < 4) {
         setStep((s) => s + 1);
       } else {
         onComplete(formData);
