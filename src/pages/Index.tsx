@@ -51,7 +51,7 @@ const Index = () => {
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-white to-[#FAFAFA]">
           {/* Liquid Layers */}
-          <div className="absolute inset-0 opacity-[0.1]"
+          <div className="absolute inset-0 opacity-[0.15]"
                style={{
                  transform: 'scale(1.2)',
                  background: `
@@ -59,24 +59,24 @@ const Index = () => {
                    radial-gradient(circle at 100% 0%, rgba(235, 240, 245, 0.4) 0%, transparent 50%),
                    radial-gradient(circle at 0% 100%, rgba(235, 240, 245, 0.4) 0%, transparent 50%)
                  `,
-                 filter: 'blur(30px)',
+                 filter: 'blur(20px)',
                }}>
-            <div className="absolute inset-0 animate-float"
+            <div className="absolute inset-0"
                  style={{
                    backgroundImage: `
-                     radial-gradient(circle at 30% 30%, rgba(235, 240, 245, 0.6) 0%, transparent 70%),
-                     radial-gradient(circle at 70% 70%, rgba(235, 240, 245, 0.6) 0%, transparent 70%)
+                     radial-gradient(circle at 30% 30%, rgba(235, 240, 245, 0.8) 0%, transparent 70%),
+                     radial-gradient(circle at 70% 70%, rgba(235, 240, 245, 0.8) 0%, transparent 70%)
                    `,
-                   animation: 'float 15s ease-in-out infinite alternate'
+                   animation: 'float 12s ease-in-out infinite'
                  }}
             />
-            <div className="absolute inset-0 animate-float"
+            <div className="absolute inset-0"
                  style={{
                    backgroundImage: `
-                     radial-gradient(circle at 70% 30%, rgba(235, 240, 245, 0.6) 0%, transparent 70%),
-                     radial-gradient(circle at 30% 70%, rgba(235, 240, 245, 0.6) 0%, transparent 70%)
+                     radial-gradient(circle at 70% 30%, rgba(235, 240, 245, 0.8) 0%, transparent 70%),
+                     radial-gradient(circle at 30% 70%, rgba(235, 240, 245, 0.8) 0%, transparent 70%)
                    `,
-                   animation: 'float 20s ease-in-out infinite alternate-reverse'
+                   animation: 'float 15s ease-in-out infinite reverse'
                  }}
             />
           </div>

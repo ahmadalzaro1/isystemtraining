@@ -9,69 +9,69 @@ export const mockWorkshops: Workshop[] = [
   // Current Week
   {
     id: "1",
-    name: "MacBook Mastery 101",
-    date: addDays(thisWeekStart, 0), // Sunday
+    name: "Mac Mastery: Unlock Hidden Shortcuts & Pro Features",
+    date: addDays(thisWeekStart, 0),
     time: "10:00 AM",
-    description: "Learn essential macOS shortcuts & optimizations for power users",
+    description: "💡 Turn your Mac into a productivity powerhouse with expert-only features. Master essential shortcuts and workflows that 90% of users ignore.",
     spotsRemaining: 8,
-    skillLevel: "Beginner",
-    category: "Productivity",
+    skillLevel: "Intermediate",
+    category: "Mac",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "2",
-    name: "iPhone Pro Tips",
-    date: addDays(thisWeekStart, 2), // Tuesday
+    name: "iPhone Power User: Unlock 100% of Its Potential",
+    date: addDays(thisWeekStart, 2),
     time: "2:00 PM",
-    description: "Optimize your iPhone for maximum efficiency & security",
+    description: "💡 You paid for an iPhone… but are you using it like a pro? Learn secrets Apple won't tell you and maximize your device's capabilities.",
     spotsRemaining: 6,
     skillLevel: "Intermediate",
-    category: "Productivity",
+    category: "iPhone",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "3",
-    name: "Privacy & Security",
-    date: addDays(thisWeekStart, 4), // Thursday
+    name: "Digital Fort Knox: Bulletproof Your Apple Devices",
+    date: addDays(thisWeekStart, 4),
     time: "3:00 PM",
-    description: "Protect your data like a pro on all Apple devices",
+    description: "💡 Data leaks, spyware, cybercrime? 99% of people don't protect their devices correctly. Learn how to secure your digital life.",
     spotsRemaining: 7,
     skillLevel: "Advanced",
-    category: "Privacy & Security",
+    category: "Digital Safety",
     instructor: "Ahmad Alzaro"
   },
 
   // Next Week
   {
     id: "4",
-    name: "Mastering iCloud",
-    date: addDays(addWeeks(thisWeekStart, 1), 0), // Sunday
+    name: "iCloud Unlocked: Secure, Sync & Supercharge",
+    date: addDays(addWeeks(thisWeekStart, 1), 0),
     time: "10:00 AM",
-    description: "Sync, share, and back up with confidence across devices",
+    description: "💡 Stop losing files. Stop running out of storage. Learn how to fully integrate iCloud across all devices and optimize your workflow.",
     spotsRemaining: 5,
     skillLevel: "Beginner",
-    category: "Productivity",
+    category: "iCloud",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "5",
-    name: "Business Productivity",
-    date: addDays(addWeeks(thisWeekStart, 1), 2), // Tuesday
+    name: "AI & Apple: Work 10x Faster with AI Tools",
+    date: addDays(addWeeks(thisWeekStart, 1), 2),
     time: "2:00 PM",
-    description: "Essential Apple tools and workflows for business success",
+    description: "💡 Your Apple device + AI = unfair advantage. Use AI to write, edit, plan, and get things done at lightning speed.",
     spotsRemaining: 4,
     skillLevel: "Intermediate",
-    category: "Business & Enterprise",
+    category: "AI",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "6",
-    name: "Pro Apps Training",
-    date: addDays(addWeeks(thisWeekStart, 1), 4), // Thursday
+    name: "Creative Genius: Edit, Design & Create Like a Pro",
+    date: addDays(addWeeks(thisWeekStart, 1), 4),
     time: "11:00 AM",
-    description: "Get started with Final Cut Pro & Logic Pro",
+    description: "💡 Harness the power of Mac, iPad, & iPhone for elite-level design, video, and music production. No experience needed.",
     spotsRemaining: 6,
-    skillLevel: "Advanced",
+    skillLevel: "Beginner",
     category: "Creativity",
     instructor: "Ahmad Alzaro"
   },
@@ -79,70 +79,35 @@ export const mockWorkshops: Workshop[] = [
   // Week 3
   {
     id: "7",
-    name: "Apple Ecosystem",
-    date: addDays(addWeeks(thisWeekStart, 2), 0), // Sunday
+    name: "Apple Watch Domination: Track & Automate Your Life",
+    date: addDays(addWeeks(thisWeekStart, 2), 0),
     time: "3:00 PM",
-    description: "Seamlessly integrate Mac, iPad, iPhone & Watch",
+    description: "💡 Your Apple Watch is more than a step tracker. Learn how to automate, analyze, and execute like a high performer.",
     spotsRemaining: 8,
-    skillLevel: "Advanced",
-    category: "Productivity",
+    skillLevel: "Intermediate",
+    category: "Apple Watch",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "8",
-    name: "Maintenance Mastery",
-    date: addDays(addWeeks(thisWeekStart, 2), 2), // Tuesday
+    name: "Mac & iPhone Efficiency Hacks: 2x Your Productivity",
+    date: addDays(addWeeks(thisWeekStart, 2), 2),
     time: "10:00 AM",
-    description: "Keep your Apple devices running like new",
+    description: "💡 Use Apple's built-in tools, automation, and time-saving hacks to crush your to-do list effortlessly.",
     spotsRemaining: 9,
-    skillLevel: "Beginner",
+    skillLevel: "Advanced",
     category: "Productivity",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "9",
-    name: "Creative Pro Workshop",
-    date: addDays(addWeeks(thisWeekStart, 2), 4), // Thursday
+    name: "Creative Pro: Advanced Design & Media Production",
+    date: addDays(addWeeks(thisWeekStart, 2), 4),
     time: "2:00 PM",
-    description: "Master creative workflows on your Mac",
+    description: "💡 Take your creative skills to the next level with professional techniques for design, video, and audio production.",
     spotsRemaining: 7,
     skillLevel: "Advanced",
     category: "Creativity",
-    instructor: "Ahmad Alzaro"
-  },
-
-  // Week 4
-  {
-    id: "10",
-    name: "Enterprise Security",
-    date: addDays(addWeeks(thisWeekStart, 3), 0), // Sunday
-    time: "11:00 AM",
-    description: "Advanced security practices for business environments",
-    spotsRemaining: 5,
-    skillLevel: "Advanced",
-    category: "Privacy & Security",
-    instructor: "Ahmad Alzaro"
-  },
-  {
-    id: "11",
-    name: "iOS Development",
-    date: addDays(addWeeks(thisWeekStart, 3), 2), // Tuesday
-    time: "1:00 PM",
-    description: "Introduction to iOS app development",
-    spotsRemaining: 4,
-    skillLevel: "Intermediate",
-    category: "Creativity",
-    instructor: "Ahmad Alzaro"
-  },
-  {
-    id: "12",
-    name: "Mac for Business",
-    date: addDays(addWeeks(thisWeekStart, 3), 4), // Thursday
-    time: "3:00 PM",
-    description: "Optimize your Mac for professional workflows",
-    spotsRemaining: 6,
-    skillLevel: "Intermediate",
-    category: "Business & Enterprise",
     instructor: "Ahmad Alzaro"
   }
 ];

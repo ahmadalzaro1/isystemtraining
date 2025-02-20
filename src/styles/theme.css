@@ -176,13 +176,16 @@
 
 @keyframes float {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) scale(1) rotate(0deg);
   }
-  50% {
-    transform: translate(-2%, -2%) scale(1.04);
+  33% {
+    transform: translate(-1%, -1%) scale(1.02) rotate(1deg);
+  }
+  66% {
+    transform: translate(1%, 1%) scale(1.02) rotate(-1deg);
   }
   100% {
-    transform: translate(2%, 2%) scale(1);
+    transform: translate(0, 0) scale(1) rotate(0deg);
   }
 }
 
