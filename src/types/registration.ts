@@ -1,3 +1,4 @@
+
 // User Types
 export type UserType = "first-time" | "existing" | "switching";
 export type PlatformType = "windows" | "android" | "linux" | "other";
@@ -51,6 +52,16 @@ export type Occupation =
   | "developer"
   | "other";
 
+// Workshop Topics
+export type WorkshopTopic =
+  | "basics"
+  | "productivity"
+  | "creativity"
+  | "security"
+  | "business"
+  | "ai"
+  | "icloud";
+
 export interface FormData {
   // Basic Profile
   isFirstTime: boolean;
@@ -90,7 +101,7 @@ export interface Workshop {
   title: string;
   description: string;
   topic: WorkshopTopic;
-  date: Date; // Changed from string to Date
+  date: Date;
   time: string;
   duration: number;
   maxParticipants: number;

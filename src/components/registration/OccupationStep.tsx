@@ -1,71 +1,46 @@
 
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { FormData } from "@/types/registration";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { FormData, Occupation } from "@/types/registration";
+import { cn } from "@/lib/utils";
 
 interface OccupationStepProps {
-  value: string;
+  data: Pick<FormData, "occupation">;
   onChange: (data: Partial<FormData>) => void;
   className?: string;
 }
 
-const OCCUPATIONS = [
-  "Student",
-  "Creative Professional",
-  "Business Owner",
-  "Developer",
-  "Freelancer",
-  "Corporate Employee",
-  "Other",
+const OCCUPATIONS: { value: Occupation; label: string; icon: string }[] = [
+  { value: "student", label: "Student", icon: "🎓" },
+  { value: "professional", label: "Professional", icon: "💼" },
+  { value: "entrepreneur", label: "Entrepreneur", icon: "🚀" },
+  { value: "creative", label: "Creative", icon: "🎨" },
+  { value: "developer", label: "Developer", icon: "💻" },
+  { value: "other", label: "Other", icon: "✨" },
 ];
 
-export const OccupationStep = ({ value, onChange, className }: OccupationStepProps) => {
-  const [showCustom, setShowCustom] = useState(value !== "" && !OCCUPATIONS.includes(value));
-
+export const OccupationStep = ({ data, onChange, className }: OccupationStepProps) => {
   return (
-    <div className={className}>
-      <div className="space-y-2">
-        <Label>Select your occupation</Label>
-        <Select
-          value={OCCUPATIONS.includes(value) ? value : "Other"}
-          onValueChange={(newValue) => {
-            if (newValue === "Other") {
-              setShowCustom(true);
-              onChange({ occupation: "" });
-            } else {
-              setShowCustom(false);
-              onChange({ occupation: newValue });
-            }
-          }}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select your occupation" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {OCCUPATIONS.map((occupation) => (
-                <SelectItem key={occupation} value={occupation}>
-                  {occupation}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {showCustom && (
-        <div className="space-y-2">
-          <Label>Please specify your occupation</Label>
-          <Input
-            value={value}
-            onChange={(e) => onChange({ occupation: e.target.value })}
-            placeholder="Enter your occupation"
-            className="w-full"
-          />
-        </div>
-      )}
+    <div className={cn("space-y-6", className)}>
+      <Label className="text-lg font-medium">What best describes your occupation?</Label>
+      <RadioGroup
+        value={data.occupation}
+        onValueChange={(value: Occupation) => onChange({ occupation: value })}
+        className="space-y-3"
+      >
+        {OCCUPATIONS.map((occupation) => (
+          <Label
+            key={occupation.value}
+            className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+          >
+            <RadioGroupItem value={occupation.value} />
+            <div className="flex items-center gap-2">
+              <span>{occupation.icon}</span>
+              <span>{occupation.label}</span>
+            </div>
+          </Label>
+        ))}
+      </RadioGroup>
     </div>
   );
 };
