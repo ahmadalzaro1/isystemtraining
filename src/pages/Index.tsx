@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -80,13 +79,15 @@ const Index = () => {
           <div className="pt-8">
             <button
               onClick={scrollToWorkshops}
-              className="apple-button group flex items-center gap-2 mx-auto"
+              className="apple-button group relative flex items-center gap-3 mx-auto"
               style={{ 
                 animationDelay: `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s` 
               }}
             >
-              View Available Workshops
-              <ChevronDown className="h-5 w-5 transition-transform group-hover:translate-y-1" />
+              <span className="relative z-10">View Available Workshops</span>
+              <ChevronDown 
+                className="h-5 w-5 transition-all duration-300 group-hover:translate-y-1 relative z-10" 
+              />
             </button>
           </div>
         </div>
