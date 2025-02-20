@@ -47,22 +47,31 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Animated Background */}
+      {/* New Background Design */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#F0F7FF] via-white to-white">
-          <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-[200%] h-[200%] animate-wave opacity-[0.03] bg-gradient-to-br from-[#007AFF] to-[#40A9FF] rounded-[40%]"
-                style={{
-                  animation: 'wave 8s linear infinite',
-                  animationDelay: `${-2 * i}s`,
-                  transformOrigin: 'center center',
-                }}
-              />
-            ))}
-          </div>
+        <div className="absolute inset-0 bg-[#FAFAFA]">
+          {/* Gradient Mesh */}
+          <div className="absolute inset-0 opacity-40"
+               style={{
+                 backgroundImage: `
+                   radial-gradient(at 40% 20%, rgba(247, 249, 251, 1) 0px, transparent 50%),
+                   radial-gradient(at 80% 0%, rgba(242, 245, 250, 1) 0px, transparent 50%),
+                   radial-gradient(at 0% 50%, rgba(245, 248, 250, 1) 0px, transparent 50%),
+                   radial-gradient(at 80% 50%, rgba(240, 244, 248, 1) 0px, transparent 50%),
+                   radial-gradient(at 0% 100%, rgba(243, 246, 249, 1) 0px, transparent 50%),
+                   radial-gradient(at 80% 100%, rgba(246, 248, 250, 1) 0px, transparent 50%),
+                   radial-gradient(at 0% 0%, rgba(244, 247, 250, 1) 0px, transparent 50%)
+                 `
+               }}
+          />
+          {/* Subtle Grid Pattern */}
+          <div className="absolute inset-0 opacity-[0.015]"
+               style={{
+                 backgroundImage: `linear-gradient(to right, #000 1px, transparent 1px),
+                                 linear-gradient(to bottom, #000 1px, transparent 1px)`,
+                 backgroundSize: '14px 14px'
+               }}
+          />
         </div>
       </div>
 
