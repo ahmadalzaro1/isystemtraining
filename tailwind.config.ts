@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -10,6 +11,14 @@ export default {
   ],
   prefix: "",
   theme: {
+    screens: {
+      'xs': '375px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1400px',
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -106,6 +115,14 @@ export default {
             opacity: "0.5",
           },
         },
+        wave: {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        }
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out forwards",
@@ -113,6 +130,7 @@ export default {
         "float": "float 6s ease-in-out infinite",
         "text-shimmer": "text-shimmer 2s linear infinite",
         "particles": "particles 10s ease-in-out infinite",
+        "wave": "wave 8s linear infinite"
       },
     },
   },
