@@ -68,7 +68,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         return (
           <ExperienceStep 
             value={formData.experience} 
-            onChange={(value: string) => updateFormData({ experience: value })} 
+            onChange={(data: Partial<FormData>) => updateFormData(data)} 
           />
         );
       
@@ -84,7 +84,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         return (
           <OccupationStep 
             value={formData.occupation} 
-            onChange={(value: string) => updateFormData({ occupation: value })} 
+            onChange={updateFormData} 
           />
         );
       
@@ -92,7 +92,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         return (
           <DevicesStep 
             devices={formData.devices} 
-            onChange={(data: Partial<FormData>) => updateFormData(data)} 
+            onChange={updateFormData} 
           />
         );
       
@@ -100,7 +100,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         return (
           <LearningInterestsStep 
             interests={formData.learningInterests} 
-            onChange={(data: Partial<FormData>) => updateFormData(data)} 
+            onChange={updateFormData} 
           />
         );
       
