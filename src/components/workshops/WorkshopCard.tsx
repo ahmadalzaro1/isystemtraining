@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Clock, Users, CheckCircle, Flame, Zap } from "lucide-react";
+import { Clock, Users, CheckCircle, Flame, Zap, UserCircle2 } from "lucide-react";
 import { Workshop } from "@/types/workshop";
 import { SeatsProgressBar } from "./SeatsProgressBar";
 import { toast } from "sonner";
@@ -13,7 +13,7 @@ interface WorkshopCardProps {
 }
 
 export const WorkshopCard = ({ workshop, onSelect }: WorkshopCardProps) => {
-  const totalSeats = 12; // This could be dynamic per workshop
+  const totalSeats = 12;
   const isTrending = workshop.spotsRemaining <= 4;
   const isAlmostFull = workshop.spotsRemaining <= 2;
 
@@ -55,6 +55,11 @@ export const WorkshopCard = ({ workshop, onSelect }: WorkshopCardProps) => {
         <p className="text-gray-600 leading-relaxed">
           {workshop.description}
         </p>
+
+        <div className="flex items-center gap-2 text-gray-500">
+          <UserCircle2 className="h-4 w-4" />
+          <span>{workshop.instructor}</span>
+        </div>
 
         <div className="space-y-3">
           <div className="flex items-center justify-between text-sm">

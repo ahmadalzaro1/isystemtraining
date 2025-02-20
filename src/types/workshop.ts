@@ -8,6 +8,7 @@ export type Workshop = {
   spotsRemaining: number;
   skillLevel: "Beginner" | "Intermediate" | "Advanced";
   category: "Productivity" | "Creativity" | "Privacy & Security" | "Business & Enterprise";
+  instructor: string;
 };
 
 export type WorkshopFilters = {
