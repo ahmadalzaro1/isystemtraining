@@ -9,7 +9,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "1",
     name: "Mac Mastery: Unlock Hidden Shortcuts & Pro Features",
-    date: addDays(thisWeekStart, 0),
+    date: new Date(addDays(thisWeekStart, 0)),
     time: "10:00 AM",
     description: "💡 Turn your Mac into a productivity powerhouse with expert-only features. Master essential shortcuts and workflows that 90% of users ignore.",
     spotsRemaining: 8,
@@ -20,7 +20,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "2",
     name: "Advanced Mac Automation & Scripting",
-    date: addDays(thisWeekStart, 1),
+    date: new Date(addDays(thisWeekStart, 2)),
     time: "2:00 PM",
     description: "💡 Learn to create powerful automation workflows and scripts to make your Mac work for you. Perfect for power users.",
     spotsRemaining: 6,
@@ -33,7 +33,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "3",
     name: "iPhone Power User: Unlock 100% of Its Potential",
-    date: addDays(thisWeekStart, 2),
+    date: new Date(addDays(thisWeekStart, 0)),
     time: "3:00 PM",
     description: "💡 You paid for an iPhone… but are you using it like a pro? Learn secrets Apple won't tell you.",
     spotsRemaining: 7,
@@ -44,7 +44,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "4",
     name: "iPhone Photography Masterclass",
-    date: addDays(thisWeekStart, 3),
+    date: new Date(addDays(thisWeekStart, 2)),
     time: "10:00 AM",
     description: "💡 Transform your iPhone photography skills. Learn pro techniques, editing secrets, and how to create stunning visuals.",
     spotsRemaining: 5,
@@ -57,7 +57,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "5",
     name: "Apple Watch Domination: Track & Automate Your Life",
-    date: addDays(thisWeekStart, 4),
+    date: new Date(addDays(thisWeekStart, 4)),
     time: "2:00 PM",
     description: "💡 Your Apple Watch is more than a step tracker. Learn how to automate, analyze, and execute like a high performer.",
     spotsRemaining: 4,
@@ -68,7 +68,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "6",
     name: "Apple Watch Health & Fitness Pro",
-    date: addDays(addWeeks(thisWeekStart, 1), 0),
+    date: new Date(addDays(thisWeekStart, 0)),
     time: "11:00 AM",
     description: "💡 Master every health and fitness feature on your Apple Watch. Create custom workouts and optimize your wellness tracking.",
     spotsRemaining: 6,
@@ -81,7 +81,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "7",
     name: "AI ChatGPT Integration with Apple Devices",
-    date: addDays(addWeeks(thisWeekStart, 1), 1),
+    date: new Date(addDays(thisWeekStart, 0)),
     time: "3:00 PM",
     description: "💡 Learn how to integrate ChatGPT and other AI tools with your Apple devices for enhanced productivity and creativity.",
     spotsRemaining: 8,
@@ -92,7 +92,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "8",
     name: "AI-Powered Siri Shortcuts Mastery",
-    date: addDays(addWeeks(thisWeekStart, 1), 2),
+    date: new Date(addDays(thisWeekStart, 2)),
     time: "2:00 PM",
     description: "💡 Create advanced Siri shortcuts using AI to automate complex tasks across all your Apple devices.",
     spotsRemaining: 4,
@@ -105,7 +105,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "9",
     name: "Digital Privacy & Security Fundamentals",
-    date: addDays(addWeeks(thisWeekStart, 1), 3),
+    date: new Date(addDays(thisWeekStart, 0)),
     time: "10:00 AM",
     description: "💡 Learn essential privacy settings and security features to protect your Apple devices from threats.",
     spotsRemaining: 7,
@@ -116,7 +116,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "10",
     name: "Advanced Security Protocols for Apple Devices",
-    date: addDays(addWeeks(thisWeekStart, 1), 4),
+    date: new Date(addDays(thisWeekStart, 4)),
     time: "1:00 PM",
     description: "💡 Master advanced security features, encryption, and threat prevention for all your Apple devices.",
     spotsRemaining: 5,
@@ -129,7 +129,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "11",
     name: "Final Cut Pro X: Video Editing Mastery",
-    date: addDays(addWeeks(thisWeekStart, 2), 0),
+    date: new Date(addDays(thisWeekStart, 0)),
     time: "9:00 AM",
     description: "💡 Learn professional video editing techniques using Final Cut Pro X on your Mac.",
     spotsRemaining: 6,
@@ -140,7 +140,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "12",
     name: "Creative Suite: Logic Pro & GarageBand",
-    date: addDays(addWeeks(thisWeekStart, 2), 1),
+    date: new Date(addDays(thisWeekStart, 2)),
     time: "2:00 PM",
     description: "💡 Create professional music and audio productions using Apple's creative suite.",
     spotsRemaining: 4,
@@ -153,7 +153,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "13",
     name: "Ultimate Task Management with Apple Apps",
-    date: addDays(addWeeks(thisWeekStart, 2), 2),
+    date: new Date(addDays(thisWeekStart, 0)),
     time: "11:00 AM",
     description: "💡 Master Reminders, Calendar, and Notes apps to create a seamless productivity system.",
     spotsRemaining: 8,
@@ -164,7 +164,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "14",
     name: "Advanced Workflow Automation",
-    date: addDays(addWeeks(thisWeekStart, 2), 3),
+    date: new Date(addDays(thisWeekStart, 4)),
     time: "1:00 PM",
     description: "💡 Create powerful automation workflows across all your Apple devices using Shortcuts and third-party apps.",
     spotsRemaining: 5,
@@ -177,7 +177,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "15",
     name: "iCloud Storage Management & Optimization",
-    date: addDays(addWeeks(thisWeekStart, 2), 4),
+    date: new Date(addDays(thisWeekStart, 0)),
     time: "2:00 PM",
     description: "💡 Learn to effectively manage and optimize your iCloud storage across all devices.",
     spotsRemaining: 6,
@@ -188,7 +188,7 @@ export const mockWorkshops: Workshop[] = [
   {
     id: "16",
     name: "iCloud Advanced Security & Family Sharing",
-    date: addDays(addWeeks(thisWeekStart, 3), 0),
+    date: new Date(addDays(thisWeekStart, 2)),
     time: "10:00 AM",
     description: "💡 Master iCloud security features and learn to manage Family Sharing effectively.",
     spotsRemaining: 7,
