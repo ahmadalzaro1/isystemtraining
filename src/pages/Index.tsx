@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -45,14 +46,22 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden">
       {/* Liquid Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-white to-[#FAFAFA]">
-          {/* Animated wave effects */}
-          <div className="wave"></div>
-          <div className="wave" style={{ animationDelay: "-2s" }}></div>
-          <div className="wave" style={{ animationDelay: "-4s" }}></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F9F9F9] to-white">
+          {/* Animated wave effects with softer colors */}
+          <div className="wave" style={{ 
+            background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
+          }}></div>
+          <div className="wave" style={{ 
+            animationDelay: "-2s",
+            background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
+          }}></div>
+          <div className="wave" style={{ 
+            animationDelay: "-4s",
+            background: "linear-gradient(45deg, rgba(246, 246, 246, 0.8) 0%, rgba(249, 249, 249, 0.4) 50%, rgba(246, 246, 246, 0.8) 100%)"
+          }}></div>
         </div>
       </div>
 
