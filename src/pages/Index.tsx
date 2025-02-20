@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -54,46 +53,6 @@ const Index = () => {
           <div className="wave"></div>
           <div className="wave" style={{ animationDelay: "-2s" }}></div>
           <div className="wave" style={{ animationDelay: "-4s" }}></div>
-          
-          {/* Liquid Layers */}
-          <div className="absolute inset-0 opacity-[0.15]"
-               style={{
-                 transform: 'scale(1.2)',
-                 background: `
-                   radial-gradient(circle at 50% 50%, rgba(240, 244, 248, 0.8) 0%, transparent 50%),
-                   radial-gradient(circle at 100% 0%, rgba(235, 240, 245, 0.4) 0%, transparent 50%),
-                   radial-gradient(circle at 0% 100%, rgba(235, 240, 245, 0.4) 0%, transparent 50%)
-                 `,
-                 filter: 'blur(20px)',
-               }}>
-            <div className="absolute inset-0"
-                 style={{
-                   backgroundImage: `
-                     radial-gradient(circle at 30% 30%, rgba(235, 240, 245, 0.8) 0%, transparent 70%),
-                     radial-gradient(circle at 70% 70%, rgba(235, 240, 245, 0.8) 0%, transparent 70%)
-                   `,
-                   animation: 'float 12s ease-in-out infinite'
-                 }}
-            />
-            <div className="absolute inset-0"
-                 style={{
-                   backgroundImage: `
-                     radial-gradient(circle at 70% 30%, rgba(235, 240, 245, 0.8) 0%, transparent 70%),
-                     radial-gradient(circle at 30% 70%, rgba(235, 240, 245, 0.8) 0%, transparent 70%)
-                   `,
-                   animation: 'float 15s ease-in-out infinite reverse'
-                 }}
-            />
-          </div>
-          
-          {/* Subtle 3D Depth Layer */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-30"
-               style={{
-                 transform: 'translateZ(0)',
-                 backfaceVisibility: 'hidden',
-                 perspective: '1000px'
-               }}
-          />
         </div>
       </div>
 
