@@ -6,10 +6,12 @@ import { RegistrationSuccess } from "@/components/registration/RegistrationSucce
 import { toast } from "sonner";
 import { ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { FormData } from "@/types/registration";
 
 const Index = () => {
   const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
+  const [registrationData, setRegistrationData] = useState<FormData | null>(null);
   const [headlineLetters, setHeadlineLetters] = useState<string[]>([]);
   const [subheadlineLetters, setSubheadlineLetters] = useState<string[]>([]);
 
@@ -31,11 +33,18 @@ const Index = () => {
     });
   };
 
-  const handleRegistrationComplete = (formData: any) => {
+  const handleRegistrationComplete = (formData: FormData) => {
+    setRegistrationData(formData);
     setStep("success");
     toast("Registration Complete!", {
       description: "Check your email for confirmation details.",
     });
+  };
+
+  const handleReset = () => {
+    setStep("calendar");
+    setSelectedWorkshop(null);
+    setRegistrationData(null);
   };
 
   const scrollToWorkshops = () => {
@@ -151,10 +160,10 @@ const Index = () => {
           <RegistrationForm onComplete={handleRegistrationComplete} />
         )}
         
-        {step === "success" && selectedWorkshop && (
+        {step === "success" && registrationData && (
           <RegistrationSuccess
-            workshop={selectedWorkshop}
-            onViewWorkshops={() => setStep("calendar")}
+            data={registrationData}
+            onReset={handleReset}
           />
         )}
       </div>
