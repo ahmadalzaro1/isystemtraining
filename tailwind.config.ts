@@ -22,6 +22,9 @@ export default {
       transitionDuration: {
         '600': '600ms',
       },
+      transitionTimingFunction: {
+        'apple': 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
