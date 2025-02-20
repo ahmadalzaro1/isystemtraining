@@ -5,26 +5,26 @@
 
 @layer base {
   :root {
-    --background: 228 15% 12%;
-    --foreground: 210 40% 98%;
-    --card: 228 15% 15%;
-    --card-foreground: 210 40% 98%;
-    --popover: 228 15% 15%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 180 100% 50%;
-    --primary-foreground: 228 15% 12%;
-    --secondary: 266 100% 76%;
-    --secondary-foreground: 228 15% 12%;
-    --muted: 228 15% 20%;
-    --muted-foreground: 210 40% 80%;
-    --accent: 266 100% 76%;
-    --accent-foreground: 228 15% 12%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 213 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 213 100% 50%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 228 15% 20%;
-    --input: 228 15% 20%;
-    --ring: 180 100% 50%;
-    --radius: 1rem;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 213 100% 50%;
+    --radius: 0.75rem;
   }
 }
 
@@ -34,24 +34,24 @@
   }
   
   body {
-    @apply bg-midnight text-foreground antialiased;
+    @apply bg-white text-foreground antialiased;
     background-image: 
-      radial-gradient(circle at center, rgba(0,255,255,0.1) 0%, transparent 70%),
-      linear-gradient(to bottom, rgba(187,134,252,0.05) 0%, rgba(0,255,255,0.05) 100%);
+      radial-gradient(circle at center, rgba(0,122,255,0.05) 0%, transparent 70%),
+      linear-gradient(to bottom, rgba(0,122,255,0.02) 0%, rgba(88,86,214,0.02) 100%);
     background-attachment: fixed;
   }
 }
 
 /* Glassmorphism */
 .glass {
-  @apply bg-white/10 backdrop-blur-xl border border-white/20;
+  @apply bg-white/80 backdrop-blur-xl border border-white/20;
   box-shadow: 
-    0 4px 12px -2px rgba(0,0,0,0.3),
-    inset 0 0 0 1px rgba(255,255,255,0.1);
+    0 4px 12px -2px rgba(0,0,0,0.1),
+    inset 0 0 0 1px rgba(255,255,255,0.5);
 }
 
 .glass-card {
-  @apply glass hover:shadow-neon transition-all duration-300;
+  @apply glass hover:shadow-blue transition-all duration-300;
   transform-style: preserve-3d;
   perspective: 1000px;
 }
@@ -62,14 +62,14 @@
 
 /* Text effects */
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-neon to-aurora animate-text-shimmer;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#007AFF] to-[#5856D6] animate-text-shimmer;
   background-size: 200% auto;
 }
 
 /* Floating particles */
 .particle {
   @apply absolute rounded-full opacity-0 animate-particles pointer-events-none;
-  background: linear-gradient(to right, #00FFFF, #BB86FC);
+  background: linear-gradient(to right, #007AFF, #5856D6);
 }
 
 /* Button effects */
@@ -79,11 +79,11 @@
 
 .button-glow::before {
   content: '';
-  @apply absolute inset-0 bg-gradient-to-r from-neon to-aurora opacity-0 transition-opacity duration-300;
+  @apply absolute inset-0 bg-gradient-to-r from-[#007AFF] to-[#5856D6] opacity-0 transition-opacity duration-300;
 }
 
 .button-glow:hover::before {
-  @apply opacity-20;
+  @apply opacity-10;
 }
 
 /* Card hover effects */
@@ -94,13 +94,13 @@
 }
 
 .hover-card:hover {
-  @apply shadow-neon;
+  @apply shadow-blue;
   transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
 }
 
 /* Focus styles */
 *:focus-visible {
-  @apply outline-none ring-2 ring-neon ring-offset-2 ring-offset-background;
+  @apply outline-none ring-2 ring-[#007AFF] ring-offset-2 ring-offset-background;
 }
 
 /* Smooth scrolling */
@@ -112,3 +112,4 @@ html {
 button:active {
   transform: scale(0.98);
 }
+

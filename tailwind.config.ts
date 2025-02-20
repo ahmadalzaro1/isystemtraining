@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -25,12 +24,6 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        midnight: "#0A192F",
-        cosmic: "#000014",
-        neon: "#00FFFF",
-        aurora: "#BB86FC",
-        silver: "#EAEAEA",
-        glass: "#F8F9FA",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -61,12 +54,10 @@ export default {
         },
       },
       backgroundImage: {
-        'grid-pattern': "linear-gradient(to right, rgb(var(--foreground) / 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--foreground) / 0.1) 1px, transparent 1px)",
-        'glow-grid-gradient': "linear-gradient(to bottom, rgba(0,255,255,0.1) 0%, rgba(187,134,252,0.1) 100%)",
+        'grid-pattern': "linear-gradient(to right, rgb(var(--foreground) / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--foreground) / 0.05) 1px, transparent 1px)",
       },
       boxShadow: {
-        'neon': '0 0 20px rgba(0,255,255,0.3)',
-        'aurora': '0 0 20px rgba(187,134,252,0.3)',
+        'blue': '0 0 20px rgba(0,122,255,0.2)',
       },
       keyframes: {
         "fade-up": {
