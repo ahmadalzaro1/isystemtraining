@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { format, addWeeks, startOfWeek, endOfWeek } from "date-fns";
+import { format, addWeeks, startOfWeek, endOfWeek, addDays } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Workshop = {
@@ -23,12 +23,15 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>();
 
-  // Mock workshops data
+  // Get start of current week for reference
+  const thisWeekStart = startOfWeek(new Date());
+
+  // Mock workshops data with dates relative to current week
   const workshops: Workshop[] = [
     {
       id: "1",
       name: "MacBook Mastery 101",
-      date: new Date(2024, 3, 15),
+      date: addDays(thisWeekStart, 1),
       time: "10:00 AM",
       description: "Learn essential macOS shortcuts & optimizations for power users",
       spotsRemaining: 8,
@@ -36,7 +39,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     {
       id: "2",
       name: "iPhone Pro Tips",
-      date: new Date(2024, 3, 15),
+      date: addDays(thisWeekStart, 1),
       time: "2:00 PM",
       description: "Optimize your iPhone for maximum efficiency & security",
       spotsRemaining: 6,
@@ -44,7 +47,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     {
       id: "3",
       name: "Switching from Windows?",
-      date: new Date(2024, 3, 16),
+      date: addDays(thisWeekStart, 2),
       time: "11:00 AM",
       description: "Making the transition to macOS smooth and painless",
       spotsRemaining: 10,
@@ -52,7 +55,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     {
       id: "4",
       name: "Privacy & Security",
-      date: new Date(2024, 3, 16),
+      date: addDays(thisWeekStart, 2),
       time: "3:00 PM",
       description: "Protect your data like a pro on all Apple devices",
       spotsRemaining: 7,
@@ -60,7 +63,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     {
       id: "5",
       name: "Mastering iCloud",
-      date: new Date(2024, 3, 17),
+      date: addDays(thisWeekStart, 3),
       time: "10:00 AM",
       description: "Sync, share, and back up with confidence across devices",
       spotsRemaining: 5,
@@ -68,7 +71,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     {
       id: "6",
       name: "Business Productivity",
-      date: new Date(2024, 3, 17),
+      date: addDays(thisWeekStart, 3),
       time: "2:00 PM",
       description: "Essential Apple tools and workflows for business success",
       spotsRemaining: 4,
@@ -76,7 +79,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     {
       id: "7",
       name: "Pro Apps Training",
-      date: new Date(2024, 3, 18),
+      date: addDays(thisWeekStart, 4),
       time: "11:00 AM",
       description: "Get started with Final Cut Pro & Logic Pro",
       spotsRemaining: 6,
@@ -84,7 +87,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     {
       id: "8",
       name: "Apple Ecosystem",
-      date: new Date(2024, 3, 18),
+      date: addDays(thisWeekStart, 4),
       time: "3:00 PM",
       description: "Seamlessly integrate Mac, iPad, iPhone & Watch",
       spotsRemaining: 8,
@@ -92,7 +95,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     {
       id: "9",
       name: "Maintenance Mastery",
-      date: new Date(2024, 3, 19),
+      date: addDays(thisWeekStart, 5),
       time: "10:00 AM",
       description: "Keep your Apple devices running like new",
       spotsRemaining: 9,
