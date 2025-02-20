@@ -80,10 +80,10 @@ export const mockWorkshops: Workshop[] = [
   // AI Category
   {
     id: "7",
-    name: "AI & Apple: Work 10x Faster with AI Tools",
+    name: "AI ChatGPT Integration with Apple Devices",
     date: addDays(addWeeks(thisWeekStart, 1), 1),
     time: "3:00 PM",
-    description: "💡 Your Apple device + AI = unfair advantage. Use AI to write, edit, plan, and get things done at lightning speed.",
+    description: "💡 Learn how to integrate ChatGPT and other AI tools with your Apple devices for enhanced productivity and creativity.",
     spotsRemaining: 8,
     skillLevel: "Beginner",
     category: "AI",
@@ -91,10 +91,10 @@ export const mockWorkshops: Workshop[] = [
   },
   {
     id: "8",
-    name: "AI Content Creation with Apple Tools",
+    name: "AI-Powered Siri Shortcuts Mastery",
     date: addDays(addWeeks(thisWeekStart, 1), 2),
     time: "2:00 PM",
-    description: "💡 Combine AI tools with Apple's creative suite to produce content faster than ever. Perfect for content creators.",
+    description: "💡 Create advanced Siri shortcuts using AI to automate complex tasks across all your Apple devices.",
     spotsRemaining: 4,
     skillLevel: "Advanced",
     category: "AI",
@@ -104,21 +104,21 @@ export const mockWorkshops: Workshop[] = [
   // Digital Safety Category
   {
     id: "9",
-    name: "Digital Fort Knox: Bulletproof Your Apple Devices",
+    name: "Digital Privacy & Security Fundamentals",
     date: addDays(addWeeks(thisWeekStart, 1), 3),
     time: "10:00 AM",
-    description: "💡 Data leaks, spyware, cybercrime? 99% of people don't protect their devices correctly. Learn how to secure your digital life.",
+    description: "💡 Learn essential privacy settings and security features to protect your Apple devices from threats.",
     spotsRemaining: 7,
-    skillLevel: "Intermediate",
+    skillLevel: "Beginner",
     category: "Digital Safety",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "10",
-    name: "Digital Privacy Master Class",
+    name: "Advanced Security Protocols for Apple Devices",
     date: addDays(addWeeks(thisWeekStart, 1), 4),
     time: "1:00 PM",
-    description: "💡 Advanced techniques for protecting your digital life. Learn to secure all your Apple devices and online presence.",
+    description: "💡 Master advanced security features, encryption, and threat prevention for all your Apple devices.",
     spotsRemaining: 5,
     skillLevel: "Advanced",
     category: "Digital Safety",
@@ -128,21 +128,21 @@ export const mockWorkshops: Workshop[] = [
   // Creativity Category
   {
     id: "11",
-    name: "Creative Genius: Edit, Design & Create Like a Pro",
+    name: "Final Cut Pro X: Video Editing Mastery",
     date: addDays(addWeeks(thisWeekStart, 2), 0),
     time: "9:00 AM",
-    description: "💡 Harness the power of Mac, iPad, & iPhone for elite-level design, video, and music production. No experience needed.",
+    description: "💡 Learn professional video editing techniques using Final Cut Pro X on your Mac.",
     spotsRemaining: 6,
-    skillLevel: "Beginner",
+    skillLevel: "Intermediate",
     category: "Creativity",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "12",
-    name: "Professional Video Editing on Mac",
+    name: "Creative Suite: Logic Pro & GarageBand",
     date: addDays(addWeeks(thisWeekStart, 2), 1),
     time: "2:00 PM",
-    description: "💡 Master Final Cut Pro and create professional-grade videos. Learn advanced editing techniques and workflows.",
+    description: "💡 Create professional music and audio productions using Apple's creative suite.",
     spotsRemaining: 4,
     skillLevel: "Advanced",
     category: "Creativity",
@@ -152,21 +152,21 @@ export const mockWorkshops: Workshop[] = [
   // Productivity Category
   {
     id: "13",
-    name: "Mac & iPhone Efficiency Hacks: 2x Your Productivity",
+    name: "Ultimate Task Management with Apple Apps",
     date: addDays(addWeeks(thisWeekStart, 2), 2),
     time: "11:00 AM",
-    description: "💡 Use Apple's built-in tools, automation, and time-saving hacks to crush your to-do list effortlessly.",
+    description: "💡 Master Reminders, Calendar, and Notes apps to create a seamless productivity system.",
     spotsRemaining: 8,
-    skillLevel: "Intermediate",
+    skillLevel: "Beginner",
     category: "Productivity",
     instructor: "Ahmad Alzaro"
   },
   {
     id: "14",
-    name: "Advanced Productivity Systems for Apple Users",
+    name: "Advanced Workflow Automation",
     date: addDays(addWeeks(thisWeekStart, 2), 3),
     time: "1:00 PM",
-    description: "💡 Create powerful productivity systems using Apple's ecosystem. Perfect for professionals and power users.",
+    description: "💡 Create powerful automation workflows across all your Apple devices using Shortcuts and third-party apps.",
     spotsRemaining: 5,
     skillLevel: "Advanced",
     category: "Productivity",
@@ -176,12 +176,23 @@ export const mockWorkshops: Workshop[] = [
   // iCloud Category
   {
     id: "15",
-    name: "iCloud Mastery: Beyond Basic Backup",
+    name: "iCloud Storage Management & Optimization",
     date: addDays(addWeeks(thisWeekStart, 2), 4),
     time: "2:00 PM",
-    description: "💡 Master iCloud's advanced features, learn optimal backup strategies, and maximize your cloud storage efficiency.",
+    description: "💡 Learn to effectively manage and optimize your iCloud storage across all devices.",
     spotsRemaining: 6,
     skillLevel: "Intermediate",
+    category: "iCloud",
+    instructor: "Ahmad Alzaro"
+  },
+  {
+    id: "16",
+    name: "iCloud Advanced Security & Family Sharing",
+    date: addDays(addWeeks(thisWeekStart, 3), 0),
+    time: "10:00 AM",
+    description: "💡 Master iCloud security features and learn to manage Family Sharing effectively.",
+    spotsRemaining: 7,
+    skillLevel: "Advanced",
     category: "iCloud",
     instructor: "Ahmad Alzaro"
   }
