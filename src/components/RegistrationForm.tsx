@@ -12,6 +12,7 @@ import { useRegistrationSteps } from "@/hooks/useRegistrationSteps";
 export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(onComplete);
 
+  // Filter out the devices step for first-time Apple users
   const steps = [
     {
       title: "Experience Level",
@@ -43,7 +44,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         />
       ),
     },
-    {
+    ...(formData.experience !== "first-time" ? [{
       title: "Your Devices",
       description: "Select the Apple devices you own",
       content: (
@@ -52,7 +53,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
           onChange={updateFormData}
         />
       ),
-    },
+    }] : []),
     {
       title: "Learning Interests",
       description: "What would you like to learn about in future workshops?",
