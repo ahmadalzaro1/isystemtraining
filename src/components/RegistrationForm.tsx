@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExperienceStep } from "./registration/ExperienceStep";
@@ -68,7 +67,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         return (
           <ExperienceStep 
             value={formData.experience} 
-            onChange={(data: Partial<FormData>) => updateFormData(data)} 
+            onChange={updateFormData} 
           />
         );
       
@@ -120,7 +119,6 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         </p>
       </div>
 
-      {/* Progress Steps */}
       <div className="flex space-x-2 sm:space-x-4 overflow-hidden">
         {activeSteps.map((_, index) => (
           <div
@@ -133,10 +131,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
       </div>
 
       <Card className="p-4 sm:p-6 relative overflow-hidden">
-        {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
-        
-        {/* Content */}
         <div className="relative">
           {renderStepContent()}
         </div>

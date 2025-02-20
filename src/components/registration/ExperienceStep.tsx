@@ -1,17 +1,18 @@
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { FormData } from "@/types/registration";
 
 interface ExperienceStepProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (data: Partial<FormData>) => void;
 }
 
 export const ExperienceStep = ({ value, onChange }: ExperienceStepProps) => (
   <div className="space-y-4 animate-fade-up">
     <RadioGroup
       value={value}
-      onValueChange={onChange}
+      onValueChange={(newValue) => onChange({ experience: newValue })}
       className="space-y-4"
     >
       <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
