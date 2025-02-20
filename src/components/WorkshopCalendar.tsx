@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { format, addWeeks, startOfWeek, endOfWeek, addDays } from "date-fns";
@@ -5,7 +6,7 @@ import { Workshop, WorkshopFilters } from "@/types/workshop";
 import { WorkshopNavigation } from "./workshops/WorkshopNavigation";
 import { WorkshopDayGroup } from "./workshops/WorkshopDayGroup";
 import { WorkshopRecommender } from "./recommendation/WorkshopRecommender";
-import { WorkshopFilters as WorkshopFiltersComponent } from "./workshops/WorkshopFilters";
+import { WorkshopFilterBar } from "./workshops/WorkshopFilters";
 
 interface WorkshopCalendarProps {
   onSelect: (workshop: Workshop) => void;
@@ -62,7 +63,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       description: "Protect your data like a pro on all Apple devices",
       spotsRemaining: 7,
       skillLevel: "Advanced",
-      category: "Security"
+      category: "Privacy & Security"
     },
     {
       id: "5",
@@ -82,7 +83,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       description: "Essential Apple tools and workflows for business success",
       spotsRemaining: 4,
       skillLevel: "Intermediate",
-      category: "Productivity"
+      category: "Business & Enterprise"
     },
     {
       id: "7",
@@ -92,7 +93,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
       description: "Get started with Final Cut Pro & Logic Pro",
       spotsRemaining: 6,
       skillLevel: "Advanced",
-      category: "Productivity"
+      category: "Creativity"
     },
     {
       id: "8",
@@ -160,7 +161,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
         onNavigate={navigateWeek}
       />
 
-      <WorkshopFiltersComponent 
+      <WorkshopFilterBar 
         filters={filters}
         onChange={setFilters}
       />
