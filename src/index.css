@@ -76,6 +76,7 @@
   box-shadow: 
     0 2px 4px rgba(0, 113, 227, 0.1),
     0 4px 12px rgba(0, 113, 227, 0.2);
+  animation: buttonPulse 2s infinite;
 }
 
 .apple-button:hover {
@@ -84,7 +85,6 @@
     0 8px 24px rgba(0, 113, 227, 0.3),
     0 0 40px rgba(0, 113, 227, 0.2);
   transform: translateY(-2px) scale(1.02);
-  animation: buttonPulse 2s infinite;
 }
 
 @keyframes buttonPulse {
