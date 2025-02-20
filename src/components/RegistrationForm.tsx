@@ -9,77 +9,84 @@ import { LearningInterestsStep } from "./registration/LearningInterestsStep";
 import { RegistrationFormProps } from "@/types/registration";
 import { useRegistrationSteps } from "@/hooks/useRegistrationSteps";
 
+const REGISTRATION_STEPS = [
+  {
+    id: 'experience',
+    title: "Experience Level",
+    description: "Tell us about your experience with Apple products",
+    Component: ExperienceStep,
+  },
+  {
+    id: 'personal',
+    title: "Personal Information",
+    description: "Enter your contact details",
+    Component: PersonalInfoStep,
+  },
+  {
+    id: 'occupation',
+    title: "Your Occupation",
+    description: "Tell us about your professional background",
+    Component: OccupationStep,
+  },
+  {
+    id: 'devices',
+    title: "Your Devices",
+    description: "Select the Apple devices you own",
+    Component: DevicesStep,
+    showIf: (experience: string) => experience !== "first-time",
+  },
+  {
+    id: 'interests',
+    title: "Learning Interests",
+    description: "What would you like to learn about in future workshops?",
+    Component: LearningInterestsStep,
+  },
+];
+
 export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
   const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(onComplete);
 
-  // Filter out the devices step for first-time Apple users
-  const steps = [
-    {
-      title: "Experience Level",
-      description: "Tell us about your experience with Apple products",
-      content: (
-        <ExperienceStep
-          value={formData.experience}
-          onChange={(value) => updateFormData({ experience: value })}
-        />
-      ),
-    },
-    {
-      title: "Personal Information",
-      description: "Enter your contact details",
-      content: (
-        <PersonalInfoStep
-          data={formData}
-          onChange={updateFormData}
-        />
-      ),
-    },
-    {
-      title: "Your Occupation",
-      description: "Tell us about your professional background",
-      content: (
-        <OccupationStep
-          value={formData.occupation}
-          onChange={updateFormData}
-        />
-      ),
-    },
-    ...(formData.experience !== "first-time" ? [{
-      title: "Your Devices",
-      description: "Select the Apple devices you own",
-      content: (
-        <DevicesStep
-          devices={formData.devices}
-          onChange={updateFormData}
-        />
-      ),
-    }] : []),
-    {
-      title: "Learning Interests",
-      description: "What would you like to learn about in future workshops?",
-      content: (
-        <LearningInterestsStep
-          interests={formData.learningInterests}
-          onChange={updateFormData}
-        />
-      ),
-    },
-  ];
+  const activeSteps = REGISTRATION_STEPS.filter(stepConfig => 
+    !stepConfig.showIf || stepConfig.showIf(formData.experience)
+  );
 
-  const currentStep = steps[step - 1];
+  const currentStep = activeSteps[step - 1];
+
+  const renderStepContent = () => {
+    const { Component } = currentStep;
+    
+    if (currentStep.id === 'personal') {
+      return <Component data={formData} onChange={updateFormData} />;
+    }
+    
+    if (currentStep.id === 'devices') {
+      return <Component devices={formData.devices} onChange={updateFormData} />;
+    }
+    
+    if (currentStep.id === 'interests') {
+      return <Component interests={formData.learningInterests} onChange={updateFormData} />;
+    }
+    
+    return <Component 
+      value={formData[currentStep.id as keyof typeof formData]} 
+      onChange={(value: any) => updateFormData({ [currentStep.id]: value })} 
+    />;
+  };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-medium tracking-tight">
+    <div className="w-full max-w-2xl mx-auto space-y-6 px-4 sm:px-6 md:space-y-8">
+      <div className="space-y-2 text-center sm:text-left">
+        <h2 className="text-xl sm:text-2xl font-medium tracking-tight">
           {currentStep.title}
         </h2>
-        <p className="text-gray-600">{currentStep.description}</p>
+        <p className="text-sm sm:text-base text-gray-600">
+          {currentStep.description}
+        </p>
       </div>
 
       {/* Progress Steps */}
-      <div className="flex space-x-4 overflow-hidden">
-        {steps.map((_, index) => (
+      <div className="flex space-x-2 sm:space-x-4 overflow-hidden">
+        {activeSteps.map((_, index) => (
           <div
             key={index}
             className={`h-1 flex-1 rounded-full transition-all duration-300 ${
@@ -89,31 +96,33 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
         ))}
       </div>
 
-      <Card className="p-6 relative overflow-hidden">
+      <Card className="p-4 sm:p-6 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
         
         {/* Content */}
         <div className="relative">
-          {currentStep.content}
+          {renderStepContent()}
         </div>
       </Card>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4 pb-8">
         {step > 1 && (
           <Button
             variant="outline"
             onClick={previousStep}
-            className="animate-fade-up"
+            className="flex-1 sm:flex-none animate-fade-up"
           >
             Back
           </Button>
         )}
         <Button
           onClick={nextStep}
-          className="ml-auto animate-fade-up"
+          className={`flex-1 sm:flex-none animate-fade-up ${
+            step === 1 ? "w-full" : "ml-auto"
+          }`}
         >
-          {step === steps.length ? "Complete Registration" : "Continue"}
+          {step === activeSteps.length ? "Complete Registration" : "Continue"}
         </Button>
       </div>
     </div>
