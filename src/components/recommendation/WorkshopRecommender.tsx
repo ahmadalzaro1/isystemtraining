@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Workshop } from "@/types/workshop";
 import { RecommendationQuiz } from "./RecommendationQuiz";
 import { RecommendationResult } from "./RecommendationResult";
-import { LightBulb } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 
 interface WorkshopRecommenderProps {
   workshops: Workshop[];
@@ -43,7 +43,7 @@ export const WorkshopRecommender = ({ workshops, onSelect }: WorkshopRecommender
           variant="outline" 
           className="glass-card w-full sm:w-auto animate-fade-up flex items-center gap-2"
         >
-          <LightBulb className="w-4 h-4" />
+          <Lightbulb className="w-4 h-4" />
           Not Sure Which Workshop to Attend?
         </Button>
       </DialogTrigger>
