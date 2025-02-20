@@ -46,18 +46,18 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#F9F9F9] to-white relative overflow-hidden">
+    <div className="min-h-screen bg-white relative overflow-hidden">
       {/* Animated Background */}
-      <div className="fixed inset-0 z-0">
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#F9F9F9] to-white">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="absolute w-[200%] h-[200%] animate-wave opacity-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-[40%]" 
+          <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+            <div className="absolute w-[200%] h-[200%] animate-wave opacity-[0.02] bg-gradient-to-br from-[#E8E8E8] to-[#F5F5F5] rounded-[40%]" 
                  style={{ animation: 'wave 8s linear infinite' }}></div>
-            <div className="absolute w-[200%] h-[200%] animate-wave opacity-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-[40%]" 
+            <div className="absolute w-[200%] h-[200%] animate-wave opacity-[0.02] bg-gradient-to-br from-[#E8E8E8] to-[#F5F5F5] rounded-[40%]" 
                  style={{ animation: 'wave 8s linear infinite', animationDelay: '-2s' }}></div>
-            <div className="absolute w-[200%] h-[200%] animate-wave opacity-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-[40%]" 
+            <div className="absolute w-[200%] h-[200%] animate-wave opacity-[0.02] bg-gradient-to-br from-[#E8E8E8] to-[#F5F5F5] rounded-[40%]" 
                  style={{ animation: 'wave 8s linear infinite', animationDelay: '-4s' }}></div>
-            <div className="absolute w-[200%] h-[200%] animate-wave opacity-5 bg-gradient-to-br from-blue-400 to-blue-600 rounded-[40%]" 
+            <div className="absolute w-[200%] h-[200%] animate-wave opacity-[0.02] bg-gradient-to-br from-[#E8E8E8] to-[#F5F5F5] rounded-[40%]" 
                  style={{ animation: 'wave 8s linear infinite', animationDelay: '-6s' }}></div>
           </div>
         </div>
