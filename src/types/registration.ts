@@ -12,3 +12,12 @@ export interface FormData {
 export interface RegistrationFormProps {
   onComplete: (data: FormData) => void;
 }
+
+export interface Workshop {
+  id: string;
+  name: string;
+  date: Date;
+  time: string;
+  description: string;
+  spotsRemaining: number;
+}
