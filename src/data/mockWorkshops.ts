@@ -175,4 +175,14 @@ export const mockWorkshops: Workshop[] = [
 
   // iCloud Category
   {
-    id: "15
+    id: "15",
+    name: "iCloud Mastery: Beyond Basic Backup",
+    date: addDays(addWeeks(thisWeekStart, 2), 4),
+    time: "2:00 PM",
+    description: "💡 Master iCloud's advanced features, learn optimal backup strategies, and maximize your cloud storage efficiency.",
+    spotsRemaining: 6,
+    skillLevel: "Intermediate",
+    category: "iCloud",
+    instructor: "Ahmad Alzaro"
+  }
+];
