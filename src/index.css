@@ -214,3 +214,70 @@
 .nav-link {
   @apply text-[#1D1D1F] hover:text-[#0071e3] transition-colors duration-200;
 }
+
+/* Apple-style Animations */
+@keyframes smoothFadeUpScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-fade-up-scale {
+  animation: smoothFadeUpScale 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+/* Apple-style Typography */
+.apple-headline {
+  font-feature-settings: "salt" on, "liga" 1;
+  letter-spacing: -0.015em;
+}
+
+.apple-subheadline {
+  font-feature-settings: "salt" on, "liga" 1;
+  letter-spacing: -0.01em;
+}
+
+/* Apple-style Button Animation */
+@keyframes buttonFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-button-fade {
+  animation: buttonFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.6s;
+  opacity: 0;
+}
+
+/* Apple-style Background */
+.apple-gradient-bg {
+  background: linear-gradient(180deg, 
+    rgba(255,255,255,1) 0%,
+    rgba(245,245,247,1) 100%
+  );
+}
+
+.apple-text-shadow {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
