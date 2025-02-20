@@ -1,10 +1,9 @@
 
 import { useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { format, addWeeks, startOfWeek, endOfWeek, addDays } from "date-fns";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock, Users, CheckCircle } from "lucide-react";
 
 type Workshop = {
   id: string;
@@ -21,7 +20,6 @@ interface WorkshopCalendarProps {
 
 export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date>();
 
   // Get start of current week for reference
   const thisWeekStart = startOfWeek(new Date());
@@ -102,11 +100,6 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     },
   ];
 
-  const workshopsForDate = (date: Date) =>
-    workshops.filter(
-      (w) => format(w.date, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
-    );
-
   const navigateWeek = (direction: 'next' | 'prev') => {
     setCurrentWeek(prev => 
       direction === 'next' ? addWeeks(prev, 1) : addWeeks(prev, -1)
@@ -120,90 +113,111 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     return workshopDate >= weekStart && workshopDate <= weekEnd;
   });
 
-  console.log('Current week workshops:', currentWeekWorkshops); // Debug log
+  // Group workshops by date
+  const workshopsByDate = currentWeekWorkshops.reduce((acc, workshop) => {
+    const dateStr = format(workshop.date, "yyyy-MM-dd");
+    if (!acc[dateStr]) {
+      acc[dateStr] = [];
+    }
+    acc[dateStr].push(workshop);
+    return acc;
+  }, {} as Record<string, Workshop[]>);
 
   return (
     <div className="space-y-8 animate-fade-up">
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl font-medium tracking-tight">
-          Select Your Workshop
+      <div className="text-center space-y-4">
+        <h1 className="text-4xl font-medium tracking-tight text-primary">
+          Available Workshops
         </h1>
-        <p className="text-lg text-gray-600">
-          Browse available workshops for the week of {format(currentWeek, "MMMM d, yyyy")}
+        <p className="text-xl text-gray-600">
+          Week of {format(currentWeek, "MMMM d, yyyy")}
         </p>
+        <div className="flex justify-center gap-4">
+          <Button
+            variant="outline"
+            onClick={() => navigateWeek('prev')}
+            className="flex items-center gap-2 hover:bg-gray-50"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous Week
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => navigateWeek('next')}
+            className="flex items-center gap-2 hover:bg-gray-50"
+          >
+            Next Week
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
-      
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="space-y-4">
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={setSelectedDate}
-            className="rounded-xl border shadow-sm bg-white"
-          />
-          
-          <div className="flex justify-between items-center mt-4">
-            <Button
-              variant="outline"
-              onClick={() => navigateWeek('prev')}
-              className="flex items-center gap-2"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              Previous Week
-            </Button>
-            <Button
-              variant="outline"
+
+      <div className="grid gap-6">
+        {Object.entries(workshopsByDate).map(([dateStr, dayWorkshops]) => (
+          <div key={dateStr} className="space-y-4">
+            <h2 className="text-2xl font-medium text-gray-800">
+              {format(new Date(dateStr), "EEEE, MMMM d")}
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              {dayWorkshops.map((workshop) => (
+                <Card
+                  key={workshop.id}
+                  className="p-6 hover:shadow-lg transition-all cursor-pointer animate-fade-up group bg-white"
+                  onClick={() => onSelect(workshop)}
+                >
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-start">
+                      <h3 className="font-medium text-xl group-hover:text-primary transition-colors">
+                        {workshop.name}
+                      </h3>
+                      <span className={`flex items-center gap-1 text-sm px-3 py-1 rounded-full ${
+                        workshop.spotsRemaining <= 5 
+                          ? 'bg-red-50 text-red-600 animate-pulse' 
+                          : 'bg-green-50 text-green-600'
+                      }`}>
+                        <Users className="h-4 w-4" />
+                        {workshop.spotsRemaining} spots
+                      </span>
+                    </div>
+                    
+                    <p className="text-gray-600 leading-relaxed">
+                      {workshop.description}
+                    </p>
+                    
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Clock className="h-4 w-4" />
+                        <span>{workshop.time}</span>
+                      </div>
+                      <Button 
+                        size="sm"
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center gap-2"
+                      >
+                        <CheckCircle className="h-4 w-4" />
+                        Register Now
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        ))}
+        
+        {currentWeekWorkshops.length === 0 && (
+          <div className="text-center py-12 bg-gray-50 rounded-lg animate-fade-up">
+            <p className="text-xl text-gray-500">
+              No workshops available this week
+            </p>
+            <Button 
+              variant="outline" 
+              className="mt-4"
               onClick={() => navigateWeek('next')}
-              className="flex items-center gap-2"
             >
-              Next Week
-              <ChevronRight className="h-4 w-4" />
+              Check Next Week
             </Button>
           </div>
-        </div>
-        
-        <div className="space-y-4">
-          {currentWeekWorkshops.map((workshop) => (
-            <Card
-              key={workshop.id}
-              className="p-4 hover:shadow-lg transition-all cursor-pointer animate-slide-in group"
-              onClick={() => onSelect(workshop)}
-            >
-              <div className="space-y-2">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-medium text-lg group-hover:text-primary transition-colors">
-                    {workshop.name}
-                  </h3>
-                  <span className={`text-sm px-2 py-1 rounded-full ${
-                    workshop.spotsRemaining <= 5 
-                      ? 'bg-red-100 text-red-600 animate-pulse' 
-                      : 'bg-green-100 text-green-600'
-                  }`}>
-                    {workshop.spotsRemaining} spots left
-                  </span>
-                </div>
-                <p className="text-sm text-gray-600">{workshop.description}</p>
-                <div className="flex justify-between items-center">
-                  <div className="text-sm text-gray-500">
-                    {format(workshop.date, "MMMM d, yyyy")} at {workshop.time}
-                  </div>
-                  <Button 
-                    size="sm"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    Register Now
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          ))}
-          
-          {currentWeekWorkshops.length === 0 && (
-            <div className="text-center py-8 text-gray-500 animate-fade-up">
-              No workshops available this week
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
