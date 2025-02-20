@@ -48,17 +48,20 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
       {/* Animated Background */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#F9F9F9] to-white">
-        <div className="absolute inset-0">
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#F0F7FF] via-white to-white">
           <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-            <div className="absolute w-[200%] h-[200%] animate-wave opacity-[0.02] bg-gradient-to-br from-[#E8E8E8] to-[#F5F5F5] rounded-[40%]" 
-                 style={{ animation: 'wave 8s linear infinite' }}></div>
-            <div className="absolute w-[200%] h-[200%] animate-wave opacity-[0.02] bg-gradient-to-br from-[#E8E8E8] to-[#F5F5F5] rounded-[40%]" 
-                 style={{ animation: 'wave 8s linear infinite', animationDelay: '-2s' }}></div>
-            <div className="absolute w-[200%] h-[200%] animate-wave opacity-[0.02] bg-gradient-to-br from-[#E8E8E8] to-[#F5F5F5] rounded-[40%]" 
-                 style={{ animation: 'wave 8s linear infinite', animationDelay: '-4s' }}></div>
-            <div className="absolute w-[200%] h-[200%] animate-wave opacity-[0.02] bg-gradient-to-br from-[#E8E8E8] to-[#F5F5F5] rounded-[40%]" 
-                 style={{ animation: 'wave 8s linear infinite', animationDelay: '-6s' }}></div>
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-[200%] h-[200%] animate-wave opacity-[0.03] bg-gradient-to-br from-[#007AFF] to-[#40A9FF] rounded-[40%]"
+                style={{
+                  animation: 'wave 8s linear infinite',
+                  animationDelay: `${-2 * i}s`,
+                  transformOrigin: 'center center',
+                }}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -118,7 +121,7 @@ const Index = () => {
       </div>
 
       {/* Workshops Section */}
-      <div id="workshops" className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
+      <div id="workshops" className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl bg-white/80 backdrop-blur-sm rounded-t-3xl shadow-lg">
         {step === "calendar" && (
           <WorkshopCalendar onSelect={handleWorkshopSelect} />
         )}
