@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -16,18 +15,15 @@ const Index = () => {
   const handleWorkshopSelect = (workshop: any) => {
     setSelectedWorkshop(workshop);
     setStep("registration");
-    toast({
-      title: "Workshop Selected",
+    toast("Workshop Selected", {
       description: `You've selected ${workshop.name} on ${workshop.date.toLocaleDateString()}`,
     });
   };
 
   const handleRegistrationComplete = (formData: any) => {
     setStep("success");
-    toast({
-      title: "Registration Complete!",
+    toast("Registration Complete!", {
       description: "Check your email for confirmation details.",
-      variant: "default",
     });
   };
 
