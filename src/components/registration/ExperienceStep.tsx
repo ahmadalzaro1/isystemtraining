@@ -10,7 +10,7 @@ interface ExperienceStepProps {
 }
 
 export const ExperienceStep = ({ value, onChange, className }: ExperienceStepProps) => (
-  <div className={`space-y-4 animate-fade-up ${className || ''}`}>
+  <div className={className}>
     <RadioGroup
       value={value}
       onValueChange={(newValue) => onChange({ experience: newValue })}

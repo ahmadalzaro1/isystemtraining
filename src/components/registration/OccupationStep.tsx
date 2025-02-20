@@ -25,7 +25,7 @@ export const OccupationStep = ({ value, onChange, className }: OccupationStepPro
   const [showCustom, setShowCustom] = useState(value !== "" && !OCCUPATIONS.includes(value));
 
   return (
-    <div className={`space-y-4 animate-fade-up ${className || ''}`}>
+    <div className={className}>
       <div className="space-y-2">
         <Label>Select your occupation</Label>
         <Select
@@ -56,7 +56,7 @@ export const OccupationStep = ({ value, onChange, className }: OccupationStepPro
       </div>
 
       {showCustom && (
-        <div className="space-y-2 animate-fade-up">
+        <div className="space-y-2">
           <Label>Please specify your occupation</Label>
           <Input
             value={value}

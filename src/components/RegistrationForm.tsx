@@ -93,7 +93,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
 
   const renderStepContent = () => {
     const { id } = currentStep;
-    const transitionClass = `transition-all duration-300 ${
+    const stepClassName = `space-y-4 animate-fade-up transition-all duration-300 ${
       isTransitioning ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'
     }`;
     
@@ -103,7 +103,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
           <ExperienceStep 
             value={formData.experience}
             onChange={updateFormData}
-            className={transitionClass}
+            className={stepClassName}
           />
         );
       case 'personal':
@@ -118,7 +118,7 @@ export const RegistrationForm = ({ onComplete }: RegistrationFormProps) => {
           <OccupationStep 
             value={formData.occupation}
             onChange={updateFormData}
-            className={transitionClass}
+            className={stepClassName}
           />
         );
       case 'devices':
