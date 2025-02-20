@@ -1,12 +1,13 @@
-
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { format, addWeeks, startOfWeek, endOfWeek, addDays } from "date-fns";
+import { format, addWeeks } from "date-fns";
 import { Workshop, WorkshopFilters } from "@/types/workshop";
 import { WorkshopNavigation } from "./workshops/WorkshopNavigation";
 import { WorkshopDayGroup } from "./workshops/WorkshopDayGroup";
 import { WorkshopRecommender } from "./recommendation/WorkshopRecommender";
 import { WorkshopFilterBar } from "./workshops/WorkshopFilters";
+import { NoWorkshopsFound } from "./workshops/NoWorkshopsFound";
+import { mockWorkshops } from "@/data/mockWorkshops";
+import { filterWorkshopsByWeek, filterWorkshopsByFilters } from "@/utils/workshopFilters";
 
 interface WorkshopCalendarProps {
   onSelect: (workshop: Workshop) => void;
@@ -20,128 +21,19 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
     category: "All"
   });
 
-  // Get start of current week for reference
-  const thisWeekStart = startOfWeek(new Date());
-
-  // Mock workshops data with dates relative to current week
-  const workshops: Workshop[] = [
-    {
-      id: "1",
-      name: "MacBook Mastery 101",
-      date: addDays(thisWeekStart, 1),
-      time: "10:00 AM",
-      description: "Learn essential macOS shortcuts & optimizations for power users",
-      spotsRemaining: 8,
-      skillLevel: "Beginner",
-      category: "Productivity"
-    },
-    {
-      id: "2",
-      name: "iPhone Pro Tips",
-      date: addDays(thisWeekStart, 1),
-      time: "2:00 PM",
-      description: "Optimize your iPhone for maximum efficiency & security",
-      spotsRemaining: 6,
-      skillLevel: "Intermediate",
-      category: "Productivity"
-    },
-    {
-      id: "3",
-      name: "Switching from Windows?",
-      date: addDays(thisWeekStart, 2),
-      time: "11:00 AM",
-      description: "Making the transition to macOS smooth and painless",
-      spotsRemaining: 10,
-      skillLevel: "Intermediate",
-      category: "Productivity"
-    },
-    {
-      id: "4",
-      name: "Privacy & Security",
-      date: addDays(thisWeekStart, 2),
-      time: "3:00 PM",
-      description: "Protect your data like a pro on all Apple devices",
-      spotsRemaining: 7,
-      skillLevel: "Advanced",
-      category: "Privacy & Security"
-    },
-    {
-      id: "5",
-      name: "Mastering iCloud",
-      date: addDays(thisWeekStart, 3),
-      time: "10:00 AM",
-      description: "Sync, share, and back up with confidence across devices",
-      spotsRemaining: 5,
-      skillLevel: "Beginner",
-      category: "Productivity"
-    },
-    {
-      id: "6",
-      name: "Business Productivity",
-      date: addDays(thisWeekStart, 3),
-      time: "2:00 PM",
-      description: "Essential Apple tools and workflows for business success",
-      spotsRemaining: 4,
-      skillLevel: "Intermediate",
-      category: "Business & Enterprise"
-    },
-    {
-      id: "7",
-      name: "Pro Apps Training",
-      date: addDays(thisWeekStart, 4),
-      time: "11:00 AM",
-      description: "Get started with Final Cut Pro & Logic Pro",
-      spotsRemaining: 6,
-      skillLevel: "Advanced",
-      category: "Creativity"
-    },
-    {
-      id: "8",
-      name: "Apple Ecosystem",
-      date: addDays(thisWeekStart, 4),
-      time: "3:00 PM",
-      description: "Seamlessly integrate Mac, iPad, iPhone & Watch",
-      spotsRemaining: 8,
-      skillLevel: "Advanced",
-      category: "Productivity"
-    },
-    {
-      id: "9",
-      name: "Maintenance Mastery",
-      date: addDays(thisWeekStart, 5),
-      time: "10:00 AM",
-      description: "Keep your Apple devices running like new",
-      spotsRemaining: 9,
-      skillLevel: "Beginner",
-      category: "Productivity"
-    },
-  ];
-
   const navigateWeek = (direction: 'next' | 'prev') => {
     setCurrentWeek(prev => 
       direction === 'next' ? addWeeks(prev, 1) : addWeeks(prev, -1)
     );
   };
 
-  const filterWorkshops = (workshops: Workshop[]) => {
-    return workshops.filter(workshop => {
-      const matchesSearch = workshop.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-        workshop.description.toLowerCase().includes(filters.search.toLowerCase());
-      
-      const matchesSkillLevel = filters.skillLevel === "All" || workshop.skillLevel === filters.skillLevel;
-      const matchesCategory = filters.category === "All" || workshop.category === filters.category;
-
-      return matchesSearch && matchesSkillLevel && matchesCategory;
-    });
+  const resetFilters = () => {
+    setFilters({ search: "", skillLevel: "All", category: "All" });
   };
 
-  const currentWeekWorkshops = filterWorkshops(
-    workshops.filter(workshop => {
-      const workshopDate = workshop.date;
-      const weekStart = startOfWeek(currentWeek);
-      const weekEnd = endOfWeek(currentWeek);
-      return workshopDate >= weekStart && workshopDate <= weekEnd;
-    })
+  const currentWeekWorkshops = filterWorkshopsByFilters(
+    filterWorkshopsByWeek(mockWorkshops, currentWeek),
+    filters
   );
 
   // Group workshops by date
@@ -168,7 +60,7 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
 
       <div className="flex justify-center mb-8">
         <WorkshopRecommender 
-          workshops={workshops}
+          workshops={mockWorkshops}
           onSelect={onSelect}
         />
       </div>
@@ -184,23 +76,10 @@ export const WorkshopCalendar = ({ onSelect }: WorkshopCalendarProps) => {
         ))}
         
         {currentWeekWorkshops.length === 0 && (
-          <div className="text-center py-12 bg-gray-50 rounded-lg animate-fade-up">
-            <p className="text-xl text-gray-500">
-              No workshops found
-              {filters.search || filters.skillLevel !== "All" || filters.category !== "All"
-                ? " — try adjusting your filters!"
-                : " this week"}
-            </p>
-            {(filters.search || filters.skillLevel !== "All" || filters.category !== "All") && (
-              <Button 
-                variant="outline" 
-                className="mt-4"
-                onClick={() => setFilters({ search: "", skillLevel: "All", category: "All" })}
-              >
-                Reset Filters
-              </Button>
-            )}
-          </div>
+          <NoWorkshopsFound 
+            filters={filters}
+            onReset={resetFilters}
+          />
         )}
       </div>
     </div>
