@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -5,6 +6,12 @@ import { RegistrationSuccess } from "@/components/registration/RegistrationSucce
 import { toast } from "sonner";
 import { ChevronDown } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+
+const FloatingLogo = ({ icon, className }: { icon: string; className: string }) => (
+  <div className={`absolute glass-morphism p-4 rounded-2xl animate-float ${className}`}>
+    <img src={icon} alt="App Icon" className="w-12 h-12 opacity-30" />
+  </div>
+);
 
 const Index = () => {
   const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
@@ -43,8 +50,36 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background apple-gradient-bg">
+    <div className="min-h-screen bg-background apple-gradient-bg relative overflow-hidden">
       <ThemeToggle />
+      
+      {/* Floating App Icons */}
+      <div className="fixed inset-0 pointer-events-none">
+        <FloatingLogo 
+          icon="/logos/safari.png" 
+          className="top-[15%] left-[10%] animation-delay-100" 
+        />
+        <FloatingLogo 
+          icon="/logos/messages.png" 
+          className="top-[30%] right-[15%] animation-delay-200" 
+        />
+        <FloatingLogo 
+          icon="/logos/photos.png" 
+          className="bottom-[20%] left-[20%] animation-delay-300" 
+        />
+        <FloatingLogo 
+          icon="/logos/facetime.png" 
+          className="top-[45%] left-[25%] animation-delay-400" 
+        />
+        <FloatingLogo 
+          icon="/logos/notes.png" 
+          className="bottom-[35%] right-[10%] animation-delay-500" 
+        />
+        <FloatingLogo 
+          icon="/logos/maps.png" 
+          className="top-[20%] right-[30%] animation-delay-600" 
+        />
+      </div>
       
       {/* Hero Section */}
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
