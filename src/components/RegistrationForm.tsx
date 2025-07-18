@@ -2,34 +2,45 @@
 import { Card } from "@/components/ui/card";
 import { RegistrationFormProps, FormData } from "@/types/registration";
 import { useRegistrationSteps } from "@/hooks/useRegistrationSteps";
-import { useState } from "react";
+import { useState, memo, useMemo } from "react";
 import { REGISTRATION_STEPS } from "./registration/config/steps";
 import { StepHeader } from "./registration/StepHeader";
 import { RegistrationProgress } from "./registration/RegistrationProgress";
 import { RegistrationNavigation } from "./registration/RegistrationNavigation";
+import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-export const RegistrationForm = ({ workshop, onComplete }: RegistrationFormProps) => {
+export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationFormProps) => {
+  usePerformanceMonitor('RegistrationForm');
+  const prefersReducedMotion = useReducedMotion();
+  
   const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(onComplete);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const currentStepIndex = Math.min(step - 1, REGISTRATION_STEPS.length - 1);
-  const currentStep = REGISTRATION_STEPS[currentStepIndex];
+  const currentStep = useMemo(() => REGISTRATION_STEPS[currentStepIndex], [currentStepIndex]);
 
   const handleTransition = async (direction: 'next' | 'previous') => {
-    setIsTransitioning(true);
+    if (!prefersReducedMotion) {
+      setIsTransitioning(true);
+    }
+    
     if (direction === 'next') {
       nextStep();
     } else {
       previousStep();
     }
-    setTimeout(() => setIsTransitioning(false), 300);
+    
+    if (!prefersReducedMotion) {
+      setTimeout(() => setIsTransitioning(false), 300);
+    }
   };
 
   if (!currentStep) {
     return (
       <div className="w-full max-w-2xl mx-auto space-y-6 px-4 sm:px-6 md:space-y-8">
         <Card className="p-4 sm:p-6">
-          <p className="text-center text-red-600">
+          <p className="text-center text-destructive" role="alert">
             Error loading registration form. Please try again.
           </p>
         </Card>
@@ -38,13 +49,23 @@ export const RegistrationForm = ({ workshop, onComplete }: RegistrationFormProps
   }
 
   const { Component } = currentStep;
-  const stepClassName = `space-y-4 animate-fade-up transition-all duration-300 ${
-    isTransitioning ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'
-  }`;
+  const stepClassName = useMemo(() => {
+    const baseClasses = "space-y-4";
+    if (prefersReducedMotion) {
+      return baseClasses;
+    }
+    return `${baseClasses} animate-fade-up transition-all duration-300 ${
+      isTransitioning ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'
+    }`;
+  }, [isTransitioning, prefersReducedMotion]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-4 sm:space-y-6 px-4 sm:px-6">
-      <div className="space-y-4">
+    <section 
+      className="w-full max-w-2xl mx-auto space-y-4 sm:space-y-6 px-4 sm:px-6"
+      aria-labelledby="registration-title"
+      role="main"
+    >
+      <header className="space-y-4">
         <StepHeader 
           title={currentStep.title}
           description={currentStep.description}
@@ -55,11 +76,15 @@ export const RegistrationForm = ({ workshop, onComplete }: RegistrationFormProps
           totalSteps={REGISTRATION_STEPS.length}
           isTransitioning={isTransitioning}
         />
-      </div>
+      </header>
 
-      <Card className="p-4 sm:p-6 relative overflow-hidden transition-all duration-300 hover:shadow-lg">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-transparent pointer-events-none" />
+      <Card 
+        className={`p-4 sm:p-6 relative overflow-hidden ${
+          prefersReducedMotion ? '' : 'transition-all duration-300 hover:shadow-lg'
+        }`}
+      >
+        <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-transparent pointer-events-none" aria-hidden="true" />
         <div className="relative">
           <Component 
             data={formData}
@@ -76,16 +101,21 @@ export const RegistrationForm = ({ workshop, onComplete }: RegistrationFormProps
         onPrevious={() => handleTransition('previous')}
       />
 
-      <div 
-        className={`fixed inset-0 pointer-events-none transition-opacity duration-500 ${
-          isTransitioning ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
-        <div className="absolute inset-0 bg-gradient-mesh opacity-20" />
-      </div>
-    </div>
+      {!prefersReducedMotion && (
+        <div 
+          className={`fixed inset-0 pointer-events-none transition-opacity duration-500 ${
+            isTransitioning ? 'opacity-100' : 'opacity-0'
+          }`}
+          aria-hidden="true"
+        >
+          <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-gradient-mesh opacity-20" />
+        </div>
+      )}
+    </section>
   );
-};
+});
+
+RegistrationForm.displayName = 'RegistrationForm';
 
 export default RegistrationForm;
