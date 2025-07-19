@@ -42,12 +42,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (error) {
         console.error('Error fetching user profile:', error);
+        // Don't block authentication if profile fetch fails
+        setProfile(null);
         return;
       }
 
       setProfile(data);
     } catch (error) {
       console.error('Error fetching user profile:', error);
+      // Ensure profile is set to null on error to prevent auth blocking
+      setProfile(null);
     }
   };
 
