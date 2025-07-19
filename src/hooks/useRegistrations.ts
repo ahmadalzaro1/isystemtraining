@@ -9,11 +9,30 @@ export const useRegistrations = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
+  console.log('useRegistrations - user:', user);
+  console.log('useRegistrations - user.id:', user?.id);
+
   const { data: registrations, isLoading, error } = useQuery({
     queryKey: ['registrations', user?.id],
-    queryFn: () => user?.id ? RegistrationService.getUserRegistrations(user.id) : Promise.resolve([]),
+    queryFn: async () => {
+      if (!user?.id) {
+        console.log('useRegistrations - No user ID, returning empty array');
+        return [];
+      }
+      console.log('useRegistrations - Fetching for user ID:', user.id);
+      try {
+        const result = await RegistrationService.getUserRegistrations(user.id);
+        console.log('useRegistrations - Result:', result);
+        return result;
+      } catch (error) {
+        console.error('useRegistrations - Error:', error);
+        throw error;
+      }
+    },
     enabled: !!user?.id,
   });
+
+  console.log('useRegistrations - Final state:', { registrations, isLoading, error });
 
   const updateStatusMutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) =>

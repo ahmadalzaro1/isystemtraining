@@ -48,17 +48,22 @@ export class RegistrationService {
   }
 
   static async getUserRegistrations(userId: string) {
+    console.log('getUserRegistrations - Querying for user ID:', userId);
+    
     const { data, error } = await supabase
       .from('workshop_registrations')
       .select('*')
       .eq('user_id', userId)
       .order('registration_date', { ascending: false });
 
+    console.log('getUserRegistrations - Query result:', { data, error });
+
     if (error) {
       console.error('Error fetching registrations:', error);
       throw new Error('Failed to fetch registrations');
     }
 
+    console.log('getUserRegistrations - Returning data:', data);
     return data;
   }
 
