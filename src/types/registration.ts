@@ -2,10 +2,25 @@
 import { Workshop } from "./workshop";
 import { WorkshopRegistration } from "@/services/registrationService";
 
+// Type definitions
+export type UserType = "first-time" | "switching" | "experienced";
+export type PlatformType = "windows" | "android" | "linux" | "other";
+export type TaskType = "email" | "communication" | "productivity" | "creative" | "coding" | "privacy" | "social" | "ai" | "creativity" | "entertainment" | "business" | "education";
+export type LearningStyle = "videos" | "guides" | "hands-on" | "qa";
+export type ContactPreference = "email" | "phone" | "sms" | "whatsapp";
+export type PaidInterest = "yes" | "no" | "maybe";
+export interface WorkshopTopic {
+  category: WorkshopCategory;
+  topic: string;
+  selected: boolean;
+}
+
+export type WorkshopCategory = "fundamentals" | "productivity" | "creativity" | "creative" | "security" | "cloud" | "ai" | "home" | "essentials" | "advanced" | "business";
+
 export interface FormData {
   // User Type & Platform
-  userType: "first-time" | "switching" | "experienced";
-  platformSwitch?: "windows" | "android" | "other";
+  userType: UserType;
+  platformSwitch?: PlatformType;
 
   // Main Tasks (array of strings)
   mainTasks: string[];
@@ -14,16 +29,17 @@ export interface FormData {
   learningStyles: string[];
 
   // Workshop Topics
-  workshopTopics: string[];
+  workshopTopics: WorkshopTopic[];
+  otherTopics?: string;
 
   // Training Interest
-  paidTrainingInterest: "yes" | "no" | "maybe";
+  paidTrainingInterest: PaidInterest;
 
   // Contact Details
   name: string;
   email: string;
   phone: string;
-  contactPreference: "email" | "phone" | "sms";
+  contactPreference: ContactPreference;
   receiveUpdates: boolean;
 }
 

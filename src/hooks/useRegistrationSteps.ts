@@ -65,6 +65,7 @@ export const useRegistrationSteps = (onComplete: (data: FormData) => void) => {
     
     // Workshop Topics
     workshopTopics: [],
+    otherTopics: "",
     
     // Training Interest
     paidTrainingInterest: "maybe",
