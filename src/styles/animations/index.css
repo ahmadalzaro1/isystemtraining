@@ -1,9 +1,35 @@
 
-/* Import all animation categories */
-@import './text.css';
+/* Animation System Index */
 @import './transitions.css';
-@import './effects.css';
 @import './movement.css';
+@import './effects.css';
+@import './text.css';
 @import './form.css';
 @import './decorative.css';
 @import './delays.css';
+@import './modern.css';
+
+/* Core animation utilities */
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.animate-out {
+  animation-fill-mode: both;
+  animation-direction: reverse;
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.hardware-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
