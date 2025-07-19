@@ -544,6 +544,48 @@ export type Database = {
           },
         ]
       }
+      workshop_registrations: {
+        Row: {
+          confirmation_code: string
+          created_at: string
+          guest_email: string | null
+          guest_name: string | null
+          guest_phone: string | null
+          id: string
+          registration_date: string
+          status: string
+          updated_at: string
+          user_id: string | null
+          workshop_id: string
+        }
+        Insert: {
+          confirmation_code?: string
+          created_at?: string
+          guest_email?: string | null
+          guest_name?: string | null
+          guest_phone?: string | null
+          id?: string
+          registration_date?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          workshop_id: string
+        }
+        Update: {
+          confirmation_code?: string
+          created_at?: string
+          guest_email?: string | null
+          guest_name?: string | null
+          guest_phone?: string | null
+          id?: string
+          registration_date?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          workshop_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
