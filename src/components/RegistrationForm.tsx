@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { RegistrationFormProps, FormData } from "@/types/registration";
 import { useRegistrationSteps } from "@/hooks/useRegistrationSteps";
@@ -16,17 +15,32 @@ import { toast } from "sonner";
 export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationFormProps) => {
   usePerformanceMonitor('RegistrationForm');
   const prefersReducedMotion = useReducedMotion();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   
   const handleRegistrationComplete = async (formData: FormData) => {
     try {
+      console.log('Starting registration process...');
+      console.log('Auth state:', { 
+        user: user?.id, 
+        email: user?.email, 
+        authLoading,
+        formData: { name: formData.name, email: formData.email }
+      });
+
+      // Wait for auth to finish loading if still loading
+      if (authLoading) {
+        console.log('Waiting for auth to load...');
+        toast.info("Preparing registration...");
+        return;
+      }
+
       const registration = await RegistrationService.createRegistration({
         workshop_id: workshop.id,
         formData,
         user_id: user?.id,
       });
 
-      console.log('Registration created:', registration);
+      console.log('Registration created successfully:', registration);
       
       toast.success("Registration successful!", {
         description: `Confirmation code: ${registration.confirmation_code}`,
@@ -35,8 +49,11 @@ export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationForm
       onComplete(formData, registration);
     } catch (error) {
       console.error('Registration failed:', error);
-      toast.error("Registration failed", {
-        description: "Please try again or contact support.",
+      
+      const errorMessage = error instanceof Error ? error.message : "Registration failed";
+      
+      toast.error("Registration Failed", {
+        description: errorMessage,
       });
     }
   };

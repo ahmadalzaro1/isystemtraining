@@ -1,7 +1,5 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { FormData } from "@/types/registration";
-import { Workshop } from "@/types/workshop";
 
 export interface WorkshopRegistration {
   id: string;
@@ -25,13 +23,24 @@ export interface CreateRegistrationData {
 
 export class RegistrationService {
   static async createRegistration({ workshop_id, formData, user_id }: CreateRegistrationData) {
+    console.log('Creating registration with:', { workshop_id, user_id, hasFormData: !!formData });
+    
+    // Get current auth state to ensure we have the latest user info
+    const { data: { user: currentUser } } = await supabase.auth.getUser();
+    console.log('Current authenticated user:', currentUser?.id);
+    
+    // Use current user if available, otherwise fall back to provided user_id
+    const authenticatedUserId = currentUser?.id || user_id;
+    
     const registrationData = {
       workshop_id,
-      user_id: user_id || null,
-      guest_email: !user_id ? formData.email : null,
-      guest_name: !user_id ? formData.name : null,
-      guest_phone: !user_id ? formData.phone : null,
+      user_id: authenticatedUserId || null,
+      guest_email: !authenticatedUserId ? formData.email : null,
+      guest_name: !authenticatedUserId ? formData.name : null,
+      guest_phone: !authenticatedUserId ? formData.phone : null,
     };
+
+    console.log('Registration data being inserted:', registrationData);
 
     const { data, error } = await supabase
       .from('workshop_registrations')
@@ -40,10 +49,24 @@ export class RegistrationService {
       .single();
 
     if (error) {
-      console.error('Registration error:', error);
-      throw new Error('Failed to register for workshop');
+      console.error('Registration error details:', {
+        message: error.message,
+        code: error.code,
+        hint: error.hint,
+        details: error.details
+      });
+      
+      // Provide more specific error messages
+      if (error.message.includes('row-level security')) {
+        throw new Error('Authentication required. Please sign in to register for workshops.');
+      } else if (error.message.includes('violates check constraint')) {
+        throw new Error('Please provide either a valid user account or guest information.');
+      } else {
+        throw new Error(`Registration failed: ${error.message}`);
+      }
     }
 
+    console.log('Registration created successfully:', data);
     return data;
   }
 
