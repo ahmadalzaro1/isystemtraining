@@ -1,66 +1,33 @@
 
-// User Types
-export type UserType = "first-time" | "existing" | "switching";
-export type PlatformType = "windows" | "android" | "linux" | "other";
-export type TaskType = 
-  | "email" 
-  | "business" 
-  | "creative" 
-  | "coding" 
-  | "privacy" 
-  | "social" 
-  | "ai";
-
-// Learning Types
-export type LearningStyle = "videos" | "guides" | "hands-on" | "qa";
-export type WorkshopCategory =
-  | "fundamentals"
-  | "productivity"
-  | "creativity"
-  | "security"
-  | "cloud"
-  | "ai"
-  | "business"
-  | "advanced"
-  | "home";
-
-export type WorkshopTopic = {
-  category: WorkshopCategory;
-  topic: string;
-  selected: boolean;
-};
-
-// Contact & Preferences
-export type ContactPreference = "email" | "sms" | "whatsapp";
-export type PaidInterest = "yes" | "maybe" | "no";
+import { Workshop } from "./workshop";
+import { WorkshopRegistration } from "@/services/registrationService";
 
 export interface FormData {
   // User Type & Platform
-  userType: UserType;
-  platformSwitch?: PlatformType;
-  
-  // Main Tasks
-  mainTasks: TaskType[];
-  
+  userType: "first-time" | "switching" | "experienced";
+  platformSwitch?: "windows" | "android" | "other";
+
+  // Main Tasks (array of strings)
+  mainTasks: string[];
+
   // Learning Preferences
-  learningStyles: LearningStyle[];
-  
+  learningStyles: string[];
+
   // Workshop Topics
-  workshopTopics: WorkshopTopic[];
-  otherTopics?: string;
-  
+  workshopTopics: string[];
+
   // Training Interest
-  paidTrainingInterest: PaidInterest;
-  
+  paidTrainingInterest: "yes" | "no" | "maybe";
+
   // Contact Details
   name: string;
   email: string;
   phone: string;
-  contactPreference: ContactPreference;
+  contactPreference: "email" | "phone" | "sms";
   receiveUpdates: boolean;
 }
 
 export interface RegistrationFormProps {
-  workshop: any; // Adding the workshop prop to the interface
-  onComplete: (data: FormData) => void;
+  workshop: Workshop;
+  onComplete: (data: FormData, registration?: WorkshopRegistration) => void;
 }

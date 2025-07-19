@@ -1,16 +1,17 @@
-
 import { useState, useEffect, useCallback, memo } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
 import { RegistrationSuccess } from "@/components/registration/RegistrationSuccess";
 import { toast } from "sonner";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, User } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { FormData } from "@/types/registration";
+import { WorkshopRegistration } from "@/services/registrationService";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
 
@@ -19,10 +20,12 @@ const Index = memo(() => {
   const prefersReducedMotion = useReducedMotion();
   const [setHeroRef, heroEntry] = useIntersectionObserver({ threshold: 0.1 });
   const navigate = useNavigate();
+  const { user } = useAuth();
   
   const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
   const [registrationData, setRegistrationData] = useState<FormData | null>(null);
+  const [registration, setRegistration] = useState<WorkshopRegistration | null>(null);
   const [headlineLetters, setHeadlineLetters] = useState<string[]>([]);
   const [subheadlineLetters, setSubheadlineLetters] = useState<string[]>([]);
 
@@ -44,8 +47,9 @@ const Index = memo(() => {
     });
   }, []);
 
-  const handleRegistrationComplete = useCallback((formData: FormData) => {
+  const handleRegistrationComplete = useCallback((formData: FormData, registrationRecord?: WorkshopRegistration) => {
     setRegistrationData(formData);
+    setRegistration(registrationRecord || null);
     setStep("success");
     toast("Registration Complete!", {
       description: "Check your email for confirmation details.",
@@ -56,6 +60,7 @@ const Index = memo(() => {
     setStep("calendar");
     setSelectedWorkshop(null);
     setRegistrationData(null);
+    setRegistration(null);
   }, []);
 
   const scrollToWorkshops = useCallback(() => {
@@ -115,15 +120,27 @@ const Index = memo(() => {
       </div>
 
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => navigate('/auth')}
-          className="flex items-center gap-2"
-        >
-          <LogIn className="h-4 w-4" />
-          Admin Login
-        </Button>
+        {user ? (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/my-registrations')}
+            className="flex items-center gap-2"
+          >
+            <User className="h-4 w-4" />
+            My Registrations
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/auth')}
+            className="flex items-center gap-2"
+          >
+            <LogIn className="h-4 w-4" />
+            Admin Login
+          </Button>
+        )}
         <ThemeToggle />
       </div>
       
@@ -222,6 +239,7 @@ const Index = memo(() => {
           <RegistrationSuccess
             workshop={selectedWorkshop}
             registrationData={registrationData}
+            registration={registration}
             onViewWorkshops={handleViewWorkshops}
           />
         )}

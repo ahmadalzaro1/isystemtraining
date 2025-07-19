@@ -9,12 +9,39 @@ import { RegistrationProgress } from "./registration/RegistrationProgress";
 import { RegistrationNavigation } from "./registration/RegistrationNavigation";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { RegistrationService } from "@/services/registrationService";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationFormProps) => {
   usePerformanceMonitor('RegistrationForm');
   const prefersReducedMotion = useReducedMotion();
+  const { user } = useAuth();
   
-  const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(onComplete);
+  const handleRegistrationComplete = async (formData: FormData) => {
+    try {
+      const registration = await RegistrationService.createRegistration({
+        workshop_id: workshop.id,
+        formData,
+        user_id: user?.id,
+      });
+
+      console.log('Registration created:', registration);
+      
+      toast.success("Registration successful!", {
+        description: `Confirmation code: ${registration.confirmation_code}`,
+      });
+
+      onComplete(formData, registration);
+    } catch (error) {
+      console.error('Registration failed:', error);
+      toast.error("Registration failed", {
+        description: "Please try again or contact support.",
+      });
+    }
+  };
+
+  const { step, formData, updateFormData, nextStep, previousStep } = useRegistrationSteps(handleRegistrationComplete);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const currentStepIndex = Math.min(step - 1, REGISTRATION_STEPS.length - 1);

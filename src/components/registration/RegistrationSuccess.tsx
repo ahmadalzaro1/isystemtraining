@@ -6,20 +6,26 @@ import { toast } from "sonner";
 import { Calendar, Share2, Bell, Check, ChevronRight, Mail, MessageSquare } from "lucide-react";
 import { FormData } from "@/types/registration";
 import { Workshop } from "@/types/workshop";
+import { WorkshopRegistration } from "@/services/registrationService";
 import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
+import { RegistrationConfirmation } from "./RegistrationConfirmation";
+import { useNavigate } from "react-router-dom";
 
 interface RegistrationSuccessProps {
   workshop: Workshop;
   registrationData: FormData;
+  registration?: WorkshopRegistration;
   onViewWorkshops: () => void;
 }
 
 export const RegistrationSuccess = ({ 
   workshop, 
   registrationData, 
+  registration,
   onViewWorkshops 
 }: RegistrationSuccessProps) => {
+  const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
   const [smsReminders, setSmsReminders] = useState(false);
 
@@ -77,6 +83,10 @@ export const RegistrationSuccess = ({
     );
   };
 
+  const handleViewMyRegistrations = () => {
+    navigate('/my-registrations');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 p-4 md:p-8">
       <div className="max-w-3xl mx-auto space-y-8 animate-fade-up-scale">
@@ -92,7 +102,24 @@ export const RegistrationSuccess = ({
             Your journey to mastering Apple devices starts here
           </p>
           <Progress value={progress} className="w-full max-w-md" />
+          
+          {registration && (
+            <div className="mt-4 p-3 bg-blue-100 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <strong>Confirmation Code:</strong> 
+                <span className="font-mono ml-2">{registration.confirmation_code}</span>
+              </p>
+            </div>
+          )}
         </div>
+
+        {/* Registration Confirmation Details */}
+        {registration && (
+          <RegistrationConfirmation 
+            registration={registration} 
+            workshop={workshop} 
+          />
+        )}
 
         {/* Main Content */}
         <div className="grid gap-8 md:grid-cols-2">
@@ -188,10 +215,15 @@ export const RegistrationSuccess = ({
 
         {/* Footer Actions */}
         <div className="flex flex-col gap-4 items-center pt-8">
-          <Button onClick={onViewWorkshops} className="w-full max-w-md">
-            Browse More Workshops
-            <ChevronRight className="ml-2 h-4 w-4" />
-          </Button>
+          <div className="flex gap-4 w-full max-w-md">
+            <Button onClick={handleViewMyRegistrations} className="flex-1">
+              View My Registrations
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+            <Button variant="outline" onClick={onViewWorkshops} className="flex-1">
+              Browse More Workshops
+            </Button>
+          </div>
           
           <p className="text-sm text-muted-foreground text-center">
             Need help? Contact us at support@isystem.com
