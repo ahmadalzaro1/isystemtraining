@@ -10,11 +10,15 @@ import { FormData } from "@/types/registration";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { LogIn } from "lucide-react";
 
 const Index = memo(() => {
   usePerformanceMonitor('Index');
   const prefersReducedMotion = useReducedMotion();
   const [setHeroRef, heroEntry] = useIntersectionObserver({ threshold: 0.1 });
+  const navigate = useNavigate();
   
   const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
@@ -110,7 +114,18 @@ const Index = memo(() => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white/80" />
       </div>
 
-      <ThemeToggle />
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => navigate('/auth')}
+          className="flex items-center gap-2"
+        >
+          <LogIn className="h-4 w-4" />
+          Admin Login
+        </Button>
+        <ThemeToggle />
+      </div>
       
       {/* Hero Section */}
       <section 
