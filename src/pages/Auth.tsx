@@ -18,14 +18,19 @@ const Auth = () => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, signUp, user, isAdmin, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      navigate('/');
+    if (user && !authLoading) {
+      console.log('Auth redirect - User:', user.email, 'Is Admin:', isAdmin);
+      if (isAdmin) {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     }
-  }, [user, navigate]);
+  }, [user, isAdmin, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,10 +51,14 @@ const Auth = () => {
           setMessage('Please check your email to confirm your account.');
         }
       } else {
+        console.log('Attempting sign in for:', email);
         const { error } = await signIn(email, password);
         
         if (error) {
+          console.error('Sign in error:', error);
           setError(error.message);
+        } else {
+          console.log('Sign in successful');
         }
       }
     } catch (err) {
