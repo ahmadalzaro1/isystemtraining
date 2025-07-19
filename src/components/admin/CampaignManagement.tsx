@@ -31,7 +31,7 @@ export const CampaignManagement = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    campaign_type: 'email' as const,
+    campaign_type: 'email' as 'email' | 'push' | 'retargeting',
     target_audience: '{}',
     trigger_conditions: '{}',
     message_template: '{}',

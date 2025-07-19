@@ -42,7 +42,7 @@ export const CourseManagement = () => {
     slug: '',
     thumbnail_url: '',
     duration_minutes: 0,
-    difficulty_level: 'beginner' as const,
+    difficulty_level: 'beginner' as 'beginner' | 'intermediate' | 'advanced',
     price: 0,
     is_published: false,
     sort_order: 0,
