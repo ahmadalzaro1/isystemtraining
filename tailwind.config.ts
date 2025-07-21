@@ -12,21 +12,31 @@ export default {
   prefix: "",
   theme: {
     screens: {
-      'xs': '375px',
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1400px',
+      'xs': '375px',     // iPhone SE
+      'sm': '390px',     // iPhone 12 mini
+      'md': '393px',     // iPhone 14 Pro
+      'lg': '428px',     // iPhone 14 Pro Max
+      'xl': '768px',     // iPad mini
+      '2xl': '1024px',   // iPad
     },
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1rem",
       screens: {
-        "2xl": "1400px",
+        "sm": "390px",
+        "md": "393px",
+        "lg": "428px",
+        "xl": "768px",
+        "2xl": "1024px",
       },
     },
     extend: {
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+        'safe-left': 'env(safe-area-inset-left)',
+        'safe-right': 'env(safe-area-inset-right)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -61,12 +71,52 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // iOS system colors
+        'ios-blue': '#007AFF',
+        'ios-green': '#34C759',
+        'ios-orange': '#FF9500',
+        'ios-red': '#FF3B30',
+        'ios-purple': '#AF52DE',
+        'ios-pink': '#FF2D92',
+        'ios-teal': '#5AC8FA',
+        'ios-indigo': '#5856D6',
+        'ios-gray': '#8E8E93',
+        'ios-gray2': '#AEAEB2',
+        'ios-gray3': '#C7C7CC',
+        'ios-gray4': '#D1D1D6',
+        'ios-gray5': '#E5E5EA',
+        'ios-gray6': '#F2F2F7',
       },
       backgroundImage: {
         'grid-pattern': "linear-gradient(to right, rgb(var(--foreground) / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--foreground) / 0.05) 1px, transparent 1px)",
+        'ios-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       },
       boxShadow: {
         'blue': '0 0 20px rgba(0,122,255,0.2)',
+        'ios': '0 4px 16px rgba(0, 0, 0, 0.12)',
+        'ios-lg': '0 8px 32px rgba(0, 0, 0, 0.16)',
+        'ios-xl': '0 16px 48px rgba(0, 0, 0, 0.20)',
+      },
+      borderRadius: {
+        'ios': '8px',
+        'ios-lg': '12px',
+        'ios-xl': '16px',
+      },
+      fontFamily: {
+        'system': ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        'sf-pro': ['SF Pro Text', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+      },
+      fontSize: {
+        'ios-caption': ['12px', '16px'],
+        'ios-footnote': ['13px', '18px'],
+        'ios-subheadline': ['15px', '20px'],
+        'ios-callout': ['16px', '21px'],
+        'ios-body': ['17px', '22px'],
+        'ios-headline': ['17px', '22px'],
+        'ios-title3': ['20px', '25px'],
+        'ios-title2': ['22px', '28px'],
+        'ios-title1': ['28px', '34px'],
+        'ios-large-title': ['34px', '41px'],
       },
       keyframes: {
         "fade-up": {
@@ -87,6 +137,40 @@ export default {
           "100%": {
             opacity: "1",
             transform: "translateY(0)",
+          },
+        },
+        "ios-bounce": {
+          "0%, 20%, 53%, 80%, 100%": {
+            transform: "translate3d(0, 0, 0)",
+          },
+          "40%, 43%": {
+            transform: "translate3d(0, -8px, 0)",
+          },
+          "70%": {
+            transform: "translate3d(0, -4px, 0)",
+          },
+          "90%": {
+            transform: "translate3d(0, -2px, 0)",
+          },
+        },
+        "ios-pulse": {
+          "0%, 100%": {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+          "50%": {
+            opacity: "0.8",
+            transform: "scale(1.05)",
+          },
+        },
+        "ios-slide-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px) scale(0.95)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) scale(1)",
           },
         },
         float: {
@@ -127,12 +211,54 @@ export default {
       animation: {
         "fade-up": "fade-up 0.5s ease-out forwards",
         "fade-down": "fade-down 0.5s ease-out forwards",
+        "ios-bounce": "ios-bounce 1s ease-in-out",
+        "ios-pulse": "ios-pulse 2s ease-in-out infinite",
+        "ios-slide-up": "ios-slide-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards",
         "float": "float 6s ease-in-out infinite",
         "text-shimmer": "text-shimmer 2s linear infinite",
         "particles": "particles 10s ease-in-out infinite",
         "wave": "wave 8s linear infinite"
       },
+      transitionTimingFunction: {
+        'ios': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        'ios-spring': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    // Custom iOS utilities plugin
+    function({ addUtilities, theme }: any) {
+      const newUtilities = {
+        '.touch-manipulation': {
+          'touch-action': 'manipulation',
+        },
+        '.webkit-tap-transparent': {
+          '-webkit-tap-highlight-color': 'transparent',
+        },
+        '.webkit-scrolling': {
+          '-webkit-overflow-scrolling': 'touch',
+        },
+        '.ios-safe-area-top': {
+          'padding-top': 'env(safe-area-inset-top)',
+        },
+        '.ios-safe-area-bottom': {
+          'padding-bottom': 'env(safe-area-inset-bottom)',
+        },
+        '.ios-safe-area-left': {
+          'padding-left': 'env(safe-area-inset-left)',
+        },
+        '.ios-safe-area-right': {
+          'padding-right': 'env(safe-area-inset-right)',
+        },
+        '.ios-safe-area': {
+          'padding-top': 'env(safe-area-inset-top)',
+          'padding-right': 'env(safe-area-inset-right)',
+          'padding-bottom': 'env(safe-area-inset-bottom)',
+          'padding-left': 'env(safe-area-inset-left)',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 } satisfies Config;

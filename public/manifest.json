@@ -1,0 +1,89 @@
+
+{
+  "name": "iSystem Training - Master Your Apple Devices",
+  "short_name": "iSystem Training",
+  "description": "Master your Apple devices with expert workshops",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F9F9F9",
+  "theme_color": "#0071e3",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["education", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/placeholder.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "152x152",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "144x144",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "120x120",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "114x114",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "76x76",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "72x72",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "60x60",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "57x57",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Browse Workshops",
+      "short_name": "Workshops",
+      "description": "View available workshop sessions",
+      "url": "/#workshops",
+      "icons": [
+        {
+          "src": "/placeholder.svg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "My Registrations",
+      "short_name": "My Registrations",
+      "description": "View your workshop registrations",
+      "url": "/my-registrations",
+      "icons": [
+        {
+          "src": "/placeholder.svg",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

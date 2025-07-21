@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback, memo } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
@@ -12,8 +13,9 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Button } from "@/components/ui/button";
+import { IOSButton } from "@/components/ui/ios-button";
 import { LogIn } from "lucide-react";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 const Index = memo(() => {
   usePerformanceMonitor('Index');
@@ -21,6 +23,7 @@ const Index = memo(() => {
   const [setHeroRef, heroEntry] = useIntersectionObserver({ threshold: 0.1 });
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { triggerHaptic } = useHapticFeedback();
   
   const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
@@ -40,41 +43,45 @@ const Index = memo(() => {
   const handleWorkshopSelect = useCallback((workshop: any) => {
     setSelectedWorkshop(workshop);
     setStep("registration");
+    triggerHaptic('medium');
     toast("Workshop Selected", {
       description: `You've selected ${workshop.name} on ${workshop.date.toLocaleDateString()}`,
       position: "top-right",
       className: "z-[1000]"
     });
-  }, []);
+  }, [triggerHaptic]);
 
   const handleRegistrationComplete = useCallback((formData: FormData, registrationRecord?: WorkshopRegistration) => {
     setRegistrationData(formData);
     setRegistration(registrationRecord || null);
     setStep("success");
+    triggerHaptic('success');
     toast("Registration Complete!", {
       description: "Check your email for confirmation details.",
     });
-  }, []);
+  }, [triggerHaptic]);
 
   const handleViewWorkshops = useCallback(() => {
     setStep("calendar");
     setSelectedWorkshop(null);
     setRegistrationData(null);
     setRegistration(null);
-  }, []);
+    triggerHaptic('light');
+  }, [triggerHaptic]);
 
   const scrollToWorkshops = useCallback(() => {
     const element = document.getElementById("workshops");
     if (element) {
+      triggerHaptic('selection');
       element.scrollIntoView({ 
         behavior: prefersReducedMotion ? "auto" : "smooth",
         block: "start"
       });
     }
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, triggerHaptic]);
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden">
+    <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden ios-scroll">
       {/* Dynamic Lines Background */}
       <div 
         className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
@@ -119,27 +126,29 @@ const Index = memo(() => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white/80" />
       </div>
 
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2 dynamic-island-aware">
         {user ? (
-          <Button
-            variant="outline"
+          <IOSButton
+            variant="secondary"
             size="sm"
             onClick={() => navigate('/my-registrations')}
             className="flex items-center gap-2"
+            hapticType="light"
           >
             <User className="h-4 w-4" />
             My Registrations
-          </Button>
+          </IOSButton>
         ) : (
-          <Button
-            variant="outline"
+          <IOSButton
+            variant="secondary"
             size="sm"
             onClick={() => navigate('/auth')}
             className="flex items-center gap-2"
+            hapticType="light"
           >
             <LogIn className="h-4 w-4" />
             Admin Login
-          </Button>
+          </IOSButton>
         )}
         <ThemeToggle />
       </div>
@@ -186,9 +195,11 @@ const Index = memo(() => {
 
           {/* CTA Button */}
           <div className="pt-8 px-4">
-            <button
+            <IOSButton
               onClick={scrollToWorkshops}
-              className="apple-button group relative flex items-center gap-3 mx-auto text-base sm:text-lg"
+              size="lg"
+              hapticType="medium"
+              className="group relative flex items-center gap-3 mx-auto text-base sm:text-lg"
               style={{ 
                 animationDelay: prefersReducedMotion ? "0s" : `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s` 
               }}
@@ -201,7 +212,7 @@ const Index = memo(() => {
                 }`}
                 aria-hidden="true"
               />
-            </button>
+            </IOSButton>
           </div>
         </div>
 
@@ -220,7 +231,7 @@ const Index = memo(() => {
       {/* Workshops Section */}
       <main 
         id="workshops" 
-        className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl bg-white/80 backdrop-blur-sm rounded-t-3xl shadow-lg"
+        className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl bg-white/80 backdrop-blur-sm rounded-t-3xl shadow-lg ios-scroll"
         role="main"
         aria-labelledby="workshops-heading"
       >

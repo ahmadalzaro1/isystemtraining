@@ -1,11 +1,11 @@
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Clock, CheckCircle, Flame, Zap, UserCircle2 } from "lucide-react";
 import { Workshop } from "@/types/workshop";
 import { SeatsProgressBar } from "./SeatsProgressBar";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { IOSButton } from "@/components/ui/ios-button";
+import { IOSCard } from "@/components/ui/ios-card";
 
 interface WorkshopCardProps {
   workshop: Workshop;
@@ -25,34 +25,41 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
     });
   };
 
+  const handleCardSwipe = () => {
+    onSelect(workshop);
+  };
+
   return (
-    <Card
+    <IOSCard
       className={cn(
-        "p-6 hover:shadow-lg transition-all cursor-pointer group bg-white relative",
-        "animate-card-slide-up"
+        "p-6 cursor-pointer group relative animate-card-slide-up",
+        "w-[90vw] max-w-[420px] mx-auto"
       )}
       onClick={() => onSelect(workshop)}
+      onSwipeLeft={handleCardSwipe}
+      onSwipeRight={handleCardSwipe}
+      hapticOnTouch={true}
+      elevated={true}
       style={{ 
-        animationDelay: `${index * 0.2}s`,
-        transform: "perspective(1000px) translateZ(0)",
+        animationDelay: `${index * 0.1}s`,
       }}
     >
-      <div className="space-y-4 transition-transform duration-300 group-hover:scale-[1.02]">
+      <div className="space-y-4 transition-transform duration-300">
         {/* Header Section */}
         <div className="space-y-2">
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <h3 className="font-medium text-xl group-hover:text-primary transition-colors">
+              <h3 className="font-medium text-xl group-hover:text-primary transition-colors leading-tight">
                 {workshop.name}
               </h3>
               <div className="flex items-center gap-2 text-gray-600">
-                <UserCircle2 className="h-4 w-4" />
+                <UserCircle2 className="h-4 w-4 flex-shrink-0" />
                 <span className="font-medium">Instructor:</span>
-                <span>{workshop.instructor}</span>
+                <span className="truncate">{workshop.instructor}</span>
               </div>
             </div>
             
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col items-end gap-1 flex-shrink-0">
               {isTrending && (
                 <span className="flex items-center gap-1 text-orange-500 text-sm font-medium">
                   <Flame className="h-4 w-4 animate-pulse" />
@@ -62,7 +69,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
               {isAlmostFull && (
                 <span className="text-red-500 text-sm font-medium flex items-center gap-1">
                   <Zap className="h-4 w-4 animate-[pulse_2s_ease-in-out_infinite]" />
-                  Limited Spots!
+                  Limited!
                 </span>
               )}
             </div>
@@ -70,7 +77,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 leading-relaxed">
+        <p className="text-gray-600 leading-relaxed text-sm line-clamp-2">
           {workshop.description}
         </p>
 
@@ -97,28 +104,34 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <div className="flex items-center gap-2 text-gray-500">
             <Clock className="h-4 w-4" />
-            <span>{workshop.time}</span>
+            <span className="text-sm">{workshop.time}</span>
           </div>
           
           {workshop.spotsRemaining > 0 ? (
-            <Button 
+            <IOSButton 
               size="sm"
-              className="animate-[pulse_2s_ease-in-out_infinite] flex items-center gap-2 hover:animate-none"
+              hapticType="medium"
+              className="flex items-center gap-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelect(workshop);
+              }}
             >
               <CheckCircle className="h-4 w-4" />
-              Register Now
-            </Button>
+              Register
+            </IOSButton>
           ) : (
-            <Button 
+            <IOSButton 
               size="sm"
-              variant="outline"
+              variant="secondary"
+              hapticType="light"
               onClick={handleWaitlist}
             >
-              Join Waitlist
-            </Button>
+              Waitlist
+            </IOSButton>
           )}
         </div>
       </div>
-    </Card>
+    </IOSCard>
   );
 };
