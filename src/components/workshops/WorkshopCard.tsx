@@ -4,7 +4,7 @@ import { Workshop } from "@/types/workshop";
 import { SeatsProgressBar } from "./SeatsProgressBar";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { IOSButton } from "@/components/ui/ios-button";
+import { UniversalButton } from "@/components/ui/universal-button";
 import { IOSCard } from "@/components/ui/ios-card";
 
 interface WorkshopCardProps {
@@ -19,13 +19,21 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
   const isAlmostFull = workshop.spotsRemaining <= 2;
 
   const handleWaitlist = (e: React.MouseEvent) => {
+    console.log('Waitlist button clicked');
     e.stopPropagation();
     toast.success("Added to waitlist", {
       description: "We'll notify you if a spot becomes available"
     });
   };
 
-  const handleCardSwipe = () => {
+  const handleRegister = (e: React.MouseEvent) => {
+    console.log('Register button clicked for workshop:', workshop.name);
+    e.stopPropagation();
+    onSelect(workshop);
+  };
+
+  const handleCardClick = () => {
+    console.log('Workshop card clicked for:', workshop.name);
     onSelect(workshop);
   };
 
@@ -35,9 +43,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         "p-6 cursor-pointer group relative animate-card-slide-up",
         "w-[90vw] max-w-[420px] mx-auto"
       )}
-      onClick={() => onSelect(workshop)}
-      onSwipeLeft={handleCardSwipe}
-      onSwipeRight={handleCardSwipe}
+      onClick={handleCardClick}
       hapticOnTouch={true}
       elevated={true}
       style={{ 
@@ -108,27 +114,24 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
           </div>
           
           {workshop.spotsRemaining > 0 ? (
-            <IOSButton 
+            <UniversalButton 
               size="sm"
               hapticType="medium"
               className="flex items-center gap-2"
-              onClick={(e) => {
-                e.stopPropagation();
-                onSelect(workshop);
-              }}
+              onClick={handleRegister}
             >
               <CheckCircle className="h-4 w-4" />
               Register
-            </IOSButton>
+            </UniversalButton>
           ) : (
-            <IOSButton 
+            <UniversalButton 
               size="sm"
               variant="secondary"
               hapticType="light"
               onClick={handleWaitlist}
             >
               Waitlist
-            </IOSButton>
+            </UniversalButton>
           )}
         </div>
       </div>

@@ -22,6 +22,7 @@ const IOSCard = forwardRef<HTMLDivElement, IOSCardProps>(
     onLongPress,
     hapticOnTouch = false,
     elevated = false,
+    onClick,
     ...props 
   }, ref) => {
     const { triggerHaptic } = useHapticFeedback();
@@ -32,9 +33,15 @@ const IOSCard = forwardRef<HTMLDivElement, IOSCardProps>(
       threshold: 80
     });
 
-    const handleTouchStart = () => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      console.log('IOSCard clicked');
+      
       if (hapticOnTouch) {
         triggerHaptic('selection');
+      }
+      
+      if (onClick) {
+        onClick(e);
       }
     };
 
@@ -71,8 +78,14 @@ const IOSCard = forwardRef<HTMLDivElement, IOSCardProps>(
           ],
           className
         )}
-        onTouchStart={handleTouchStart}
+        onClick={handleClick}
         onContextMenu={onLongPress ? handleLongPress : undefined}
+        style={{
+          WebkitTapHighlightColor: 'transparent',
+          touchAction: 'manipulation',
+          userSelect: 'none',
+          WebkitUserSelect: 'none'
+        }}
         {...props}
       >
         {children}

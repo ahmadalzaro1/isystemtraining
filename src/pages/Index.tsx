@@ -41,18 +41,24 @@ const Index = memo(() => {
   }, []);
 
   const handleWorkshopSelect = useCallback((workshop: any) => {
-    console.log('Workshop selected:', workshop);
+    console.log('Workshop selected - handleWorkshopSelect called:', workshop);
+    console.log('Current step before change:', step);
+    
     setSelectedWorkshop(workshop);
     setStep("registration");
     triggerHaptic('medium');
+    
+    console.log('Workshop selected - state should change to registration');
+    
     toast("Workshop Selected", {
       description: `You've selected ${workshop.name} on ${workshop.date.toLocaleDateString()}`,
       position: "top-right",
       className: "z-[1000]"
     });
-  }, [triggerHaptic]);
+  }, [triggerHaptic, step]);
 
   const handleRegistrationComplete = useCallback((formData: FormData, registrationRecord?: WorkshopRegistration) => {
+    console.log('Registration completed:', formData);
     setRegistrationData(formData);
     setRegistration(registrationRecord || null);
     setStep("success");
@@ -63,6 +69,7 @@ const Index = memo(() => {
   }, [triggerHaptic]);
 
   const handleViewWorkshops = useCallback(() => {
+    console.log('View workshops clicked - returning to calendar');
     setStep("calendar");
     setSelectedWorkshop(null);
     setRegistrationData(null);
@@ -92,6 +99,9 @@ const Index = memo(() => {
       console.warn('Workshops element not found');
     }
   }, [prefersReducedMotion, triggerHaptic]);
+
+  // Debug current state
+  console.log('Index render - Current step:', step, 'Selected workshop:', selectedWorkshop?.name);
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden ios-scroll">
