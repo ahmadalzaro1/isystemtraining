@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 
 interface DeviceInfo {
@@ -45,7 +46,7 @@ export const useDeviceDetection = (): DeviceInfo => {
       // Haptics support detection
       const supportsHaptics = isIOS || ('vibrate' in navigator);
 
-      setDeviceInfo({
+      const newDeviceInfo = {
         isIOS,
         isAndroid,
         isMobile,
@@ -54,7 +55,11 @@ export const useDeviceDetection = (): DeviceInfo => {
         hasTouch,
         supportsHaptics,
         viewport
-      });
+      };
+
+      console.log('Device detected:', newDeviceInfo);
+
+      setDeviceInfo(newDeviceInfo);
     };
 
     detectDevice();

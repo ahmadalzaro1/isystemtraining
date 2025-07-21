@@ -1,3 +1,4 @@
+
 import React, { forwardRef } from 'react';
 import { Button, ButtonProps } from './button';
 import { IOSButton } from './ios-button';
@@ -13,11 +14,26 @@ const UniversalButton = forwardRef<HTMLButtonElement, UniversalButtonProps>(
   ({ className, variant = 'default', size = 'default', hapticType = 'light', children, onClick, ...props }, ref) => {
     const { isIOS, isMobile, hasTouch } = useDeviceDetection();
 
+    // Enhanced click handler with debugging
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      console.log('UniversalButton clicked:', {
+        isIOS,
+        isMobile,
+        hasTouch,
+        variant,
+        size
+      });
+      
+      if (onClick) {
+        onClick(e);
+      }
+    };
+
     // Use iOS button for iOS devices or when explicitly using iOS variants
     if (isIOS || (typeof variant === 'string' && variant.startsWith('ios'))) {
       const iosVariant = typeof variant === 'string' && variant.startsWith('ios') 
         ? variant.replace('ios-', '') as 'primary' | 'secondary' | 'tertiary'
-        : 'primary';
+        : variant === 'secondary' ? 'secondary' : variant === 'outline' ? 'tertiary' : 'primary';
       
       const iosSize = typeof size === 'string' && size.startsWith('ios')
         ? size.replace('ios-', '') as 'sm' | 'md' | 'lg'
@@ -30,7 +46,7 @@ const UniversalButton = forwardRef<HTMLButtonElement, UniversalButtonProps>(
           size={iosSize}
           hapticType={hapticType}
           className={className}
-          onClick={onClick}
+          onClick={handleClick}
           {...props}
         >
           {children}
@@ -48,9 +64,10 @@ const UniversalButton = forwardRef<HTMLButtonElement, UniversalButtonProps>(
           className={cn(
             "transition-transform duration-150 active:scale-95",
             "min-w-[44px] min-h-[44px] touch-manipulation",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50",
             className
           )}
-          onClick={onClick}
+          onClick={handleClick}
           {...props}
         >
           {children}
@@ -58,7 +75,7 @@ const UniversalButton = forwardRef<HTMLButtonElement, UniversalButtonProps>(
       );
     }
 
-    // Standard button for desktop
+    // Standard button for desktop with hover effects
     return (
       <Button
         ref={ref}
@@ -66,9 +83,10 @@ const UniversalButton = forwardRef<HTMLButtonElement, UniversalButtonProps>(
         size={size}
         className={cn(
           "hover:-translate-y-0.5 transition-all duration-200",
+          "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50",
           className
         )}
-        onClick={onClick}
+        onClick={handleClick}
         {...props}
       >
         {children}

@@ -16,10 +16,8 @@ const IOSButton = forwardRef<HTMLButtonElement, IOSButtonProps>(
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       console.log('IOSButton clicked:', e.type);
-      e.preventDefault();
-      e.stopPropagation();
       
-      // Trigger haptic feedback
+      // Trigger haptic feedback without preventing default behavior
       triggerHaptic(hapticType);
       
       // Call the original onClick handler
@@ -30,6 +28,7 @@ const IOSButton = forwardRef<HTMLButtonElement, IOSButtonProps>(
 
     const handleTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
       console.log('IOSButton touch start');
+      // Only apply visual feedback, don't interfere with click
       e.currentTarget.style.opacity = '0.8';
     };
 

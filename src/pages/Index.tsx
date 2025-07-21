@@ -13,7 +13,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { IOSButton } from "@/components/ui/ios-button";
+import { UniversalButton } from "@/components/ui/universal-button";
 import { LogIn } from "lucide-react";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
@@ -141,7 +141,7 @@ const Index = memo(() => {
 
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2 ios-safe-area-top">
         {user ? (
-          <IOSButton
+          <UniversalButton
             variant="secondary"
             size="sm"
             onClick={() => {
@@ -153,9 +153,9 @@ const Index = memo(() => {
           >
             <User className="h-4 w-4" />
             My Registrations
-          </IOSButton>
+          </UniversalButton>
         ) : (
-          <IOSButton
+          <UniversalButton
             variant="secondary"
             size="sm"
             onClick={() => {
@@ -167,7 +167,7 @@ const Index = memo(() => {
           >
             <LogIn className="h-4 w-4" />
             Admin Login
-          </IOSButton>
+          </UniversalButton>
         )}
         <ThemeToggle />
       </div>
@@ -214,7 +214,7 @@ const Index = memo(() => {
 
           {/* CTA Button */}
           <div className="pt-8 px-4 relative z-30">
-            <IOSButton
+            <UniversalButton
               onClick={scrollToWorkshops}
               size="lg"
               hapticType="medium"
@@ -233,7 +233,7 @@ const Index = memo(() => {
                 }`}
                 aria-hidden="true"
               />
-            </IOSButton>
+            </UniversalButton>
           </div>
         </div>
 
