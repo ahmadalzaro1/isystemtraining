@@ -41,6 +41,7 @@ const Index = memo(() => {
   }, []);
 
   const handleWorkshopSelect = useCallback((workshop: any) => {
+    console.log('Workshop selected:', workshop);
     setSelectedWorkshop(workshop);
     setStep("registration");
     triggerHaptic('medium');
@@ -70,13 +71,25 @@ const Index = memo(() => {
   }, [triggerHaptic]);
 
   const scrollToWorkshops = useCallback(() => {
+    console.log('Scroll to workshops clicked');
+    triggerHaptic('selection');
+    
     const element = document.getElementById("workshops");
+    console.log('Workshop element found:', element);
+    
     if (element) {
-      triggerHaptic('selection');
-      element.scrollIntoView({ 
-        behavior: prefersReducedMotion ? "auto" : "smooth",
-        block: "start"
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: prefersReducedMotion ? "auto" : "smooth"
       });
+      
+      console.log('Scrolling to workshops section');
+    } else {
+      console.warn('Workshops element not found');
     }
   }, [prefersReducedMotion, triggerHaptic]);
 
@@ -126,12 +139,15 @@ const Index = memo(() => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white/80" />
       </div>
 
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-2 dynamic-island-aware">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2 ios-safe-area-top">
         {user ? (
           <IOSButton
             variant="secondary"
             size="sm"
-            onClick={() => navigate('/my-registrations')}
+            onClick={() => {
+              console.log('My registrations clicked');
+              navigate('/my-registrations');
+            }}
             className="flex items-center gap-2"
             hapticType="light"
           >
@@ -142,7 +158,10 @@ const Index = memo(() => {
           <IOSButton
             variant="secondary"
             size="sm"
-            onClick={() => navigate('/auth')}
+            onClick={() => {
+              console.log('Admin login clicked');
+              navigate('/auth');
+            }}
             className="flex items-center gap-2"
             hapticType="light"
           >
@@ -156,7 +175,7 @@ const Index = memo(() => {
       {/* Hero Section */}
       <section 
         ref={setHeroRef}
-        className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden"
+        className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden ios-safe-area"
         aria-labelledby="hero-heading"
         role="banner"
       >
@@ -194,14 +213,16 @@ const Index = memo(() => {
           </p>
 
           {/* CTA Button */}
-          <div className="pt-8 px-4">
+          <div className="pt-8 px-4 relative z-30">
             <IOSButton
               onClick={scrollToWorkshops}
               size="lg"
               hapticType="medium"
-              className="group relative flex items-center gap-3 mx-auto text-base sm:text-lg"
+              className="group relative flex items-center gap-3 mx-auto text-base sm:text-lg min-h-[56px] touch-manipulation"
               style={{ 
-                animationDelay: prefersReducedMotion ? "0s" : `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s` 
+                animationDelay: prefersReducedMotion ? "0s" : `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s`,
+                touchAction: 'manipulation',
+                WebkitTapHighlightColor: 'transparent'
               }}
               aria-label="Navigate to available workshops section"
             >

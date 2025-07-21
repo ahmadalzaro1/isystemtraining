@@ -15,14 +15,33 @@ const IOSButton = forwardRef<HTMLButtonElement, IOSButtonProps>(
     const { triggerHaptic } = useHapticFeedback();
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      console.log('IOSButton clicked:', e.type);
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Trigger haptic feedback
       triggerHaptic(hapticType);
-      onClick?.(e);
+      
+      // Call the original onClick handler
+      if (onClick) {
+        onClick(e);
+      }
+    };
+
+    const handleTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
+      console.log('IOSButton touch start');
+      e.currentTarget.style.opacity = '0.8';
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
+      console.log('IOSButton touch end');
+      e.currentTarget.style.opacity = '1';
     };
 
     const variants = {
-      primary: "bg-[#0071e3] text-white hover:bg-[#0077ED] shadow-lg shadow-blue-500/25",
-      secondary: "bg-[#E8E8ED] text-[#1D1D1F] hover:bg-[#D2D2D7] shadow-md",
-      tertiary: "bg-transparent text-[#0071e3] hover:bg-black/5 border border-[#0071e3]/20"
+      primary: "bg-[#0071e3] text-white hover:bg-[#0077ED] active:bg-[#0056b3] shadow-lg shadow-blue-500/25",
+      secondary: "bg-[#E8E8ED] text-[#1D1D1F] hover:bg-[#D2D2D7] active:bg-[#C7C7CC] shadow-md",
+      tertiary: "bg-transparent text-[#0071e3] hover:bg-black/5 active:bg-black/10 border border-[#0071e3]/20"
     };
 
     const sizes = {
@@ -38,13 +57,22 @@ const IOSButton = forwardRef<HTMLButtonElement, IOSButtonProps>(
           "rounded-xl font-medium transition-all duration-200 transform will-change-transform",
           "active:scale-95 hover:-translate-y-0.5",
           "min-w-[44px] min-h-[44px]", // iOS minimum touch target
-          "touch-manipulation select-none",
-          "-webkit-tap-highlight-color: transparent",
+          "touch-manipulation select-none cursor-pointer",
+          "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50",
+          "disabled:opacity-50 disabled:cursor-not-allowed",
           variants[variant],
           sizes[size],
           className
         )}
         onClick={handleClick}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          WebkitTapHighlightColor: 'transparent',
+          touchAction: 'manipulation',
+          userSelect: 'none',
+          WebkitUserSelect: 'none'
+        }}
         {...props}
       >
         {children}
