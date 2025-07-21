@@ -5,9 +5,30 @@ type HapticType = 'light' | 'medium' | 'heavy' | 'selection' | 'success' | 'warn
 
 export const useHapticFeedback = () => {
   const triggerHaptic = useCallback((type: HapticType = 'light') => {
-    console.log(`Triggering haptic feedback: ${type}`);
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Triggering haptic feedback: ${type}`);
+    }
     
-    // Check if device supports haptic feedback
+    // Check device capabilities first
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    const isAndroid = /android/.test(userAgent);
+    
+    // iOS-specific haptic feedback (preferred method)
+    if (isIOS && typeof (window as any).DeviceMotionEvent?.requestPermission === 'function') {
+      // iOS 13+ haptic engine (if available)
+      try {
+        if ((window as any).navigator.vibrate) {
+          (window as any).navigator.vibrate(type === 'selection' ? 5 : type === 'light' ? 10 : type === 'medium' ? 20 : 30);
+        }
+      } catch (error) {
+        // Fallback silently
+      }
+      return;
+    }
+    
+    // Cross-platform vibration API fallback
     if ('vibrate' in navigator) {
       try {
         switch (type) {
@@ -36,13 +57,11 @@ export const useHapticFeedback = () => {
             navigator.vibrate(10);
         }
       } catch (error) {
-        console.warn('Haptic feedback failed:', error);
+        // Fail silently for better cross-platform compatibility
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Haptic feedback not supported:', error);
+        }
       }
-    }
-    
-    // iOS-specific haptic feedback (if available)
-    if (typeof (window as any).DeviceMotionEvent?.requestPermission === 'function') {
-      console.log(`iOS haptic feedback: ${type}`);
     }
   }, []);
 

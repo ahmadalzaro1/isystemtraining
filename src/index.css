@@ -12,9 +12,16 @@
 }
 
 /* Allow text selection only where needed */
-input, textarea, [contenteditable] {
+input, textarea, [contenteditable], p, span, div[data-selectable] {
   -webkit-user-select: text;
   user-select: text;
+}
+
+/* Cross-platform keyboard navigation */
+@media (hover: hover) and (pointer: fine) {
+  button:hover, [role="button"]:hover {
+    transform: translateY(-1px);
+  }
 }
 
 /* Improve scrolling on iOS */
@@ -23,11 +30,29 @@ body {
   touch-action: manipulation;
 }
 
-/* Ensure buttons are always clickable */
+/* Ensure buttons work across all devices */
 button, [role="button"], .ios-button {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+}
+
+/* Desktop-specific button enhancements */
+@media (hover: hover) {
+  button:hover, [role="button"]:hover {
+    transition: all 0.2s ease;
+  }
+}
+
+/* Mobile-specific button enhancements */
+@media (hover: none) {
+  button:active, [role="button"]:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
 }
 
 /* iOS safe area utilities */

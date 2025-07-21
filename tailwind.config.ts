@@ -13,23 +13,30 @@ export default {
   theme: {
     screens: {
       'xs': '375px',     // iPhone SE
-      'sm': '390px',     // iPhone 12 mini
-      'md': '393px',     // iPhone 14 Pro
-      'lg': '428px',     // iPhone 14 Pro Max
-      'xl': '768px',     // iPad mini
-      '2xl': '1024px',   // iPad
+      'sm': '390px',     // iPhone 12 mini / Small mobile
+      'md': '768px',     // Tablets / Medium devices
+      'lg': '1024px',    // Desktop / Large screens
+      'xl': '1280px',    // Large desktop
+      '2xl': '1536px',   // Extra large desktop
+      // iPhone-specific breakpoints
+      'iphone-se': '375px',
+      'iphone-mini': '390px', 
+      'iphone-pro': '393px',
+      'iphone-max': '428px',
+      'ipad-mini': '768px',
+      'ipad': '1024px',
     },
-    container: {
-      center: true,
-      padding: "1rem",
-      screens: {
-        "sm": "390px",
-        "md": "393px",
-        "lg": "428px",
-        "xl": "768px",
-        "2xl": "1024px",
+      container: {
+        center: true,
+        padding: "1rem",
+        screens: {
+          "sm": "540px",
+          "md": "720px", 
+          "lg": "960px",
+          "xl": "1140px",
+          "2xl": "1320px",
+        },
       },
-    },
     extend: {
       spacing: {
         'safe-top': 'env(safe-area-inset-top)',
@@ -103,8 +110,19 @@ export default {
         'ios-xl': '16px',
       },
       fontFamily: {
-        'system': ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        'sf-pro': ['SF Pro Text', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        'system': [
+          // iOS system fonts
+          '-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display',
+          // Android system fonts
+          'Roboto', 'Noto Sans',
+          // Windows system fonts
+          'Segoe UI',
+          // Fallbacks
+          'Helvetica Neue', 'Arial', 'sans-serif'
+        ],
+        'sf-pro': ['SF Pro Text', '-apple-system', 'BlinkMacSystemFont', 'Roboto', 'sans-serif'],
+        'android': ['Roboto', 'Noto Sans', '-apple-system', 'sans-serif'],
+        'windows': ['Segoe UI', '-apple-system', 'Roboto', 'sans-serif'],
       },
       fontSize: {
         'ios-caption': ['12px', '16px'],
