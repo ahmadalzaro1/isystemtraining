@@ -47,10 +47,18 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
 
   // Memoize expensive calculations
   const currentWeekWorkshops = useMemo(() => {
-    return filterWorkshopsByFilters(
-      filterWorkshopsByWeek(mockWorkshops, currentWeek),
+    const weekFiltered = filterWorkshopsByWeek(mockWorkshops, currentWeek);
+    const finalFiltered = filterWorkshopsByFilters(weekFiltered, filters);
+    
+    console.log('Workshop filtering:', {
+      totalWorkshops: mockWorkshops.length,
+      currentWeek: currentWeek.toISOString(),
+      weekFiltered: weekFiltered.length,
+      finalFiltered: finalFiltered.length,
       filters
-    );
+    });
+    
+    return finalFiltered;
   }, [currentWeek, filters]);
 
   // Group workshops by date with memoization
