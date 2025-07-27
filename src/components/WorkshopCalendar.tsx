@@ -63,7 +63,7 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
 
   // Group workshops by date with memoization
   const workshopsByDate = useMemo(() => {
-    return currentWeekWorkshops.reduce((acc, workshop) => {
+    const grouped = currentWeekWorkshops.reduce((acc, workshop) => {
       const dateStr = format(workshop.date, "yyyy-MM-dd");
       if (!acc[dateStr]) {
         acc[dateStr] = [];
@@ -71,6 +71,14 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
       acc[dateStr].push(workshop);
       return acc;
     }, {} as Record<string, Workshop[]>);
+    
+    console.log('Workshops grouped by date:', {
+      groupedKeys: Object.keys(grouped),
+      totalGrouped: Object.values(grouped).reduce((sum, workshops) => sum + workshops.length, 0),
+      grouped
+    });
+    
+    return grouped;
   }, [currentWeekWorkshops]);
 
   return (
