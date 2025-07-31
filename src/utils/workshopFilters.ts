@@ -3,8 +3,8 @@ import { Workshop, WorkshopFilters } from "@/types/workshop";
 import { startOfWeek, endOfWeek, getDay } from "date-fns";
 
 export const filterWorkshopsByWeek = (workshops: Workshop[], currentWeek: Date) => {
-  const weekStart = startOfWeek(currentWeek);
-  const weekEnd = endOfWeek(currentWeek);
+  const weekStart = startOfWeek(currentWeek, { weekStartsOn: 0 }); // Sunday
+  const weekEnd = endOfWeek(currentWeek, { weekStartsOn: 0 });
   
   console.log('Week filtering:', {
     currentWeek: currentWeek.toISOString(),

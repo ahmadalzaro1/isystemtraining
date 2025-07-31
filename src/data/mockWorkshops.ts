@@ -2,7 +2,7 @@
 import { Workshop } from "@/types/workshop";
 import { addDays, addWeeks, startOfWeek } from "date-fns";
 
-const thisWeekStart = startOfWeek(new Date());
+const thisWeekStart = startOfWeek(new Date(), { weekStartsOn: 0 }); // Sunday
 
 export const mockWorkshops: Workshop[] = [
   // Week 1
