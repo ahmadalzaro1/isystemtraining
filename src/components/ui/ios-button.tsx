@@ -15,26 +15,18 @@ const IOSButton = forwardRef<HTMLButtonElement, IOSButtonProps>(
     const { triggerHaptic } = useHapticFeedback();
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      console.log('IOSButton clicked:', e.type);
+      console.log('IOSButton clicked - event received, type:', e.type);
       
-      // Trigger haptic feedback without preventing default behavior
+      // Trigger haptic feedback
       triggerHaptic(hapticType);
       
       // Call the original onClick handler
       if (onClick) {
+        console.log('IOSButton calling original onClick');
         onClick(e);
+      } else {
+        console.log('IOSButton: no onClick handler provided');
       }
-    };
-
-    const handleTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
-      console.log('IOSButton touch start');
-      // Only apply visual feedback, don't interfere with click
-      e.currentTarget.style.opacity = '0.8';
-    };
-
-    const handleTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
-      console.log('IOSButton touch end');
-      e.currentTarget.style.opacity = '1';
     };
 
     const variants = {
@@ -64,8 +56,6 @@ const IOSButton = forwardRef<HTMLButtonElement, IOSButtonProps>(
           className
         )}
         onClick={handleClick}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         style={{
           WebkitTapHighlightColor: 'transparent',
           touchAction: 'manipulation',

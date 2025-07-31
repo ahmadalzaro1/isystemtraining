@@ -21,11 +21,15 @@ const UniversalButton = forwardRef<HTMLButtonElement, UniversalButtonProps>(
         isMobile,
         hasTouch,
         variant,
-        size
+        size,
+        eventType: e.type
       });
       
       if (onClick) {
+        console.log('UniversalButton calling original onClick');
         onClick(e);
+      } else {
+        console.log('UniversalButton: no onClick handler provided');
       }
     };
 
