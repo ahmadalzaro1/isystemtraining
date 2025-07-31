@@ -33,8 +33,9 @@ const UniversalButton = forwardRef<HTMLButtonElement, UniversalButtonProps>(
       }
     };
 
-    // Use iOS button for iOS devices or when explicitly using iOS variants
-    if (isIOS || (typeof variant === 'string' && variant.startsWith('ios'))) {
+    // TEMPORARY: Force standard Button to debug the issue
+    // Commenting out iOS detection to isolate the problem
+    if (false && (isIOS || (typeof variant === 'string' && variant.startsWith('ios')))) {
       const iosVariant = typeof variant === 'string' && variant.startsWith('ios') 
         ? variant.replace('ios-', '') as 'primary' | 'secondary' | 'tertiary'
         : variant === 'secondary' ? 'secondary' : variant === 'outline' ? 'tertiary' : 'primary';

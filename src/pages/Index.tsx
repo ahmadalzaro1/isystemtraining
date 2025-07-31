@@ -78,25 +78,42 @@ const Index = memo(() => {
   }, [triggerHaptic]);
 
   const scrollToWorkshops = useCallback(() => {
-    console.log('Scroll to workshops clicked');
+    console.log('=== SCROLL TO WORKSHOPS CALLED ===');
+    console.log('Callback triggered, about to trigger haptic');
     triggerHaptic('selection');
     
+    console.log('Looking for element with ID "workshops"');
     const element = document.getElementById("workshops");
-    console.log('Workshop element found:', element);
+    console.log('Workshop element found:', !!element, element);
+    console.log('All elements with workshops ID:', document.querySelectorAll('#workshops'));
+    console.log('Document body:', document.body);
     
     if (element) {
       const headerOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      console.log('Element position:', elementPosition);
+      console.log('Window pageYOffset:', window.pageYOffset);
+      console.log('Calculated offset position:', offsetPosition);
 
       window.scrollTo({
         top: offsetPosition,
         behavior: prefersReducedMotion ? "auto" : "smooth"
       });
       
-      console.log('Scrolling to workshops section');
+      console.log('Scroll command executed');
     } else {
-      console.warn('Workshops element not found');
+      console.error('Element with ID "workshops" not found!');
+      console.log('Available elements with IDs:', 
+        Array.from(document.querySelectorAll('[id]')).map(el => el.id)
+      );
+      // Fallback: scroll to bottom
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: prefersReducedMotion ? "auto" : "smooth"
+      });
+      console.log('Fallback scroll to bottom executed');
     }
   }, [prefersReducedMotion, triggerHaptic]);
 
@@ -224,26 +241,43 @@ const Index = memo(() => {
 
           {/* CTA Button */}
           <div className="pt-8 px-4 relative z-30">
-            <UniversalButton
-              onClick={scrollToWorkshops}
-              size="lg"
-              hapticType="medium"
-              className="group relative flex items-center gap-3 mx-auto text-base sm:text-lg min-h-[56px] touch-manipulation"
-              style={{ 
-                animationDelay: prefersReducedMotion ? "0s" : `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s`,
-                touchAction: 'manipulation',
-                WebkitTapHighlightColor: 'transparent'
-              }}
-              aria-label="Navigate to available workshops section"
-            >
-              <span className="relative z-10">View Available Workshops</span>
-              <ChevronDown 
-                className={`h-5 w-5 relative z-10 ${
-                  prefersReducedMotion ? "" : "transition-all duration-300 group-hover:translate-y-1"
-                }`}
-                aria-hidden="true"
-              />
-            </UniversalButton>
+            {/* DEBUG: Add a regular button to test if scrollToWorkshops works */}
+            <div className="space-y-2 flex flex-col items-center">
+              <button
+                onClick={() => {
+                  console.log('REGULAR BUTTON CLICKED - This should work');
+                  scrollToWorkshops();
+                }}
+                className="bg-blue-500 text-white px-4 py-2 rounded mb-2"
+              >
+                Test Regular Button
+              </button>
+              
+              <UniversalButton
+                onClick={(e) => {
+                  console.log('UNIVERSAL BUTTON CLICKED - onClick received:', e);
+                  console.log('About to call scrollToWorkshops');
+                  scrollToWorkshops();
+                }}
+                size="lg"
+                hapticType="medium"
+                className="group relative flex items-center gap-3 mx-auto text-base sm:text-lg min-h-[56px] touch-manipulation"
+                style={{ 
+                  animationDelay: prefersReducedMotion ? "0s" : `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s`,
+                  touchAction: 'manipulation',
+                  WebkitTapHighlightColor: 'transparent'
+                }}
+                aria-label="Navigate to available workshops section"
+              >
+                <span className="relative z-10">View Available Workshops</span>
+                <ChevronDown 
+                  className={`h-5 w-5 relative z-10 ${
+                    prefersReducedMotion ? "" : "transition-all duration-300 group-hover:translate-y-1"
+                  }`}
+                  aria-hidden="true"
+                />
+              </UniversalButton>
+            </div>
           </div>
         </div>
 
