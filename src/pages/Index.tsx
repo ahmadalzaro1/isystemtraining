@@ -78,42 +78,23 @@ const Index = memo(() => {
   }, [triggerHaptic]);
 
   const scrollToWorkshops = useCallback(() => {
-    console.log('=== SCROLL TO WORKSHOPS CALLED ===');
-    console.log('Callback triggered, about to trigger haptic');
+    console.log('scrollToWorkshops called');
     triggerHaptic('selection');
     
-    console.log('Looking for element with ID "workshops"');
     const element = document.getElementById("workshops");
-    console.log('Workshop element found:', !!element, element);
-    console.log('All elements with workshops ID:', document.querySelectorAll('#workshops'));
-    console.log('Document body:', document.body);
+    console.log('Found workshops element:', !!element);
     
     if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      
-      console.log('Element position:', elementPosition);
-      console.log('Window pageYOffset:', window.pageYOffset);
-      console.log('Calculated offset position:', offsetPosition);
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: prefersReducedMotion ? "auto" : "smooth"
+      element.scrollIntoView({ 
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'start'
       });
-      
-      console.log('Scroll command executed');
     } else {
-      console.error('Element with ID "workshops" not found!');
-      console.log('Available elements with IDs:', 
-        Array.from(document.querySelectorAll('[id]')).map(el => el.id)
-      );
-      // Fallback: scroll to bottom
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: prefersReducedMotion ? "auto" : "smooth"
+      // Fallback: scroll to reasonable position
+      window.scrollTo({ 
+        top: 800, 
+        behavior: prefersReducedMotion ? 'auto' : 'smooth'
       });
-      console.log('Fallback scroll to bottom executed');
     }
   }, [prefersReducedMotion, triggerHaptic]);
 

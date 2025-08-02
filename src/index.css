@@ -3,18 +3,25 @@
 @import './styles/animations/index.css';
 @import './styles/components.css';
 
-/* iOS-specific optimizations */
-* {
+/* iOS-specific optimizations - scoped to avoid blocking button interactions */
+body, html, .prevent-select {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
 }
 
-/* Allow text selection only where needed */
+/* Allow text selection where needed */
 input, textarea, [contenteditable], p, span, div[data-selectable] {
   -webkit-user-select: text;
   user-select: text;
+}
+
+/* Ensure buttons can receive events */
+button, [role="button"], .ios-button {
+  -webkit-user-select: auto;
+  user-select: auto;
+  pointer-events: auto;
 }
 
 /* Cross-platform keyboard navigation */
