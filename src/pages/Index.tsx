@@ -77,38 +77,82 @@ const Index = memo(() => {
   }, [triggerHaptic]);
 
   const scrollToWorkshops = useCallback(() => {
-    console.log('scrollToWorkshops called - Button clicked successfully!');
+    console.log('🔥 SCROLL BUTTON CLICKED - Function executing!');
     triggerHaptic('selection');
+    
+    // Debug current scroll position
+    const currentScrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    console.log('📍 Current scroll position:', currentScrollY);
+    console.log('📐 Viewport height:', viewportHeight);
     
     try {
       const element = document.getElementById("workshops");
-      console.log('Found workshops element:', !!element);
+      console.log('🎯 Found workshops element:', !!element);
       
       if (element) {
-        element.scrollIntoView({ 
-          behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start'
-        });
-        console.log('Scroll initiated successfully');
+        const elementRect = element.getBoundingClientRect();
+        const elementTop = elementRect.top + window.scrollY;
         
-        // Visual feedback for successful click
-        toast("Scrolling to workshops", {
-          description: "Finding available workshops for you",
-          position: "bottom-center",
-          duration: 2000
+        console.log('📏 Element position:', {
+          top: elementTop,
+          rect: elementRect,
+          scrollNeeded: elementTop - 100
         });
-      } else {
-        console.error('Workshops element not found');
-        // Fallback scroll to approximate location
+        
+        // Add visual highlight to target element
+        element.style.border = '3px solid #007AFF';
+        element.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          element.style.border = '';
+        }, 2000);
+        
+        // Use window.scrollTo for more reliable scrolling
+        const targetPosition = Math.max(0, elementTop - 100);
+        console.log('🚀 Scrolling to position:', targetPosition);
+        
         window.scrollTo({
-          top: window.innerHeight,
+          top: targetPosition,
           behavior: prefersReducedMotion ? 'auto' : 'smooth'
+        });
+        
+        // Verify scroll happened after delay
+        setTimeout(() => {
+          const newScrollY = window.scrollY;
+          console.log('✅ Scroll completed. New position:', newScrollY);
+          console.log('📊 Scroll difference:', newScrollY - currentScrollY);
+        }, 1000);
+        
+        toast("🎯 Scrolling to workshops", {
+          description: "Taking you to available workshops",
+          position: "bottom-center",
+          duration: 1500
+        });
+        
+      } else {
+        console.error('❌ Workshops element not found');
+        const fallbackPosition = Math.floor(viewportHeight * 0.8);
+        console.log('🔄 Using fallback scroll to:', fallbackPosition);
+        
+        window.scrollTo({
+          top: fallbackPosition,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth'
+        });
+        
+        toast("Scrolling down", {
+          description: "Looking for workshops section",
+          position: "bottom-center",
+          duration: 1500
         });
       }
     } catch (error) {
-      console.error('Scroll error:', error);
-      // Ultimate fallback
-      window.scrollTo({ top: 800, behavior: 'auto' });
+      console.error('💥 Scroll error:', error);
+      // Ultimate fallback with aggressive scroll
+      window.scrollTo({ 
+        top: Math.floor(viewportHeight * 1.2), 
+        behavior: 'auto' 
+      });
+      console.log('🆘 Emergency fallback scroll executed');
     }
   }, [prefersReducedMotion, triggerHaptic]);
 
