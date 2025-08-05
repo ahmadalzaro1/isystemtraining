@@ -1,17 +1,22 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session } from '@supabase/supabase-js';
+import { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { Database } from '@/integrations/supabase/types';
+import { toast } from 'sonner';
 
 type UserProfile = Database['public']['Tables']['user_profiles']['Row'];
+
+interface AuthResponse {
+  error: AuthError | null;
+}
 
 interface AuthContextType {
   user: User | null;
   profile: UserProfile | null;
   session: Session | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, metadata?: any) => Promise<{ error: any }>;
+  signIn: (email: string, password: string) => Promise<AuthResponse>;
+  signUp: (email: string, password: string, metadata?: Record<string, unknown>) => Promise<AuthResponse>;
   signOut: () => Promise<void>;
   isAdmin: boolean;
 }
@@ -32,9 +37,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchUserProfile = async (userId: string) => {
+  const fetchUserProfile = async (userId: string): Promise<void> => {
     try {
-      console.log('Fetching profile for user:', userId);
       const { data, error } = await supabase
         .from('user_profiles')
         .select('*')
@@ -42,17 +46,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .maybeSingle();
 
       if (error) {
-        console.error('Error fetching user profile:', error);
-        // Don't block authentication if profile fetch fails
+        toast.error('Failed to load user profile');
         setProfile(null);
         return;
       }
 
-      console.log('Profile fetched:', data);
       setProfile(data);
     } catch (error) {
-      console.error('Error fetching user profile:', error);
-      // Ensure profile is set to null on error to prevent auth blocking
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      toast.error(`Profile fetch failed: ${errorMessage}`);
       setProfile(null);
     }
   };
@@ -61,7 +63,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state change:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
         
@@ -69,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           // Defer profile fetching to avoid blocking auth state changes
           setTimeout(() => {
             fetchUserProfile(session.user.id);
-          }, 100); // Slightly longer delay to ensure proper state update
+          }, 100);
         } else {
           setProfile(null);
         }
@@ -93,37 +94,61 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => subscription.unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    return { error };
-  };
-
-  const signUp = async (email: string, password: string, metadata?: any) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl,
-        data: metadata
+  const signIn = async (email: string, password: string): Promise<AuthResponse> => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      
+      if (error) {
+        toast.error(`Sign in failed: ${error.message}`);
       }
-    });
-    
-    return { error };
+      
+      return { error };
+    } catch (error) {
+      const authError = error as AuthError;
+      toast.error(`Sign in error: ${authError.message}`);
+      return { error: authError };
+    }
   };
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setProfile(null);
-    setSession(null);
+  const signUp = async (email: string, password: string, metadata?: Record<string, unknown>): Promise<AuthResponse> => {
+    try {
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: metadata
+        }
+      });
+      
+      if (error) {
+        toast.error(`Sign up failed: ${error.message}`);
+      }
+      
+      return { error };
+    } catch (error) {
+      const authError = error as AuthError;
+      toast.error(`Sign up error: ${authError.message}`);
+      return { error: authError };
+    }
+  };
+
+  const signOut = async (): Promise<void> => {
+    try {
+      await supabase.auth.signOut();
+      setUser(null);
+      setProfile(null);
+      setSession(null);
+      toast.success('Signed out successfully');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Sign out failed';
+      toast.error(errorMessage);
+    }
   };
 
   const isAdmin = profile?.is_admin || false;

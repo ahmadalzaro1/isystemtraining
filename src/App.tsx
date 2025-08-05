@@ -7,36 +7,50 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { SkipToContent } from "@/components/accessibility/SkipToContent";
 
-// Lazy load pages for better performance
-const Index = lazy(() => import("./pages/Index"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Auth = lazy(() => import("./pages/Auth"));
-const Admin = lazy(() => import("./pages/Admin"));
-const MyRegistrations = lazy(() => import("./pages/MyRegistrations"));
+// Lazy load pages for better performance with explicit imports
+const Index = lazy(() => import("./pages/Index").then(module => ({ default: module.default })));
+const NotFound = lazy(() => import("./pages/NotFound").then(module => ({ default: module.default })));
+const Auth = lazy(() => import("./pages/Auth").then(module => ({ default: module.default })));
+const Admin = lazy(() => import("./pages/Admin").then(module => ({ default: module.default })));
+const MyRegistrations = lazy(() => import("./pages/MyRegistrations").then(module => ({ default: module.default })));
 
-// Loading component for Suspense
-const LoadingSpinner = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[#F9F9F9]" role="status" aria-label="Loading">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-    <span className="sr-only">Loading application...</span>
+// Enhanced loading component with accessibility
+const LoadingSpinner = (): JSX.Element => (
+  <div 
+    className="min-h-screen flex items-center justify-center bg-background" 
+    role="status" 
+    aria-label="Loading application"
+  >
+    <div className="flex flex-col items-center space-y-4">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <p className="text-muted-foreground animate-pulse">Loading...</p>
+      <span className="sr-only">Please wait while the application loads</span>
+    </div>
   </div>
 );
 
-const App = () => {
-  // Configure React Query with optimized settings
+const App = (): JSX.Element => {
+  // Configure React Query with optimized settings for performance
   const queryClient = useMemo(() => new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 5 * 60 * 1000, // 5 minutes
         gcTime: 10 * 60 * 1000, // 10 minutes
         retry: (failureCount, error) => {
-          // Don't retry on 4xx errors
+          // Don't retry on 4xx errors (client errors)
           if (error instanceof Error && error.message.includes('4')) {
             return false;
           }
           return failureCount < 3;
         },
+        refetchOnWindowFocus: false, // Reduce unnecessary refetches
+        networkMode: 'online', // Only run queries when online
+      },
+      mutations: {
+        retry: 1, // Retry mutations once on failure
+        networkMode: 'online',
       },
     },
   }), []);
@@ -49,15 +63,18 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <AuthProvider>
+              <SkipToContent />
               <Suspense fallback={<LoadingSpinner />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/auth" element={<Auth />} />
-                  <Route path="/admin" element={<Admin />} />
-                  <Route path="/my-registrations" element={<MyRegistrations />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                <main id="main-content" tabIndex={-1}>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/auth" element={<Auth />} />
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/my-registrations" element={<MyRegistrations />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
               </Suspense>
             </AuthProvider>
           </BrowserRouter>
