@@ -77,17 +77,38 @@ const Index = memo(() => {
   }, [triggerHaptic]);
 
   const scrollToWorkshops = useCallback(() => {
-    console.log('scrollToWorkshops called');
+    console.log('scrollToWorkshops called - Button clicked successfully!');
     triggerHaptic('selection');
     
-    const element = document.getElementById("workshops");
-    console.log('Found workshops element:', !!element);
-    
-    if (element) {
-      element.scrollIntoView({ 
-        behavior: prefersReducedMotion ? 'auto' : 'smooth',
-        block: 'start'
-      });
+    try {
+      const element = document.getElementById("workshops");
+      console.log('Found workshops element:', !!element);
+      
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'start'
+        });
+        console.log('Scroll initiated successfully');
+        
+        // Visual feedback for successful click
+        toast("Scrolling to workshops", {
+          description: "Finding available workshops for you",
+          position: "bottom-center",
+          duration: 2000
+        });
+      } else {
+        console.error('Workshops element not found');
+        // Fallback scroll to approximate location
+        window.scrollTo({
+          top: window.innerHeight,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth'
+        });
+      }
+    } catch (error) {
+      console.error('Scroll error:', error);
+      // Ultimate fallback
+      window.scrollTo({ top: 800, behavior: 'auto' });
     }
   }, [prefersReducedMotion, triggerHaptic]);
 
