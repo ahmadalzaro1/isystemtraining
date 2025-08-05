@@ -216,8 +216,6 @@ const Index = memo(() => {
             <div className="flex flex-col items-center">
               <HomeButton
                 onClick={scrollToWorkshops}
-                size="lg"
-                className="group relative flex items-center gap-3 mx-auto text-base sm:text-lg min-h-[56px] bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm shadow-xl"
                 aria-label="Navigate to available workshops section"
               >
                 <span className="relative z-10">View Available Workshops</span>
