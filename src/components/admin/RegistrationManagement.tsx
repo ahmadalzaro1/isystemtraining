@@ -4,6 +4,7 @@ import { format, startOfWeek, endOfWeek, isWithinInterval } from 'date-fns';
 import * as XLSX from 'xlsx';
 import { toast } from 'sonner';
 import { Download, Search, Filter, FileText, Users, Calendar } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 import { supabase } from '@/integrations/supabase/client';
 
@@ -42,9 +43,19 @@ interface RegistrationData {
 }
 
 const RegistrationManagement: React.FC = () => {
+  const { isAdmin } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedRegistration, setSelectedRegistration] = useState<RegistrationData | null>(null);
+
+  // Guard against non-admin access
+  if (!isAdmin) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Access denied. Administrator privileges required.</p>
+      </div>
+    );
+  }
 
   const { data: registrations = [], isLoading } = useQuery({
     queryKey: ['all-registrations'],

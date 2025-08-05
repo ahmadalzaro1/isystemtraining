@@ -4,8 +4,20 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Users, BookOpen, UserCheck, TrendingUp, Calendar, Award } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const AnalyticsDashboard = () => {
+  const { isAdmin } = useAuth();
+
+  // Guard against non-admin access
+  if (!isAdmin) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Access denied. Administrator privileges required.</p>
+      </div>
+    );
+  }
+
   // Fetch analytics data
   const { data: stats, isLoading } = useQuery({
     queryKey: ['admin-analytics'],

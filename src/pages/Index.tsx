@@ -21,7 +21,8 @@ const Index = memo(() => {
   const prefersReducedMotion = useReducedMotion();
   const [setHeroRef] = useIntersectionObserver({ threshold: 0.1 });
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const auth = useAuth();
+  const { user } = auth;
   const { triggerHaptic } = useHapticFeedback();
   
   const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
@@ -142,20 +143,33 @@ const Index = memo(() => {
 
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2 ios-safe-area-top">
         {user ? (
-          <Button
-            variant="secondary"
-            size="sm"
+          <div className="flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={() => navigate('/my-registrations')}
-            className="flex items-center gap-2"
-          >
-            <User className="h-4 w-4" />
-            My Registrations
-          </Button>
+              className="flex items-center gap-2"
+            >
+              <User className="h-4 w-4" />
+              My Registrations
+            </Button>
+            {auth.isAdmin && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => navigate('/admin')}
+                className="flex items-center gap-2"
+              >
+                <LogIn className="h-4 w-4" />
+                Admin Dashboard
+              </Button>
+            )}
+          </div>
         ) : (
           <Button
             variant="secondary"
             size="sm"
-              onClick={() => navigate('/auth')}
+            onClick={() => navigate('/auth')}
             className="flex items-center gap-2"
           >
             <LogIn className="h-4 w-4" />

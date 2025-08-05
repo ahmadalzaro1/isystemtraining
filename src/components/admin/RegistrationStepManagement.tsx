@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from '@/components/ui/badge';
 import { Plus, Edit, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface RegistrationStep {
   id: string;
@@ -24,6 +25,7 @@ interface RegistrationStep {
 }
 
 export const RegistrationStepManagement = () => {
+  const { isAdmin } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingStep, setEditingStep] = useState<RegistrationStep | null>(null);
   const [formData, setFormData] = useState({
@@ -38,6 +40,15 @@ export const RegistrationStepManagement = () => {
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Guard against non-admin access
+  if (!isAdmin) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Access denied. Administrator privileges required.</p>
+      </div>
+    );
+  }
 
   // Fetch registration steps
   const { data: steps, isLoading } = useQuery({

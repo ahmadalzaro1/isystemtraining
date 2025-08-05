@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from '@/components/ui/badge';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Category {
   id: string;
@@ -22,6 +23,7 @@ interface Category {
 }
 
 export const CategoryManagement = () => {
+  const { isAdmin } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [formData, setFormData] = useState({
@@ -34,6 +36,15 @@ export const CategoryManagement = () => {
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Guard against non-admin access
+  if (!isAdmin) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Access denied. Administrator privileges required.</p>
+      </div>
+    );
+  }
 
   // Fetch categories
   const { data: categories, isLoading } = useQuery({

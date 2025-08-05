@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Label } from '@/components/ui/label';
 import { Edit, Search, Mail, Phone, Building, UserCheck } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UserProfile {
   id: string;
@@ -26,12 +27,22 @@ interface UserProfile {
 }
 
 export const UserManagement = () => {
+  const { user: currentUser, isAdmin } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [editingUser, setEditingUser] = useState<UserProfile | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Guard against non-admin access
+  if (!isAdmin) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Access denied. Administrator privileges required.</p>
+      </div>
+    );
+  }
 
   // Fetch users
   const { data: users, isLoading } = useQuery({
@@ -74,6 +85,16 @@ export const UserManagement = () => {
   });
 
   const handleToggleAdmin = async (user: UserProfile) => {
+    // Prevent self-demotion
+    if (user.user_id === currentUser?.id && user.is_admin) {
+      toast({
+        title: "Action Not Allowed",
+        description: "You cannot remove your own admin privileges.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     updateUserMutation.mutate({
       userId: user.id,
       updates: { is_admin: !user.is_admin }

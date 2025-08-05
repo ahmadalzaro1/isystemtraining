@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
 import { Plus, Search, Edit, Trash2, Calendar, Users } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 import { WorkshopService, CreateWorkshopData } from '@/services/workshopService';
 import { Workshop } from '@/types/workshop';
@@ -34,10 +35,20 @@ const workshopSchema = z.object({
 type WorkshopFormData = z.infer<typeof workshopSchema>;
 
 const WorkshopManagement: React.FC = () => {
+  const { isAdmin } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const queryClient = useQueryClient();
+
+  // Guard against non-admin access
+  if (!isAdmin) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Access denied. Administrator privileges required.</p>
+      </div>
+    );
+  }
 
   const { data: workshops = [], isLoading } = useQuery({
     queryKey: ['workshops'],

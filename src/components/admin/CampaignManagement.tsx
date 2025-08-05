@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from '@/components/ui/badge';
 import { Plus, Edit, Trash2, Send, BarChart3 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Campaign {
   id: string;
@@ -26,6 +27,7 @@ interface Campaign {
 }
 
 export const CampaignManagement = () => {
+  const { isAdmin } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
   const [formData, setFormData] = useState({
@@ -40,6 +42,15 @@ export const CampaignManagement = () => {
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Guard against non-admin access
+  if (!isAdmin) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Access denied. Administrator privileges required.</p>
+      </div>
+    );
+  }
 
   // Fetch campaigns
   const { data: campaigns, isLoading } = useQuery({
