@@ -19,7 +19,7 @@ import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 const Index = memo(() => {
   usePerformanceMonitor('Index');
   const prefersReducedMotion = useReducedMotion();
-  const [setHeroRef, heroEntry] = useIntersectionObserver({ threshold: 0.1 });
+  const [setHeroRef] = useIntersectionObserver({ threshold: 0.1 });
   const navigate = useNavigate();
   const { user } = useAuth();
   const { triggerHaptic } = useHapticFeedback();
@@ -40,24 +40,18 @@ const Index = memo(() => {
   }, []);
 
   const handleWorkshopSelect = useCallback((workshop: any) => {
-    console.log('Workshop selected - handleWorkshopSelect called:', workshop);
-    console.log('Current step before change:', step);
-    
     setSelectedWorkshop(workshop);
     setStep("registration");
     triggerHaptic('medium');
-    
-    console.log('Workshop selected - state should change to registration');
     
     toast("Workshop Selected", {
       description: `You've selected ${workshop.name} on ${workshop.date.toLocaleDateString()}`,
       position: "top-right",
       className: "z-[1000]"
     });
-  }, [triggerHaptic, step]);
+  }, [triggerHaptic]);
 
   const handleRegistrationComplete = useCallback((formData: FormData, registrationRecord?: WorkshopRegistration) => {
-    console.log('Registration completed:', formData);
     setRegistrationData(formData);
     setRegistration(registrationRecord || null);
     setStep("success");
@@ -68,7 +62,6 @@ const Index = memo(() => {
   }, [triggerHaptic]);
 
   const handleViewWorkshops = useCallback(() => {
-    console.log('View workshops clicked - returning to calendar');
     setStep("calendar");
     setSelectedWorkshop(null);
     setRegistrationData(null);
@@ -77,87 +70,29 @@ const Index = memo(() => {
   }, [triggerHaptic]);
 
   const scrollToWorkshops = useCallback(() => {
-    console.log('🔥 SCROLL BUTTON CLICKED - Function executing!');
     triggerHaptic('selection');
     
-    // Debug current scroll position
-    const currentScrollY = window.scrollY;
-    const viewportHeight = window.innerHeight;
-    console.log('📍 Current scroll position:', currentScrollY);
-    console.log('📐 Viewport height:', viewportHeight);
-    
-    try {
-      const element = document.getElementById("workshops");
-      console.log('🎯 Found workshops element:', !!element);
-      
-      if (element) {
-        const elementRect = element.getBoundingClientRect();
-        const elementTop = elementRect.top + window.scrollY;
-        
-        console.log('📏 Element position:', {
-          top: elementTop,
-          rect: elementRect,
-          scrollNeeded: elementTop - 100
-        });
-        
-        // Add visual highlight to target element
-        element.style.border = '3px solid #007AFF';
-        element.style.transition = 'all 0.3s ease';
-        setTimeout(() => {
-          element.style.border = '';
-        }, 2000);
-        
-        // Use window.scrollTo for more reliable scrolling
-        const targetPosition = Math.max(0, elementTop - 100);
-        console.log('🚀 Scrolling to position:', targetPosition);
-        
-        window.scrollTo({
-          top: targetPosition,
-          behavior: prefersReducedMotion ? 'auto' : 'smooth'
-        });
-        
-        // Verify scroll happened after delay
-        setTimeout(() => {
-          const newScrollY = window.scrollY;
-          console.log('✅ Scroll completed. New position:', newScrollY);
-          console.log('📊 Scroll difference:', newScrollY - currentScrollY);
-        }, 1000);
-        
-        toast("🎯 Scrolling to workshops", {
-          description: "Taking you to available workshops",
-          position: "bottom-center",
-          duration: 1500
-        });
-        
-      } else {
-        console.error('❌ Workshops element not found');
-        const fallbackPosition = Math.floor(viewportHeight * 0.8);
-        console.log('🔄 Using fallback scroll to:', fallbackPosition);
-        
-        window.scrollTo({
-          top: fallbackPosition,
-          behavior: prefersReducedMotion ? 'auto' : 'smooth'
-        });
-        
-        toast("Scrolling down", {
-          description: "Looking for workshops section",
-          position: "bottom-center",
-          duration: 1500
-        });
-      }
-    } catch (error) {
-      console.error('💥 Scroll error:', error);
-      // Ultimate fallback with aggressive scroll
-      window.scrollTo({ 
-        top: Math.floor(viewportHeight * 1.2), 
-        behavior: 'auto' 
+    const element = document.getElementById("workshops");
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'start'
       });
-      console.log('🆘 Emergency fallback scroll executed');
+      
+      toast("Scrolling to workshops", {
+        description: "Finding available workshops for you",
+        position: "bottom-center",
+        duration: 2000
+      });
+    } else {
+      // Fallback scroll
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth'
+      });
     }
   }, [prefersReducedMotion, triggerHaptic]);
 
-  // Debug current state
-  console.log('Index render - Current step:', step, 'Selected workshop:', selectedWorkshop?.name);
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden ios-scroll">
@@ -175,12 +110,12 @@ const Index = memo(() => {
               className="absolute animate-line"
               style={{
                 width: '2px',
-                height: `${Math.random() * 150 + 100}px`,
+                height: `${120 + (i * 10)}px`,
                 background: 'linear-gradient(180deg, rgba(0,122,255,0.1) 0%, rgba(0,122,255,0.05) 100%)',
                 left: `${(i + 1) * 12.5}%`,
-                top: `${Math.random() * 100}%`,
+                top: `${10 + (i * 10)}%`,
                 animationDelay: `${i * 0.5}s`,
-                transform: `rotate(${Math.random() * 45 - 22.5}deg)`
+                transform: `rotate(${-10 + (i * 2.5)}deg)`
               }}
             />
           ))}
@@ -190,12 +125,12 @@ const Index = memo(() => {
               className="absolute animate-line"
               style={{
                 width: '2px',
-                height: `${Math.random() * 150 + 100}px`,
+                height: `${130 + (i * 8)}px`,
                 background: 'linear-gradient(180deg, rgba(0,122,255,0.1) 0%, rgba(0,122,255,0.05) 100%)',
                 right: `${(i + 1) * 12.5}%`,
-                bottom: `${Math.random() * 100}%`,
+                bottom: `${15 + (i * 8)}%`,
                 animationDelay: `${i * 0.5 + 0.25}s`,
-                transform: `rotate(${Math.random() * 45 - 22.5}deg)`
+                transform: `rotate(${5 + (i * 3)}deg)`
               }}
             />
           ))}
@@ -210,10 +145,7 @@ const Index = memo(() => {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => {
-              console.log('My registrations clicked');
-              navigate('/my-registrations');
-            }}
+              onClick={() => navigate('/my-registrations')}
             className="flex items-center gap-2"
           >
             <User className="h-4 w-4" />
@@ -223,10 +155,7 @@ const Index = memo(() => {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => {
-              console.log('Admin login clicked');
-              navigate('/auth');
-            }}
+              onClick={() => navigate('/auth')}
             className="flex items-center gap-2"
           >
             <LogIn className="h-4 w-4" />

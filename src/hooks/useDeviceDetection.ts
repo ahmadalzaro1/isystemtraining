@@ -57,7 +57,7 @@ export const useDeviceDetection = (): DeviceInfo => {
         viewport
       };
 
-      console.log('Device detected:', newDeviceInfo);
+      
 
       setDeviceInfo(newDeviceInfo);
     };
