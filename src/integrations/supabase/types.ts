@@ -557,6 +557,7 @@ export type Database = {
           updated_at: string
           user_id: string | null
           workshop_id: string
+          workshop_uuid: string | null
         }
         Insert: {
           confirmation_code?: string
@@ -570,6 +571,7 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           workshop_id: string
+          workshop_uuid?: string | null
         }
         Update: {
           confirmation_code?: string
@@ -583,6 +585,57 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           workshop_id?: string
+          workshop_uuid?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workshop_registrations_workshop_uuid_fkey"
+            columns: ["workshop_uuid"]
+            isOneToOne: false
+            referencedRelation: "workshops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workshops: {
+        Row: {
+          category: string
+          created_at: string
+          date: string
+          description: string | null
+          id: string
+          instructor: string
+          name: string
+          skill_level: string
+          spots_remaining: number
+          time: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          date: string
+          description?: string | null
+          id?: string
+          instructor: string
+          name: string
+          skill_level: string
+          spots_remaining?: number
+          time: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          date?: string
+          description?: string | null
+          id?: string
+          instructor?: string
+          name?: string
+          skill_level?: string
+          spots_remaining?: number
+          time?: string
+          updated_at?: string
         }
         Relationships: []
       }

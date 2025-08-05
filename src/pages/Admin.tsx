@@ -1,129 +1,85 @@
 import React from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import { Users, BookOpen, BarChart3, Calendar, Settings, UserCheck } from 'lucide-react';
+
+import { UserManagement } from '@/components/admin/UserManagement';
 import { CourseManagement } from '@/components/admin/CourseManagement';
+import { AnalyticsDashboard } from '@/components/admin/AnalyticsDashboard';
+import WorkshopManagement from '@/components/admin/WorkshopManagement';
+import RegistrationManagement from '@/components/admin/RegistrationManagement';
 import { CategoryManagement } from '@/components/admin/CategoryManagement';
 import { SubjectManagement } from '@/components/admin/SubjectManagement';
-import { UserManagement } from '@/components/admin/UserManagement';
-import { AnalyticsDashboard } from '@/components/admin/AnalyticsDashboard';
 import { RegistrationStepManagement } from '@/components/admin/RegistrationStepManagement';
 import { CampaignManagement } from '@/components/admin/CampaignManagement';
-import { LogOut, Users, BookOpen, FolderOpen, Tags, BarChart3, Settings, Mail } from 'lucide-react';
 
 const Admin = () => {
-  const { user, isAdmin, signOut, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
-
-  if (!user || !isAdmin) {
-    return <Navigate to="/auth" replace />;
-  }
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-xl font-semibold">Learning Platform Admin</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <ThemeToggle />
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={signOut}
-              className="flex items-center space-x-2"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Sign Out</span>
-            </Button>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold tracking-tight">Admin Dashboard</h1>
+          <p className="text-muted-foreground mt-2">Manage users, courses, workshops, and system settings</p>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="p-6">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold tracking-tight">Admin Dashboard</h2>
-            <p className="text-muted-foreground">
-              Manage your learning platform content and users
-            </p>
-          </div>
+        <Tabs defaultValue="workshops" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6">
+            <TabsTrigger value="workshops" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span className="hidden sm:inline">Workshops</span>
+            </TabsTrigger>
+            <TabsTrigger value="registrations" className="flex items-center gap-2">
+              <UserCheck className="h-4 w-4" />
+              <span className="hidden sm:inline">Registrations</span>
+            </TabsTrigger>
+            <TabsTrigger value="users" className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">Users</span>
+            </TabsTrigger>
+            <TabsTrigger value="courses" className="flex items-center gap-2">
+              <BookOpen className="h-4 w-4" />
+              <span className="hidden sm:inline">Courses</span>
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Settings</span>
+            </TabsTrigger>
+          </TabsList>
 
-          <Tabs defaultValue="analytics" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-7">
-              <TabsTrigger value="analytics" className="flex items-center space-x-2">
-                <BarChart3 className="h-4 w-4" />
-                <span>Analytics</span>
-              </TabsTrigger>
-              <TabsTrigger value="users" className="flex items-center space-x-2">
-                <Users className="h-4 w-4" />
-                <span>Users</span>
-              </TabsTrigger>
-              <TabsTrigger value="categories" className="flex items-center space-x-2">
-                <FolderOpen className="h-4 w-4" />
-                <span>Categories</span>
-              </TabsTrigger>
-              <TabsTrigger value="subjects" className="flex items-center space-x-2">
-                <Tags className="h-4 w-4" />
-                <span>Subjects</span>
-              </TabsTrigger>
-              <TabsTrigger value="courses" className="flex items-center space-x-2">
-                <BookOpen className="h-4 w-4" />
-                <span>Courses</span>
-              </TabsTrigger>
-              <TabsTrigger value="registration" className="flex items-center space-x-2">
-                <Settings className="h-4 w-4" />
-                <span>Registration</span>
-              </TabsTrigger>
-              <TabsTrigger value="campaigns" className="flex items-center space-x-2">
-                <Mail className="h-4 w-4" />
-                <span>Campaigns</span>
-              </TabsTrigger>
-            </TabsList>
+          <TabsContent value="workshops">
+            <WorkshopManagement />
+          </TabsContent>
 
-            <TabsContent value="analytics">
-              <AnalyticsDashboard />
-            </TabsContent>
+          <TabsContent value="registrations">
+            <RegistrationManagement />
+          </TabsContent>
 
-            <TabsContent value="users">
-              <UserManagement />
-            </TabsContent>
+          <TabsContent value="users">
+            <UserManagement />
+          </TabsContent>
 
-            <TabsContent value="categories">
+          <TabsContent value="courses">
+            <CourseManagement />
+          </TabsContent>
+
+          <TabsContent value="analytics">
+            <AnalyticsDashboard />
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <div className="grid gap-6">
               <CategoryManagement />
-            </TabsContent>
-
-            <TabsContent value="subjects">
               <SubjectManagement />
-            </TabsContent>
-
-            <TabsContent value="courses">
-              <CourseManagement />
-            </TabsContent>
-
-            <TabsContent value="registration">
               <RegistrationStepManagement />
-            </TabsContent>
-
-            <TabsContent value="campaigns">
               <CampaignManagement />
-            </TabsContent>
-          </Tabs>
-        </div>
-      </main>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };

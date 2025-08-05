@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { mockWorkshops } from '@/data/mockWorkshops';
 import { Workshop, WorkshopFilters } from '@/types/workshop';
-import { applyFilters } from '@/utils/workshopFilters';
+import { filterWorkshopsByFilters } from '@/utils/workshopFilters';
 
 interface UseInfiniteWorkshopsParams {
   filters: WorkshopFilters;
