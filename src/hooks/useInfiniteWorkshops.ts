@@ -36,7 +36,7 @@ export const useInfiniteWorkshops = ({
       const pageNumber = pageParam as number;
       
       // Filter workshops
-      const filteredWorkshops = applyFilters(mockWorkshops, filters);
+      const filteredWorkshops = filterWorkshopsByFilters(mockWorkshops, filters);
       
       // Paginate results
       const startIndex = pageNumber * pageSize;
