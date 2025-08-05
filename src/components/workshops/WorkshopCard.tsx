@@ -4,7 +4,7 @@ import { Workshop } from "@/types/workshop";
 import { SeatsProgressBar } from "./SeatsProgressBar";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { UniversalButton } from "@/components/ui/universal-button";
+import { Button } from "@/components/ui/button";
 import { IOSCard } from "@/components/ui/ios-card";
 
 interface WorkshopCardProps {
@@ -114,24 +114,22 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
           </div>
           
           {workshop.spotsRemaining > 0 ? (
-            <UniversalButton 
+            <Button 
               size="sm"
-              hapticType="medium"
               className="flex items-center gap-2"
               onClick={handleRegister}
             >
               <CheckCircle className="h-4 w-4" />
               Register
-            </UniversalButton>
+            </Button>
           ) : (
-            <UniversalButton 
+            <Button 
               size="sm"
               variant="secondary"
-              hapticType="light"
               onClick={handleWaitlist}
             >
               Waitlist
-            </UniversalButton>
+            </Button>
           )}
         </div>
       </div>

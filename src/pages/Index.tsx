@@ -1,10 +1,9 @@
-
 import { useState, useEffect, useCallback, memo } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
 import { RegistrationSuccess } from "@/components/registration/RegistrationSuccess";
 import { toast } from "sonner";
-import { ChevronDown, User } from "lucide-react";
+import { ChevronDown, User, LogIn } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { FormData } from "@/types/registration";
 import { WorkshopRegistration } from "@/services/registrationService";
@@ -13,8 +12,8 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { UniversalButton } from "@/components/ui/universal-button";
-import { LogIn } from "lucide-react";
+import { HomeButton } from '@/components/ui/home-button';
+import { Button } from '@/components/ui/button';
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 const Index = memo(() => {
@@ -89,12 +88,6 @@ const Index = memo(() => {
         behavior: prefersReducedMotion ? 'auto' : 'smooth',
         block: 'start'
       });
-    } else {
-      // Fallback: scroll to reasonable position
-      window.scrollTo({ 
-        top: 800, 
-        behavior: prefersReducedMotion ? 'auto' : 'smooth'
-      });
     }
   }, [prefersReducedMotion, triggerHaptic]);
 
@@ -149,7 +142,7 @@ const Index = memo(() => {
 
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2 ios-safe-area-top">
         {user ? (
-          <UniversalButton
+          <Button
             variant="secondary"
             size="sm"
             onClick={() => {
@@ -157,13 +150,12 @@ const Index = memo(() => {
               navigate('/my-registrations');
             }}
             className="flex items-center gap-2"
-            hapticType="light"
           >
             <User className="h-4 w-4" />
             My Registrations
-          </UniversalButton>
+          </Button>
         ) : (
-          <UniversalButton
+          <Button
             variant="secondary"
             size="sm"
             onClick={() => {
@@ -171,11 +163,10 @@ const Index = memo(() => {
               navigate('/auth');
             }}
             className="flex items-center gap-2"
-            hapticType="light"
           >
             <LogIn className="h-4 w-4" />
             Admin Login
-          </UniversalButton>
+          </Button>
         )}
         <ThemeToggle />
       </div>
@@ -222,32 +213,11 @@ const Index = memo(() => {
 
           {/* CTA Button */}
           <div className="pt-8 px-4 relative z-30">
-            {/* DEBUG: Add a regular button to test if scrollToWorkshops works */}
-            <div className="space-y-2 flex flex-col items-center">
-              <button
-                onClick={() => {
-                  console.log('REGULAR BUTTON CLICKED - This should work');
-                  scrollToWorkshops();
-                }}
-                className="bg-blue-500 text-white px-4 py-2 rounded mb-2"
-              >
-                Test Regular Button
-              </button>
-              
-              <UniversalButton
-                onClick={(e) => {
-                  console.log('UNIVERSAL BUTTON CLICKED - onClick received:', e);
-                  console.log('About to call scrollToWorkshops');
-                  scrollToWorkshops();
-                }}
+            <div className="flex flex-col items-center">
+              <HomeButton
+                onClick={scrollToWorkshops}
                 size="lg"
-                hapticType="medium"
-                className="group relative flex items-center gap-3 mx-auto text-base sm:text-lg min-h-[56px] touch-manipulation"
-                style={{ 
-                  animationDelay: prefersReducedMotion ? "0s" : `${(headlineLetters.length + subheadlineLetters.length) * 0.02}s`,
-                  touchAction: 'manipulation',
-                  WebkitTapHighlightColor: 'transparent'
-                }}
+                className="group relative flex items-center gap-3 mx-auto text-base sm:text-lg min-h-[56px] bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm shadow-xl"
                 aria-label="Navigate to available workshops section"
               >
                 <span className="relative z-10">View Available Workshops</span>
@@ -257,7 +227,7 @@ const Index = memo(() => {
                   }`}
                   aria-hidden="true"
                 />
-              </UniversalButton>
+              </HomeButton>
             </div>
           </div>
         </div>

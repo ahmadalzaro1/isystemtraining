@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UniversalButton } from "@/components/ui/universal-button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useRegistrations, useGuestRegistrations, useConfirmationLookup } from "@/hooks/useRegistrations";
@@ -101,13 +101,13 @@ const GuestLookup = () => {
             <p className="text-gray-500 mb-4">
               We couldn't find any registrations for this email address.
             </p>
-            <UniversalButton 
+            <Button 
               variant="outline" 
               onClick={() => setEmail("")}
               className="bg-white hover:bg-gray-50"
             >
               Try Different Email
-            </UniversalButton>
+            </Button>
           </CardContent>
         </Card>
       )}
@@ -136,7 +136,7 @@ const MyRegistrations = () => {
       <div className="relative max-w-6xl mx-auto p-4 lg:p-8">
         {/* Navigation */}
         <div className="flex items-center gap-4 mb-8">
-          <UniversalButton
+          <Button
             variant="outline"
             size="sm"
             onClick={() => navigate('/')}
@@ -144,7 +144,7 @@ const MyRegistrations = () => {
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Home
-          </UniversalButton>
+          </Button>
           
           <div className="h-4 w-px bg-gray-300" />
           
@@ -181,22 +181,22 @@ const MyRegistrations = () => {
                       </div>
                       
                       <div className="flex items-center gap-2">
-                        <UniversalButton 
+                        <Button 
                           variant="outline" 
                           size="sm"
                           className="bg-white/80 backdrop-blur-sm border-gray-200 hover:border-gray-300"
                         >
                           <Filter className="h-4 w-4 mr-2" />
                           Filter
-                        </UniversalButton>
-                        <UniversalButton 
+                        </Button>
+                        <Button 
                           variant="outline" 
                           size="sm"
                           className="bg-white/80 backdrop-blur-sm border-gray-200 hover:border-gray-300"
                         >
                           <CalendarIcon className="h-4 w-4 mr-2" />
                           Export
-                        </UniversalButton>
+                        </Button>
                       </div>
                     </div>
 
@@ -221,13 +221,13 @@ const MyRegistrations = () => {
                           <p className="text-gray-500 mb-4">
                             Try adjusting your search terms or clearing the filter.
                           </p>
-                          <UniversalButton 
+                          <Button 
                             variant="outline" 
                             onClick={() => setSearchQuery("")}
                             className="bg-white hover:bg-gray-50"
                           >
                             Clear Search
-                          </UniversalButton>
+                          </Button>
                         </CardContent>
                       </Card>
                     )}
