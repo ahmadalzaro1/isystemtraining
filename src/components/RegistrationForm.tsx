@@ -11,6 +11,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { RegistrationService } from "@/services/registrationService";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { log, error as logError } from "@/utils/logger";
 
 export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationFormProps) => {
   usePerformanceMonitor('RegistrationForm');
@@ -19,17 +20,11 @@ export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationForm
   
   const handleRegistrationComplete = async (formData: FormData) => {
     try {
-      console.log('Starting registration process...');
-      console.log('Auth state:', { 
-        user: user?.id, 
-        email: user?.email, 
-        authLoading,
-        formData: { name: formData.name, email: formData.email }
-      });
+      log('Starting registration process', { hasUser: !!user, authLoading });
 
       // Wait for auth to finish loading if still loading
       if (authLoading) {
-        console.log('Waiting for auth to load...');
+        log("Waiting for auth to load...");
         toast.info("Preparing registration...");
         return;
       }
@@ -40,7 +35,7 @@ export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationForm
         user_id: user?.id,
       });
 
-      console.log('Registration created successfully:', registration);
+      log("Registration created", { confirmation: registration?.confirmation_code });
       
       toast.success("Registration successful!", {
         description: `Confirmation code: ${registration.confirmation_code}`,
@@ -48,7 +43,7 @@ export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationForm
 
       onComplete(formData, registration);
     } catch (error) {
-      console.error('Registration failed:', error);
+      logError('Registration failed:', error);
       
       const errorMessage = error instanceof Error ? error.message : "Registration failed";
       

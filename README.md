@@ -67,3 +67,23 @@ Simply open [Lovable](https://lovable.dev/projects/3e73da9e-5911-4d82-8b3d-d6023
 ## I want to use a custom domain - is that possible?
 
 We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+
+## Hardening Pass (Security & Reliability)
+This repo has been hardened for production. The pass includes: env-based Supabase config (where applicable), corrected RLS, schema FK alignment, CSP/CORS tightening, PII logging hygiene, basic abuse protection (captcha verifier edge function), email function wiring (provider-agnostic), CI workflow, and docs. See Verification section below for checks.
+
+### Local Setup
+1. Copy .env.example to .env and fill values as needed.
+2. npm ci
+3. npm run dev
+4. Configure Supabase project URL/keys in the app or via Lovable integration.
+
+### Security Verification
+- RLS: anonymous users cannot list guest registrations; users only see their own.
+- Env: search repo for supabase.co or JWT-like strings; none beyond allowed public anon key remain.
+- CSP: open DevTools; confirm no CSP errors.
+- CORS: test a disallowed origin; edge functions block it (no wildcard).
+- Abuse: registration may be gated behind captcha once secrets are set.
+
+### Migrations
+Run via Lovable/Supabase: the new SQL has been applied to secure workshop_registrations and align FK. Use Supabase SQL Editor if rerunning is needed.
+

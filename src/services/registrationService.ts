@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { FormData } from "@/types/registration";
+import { log, error as logError } from "@/utils/logger";
 
 export interface WorkshopRegistration {
   id: string;
@@ -23,11 +24,11 @@ export interface CreateRegistrationData {
 
 export class RegistrationService {
   static async createRegistration({ workshop_id, formData, user_id }: CreateRegistrationData) {
-    console.log('Creating registration with:', { workshop_id, user_id, hasFormData: !!formData });
+    log('Creating registration with', { workshop_id, hasUser: !!user_id, hasFormData: !!formData });
     
     // Get current auth state to ensure we have the latest user info
     const { data: { user: currentUser } } = await supabase.auth.getUser();
-    console.log('Current authenticated user:', currentUser?.id);
+    log('Current authenticated user', { id: currentUser?.id });
     
     // Use current user if available, otherwise fall back to provided user_id
     const authenticatedUserId = currentUser?.id || user_id;
@@ -40,7 +41,7 @@ export class RegistrationService {
       guest_phone: !authenticatedUserId ? formData.phone : null,
     };
 
-    console.log('Registration data being inserted:', registrationData);
+    log('Registration insert prepared');
 
     const { data, error } = await supabase
       .from('workshop_registrations')
@@ -49,7 +50,7 @@ export class RegistrationService {
       .single();
 
     if (error) {
-      console.error('Registration error details:', {
+      logError('Registration error details:', {
         message: error.message,
         code: error.code,
         hint: error.hint,
@@ -66,7 +67,7 @@ export class RegistrationService {
       }
     }
 
-    console.log('Registration created successfully:', data);
+    log('Registration created', { id: data?.id });
     return data;
   }
 
@@ -78,7 +79,7 @@ export class RegistrationService {
       .order('registration_date', { ascending: false });
 
     if (error) {
-      console.error('Error fetching registrations:', error);
+      logError('Error fetching registrations:', error);
       throw new Error('Failed to fetch registrations');
     }
 
@@ -93,7 +94,7 @@ export class RegistrationService {
       .order('registration_date', { ascending: false });
 
     if (error) {
-      console.error('Error fetching guest registrations:', error);
+      logError('Error fetching guest registrations:', error);
       throw new Error('Failed to fetch registrations');
     }
 
@@ -108,7 +109,7 @@ export class RegistrationService {
       .single();
 
     if (error) {
-      console.error('Error fetching registration:', error);
+      logError('Error fetching registration:', error);
       return null;
     }
 
@@ -124,7 +125,7 @@ export class RegistrationService {
       .single();
 
     if (error) {
-      console.error('Error updating registration:', error);
+      logError('Error updating registration:', error);
       throw new Error('Failed to update registration');
     }
 

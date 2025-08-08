@@ -556,8 +556,7 @@ export type Database = {
           status: string
           updated_at: string
           user_id: string | null
-          workshop_id: string
-          workshop_uuid: string | null
+          workshop_id: string | null
         }
         Insert: {
           confirmation_code?: string
@@ -570,8 +569,7 @@ export type Database = {
           status?: string
           updated_at?: string
           user_id?: string | null
-          workshop_id: string
-          workshop_uuid?: string | null
+          workshop_id?: string | null
         }
         Update: {
           confirmation_code?: string
@@ -584,18 +582,9 @@ export type Database = {
           status?: string
           updated_at?: string
           user_id?: string | null
-          workshop_id?: string
-          workshop_uuid?: string | null
+          workshop_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "workshop_registrations_workshop_uuid_fkey"
-            columns: ["workshop_uuid"]
-            isOneToOne: false
-            referencedRelation: "workshops"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       workshops: {
         Row: {
@@ -644,6 +633,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_registration_by_code: {
+        Args: { p_code: string }
+        Returns: {
+          confirmation_code: string
+          created_at: string
+          guest_email: string | null
+          guest_name: string | null
+          guest_phone: string | null
+          id: string
+          registration_date: string
+          status: string
+          updated_at: string
+          user_id: string | null
+          workshop_id: string | null
+        }[]
+      }
       is_current_user_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean
