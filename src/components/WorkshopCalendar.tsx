@@ -113,7 +113,7 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
       </div>
 
       <div 
-        className={`grid gap-6 ${
+        className={`grid gap-6 bg-surface rounded-xl2 hairline ${
           prefersReducedMotion ? '' : `transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`
         }`}
         role="region"

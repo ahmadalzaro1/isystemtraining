@@ -78,6 +78,12 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Apple/Unicorn semantic tokens
+        surface: "hsl(var(--surface))",
+        surface2: "hsl(var(--surface-2))",
+        brand: "hsl(var(--accent-a))",
+        textStrong: "hsl(var(--text-strong))",
+        textMuted: "hsl(var(--text-muted))",
         // iOS system colors
         'ios-blue': '#007AFF',
         'ios-green': '#34C759',
@@ -97,17 +103,24 @@ export default {
       backgroundImage: {
         'grid-pattern': "linear-gradient(to right, rgb(var(--foreground) / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--foreground) / 0.05) 1px, transparent 1px)",
         'ios-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'accent-gradient': 'var(--accent-gradient)',
+        'aurora-soft': "radial-gradient(60% 50% at 80% 0%, rgba(120,160,255,.18) 0%, transparent 60%), radial-gradient(50% 40% at 10% 10%, rgba(160,120,255,.16) 0%, transparent 60%)",
       },
       boxShadow: {
         'blue': '0 0 20px rgba(0,122,255,0.2)',
         'ios': '0 4px 16px rgba(0, 0, 0, 0.12)',
         'ios-lg': '0 8px 32px rgba(0, 0, 0, 0.16)',
         'ios-xl': '0 16px 48px rgba(0, 0, 0, 0.20)',
+        'elev-1': '0 1px 2px rgba(0,0,0,.06)',
+        'elev-2': '0 8px 24px rgba(0,0,0,.08)',
+        'focus': '0 0 0 3px rgba(10,132,255,.28)'
       },
       borderRadius: {
         'ios': '8px',
         'ios-lg': '12px',
         'ios-xl': '16px',
+        'pill': '999px',
+        'xl2': '1.25rem',
       },
       fontFamily: {
         'system': [
@@ -240,6 +253,9 @@ export default {
       transitionTimingFunction: {
         'ios': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         'ios-spring': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      },
+      transitionDuration: {
+        'ios': '200ms'
       },
     },
   },

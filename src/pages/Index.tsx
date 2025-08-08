@@ -104,6 +104,7 @@ const Index = memo(() => {
         role="presentation"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-[#F9F9F9] to-white">
+          <div className="absolute inset-0 bg-aurora-soft" />
           {/* Dynamic animated lines */}
           {Array.from({ length: 8 }).map((_, i) => (
             <div
@@ -190,7 +191,7 @@ const Index = memo(() => {
           {/* Headline */}
           <h1 
             id="hero-heading"
-            className="relative text-[24px] xs:text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow px-2 leading-tight"
+            className="relative text-[24px] xs:text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold grad-text apple-headline apple-text-shadow hover-glow px-2 leading-tight"
           >
             {headlineLetters.map((letter, index) => (
               <span

@@ -87,3 +87,16 @@ This repo has been hardened for production. The pass includes: env-based Supabas
 ### Migrations
 Run via Lovable/Supabase: the new SQL has been applied to secure workshop_registrations and align FK. Use Supabase SQL Editor if rerunning is needed.
 
+## Visual Refresh: Apple-Elegant + Unicorn Accents
+- Additive only: no breaking API changes.
+- New tokens, Tailwind extensions, utilities, and safe component variants.
+- Respects prefers-reduced-motion and maintains WCAG AA contrast.
+- Rollback: remove the added CSS tokens/utilities and variant usages.
+
+## Style Guide (Apple + Unicorn Accents)
+- Use gradient strokes and gradient headlines; avoid large solid gradient fills.
+- Body text remains solid for readability.
+- Primary CTAs use variant="primaryPill"; secondary actions use variant="ghostGlass".
+- Cards can opt into "glass grad-stroke" for premium sections.
+- Respect prefers-reduced-motion; keep hover motion under 2px.
+

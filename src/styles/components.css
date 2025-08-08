@@ -65,3 +65,16 @@
     @apply px-4;
   }
 }
+
+/* Apple/Unicorn utilities */
+.hairline { box-shadow: inset 0 -1px 0 hsl(var(--border)); }
+.glass { backdrop-filter: saturate(140%) blur(12px); background: hsl(var(--glass-bg)); border: 1px solid hsl(var(--glass-border)); }
+.grad-stroke { position: relative; }
+.grad-stroke::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: var(--accent-gradient); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.grad-text { background: var(--accent-gradient); -webkit-background-clip: text; color: transparent; }
+
+@media (prefers-reduced-motion: reduce) { 
+  .animate, [class*='animate-'] { animation: none !important; transition: none !important; }
+  .hover\:-translate-y-\[2px\] { transform: none !important; }
+  .transition, [class*='transition-'] { transition: none !important; }
+}

@@ -21,7 +21,10 @@ const buttonVariants = cva(
         // iOS-style variants
         ios: "bg-[#0071e3] text-white hover:bg-[#0077ED] active:bg-[#0056b3] shadow-lg shadow-blue-500/25 rounded-xl active:scale-95",
         "ios-secondary": "bg-[#E8E8ED] text-[#1D1D1F] hover:bg-[#D2D2D7] active:bg-[#C7C7CC] shadow-md rounded-xl active:scale-95",
-        "ios-tertiary": "bg-transparent text-[#0071e3] hover:bg-black/5 active:bg-black/10 border border-[#0071e3]/20 rounded-xl active:scale-95"
+        "ios-tertiary": "bg-transparent text-[#0071e3] hover:bg-black/5 active:bg-black/10 border border-[#0071e3]/20 rounded-xl active:scale-95",
+        // Apple/Unicorn variants (additive)
+        primaryPill: "rounded-pill px-5 py-2.5 bg-brand text-white shadow-elev-2 hover:bg-brand/90 focus-visible:shadow-focus transition-[transform,box-shadow] duration-ios ease-ios",
+        ghostGlass: "rounded-pill px-5 py-2.5 glass text-foreground shadow-elev-1 hover:bg-white/70 dark:hover:bg-white/10 focus-visible:shadow-focus",
       },
       size: {
         default: "h-10 px-4 py-2",
