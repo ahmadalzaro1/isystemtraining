@@ -84,6 +84,8 @@ export default {
         brand: "hsl(var(--accent-a))",
         textStrong: "hsl(var(--text-strong))",
         textMuted: "hsl(var(--text-muted))",
+        text: "hsl(var(--text-strong))",
+        mutedText: "hsl(var(--text-muted))",
         // iOS system colors
         'ios-blue': '#007AFF',
         'ios-green': '#34C759',

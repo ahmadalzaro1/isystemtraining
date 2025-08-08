@@ -433,3 +433,8 @@
     }
   }
 }
+
+@layer base{
+:root{--surface:0 0% 100%;--surface-2:210 20% 98%;--text-strong:222 28% 12%;--text-muted:222 12% 42%;--border:222 16% 88%;--accent-a:214 100% 48%;--accent-b:214 100% 48%;--accent-gradient:linear-gradient(0deg,hsl(var(--accent-a)),hsl(var(--accent-a)));--glass-bg:0 0% 100%/.0;--glass-border:0 0% 100%/.0;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--surface:222 16% 10%;--surface-2:222 16% 14%;--text-strong:0 0% 100%;--text-muted:222 10% 70%;--border:222 10% 24%;--glass-bg:0 0% 10%/.0;--glass-border:222 10% 40%/.0;color-scheme:dark}}
+}
