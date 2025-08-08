@@ -78,3 +78,12 @@
   .hover\:-translate-y-\[2px\] { transform: none !important; }
   .transition, [class*='transition-'] { transition: none !important; }
 }
+
+/* VISUAL ROLLBACK: neutralize gradients/glass immediately */
+:root{--accent-a:214 100% 45% !important;--accent-b:214 100% 45% !important;--accent-gradient:linear-gradient(0deg,hsl(var(--accent-a)),hsl(var(--accent-a))) !important;--glass-bg:0 0% 100%/.0 !important;--glass-border:0 0% 100%/.0 !important}
+.bg-aurora-soft{background:none !important}
+.grad-text{color:inherit !important;background:none !important;-webkit-background-clip:initial !important}
+.grad-stroke::before{display:none !important}
+.glass{backdrop-filter:none !important;background:transparent !important;border-color:transparent !important}
+button[class*="primaryPill"]{background:hsl(var(--accent-a)) !important;color:#fff !important;border-radius:.75rem !important;box-shadow:none !important}
+button[class*="ghostGlass"]{background:transparent !important;border:1px solid hsl(var(--border)) !important;color:inherit !important}
