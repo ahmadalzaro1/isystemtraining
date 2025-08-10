@@ -228,15 +228,6 @@ const Index = memo(() => {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="section-gap container-page" aria-labelledby="how-heading">
-        <h2 id="how-heading" className="text-[28px] leading-[32px] mb-6 text-[hsl(var(--text-strong))]">How it works</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="card p-6"><h3 className="text-[22px] leading-[28px] mb-2 text-[hsl(var(--text-strong))]">1. Choose</h3><p className="text-[hsl(var(--text-muted))]">Pick a topic and date that fits your schedule.</p></div>
-          <div className="card p-6"><h3 className="text-[22px] leading-[28px] mb-2 text-[hsl(var(--text-strong))]">2. Build</h3><p className="text-[hsl(var(--text-muted))]">Learn by doing with a real project and guidance.</p></div>
-          <div className="card p-6"><h3 className="text-[22px] leading-[28px] mb-2 text-[hsl(var(--text-strong))]">3. Apply</h3><p className="text-[hsl(var(--text-muted))]">Leave with skills and assets you can use immediately.</p></div>
-        </div>
-      </section>
 
       {/* Upcoming dates (dynamic) */}
       <section id="workshops" className="section-gap container-page" aria-labelledby="workshops-heading">
