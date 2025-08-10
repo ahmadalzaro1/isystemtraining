@@ -1,0 +1,8 @@
+input::placeholder, textarea::placeholder {
+  color: hsl(var(--text-muted));
+  opacity: 1;
+}
+
+input, textarea, select {
+  color: hsl(var(--text-strong));
+}
