@@ -14,6 +14,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { HomeButton } from '@/components/ui/home-button';
 import { Button } from '@/components/ui/button';
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import HeroCanvas from '@/webgl/HeroCanvas';
 
 const Index = memo(() => {
   usePerformanceMonitor('Index');
@@ -96,9 +97,9 @@ const Index = memo(() => {
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden ios-scroll">
-      {/* Dynamic Lines Background */}
+      <HeroCanvas />
       <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
+        className="hidden fixed inset-0 z-0 overflow-hidden pointer-events-none"
         aria-hidden="true"
         role="presentation"
       >
@@ -222,7 +223,7 @@ const Index = memo(() => {
           <div className="pt-6 px-4 relative z-30">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Button
-                variant="glassSecondary"
+                variant="glassPrimary"
                 onClick={scrollToWorkshops}
                 aria-label="Browse workshops"
               >
