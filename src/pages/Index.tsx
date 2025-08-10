@@ -189,7 +189,7 @@ const Index = memo(() => {
           {/* Headline */}
           <h1 
             id="hero-heading"
-            className="relative text-[24px] xs:text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold grad-text apple-headline apple-text-shadow hover-glow px-2 leading-tight"
+            className="relative text-[24px] xs:text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow px-2 leading-tight text-[hsl(0_0%_0%)]"
           >
             {headlineLetters.map((letter, index) => (
               <span
