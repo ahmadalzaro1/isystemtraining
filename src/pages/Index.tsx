@@ -222,7 +222,7 @@ const Index = memo(() => {
           <div className="pt-6 px-4 relative z-30">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Button
-                variant="glassPrimary"
+                variant="glassSecondary"
                 onClick={scrollToWorkshops}
                 aria-label="Browse workshops"
               >
