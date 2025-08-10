@@ -12,6 +12,10 @@ import { RegistrationService } from "@/services/registrationService";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { log, error as logError } from "@/utils/logger";
+import { z } from "zod";
+const WorkshopIdSchema = z.object({
+  workshop_id: z.string().uuid('Please choose a workshop'),
+});
 
 export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationFormProps) => {
   usePerformanceMonitor('RegistrationForm');
@@ -26,6 +30,13 @@ export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationForm
       if (authLoading) {
         log("Waiting for auth to load...");
         toast.info("Preparing registration...");
+        return;
+      }
+
+      // Validate workshop_id as UUID before submitting
+      const parsed = WorkshopIdSchema.safeParse({ workshop_id: workshop.id });
+      if (!parsed.success) {
+        toast.error(parsed.error.issues[0]?.message ?? 'Please choose a workshop');
         return;
       }
 
