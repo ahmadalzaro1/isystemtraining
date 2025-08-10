@@ -5,7 +5,7 @@ import { useWebGLStore } from './store'
 import { Interaction } from './Interaction'
 import { PostFX } from './PostFX'
 import { Particles } from './Particles'
-import { onVisibilityChange, watchFrameBudget, capDpr } from './utils/perf'
+import { watchFrameBudget, capDpr } from './utils/perf'
 
 export default function HeroCanvas() {
   const dprCap = useWebGLStore(s => s.dprCap)
@@ -36,11 +36,9 @@ export default function HeroCanvas() {
         gl.toneMapping = THREE.ACESFilmicToneMapping
         gl.toneMappingExposure = 1
         gl.setClearColor(0x000000, 1)
-        const cleanup = onVisibilityChange(() => {}, () => {})
-        // Ensure DPR is capped at runtime too
-        const set = () => gl.setPixelRatio(capDpr(dprCap))
-        set(); window.addEventListener('resize', set)
-        return () => { window.removeEventListener('resize', set); cleanup() }
+        // Ensure DPR is capped at runtime
+        gl.setPixelRatio(capDpr(dprCap))
+        console.info('[HeroCanvas] Renderer created', { dprCap })
       }}
       frameloop="always"
     >

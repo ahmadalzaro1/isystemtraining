@@ -25,9 +25,7 @@ export function Particles() {
     }
     geo.setAttribute('uv', new THREE.BufferAttribute(uvs, 2))
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    const idx = new Uint32Array(count)
-    for (let i = 0; i < count; i++) idx[i] = i
-    geo.setIndex(new THREE.BufferAttribute(idx, 1))
+    // Points don't require an index buffer
 
     const mat = new THREE.ShaderMaterial({
       vertexShader: vert,
