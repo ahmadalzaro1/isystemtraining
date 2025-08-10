@@ -244,8 +244,8 @@ const RegistrationManagement: React.FC = () => {
             <div className="text-center py-8">Loading registrations...</div>
           ) : (
             <div className="rounded-md border">
-              <Table>
-                <TableHeader>
+              <Table className="ledger-table [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 md:[&_th]:px-4 md:[&_th]:py-2.5 md:[&_td]:px-4 md:[&_td]:py-2.5">
+                <TableHeader className="sticky top-0 bg-surface z-10 shadow-[inset_0_-1px_0_hsl(var(--border))]">
                   <TableRow>
                     <TableHead>Participant</TableHead>
                     <TableHead>Workshop</TableHead>
@@ -266,7 +266,7 @@ const RegistrationManagement: React.FC = () => {
                     filteredRegistrations.map((registration) => (
                       <TableRow 
                         key={registration.id}
-                        className="cursor-pointer hover:bg-muted/50"
+                        className="cursor-pointer transition-colors hover:bg-[hsl(var(--text-strong)/0.03)] dark:hover:bg-[hsl(var(--text-strong)/0.06)]"
                         onClick={() => setSelectedRegistration(registration)}
                       >
                         <TableCell>

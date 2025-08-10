@@ -384,8 +384,8 @@ const WorkshopManagement: React.FC = () => {
             <div className="text-center py-8">Loading workshops...</div>
           ) : (
             <div className="rounded-md border">
-              <Table>
-                <TableHeader>
+              <Table className="ledger-table [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 md:[&_th]:px-4 md:[&_th]:py-2.5 md:[&_td]:px-4 md:[&_td]:py-2.5">
+                <TableHeader className="sticky top-0 bg-surface z-10 shadow-[inset_0_-1px_0_hsl(var(--border))]">
                   <TableRow>
                     <TableHead>Workshop</TableHead>
                     <TableHead>Date & Time</TableHead>
@@ -405,7 +405,7 @@ const WorkshopManagement: React.FC = () => {
                     </TableRow>
                   ) : (
                     filteredWorkshops.map((workshop) => (
-                      <TableRow key={workshop.id}>
+                      <TableRow key={workshop.id} className="transition-colors hover:bg-[hsl(var(--text-strong)/0.03)] dark:hover:bg-[hsl(var(--text-strong)/0.06)]">
                         <TableCell>
                           <div>
                             <div className="font-medium">{workshop.name}</div>
@@ -440,15 +440,16 @@ const WorkshopManagement: React.FC = () => {
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
                             <Button
-                              variant="ghost"
+                              variant="primaryMinimal"
                               size="sm"
+                              aria-label="Edit workshop"
                               onClick={() => handleEdit(workshop)}
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <Button variant="ghost" size="sm">
+                                <Button variant="secondaryOutline" size="sm" aria-label="Delete workshop">
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
                               </AlertDialogTrigger>
