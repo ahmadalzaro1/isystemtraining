@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import { ProtectedRoute, AdminRoute } from "@/components/auth/ProtectedRoute";
@@ -55,9 +55,13 @@ const LoadingSpinner = (): JSX.Element => (
   </div>
 );
 
-const App = (): JSX.Element => {
+function App(): JSX.Element {
   // Configure React Query with optimized settings for performance
   const queryClient = appQueryClient;
+  try {
+    console.info('[Debug] React version', React.version);
+    console.info('[Debug] QueryClient ready', !!queryClient);
+  } catch {}
 
   return (
     <ErrorBoundary>
