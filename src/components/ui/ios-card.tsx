@@ -67,7 +67,7 @@ const IOSCard = forwardRef<HTMLDivElement, IOSCardProps>(
           }
         }}
         className={cn(
-          "bg-white rounded-2xl transition-all duration-300 will-change-transform",
+          "bg-surface2 rounded-xl transition-all duration-ios ease-ios will-change-transform",
           "touch-manipulation select-none",
           elevated ? [
             "shadow-lg shadow-black/8 hover:shadow-xl hover:shadow-black/12",

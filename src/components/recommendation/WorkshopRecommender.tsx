@@ -40,14 +40,14 @@ export const WorkshopRecommender = ({ workshops, onSelect }: WorkshopRecommender
     <Dialog>
       <DialogTrigger asChild>
         <Button 
-          variant="outline" 
-          className="glass-card w-full sm:w-auto animate-fade-up flex items-center gap-2"
+          variant="secondaryOutline" 
+          className="w-full sm:w-auto animate-fade-up rounded-pill flex items-center gap-2"
         >
           <Lightbulb className="w-4 h-4" />
           Not Sure Which Workshop to Attend?
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] glass-morphism">
+      <DialogContent className="sm:max-w-[425px]">
         {step === "quiz" ? (
           <RecommendationQuiz onSubmit={handleAnswerSubmit} />
         ) : (

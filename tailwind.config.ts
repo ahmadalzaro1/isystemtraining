@@ -115,7 +115,7 @@ export default {
         'ios-xl': '0 16px 48px rgba(0, 0, 0, 0.20)',
         'elev-1': '0 1px 2px rgba(0,0,0,.06)',
         'elev-2': '0 8px 24px rgba(0,0,0,.08)',
-        'focus': '0 0 0 3px rgba(10,132,255,.28)'
+        'focus': '0 0 0 4px rgba(10,132,255,.28)'
       },
       borderRadius: {
         'ios': '8px',

@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 min-w-[44px] min-h-[44px] touch-manipulation webkit-tap-transparent cursor-pointer",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-ios ease-ios focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 min-w-[44px] min-h-[44px] touch-manipulation webkit-tap-transparent cursor-pointer",
   {
     variants: {
       variant: {
@@ -25,9 +25,8 @@ const buttonVariants = cva(
         // Apple/Unicorn variants (additive)
         primaryPill: "rounded-pill px-5 py-2.5 bg-brand text-white shadow-elev-2 hover:bg-brand/90 focus-visible:shadow-focus transition-[transform,box-shadow] duration-ios ease-ios",
         ghostGlass: "rounded-pill px-5 py-2.5 glass text-foreground shadow-elev-1 hover:bg-white/70 dark:hover:bg-white/10 focus-visible:shadow-focus",
-        // Minimal, non-breaking variants
-        primaryMinimal: "rounded-lg px-5 py-2.5 bg-accent text-white hover:bg-accent/90 focus-visible:shadow-focus",
-        secondaryOutline: "rounded-lg px-5 py-2.5 border border-border bg-surface hover:bg-surface2 focus-visible:shadow-focus",
+        primaryMinimal: "rounded-lg px-5 py-2.5 bg-[hsl(var(--accent-a))] text-white hover:opacity-90 transition duration-ios ease-ios focus-visible:shadow-focus",
+        secondaryOutline: "rounded-lg px-5 py-2.5 border border-[hsl(var(--border))] bg-[hsl(var(--surface))] hover:bg-black/5 dark:hover:bg-white/5 transition duration-ios ease-ios focus-visible:shadow-focus",
       },
       size: {
         default: "h-10 px-4 py-2",

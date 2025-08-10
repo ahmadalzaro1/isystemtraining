@@ -19,7 +19,7 @@ export const SeatsProgressBar = ({ totalSeats, spotsRemaining }: SeatsProgressBa
   const shouldPulse = percentageFilled >= 80;
 
   return (
-    <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+    <div className="w-full h-0.5 bg-[hsl(var(--border))] rounded overflow-hidden">
       <div
         className={cn(
           "h-full transition-all duration-500 ease-out rounded-full progress-bar-fill",

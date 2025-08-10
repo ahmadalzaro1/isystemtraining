@@ -55,10 +55,10 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         <div className="space-y-2">
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <h3 className="font-medium text-xl group-hover:text-primary transition-colors leading-tight">
+              <h3 className="font-medium text-xl text-[hsl(var(--text-strong))] transition-colors leading-tight">
                 {workshop.name}
               </h3>
-              <div className="flex items-center gap-2 text-gray-600">
+              <div className="flex items-center gap-2 text-[hsl(var(--text-muted))]">
                 <UserCircle2 className="h-4 w-4 flex-shrink-0" />
                 <span className="font-medium">Instructor:</span>
                 <span className="truncate">{workshop.instructor}</span>
@@ -83,14 +83,14 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 leading-relaxed text-sm line-clamp-2">
+        <p className="text-[hsl(var(--text-muted))] leading-relaxed text-sm line-clamp-2">
           {workshop.description}
         </p>
 
         {/* Seats Progress */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">Available Spots</span>
+            <span className="text-[hsl(var(--text-muted))]">Available Spots</span>
             <span className={cn(
               "font-medium",
               workshop.spotsRemaining <= 2 ? "text-red-500" : 
@@ -107,8 +107,8 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-          <div className="flex items-center gap-2 text-gray-500">
+        <div className="flex items-center justify-between pt-4 border-t border-[hsl(var(--border))]">
+          <div className="flex items-center gap-2 text-[hsl(var(--text-muted))]">
             <Clock className="h-4 w-4" />
             <span className="text-sm">{workshop.time}</span>
           </div>
@@ -116,7 +116,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
           {workshop.spotsRemaining > 0 ? (
             <Button 
               size="sm"
-              variant="primaryPill"
+              variant="primaryMinimal"
               className="flex items-center gap-2"
               onClick={handleRegister}
             >
@@ -126,7 +126,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
           ) : (
             <Button 
               size="sm"
-              variant="ghostGlass"
+              variant="secondaryOutline"
               onClick={handleWaitlist}
             >
               Waitlist
