@@ -4,7 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, MapPin, User, Copy, Share, MoreHorizontal } from "lucide-react";
 import { WorkshopRegistration } from "@/services/registrationService";
-import { mockWorkshops } from "@/data/mockWorkshops";
+import { WorkshopService } from "@/services/workshopService";
+import { Workshop } from "@/types/workshop";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
@@ -20,7 +22,19 @@ interface ModernRegistrationCardProps {
 }
 
 export const ModernRegistrationCard = ({ registration, index }: ModernRegistrationCardProps) => {
-  const workshop = mockWorkshops.find(w => w.id === registration.workshop_id);
+  const [workshop, setWorkshop] = useState<Workshop | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    WorkshopService.getWorkshops()
+      .then(list => {
+        if (!isMounted) return;
+        const found = list.find(w => w.id === registration.workshop_id) || null;
+        setWorkshop(found);
+      })
+      .catch(() => setWorkshop(null));
+    return () => { isMounted = false; };
+  }, [registration.workshop_id]);
   
   if (!workshop) {
     return (

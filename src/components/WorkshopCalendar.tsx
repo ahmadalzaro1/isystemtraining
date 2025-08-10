@@ -1,5 +1,5 @@
 
-import { useState, useMemo, memo, useCallback } from "react";
+import { useState, useMemo, memo, useCallback, useEffect } from "react";
 import { format, addWeeks } from "date-fns";
 import { Workshop, WorkshopFilters } from "@/types/workshop";
 import { WorkshopNavigation } from "./workshops/WorkshopNavigation";
@@ -7,7 +7,7 @@ import { WorkshopDayGroup } from "./workshops/WorkshopDayGroup";
 import { WorkshopRecommender } from "./recommendation/WorkshopRecommender";
 import { WorkshopFilterBar } from "./workshops/WorkshopFilters";
 import { NoWorkshopsFound } from "./workshops/NoWorkshopsFound";
-import { mockWorkshops } from "@/data/mockWorkshops";
+import { WorkshopService } from "@/services/workshopService";
 import { filterWorkshopsByWeek, filterWorkshopsByFilters } from "@/utils/workshopFilters";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -27,6 +27,16 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
     skillLevel: "All",
     category: "All"
   });
+  const [workshops, setWorkshops] = useState<Workshop[]>([]);
+
+  // Load workshops from Supabase so IDs are UUIDs
+  useEffect(() => {
+    let isMounted = true;
+    WorkshopService.getWorkshops()
+      .then((list) => { if (isMounted) setWorkshops(list); })
+      .catch(() => { /* noop */ });
+    return () => { isMounted = false; };
+  }, []);
 
   const navigateWeek = useCallback((direction: 'next' | 'prev') => {
     if (!prefersReducedMotion) {
@@ -47,11 +57,11 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
 
   // Memoize expensive calculations
   const currentWeekWorkshops = useMemo(() => {
-    const weekFiltered = filterWorkshopsByWeek(mockWorkshops, currentWeek);
+    const weekFiltered = filterWorkshopsByWeek(workshops, currentWeek);
     const finalFiltered = filterWorkshopsByFilters(weekFiltered, filters);
     
     console.log('Workshop filtering:', {
-      totalWorkshops: mockWorkshops.length,
+      totalWorkshops: workshops.length,
       currentWeek: currentWeek.toISOString(),
       weekFiltered: weekFiltered.length,
       finalFiltered: finalFiltered.length,
@@ -59,7 +69,7 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
     });
     
     return finalFiltered;
-  }, [currentWeek, filters]);
+  }, [currentWeek, filters, workshops]);
 
   // Group workshops by date with memoization
   const workshopsByDate = useMemo(() => {
@@ -107,7 +117,7 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
 
       <div className="flex justify-center mb-8">
         <WorkshopRecommender 
-          workshops={mockWorkshops}
+          workshops={workshops}
           onSelect={onSelect}
         />
       </div>

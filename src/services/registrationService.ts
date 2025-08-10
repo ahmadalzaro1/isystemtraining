@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { FormData } from "@/types/registration";
 import { log, error as logError } from "@/utils/logger";
+import { z } from "zod";
 
 export interface WorkshopRegistration {
   id: string;
@@ -26,10 +27,16 @@ export class RegistrationService {
   static async createRegistration({ workshop_id, formData, user_id }: CreateRegistrationData) {
     log('Creating registration with', { workshop_id, hasUser: !!user_id, hasFormData: !!formData });
     
+    // Validate workshop_id is a proper UUID to prevent DB errors
+    try {
+      z.string().uuid().parse(workshop_id);
+    } catch {
+      throw new Error('Invalid workshop identifier. Please re-select the workshop and try again.');
+    }
+    
     // Get current auth state to ensure we have the latest user info
     const { data: { user: currentUser } } = await supabase.auth.getUser();
     log('Current authenticated user', { id: currentUser?.id });
-    
     // Use current user if available, otherwise fall back to provided user_id
     const authenticatedUserId = currentUser?.id || user_id;
     
