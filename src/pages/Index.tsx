@@ -94,7 +94,6 @@ const Index = memo(() => {
     }
   }, [prefersReducedMotion, triggerHaptic]);
 
-
   return (
     <div className="min-h-screen bg-[hsl(var(--surface))] relative overflow-hidden ios-scroll">
       <HeroCanvas />
@@ -223,13 +222,6 @@ const Index = memo(() => {
           {/* Map WorkshopCard here if available */}
         </div>
         <div className="mt-6"><a className="underline underline-offset-2" href="/workshops">See all workshops</a></div>
-      </section>
-
-      {/* Social proof */}
-      <section className="section-gap container-page">
-        <div className="card p-6">
-          <p className="text-[hsl(var(--text-muted))]">Trusted by learners from <strong>top companies and universities</strong>.</p>
-        </div>
       </section>
 
       {/* How it works */}
