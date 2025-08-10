@@ -3,6 +3,7 @@ import '/src/styles/theme.css';
 import '/src/styles/forms.css';
 import '/src/styles/glass.css';
 import '/src/styles/canvas.css';
+import '/src/styles/layout.css';
 import App from './App.tsx'
 import './index.css'
 

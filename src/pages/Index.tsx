@@ -96,7 +96,7 @@ const Index = memo(() => {
 
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9] relative overflow-hidden ios-scroll">
+    <div className="min-h-screen bg-[hsl(var(--surface))] relative overflow-hidden ios-scroll">
       <HeroCanvas />
       <div 
         className="hidden fixed inset-0 z-0 overflow-hidden pointer-events-none"
@@ -142,11 +142,10 @@ const Index = memo(() => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white/80" />
       </div>
 
-      <div className="container-page section-gap">
       {/* Hero Section */}
       <section 
         ref={setHeroRef}
-        className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden ios-safe-area"
+        className="section-gap container-page relative z-10 min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden ios-safe-area"
         aria-labelledby="hero-heading"
         role="banner"
       >
@@ -154,7 +153,7 @@ const Index = memo(() => {
           {/* Headline */}
           <h1 
             id="hero-heading"
-            className="relative text-[24px] xs:text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow px-2 leading-tight text-[hsl(0_0%_0%)]"
+            className="relative text-[24px] xs:text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-semibold apple-headline apple-text-shadow hover-glow px-2 leading-tight text-[hsl(var(--text-strong))]"
           >
             {headlineLetters.map((letter, index) => (
               <span
@@ -175,7 +174,7 @@ const Index = memo(() => {
             {subheadlineLetters.map((letter, index) => (
               <span
                 key={index}
-                className="stagger-letter inline-block text-[hsl(0_0%_0%)]"
+                className="stagger-letter inline-block text-[hsl(var(--text-strong))]"
                 style={{ animationDelay: `${(headlineLetters.length * 0.03) + (index * 0.02)}s` }}
               >
                 {letter === ' ' ? '\u00A0' : letter}
@@ -208,7 +207,7 @@ const Index = memo(() => {
         {/* Scroll Indicator */}
         <div 
           className={`absolute bottom-8 left-1/2 -translate-x-1/2 opacity-60 hover-glow ${
-            prefersReducedMotion ? "" : "animate-bounce"
+            prefersReducedMotion ? '' : 'animate-bounce'
           }`}
           aria-hidden="true"
           role="presentation"
@@ -217,34 +216,64 @@ const Index = memo(() => {
         </div>
       </section>
 
-      {/* Workshops Section */}
-      <main 
-        id="workshops" 
-        className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl bg-surface border border-[hsl(var(--border))] rounded-t-3xl shadow-elev-2 ios-scroll"
-        role="main"
-        aria-labelledby="workshops-heading"
-      >
-        {step === "calendar" && (
-          <WorkshopCalendar onSelect={handleWorkshopSelect} />
-        )}
-        
-        {step === "registration" && selectedWorkshop && (
-          <RegistrationForm 
-            workshop={selectedWorkshop}
-            onComplete={handleRegistrationComplete} 
-          />
-        )}
-        
-        {step === "success" && selectedWorkshop && registrationData && (
-          <RegistrationSuccess
-            workshop={selectedWorkshop}
-            registrationData={registrationData}
-            registration={registration}
-            onViewWorkshops={handleViewWorkshops}
-          />
-        )}
-      </main>
-      </div>
+      {/* Popular workshops preview */}
+      <section className="section-gap container-page" aria-labelledby="popular-heading">
+        <h2 id="popular-heading" className="text-[28px] leading-[32px] mb-4 text-[hsl(var(--text-strong))]">Popular workshops</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Map WorkshopCard here if available */}
+        </div>
+        <div className="mt-6"><a className="underline underline-offset-2" href="/workshops">See all workshops</a></div>
+      </section>
+
+      {/* Social proof */}
+      <section className="section-gap container-page">
+        <div className="card p-6">
+          <p className="text-[hsl(var(--text-muted))]">Trusted by learners from <strong>top companies and universities</strong>.</p>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="section-gap container-page" aria-labelledby="how-heading">
+        <h2 id="how-heading" className="text-[28px] leading-[32px] mb-6 text-[hsl(var(--text-strong))]">How it works</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="card p-6"><h3 className="text-[22px] leading-[28px] mb-2 text-[hsl(var(--text-strong))]">1. Choose</h3><p className="text-[hsl(var(--text-muted))]">Pick a topic and date that fits your schedule.</p></div>
+          <div className="card p-6"><h3 className="text-[22px] leading-[28px] mb-2 text-[hsl(var(--text-strong))]">2. Build</h3><p className="text-[hsl(var(--text-muted))]">Learn by doing with a real project and guidance.</p></div>
+          <div className="card p-6"><h3 className="text-[22px] leading-[28px] mb-2 text-[hsl(var(--text-strong))]">3. Apply</h3><p className="text-[hsl(var(--text-muted))]">Leave with skills and assets you can use immediately.</p></div>
+        </div>
+      </section>
+
+      {/* Upcoming dates (dynamic) */}
+      <section id="workshops" className="section-gap container-page" aria-labelledby="workshops-heading">
+        <h2 id="workshops-heading" className="text-[28px] leading-[32px] mb-4 text-[hsl(var(--text-strong))]">Upcoming dates</h2>
+        <div className="card p-0 overflow-hidden">
+          {step === 'calendar' && (
+            <WorkshopCalendar onSelect={handleWorkshopSelect} />
+          )}
+          {step === 'registration' && selectedWorkshop && (
+            <RegistrationForm 
+              workshop={selectedWorkshop}
+              onComplete={handleRegistrationComplete} 
+            />
+          )}
+          {step === 'success' && selectedWorkshop && registrationData && (
+            <RegistrationSuccess
+              workshop={selectedWorkshop}
+              registrationData={registrationData}
+              registration={registration}
+              onViewWorkshops={handleViewWorkshops}
+            />
+          )}
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="section-gap-lg container-page">
+        <div className="card p-8 text-center">
+          <h2 className="text-[28px] leading-[32px] mb-3 text-[hsl(var(--text-strong))]">Start your next skill today</h2>
+          <p className="text-[hsl(var(--text-muted))] mb-6">Spots are limited. Secure your seat now.</p>
+          <a className="glass rounded-lg px-5 py-2.5 focus-ring" href="/workshops">Find my workshop</a>
+        </div>
+      </section>
     </div>
   );
 });
