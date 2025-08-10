@@ -23,7 +23,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (user && !authLoading) {
-      console.log('Auth redirect - User:', user.email, 'Is Admin:', isAdmin);
+      
       if (isAdmin) {
         navigate('/admin');
       } else {
@@ -51,14 +51,14 @@ const Auth = () => {
           setMessage('Please check your email to confirm your account.');
         }
       } else {
-        console.log('Attempting sign in for:', email);
+        
         const { error } = await signIn(email, password);
         
         if (error) {
           console.error('Sign in error:', error);
           setError(error.message);
         } else {
-          console.log('Sign in successful');
+          
         }
       }
     } catch (err) {

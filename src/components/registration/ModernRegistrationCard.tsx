@@ -50,7 +50,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
     switch (status.toLowerCase()) {
       case 'confirmed':
         return {
-          color: 'bg-emerald-50 text-emerald-700 border-emerald-200/50',
+          color: 'bg-emerald-50 text-[hsl(var(--text-strong))] border-emerald-200/50',
           glow: 'shadow-emerald-500/10',
           accent: 'border-l-emerald-400'
         };
@@ -164,7 +164,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-sm">
               <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-50">
-                <Calendar className="h-4 w-4 text-blue-600" />
+                <Calendar className="h-4 w-4 text-[hsl(var(--text-strong))]" />
               </div>
               <div>
                 <p className="font-medium text-gray-900">{workshop.date.toLocaleDateString()}</p>

@@ -60,13 +60,6 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
     const weekFiltered = filterWorkshopsByWeek(workshops, currentWeek);
     const finalFiltered = filterWorkshopsByFilters(weekFiltered, filters);
     
-    console.log('Workshop filtering:', {
-      totalWorkshops: workshops.length,
-      currentWeek: currentWeek.toISOString(),
-      weekFiltered: weekFiltered.length,
-      finalFiltered: finalFiltered.length,
-      filters
-    });
     
     return finalFiltered;
   }, [currentWeek, filters, workshops]);
@@ -82,11 +75,6 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
       return acc;
     }, {} as Record<string, Workshop[]>);
     
-    console.log('Workshops grouped by date:', {
-      groupedKeys: Object.keys(grouped),
-      totalGrouped: Object.values(grouped).reduce((sum, workshops) => sum + workshops.length, 0),
-      grouped
-    });
     
     return grouped;
   }, [currentWeekWorkshops]);

@@ -34,7 +34,7 @@ const IOSCard = forwardRef<HTMLDivElement, IOSCardProps>(
     });
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-      console.log('IOSCard clicked');
+      
       
       if (hapticOnTouch) {
         triggerHaptic('selection');

@@ -6,12 +6,6 @@ export const filterWorkshopsByWeek = (workshops: Workshop[], currentWeek: Date) 
   const weekStart = startOfWeek(currentWeek, { weekStartsOn: 0 }); // Sunday
   const weekEnd = endOfWeek(currentWeek, { weekStartsOn: 0 });
   
-  console.log('Week filtering:', {
-    currentWeek: currentWeek.toISOString(),
-    weekStart: weekStart.toISOString(),
-    weekEnd: weekEnd.toISOString(),
-    totalWorkshops: workshops.length
-  });
   
   const filtered = workshops.filter(workshop => {
     const workshopDate = new Date(workshop.date);
@@ -20,20 +14,11 @@ export const filterWorkshopsByWeek = (workshops: Workshop[], currentWeek: Date) 
     const isValidDay = dayOfWeek === 0 || dayOfWeek === 2 || dayOfWeek === 4;
     const isInWeek = workshopDate >= weekStart && workshopDate <= weekEnd;
     
-    console.log('Workshop check:', {
-      id: workshop.id,
-      name: workshop.name,
-      date: workshopDate.toISOString(),
-      dayOfWeek,
-      isValidDay,
-      isInWeek,
-      included: isInWeek && isValidDay
-    });
     
     return isInWeek && isValidDay;
   });
   
-  console.log('Week filtering result:', { filteredCount: filtered.length });
+  
   return filtered;
 };
 

@@ -201,7 +201,7 @@
 
   /* iOS-style glass card with enhanced translucency */
   .glass-card {
-    @apply backdrop-blur-xl bg-white/70 hover:bg-white/80 
+    @apply bg-white/70 hover:bg-white/80 
            transition-all duration-300
            w-[90vw] max-w-[420px] mx-auto will-change-transform;
     box-shadow: 
@@ -234,7 +234,7 @@
 
   /* iOS-style context menu */
   .ios-context-menu {
-    @apply bg-white/90 backdrop-blur-xl rounded-2xl p-2 shadow-2xl;
+    @apply bg-white/90 rounded-2xl p-2 shadow-2xl;
     border: 1px solid rgba(0,0,0,0.1);
     box-shadow: 
       0 20px 40px rgba(0,0,0,0.15),
@@ -264,8 +264,8 @@
 
   /* iOS-style navigation */
   .ios-nav {
-    @apply bg-white/80 backdrop-blur-xl border-b border-black/10;
-    -webkit-backdrop-filter: blur(20px);
+    @apply bg-white/80 border-b border-black/10;
+    
   }
 
   .wave {

@@ -140,7 +140,7 @@ const MyRegistrations = () => {
             variant="outline"
             size="sm"
             onClick={() => navigate('/')}
-            className="flex items-center gap-2 bg-white/80 backdrop-blur-sm hover:bg-white border-gray-200 hover:border-gray-300 transition-all duration-200"
+            className="flex items-center gap-2 bg-white/80 hover:bg-white border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Home
@@ -176,7 +176,7 @@ const MyRegistrations = () => {
                           placeholder="Search registrations or confirmation codes..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="pl-10 h-11 bg-white/80 backdrop-blur-sm border-gray-200 focus:border-blue-400 focus:ring-blue-400/20"
+                          className="pl-10 h-11 bg-white/80 border-gray-200 focus:border-blue-400 focus:ring-blue-400/20"
                         />
                       </div>
                       
@@ -184,7 +184,7 @@ const MyRegistrations = () => {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          className="bg-white/80 backdrop-blur-sm border-gray-200 hover:border-gray-300"
+                           className="bg-white/80 border-gray-200 hover:border-gray-300"
                         >
                           <Filter className="h-4 w-4 mr-2" />
                           Filter
@@ -192,7 +192,7 @@ const MyRegistrations = () => {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          className="bg-white/80 backdrop-blur-sm border-gray-200 hover:border-gray-300"
+                          className="bg-white/80 border-gray-200 hover:border-gray-300"
                         >
                           <CalendarIcon className="h-4 w-4 mr-2" />
                           Export

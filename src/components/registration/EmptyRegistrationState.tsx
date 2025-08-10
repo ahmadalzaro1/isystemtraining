@@ -64,7 +64,7 @@ export const EmptyRegistrationState = () => {
           
           <div className="text-center">
             <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
-              <BookOpen className="h-6 w-6 text-blue-600" />
+              <BookOpen className="h-6 w-6 text-[hsl(var(--text-strong))]" />
             </div>
             <h3 className="font-medium text-gray-900 mb-1">Expert Instructors</h3>
             <p className="text-sm text-[hsl(var(--text-muted))]">Learn from industry professionals</p>

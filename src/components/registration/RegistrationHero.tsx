@@ -56,7 +56,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
                 <div className="text-center">
                   <div className={cn(
                     "inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-2",
-                    "bg-emerald-100 text-emerald-700"
+                    "bg-emerald-100 text-[hsl(var(--text-strong))]"
                   )}>
                     <CheckCircle className="h-6 w-6" />
                   </div>
@@ -78,7 +78,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
                 <div className="text-center">
                   <div className={cn(
                     "inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-2",
-                    "bg-blue-100 text-blue-700"
+                    "bg-blue-100 text-[hsl(var(--text-strong))]"
                   )}>
                     <Calendar className="h-6 w-6" />
                   </div>
@@ -93,11 +93,11 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
           {upcomingRegistrations.length > 0 && (
             <div className="mt-6 pt-6 border-t border-gray-200/50">
               <div className="flex items-center gap-2 mb-2">
-                <TrendingUp className="h-4 w-4 text-blue-600" />
+                <TrendingUp className="h-4 w-4 text-[hsl(var(--text-strong))]" />
                 <span className="text-sm font-medium text-gray-700">Next Workshop</span>
               </div>
               <div className="flex items-center gap-3">
-                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                <Badge variant="outline" className="bg-blue-50 text-[hsl(var(--text-strong))] border-blue-200">
                   {new Date(upcomingRegistrations[0].registration_date).toLocaleDateString()}
                 </Badge>
                 <span className="text-gray-600">

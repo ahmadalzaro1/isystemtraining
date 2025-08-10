@@ -10,11 +10,6 @@ interface WorkshopDayGroupProps {
 }
 
 export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroupProps) => {
-  console.log('WorkshopDayGroup rendering:', {
-    date,
-    workshopCount: workshops.length,
-    workshops: workshops.map(w => ({ id: w.id, name: w.name, date: w.date.toISOString() }))
-  });
 
   const dateObj = new Date(date);
   const today = isToday(dateObj);

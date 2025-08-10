@@ -19,7 +19,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
   const isAlmostFull = workshop.spotsRemaining <= 2;
 
   const handleWaitlist = (e: React.MouseEvent) => {
-    console.log('Waitlist button clicked');
+    
     e.stopPropagation();
     toast.success("Added to waitlist", {
       description: "We'll notify you if a spot becomes available"
@@ -27,13 +27,13 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
   };
 
   const handleRegister = (e: React.MouseEvent) => {
-    console.log('Register button clicked for workshop:', workshop.name);
+    
     e.stopPropagation();
     onSelect(workshop);
   };
 
   const handleCardClick = () => {
-    console.log('Workshop card clicked for:', workshop.name);
+    
     onSelect(workshop);
   };
 
