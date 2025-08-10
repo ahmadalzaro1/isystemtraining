@@ -219,13 +219,13 @@ const Index = memo(() => {
         </div>
       </section>
 
-      {/* Popular workshops preview */}
-      <section className="section-gap container-page" aria-labelledby="popular-heading">
-        <h2 id="popular-heading" className="text-[28px] leading-[32px] mb-4 text-[hsl(var(--text-strong))]">Popular workshops</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Map WorkshopCard here if available */}
+      {/* Call to Action */}
+      <section className="section-gap container-page">
+        <div className="card p-8 text-center">
+          <h2 className="text-[28px] leading-[32px] mb-3 text-[hsl(var(--text-strong))]">Start your next skill today</h2>
+          <p className="text-[hsl(var(--text-muted))] mb-6">Spots are limited. Secure your seat now.</p>
+          <a className="glass rounded-lg px-5 py-2.5 focus-ring" href="/workshops">Find my workshop</a>
         </div>
-        <div className="mt-6"><a className="underline underline-offset-2" href="/workshops">See all workshops</a></div>
       </section>
 
       {/* How it works */}
@@ -262,14 +262,6 @@ const Index = memo(() => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="section-gap-lg container-page">
-        <div className="card p-8 text-center">
-          <h2 className="text-[28px] leading-[32px] mb-3 text-[hsl(var(--text-strong))]">Start your next skill today</h2>
-          <p className="text-[hsl(var(--text-muted))] mb-6">Spots are limited. Secure your seat now.</p>
-          <a className="glass rounded-lg px-5 py-2.5 focus-ring" href="/workshops">Find my workshop</a>
-        </div>
-      </section>
       </div>
     </>
   );
