@@ -4,44 +4,30 @@ export async function mountVanillaHero(canvas: HTMLCanvasElement) {
   
   // Init Three.js
   const THREE = await import('three');
-  const renderer = new THREE.WebGLRenderer({ 
-    canvas, 
-    antialias: false, 
-    powerPreference: 'high-performance', 
-    alpha: true 
-  });
-  
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:false, powerPreference:'high-performance', alpha:true });
+  const isMobile = matchMedia('(pointer:coarse)').matches;
+  const maxDpr = isMobile ? 1.25 : 1.5;
+  const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
   renderer.setPixelRatio(dpr);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.setClearColor(0x000000, 0); // transparent
+  try{ renderer.outputColorSpace = THREE.SRGBColorSpace; }catch{}
+  renderer.setClearColor(0x000000, 0);
   
   const scene = new THREE.Scene();
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const geo = new THREE.PlaneGeometry(2, 2);
   
-  const uniforms = {
-    uTime: { value: 0 },
-    uScroll: { value: 0 },
-    uIntensity: { value: 0.6 },
-    uTint: { value: new THREE.Color('#5aa8ff') }
-  };
+  const uniforms = { uTimeSec:{value:0}, uScroll:{value:0}, uIntensity:{value:0.45}, uTint:{ value: new THREE.Color('#5aa8ff') } };
   
   const mat = new THREE.ShaderMaterial({
     transparent: true,
     uniforms,
-    vertexShader: `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = vec4(position, 1.);
-      }
-    `,
+    vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.);}`,
     fragmentShader: `
       precision highp float;
       varying vec2 vUv;
-      uniform float uTime, uScroll, uIntensity;
+      uniform float uTimeSec;
+      uniform float uScroll, uIntensity;
       uniform vec3 uTint;
       
       float hash(vec2 p) {
@@ -68,7 +54,7 @@ export async function mountVanillaHero(canvas: HTMLCanvasElement) {
       
       void main() {
         vec2 uv = vUv;
-        float t = uTime * 0.06;
+        float t = uTimeSec * 0.6;
         float s = fbm(uv * 3.0 + vec2(0., t));
         float flow = fbm(uv * 3.0 + vec2(t * 0.7, 0.));
         float m = mix(s, flow, 0.5 + 0.5 * sin(t * 0.4));
@@ -79,7 +65,7 @@ export async function mountVanillaHero(canvas: HTMLCanvasElement) {
         col += 0.04 * vec3(sin(uv.y * 20.0 + t), 0.0, sin(uv.x * 22.0 - t)) * uIntensity * 0.25;
         col = clamp(col, 0.0, 1.0);
         
-        alpha *= 0.8 + 0.2 * uScroll; // more presence as you scroll
+        alpha *= 0.75 + 0.25*uScroll;
         
         if(alpha < 0.01) discard;
         gl_FragColor = vec4(col, alpha);
@@ -90,38 +76,25 @@ export async function mountVanillaHero(canvas: HTMLCanvasElement) {
   const mesh = new THREE.Mesh(geo, mat);
   scene.add(mesh);
   
-  let raf = 0;
-  const t0 = performance.now();
+  let raf = 0; const clock = new THREE.Clock(); let running=true;
   
-  function onResize() {
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  function onResize(){ renderer.setSize(window.innerWidth, window.innerHeight); }
+  window.addEventListener('resize', onResize, { passive:true });
+  
+  let scrollTarget=0, scrollValue=0; function onScroll(){ const h=document.documentElement.scrollHeight - window.innerHeight; scrollTarget = h>0 ? (window.scrollY / h) : 0; } window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+  
+  function loop(){ if(!running) return; const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; const dt = Math.min(clock.getDelta(), 1/30); // clamp big frame gaps
+   uniforms.uTimeSec.value += dt * (reduce ? 0.25 : 0.9); // slower, smoother
+   scrollValue += (scrollTarget - scrollValue) * 0.08; // ease scroll
+   uniforms.uScroll.value = scrollValue;
+   renderer.render(scene, camera);
+   raf = requestAnimationFrame(loop);
   }
-  window.addEventListener('resize', onResize, { passive: true });
   
-  let scrollN = 0;
-  function onScroll() {
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    scrollN = h > 0 ? window.scrollY / h : 0;
-    uniforms.uScroll.value = scrollN;
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  if(raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
   
-  function loop() {
-    const t = performance.now();
-    uniforms.uTime.value = (t - t0) * (reduce ? 0.4 : 1.0);
-    uniforms.uIntensity.value = reduce ? 0.3 : 0.6;
-    renderer.render(scene, camera);
-    raf = requestAnimationFrame(loop);
-  }
-  raf = requestAnimationFrame(loop);
+  function onVis(){ running = document.visibilityState === 'visible'; if(running){ clock.getDelta(); raf = requestAnimationFrame(loop);} }
+  window.addEventListener('visibilitychange', onVis);
   
-  return () => {
-    cancelAnimationFrame(raf);
-    window.removeEventListener('resize', onResize);
-    window.removeEventListener('scroll', onScroll);
-    renderer.dispose();
-    geo.dispose();
-    mat.dispose();
-  };
+  return () => { running=false; if(raf) cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); window.removeEventListener('scroll', onScroll); window.removeEventListener('visibilitychange', onVis); renderer.dispose(); geo.dispose(); mat.dispose(); };
 }

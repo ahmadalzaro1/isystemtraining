@@ -81,17 +81,6 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
 
   return (
     <div className={prefersReducedMotion ? "space-y-8" : "space-y-8 animate-fade-up"}>
-      <header className="text-center space-y-2">
-        <h2 
-          id="workshops-heading"
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[hsl(var(--text-strong))]"
-        >
-          Select Your Workshop
-        </h2>
-        <p className="text-[hsl(var(--text-muted))] text-base sm:text-lg">
-          Choose a date to view available workshops
-        </p>
-      </header>
 
       <WorkshopNavigation 
         currentWeek={currentWeek}

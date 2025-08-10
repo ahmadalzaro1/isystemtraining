@@ -38,14 +38,9 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
   };
 
   return (
-    <IOSCard
-      className={cn(
-        "p-6 cursor-pointer group relative animate-card-slide-up glass-pressable lgx-card rounded-2xl shadow-elev-1 hover:shadow-elev-2 transition-shadow transition-[transform,box-shadow] duration-ios ease-ios hover:-translate-y-[2px]",
-        "w-[90vw] max-w-[420px] mx-auto"
-      )}
+    <div
+      className="wk-card p-5 cursor-pointer group relative transition-[transform,box-shadow] duration-300 hover:-translate-y-[2px] hover:shadow-lg w-[90vw] max-w-[420px] mx-auto"
       onClick={handleCardClick}
-      hapticOnTouch={true}
-      elevated={true}
       style={{ 
         animationDelay: `${index * 0.1}s`,
       }}
@@ -100,10 +95,9 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
               {workshop.spotsRemaining} / {totalSeats}
             </span>
           </div>
-          <SeatsProgressBar 
-            totalSeats={totalSeats} 
-            spotsRemaining={workshop.spotsRemaining}
-          />
+          <div className="wk-progress mt-3">
+            <i style={{width: `${((totalSeats - workshop.spotsRemaining) / totalSeats) * 100}%`}}></i>
+          </div>
         </div>
 
         {/* Footer */}
@@ -114,26 +108,23 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
           </div>
           
           {workshop.spotsRemaining > 0 ? (
-            <Button 
-              size="sm"
-              variant="primaryMinimal"
-              className="flex items-center gap-2"
+            <button 
+              className="wk-cta flex items-center gap-2 text-[hsl(var(--text-strong))]"
               onClick={handleRegister}
             >
               <CheckCircle className="h-4 w-4" />
               Register
-            </Button>
+            </button>
           ) : (
-            <Button 
-              size="sm"
-              variant="secondaryOutline"
+            <button 
+              className="wk-cta text-[hsl(var(--text-muted))]"
               onClick={handleWaitlist}
             >
               Waitlist
-            </Button>
+            </button>
           )}
         </div>
       </div>
-    </IOSCard>
+    </div>
   );
 };
