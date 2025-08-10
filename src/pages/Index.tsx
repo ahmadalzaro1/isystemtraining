@@ -15,6 +15,8 @@ import { HomeButton } from '@/components/ui/home-button';
 import { Button } from '@/components/ui/button';
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import HeroCanvas from '@/webgl/HeroCanvas';
+import VanillaBgCanvas from '@/webgl/VanillaBgCanvas';
+import '@/styles/canvas.css';
 
 const Index = memo(() => {
   usePerformanceMonitor('Index');
@@ -95,8 +97,10 @@ const Index = memo(() => {
   }, [prefersReducedMotion, triggerHaptic]);
 
   return (
-    <div className="min-h-screen bg-[hsl(var(--surface))] relative overflow-hidden ios-scroll">
-      <HeroCanvas />
+    <>
+      <VanillaBgCanvas />
+      <div className="min-h-screen bg-[hsl(var(--surface))] relative overflow-hidden ios-scroll">
+        <HeroCanvas />
       <div 
         className="hidden fixed inset-0 z-0 overflow-hidden pointer-events-none"
         aria-hidden="true"
@@ -266,7 +270,8 @@ const Index = memo(() => {
           <a className="glass rounded-lg px-5 py-2.5 focus-ring" href="/workshops">Find my workshop</a>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 });
 
