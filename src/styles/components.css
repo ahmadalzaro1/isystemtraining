@@ -34,7 +34,7 @@
 
 /* Navigation styles */
 .nav-link {
-  @apply text-[#1D1D1F] hover:text-[#0071e3] transition-colors duration-200
+  @apply text-[hsl(var(--text-strong))] hover:text-[hsl(var(--accent-a))] transition-colors duration-200
          min-w-[48px] min-h-[48px] flex items-center justify-center;
 }
 
@@ -68,7 +68,7 @@
 
 /* Apple/Unicorn utilities */
 .hairline { box-shadow: inset 0 -1px 0 hsl(var(--border)); }
-.glass { backdrop-filter: saturate(140%) blur(12px); background: hsl(var(--glass-bg)); border: 1px solid hsl(var(--glass-border)); }
+
 .grad-stroke { position: relative; }
 .grad-stroke::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: var(--accent-gradient); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
 .grad-text { background: var(--accent-gradient); -webkit-background-clip: text; color: transparent; }
@@ -78,15 +78,6 @@
   .hover\:-translate-y-\[2px\] { transform: none !important; }
   .transition, [class*='transition-'] { transition: none !important; }
 }
-
-/* VISUAL ROLLBACK: neutralize gradients/glass immediately */
-:root{--accent-a:214 100% 45% !important;--accent-b:214 100% 45% !important;--accent-gradient:linear-gradient(0deg,hsl(var(--accent-a)),hsl(var(--accent-a))) !important;--glass-bg:0 0% 100%/.0 !important;--glass-border:0 0% 100%/.0 !important}
-.bg-aurora-soft{background:none !important}
-.grad-text{color:inherit !important;background:none !important;-webkit-background-clip:initial !important}
-.grad-stroke::before{display:none !important}
-.glass{backdrop-filter:none !important;background:transparent !important;border-color:transparent !important}
-button[class*="primaryPill"]{background:hsl(var(--accent-a)) !important;color:#fff !important;border-radius:.75rem !important;box-shadow:none !important}
-button[class*="ghostGlass"]{background:transparent !important;border:1px solid hsl(var(--border)) !important;color:inherit !important}
 
 /* Utilities */
 .focus-ring:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(10,132,255,.28)}

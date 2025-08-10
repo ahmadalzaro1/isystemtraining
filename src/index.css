@@ -2,6 +2,7 @@
 @import './styles/theme.css';
 @import './styles/animations/index.css';
 @import './styles/components.css';
+@import './styles/glass.css';
 @import './styles/forms.css';
 
 /* Optimized for all devices */

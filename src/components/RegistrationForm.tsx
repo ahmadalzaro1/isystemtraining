@@ -158,7 +158,7 @@ export const RegistrationForm = memo(({ workshop, onComplete }: RegistrationForm
           }`}
           aria-hidden="true"
         >
-          <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-white/10" />
           <div className="absolute inset-0 bg-gradient-mesh opacity-20" />
         </div>
       )}

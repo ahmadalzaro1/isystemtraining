@@ -27,6 +27,8 @@ const buttonVariants = cva(
         ghostGlass: "rounded-pill px-5 py-2.5 glass text-foreground shadow-elev-1 hover:bg-white/70 focus-visible:shadow-focus",
         primaryMinimal: "rounded-lg px-5 py-2.5 bg-[hsl(var(--accent-a))] text-white hover:opacity-90 transition duration-ios ease-ios focus-visible:shadow-focus",
         secondaryOutline: "rounded-lg px-5 py-2.5 border border-[hsl(var(--border))] bg-[hsl(var(--surface))] hover:bg-black/5 transition duration-ios ease-ios focus-visible:shadow-focus",
+        glassPrimary: "glass glass-pressable rounded-lg px-5 py-2.5 glass-allow-blur text-[hsl(var(--text-strong))] focus-ring",
+        glassSecondary: "glass glass-pressable rounded-lg px-5 py-2.5 text-[hsl(var(--text-strong))] border border-[hsl(var(--border))] focus-ring",
       },
       size: {
         default: "h-10 px-4 py-2",

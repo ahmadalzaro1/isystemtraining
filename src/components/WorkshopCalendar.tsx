@@ -96,11 +96,11 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
       <header className="text-center space-y-2">
         <h2 
           id="workshops-heading"
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#1D1D1F]"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[hsl(var(--text-strong))]"
         >
           Select Your Workshop
         </h2>
-        <p className="text-[#6E6E73] text-base sm:text-lg">
+        <p className="text-[hsl(var(--text-muted))] text-base sm:text-lg">
           Choose a date to view available workshops
         </p>
       </header>

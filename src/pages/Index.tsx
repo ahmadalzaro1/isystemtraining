@@ -206,7 +206,7 @@ const Index = memo(() => {
           </h1>
           
           {/* Subheadline */}
-          <p className="text-[#6E6E73] text-base xs:text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow px-4 leading-relaxed text-measure">
+          <p className="text-[hsl(var(--text-muted))] text-base xs:text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow px-4 leading-relaxed text-measure">
             {subheadlineLetters.map((letter, index) => (
               <span
                 key={index}
@@ -222,7 +222,7 @@ const Index = memo(() => {
           <div className="pt-6 px-4 relative z-30">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Button
-                variant="primaryMinimal"
+                variant="glassPrimary"
                 onClick={scrollToWorkshops}
                 aria-label="Browse workshops"
               >
@@ -265,14 +265,14 @@ const Index = memo(() => {
           aria-hidden="true"
           role="presentation"
         >
-          <ChevronDown className="h-8 w-8 text-[#6E6E73]" />
+          <ChevronDown className="h-8 w-8 text-[hsl(var(--text-muted))]" />
         </div>
       </section>
 
       {/* Workshops Section */}
       <main 
         id="workshops" 
-        className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl bg-white/80 backdrop-blur-sm rounded-t-3xl shadow-lg ios-scroll"
+        className="container relative z-10 py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl bg-surface border border-[hsl(var(--border))] rounded-t-3xl shadow-elev-2 ios-scroll"
         role="main"
         aria-labelledby="workshops-heading"
       >
