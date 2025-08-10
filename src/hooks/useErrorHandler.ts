@@ -32,7 +32,7 @@ export const useErrorHandler = (): UseErrorHandlerReturn => {
     toast.error(errorMessage);
     
     // Send to monitoring service in production
-    if (process.env.NODE_ENV === 'production') {
+    if (import.meta.env?.MODE === 'production') {
       // TODO: Integrate with error monitoring service
       // sendErrorToMonitoring(error);
     }

@@ -2,6 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { FormData } from "@/types/registration";
 import { log, error as logError } from "@/utils/logger";
 import { z } from "zod";
+import { isUUID } from "@/utils/uuid";
 
 export interface WorkshopRegistration {
   id: string;
@@ -49,6 +50,11 @@ export class RegistrationService {
     };
 
     log('Registration insert prepared');
+
+    // Final runtime guard to fail closed before DB call
+    if (!isUUID(registrationData.workshop_id)) {
+      throw new Error('Invalid workshop selection');
+    }
 
     const { data, error } = await supabase
       .from('workshop_registrations')
