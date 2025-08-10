@@ -127,7 +127,7 @@ const Index = memo(() => {
               style={{
                 width: '2px',
                 height: `${130 + (i * 8)}px`,
-                background: 'linear-gradient(180deg, rgba(0,122,255,0.1) 0%, rgba(0,122,255,0.05) 100%)`,
+                background: 'linear-gradient(180deg, rgba(0,122,255,0.1) 0%, rgba(0,122,255,0.05) 100%)',
                 right: `${(i + 1) * 12.5}%`,
                 bottom: `${15 + (i * 8)}%`,
                 animationDelay: `${i * 0.5 + 0.25}s`,
