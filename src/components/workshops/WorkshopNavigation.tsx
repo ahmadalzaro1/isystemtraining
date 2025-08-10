@@ -29,18 +29,18 @@ export const WorkshopNavigation = ({ currentWeek, onNavigate }: WorkshopNavigati
 
         <div className="flex items-center justify-between w-full gap-4 mt-4">
           <Button
-            variant="outline"
+            variant="secondaryOutline"
             onClick={() => onNavigate('prev')}
-            className="flex-1 py-6 text-base hover:bg-gray-50 rounded-full border-2 border-gray-200"
+            className="flex-1 py-6 text-base rounded-full"
           >
             <ChevronLeft className="h-5 w-5 mr-2" />
             Previous Week
           </Button>
 
           <Button
-            variant="outline"
+            variant="secondaryOutline"
             onClick={() => onNavigate('next')}
-            className="flex-1 py-6 text-base hover:bg-gray-50 rounded-full border-2 border-gray-200"
+            className="flex-1 py-6 text-base rounded-full"
           >
             Next Week
             <ChevronRight className="h-5 w-5 ml-2" />

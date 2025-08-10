@@ -140,7 +140,7 @@ export const RegistrationSuccess = ({
                 <span className="font-medium">{workshop.time}</span>
               </div>
               <Button 
-                variant="outline" 
+                variant="secondaryOutline" 
                 onClick={addToCalendar}
                 className="w-full hover-glow"
               >
@@ -182,16 +182,16 @@ export const RegistrationSuccess = ({
           <p className="text-muted-foreground mb-4">
             Know someone who'd love this session? Invite them to join!
           </p>
-          <div className="flex gap-4">
-            <Button variant="outline" onClick={handleShareWorkshop} className="flex-1">
-              <MessageSquare className="mr-2 h-4 w-4" />
-              iMessage
-            </Button>
-            <Button variant="outline" onClick={handleShareWorkshop} className="flex-1">
-              <Share2 className="mr-2 h-4 w-4" />
-              Share Link
-            </Button>
-          </div>
+            <div className="flex gap-4">
+              <Button variant="secondaryOutline" onClick={handleShareWorkshop} className="flex-1">
+                <MessageSquare className="mr-2 h-4 w-4" />
+                iMessage
+              </Button>
+              <Button variant="secondaryOutline" onClick={handleShareWorkshop} className="flex-1">
+                <Share2 className="mr-2 h-4 w-4" />
+                Share Link
+              </Button>
+            </div>
         </Card>
 
         {/* What to Expect */}
@@ -216,11 +216,11 @@ export const RegistrationSuccess = ({
         {/* Footer Actions */}
         <div className="flex flex-col gap-4 items-center pt-8">
           <div className="flex gap-4 w-full max-w-md">
-            <Button onClick={handleViewMyRegistrations} className="flex-1">
+            <Button onClick={handleViewMyRegistrations} variant="primaryMinimal" className="flex-1">
               View My Registrations
               <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button variant="outline" onClick={onViewWorkshops} className="flex-1">
+            <Button variant="secondaryOutline" onClick={onViewWorkshops} className="flex-1">
               Browse More Workshops
             </Button>
           </div>

@@ -147,7 +147,7 @@ const Index = memo(() => {
         {user ? (
           <div className="flex items-center gap-2">
             <Button
-              variant="secondary"
+              variant="secondaryOutline"
               size="sm"
               onClick={() => navigate('/my-registrations')}
               className="flex items-center gap-2"
@@ -157,7 +157,7 @@ const Index = memo(() => {
             </Button>
             {auth.isAdmin && (
               <Button
-                variant="secondary"
+                variant="secondaryOutline"
                 size="sm"
                 onClick={() => navigate('/admin')}
                 className="flex items-center gap-2"
@@ -169,7 +169,7 @@ const Index = memo(() => {
           </div>
         ) : (
           <Button
-            variant="secondary"
+            variant="secondaryOutline"
             size="sm"
             onClick={() => navigate('/auth')}
             className="flex items-center gap-2"

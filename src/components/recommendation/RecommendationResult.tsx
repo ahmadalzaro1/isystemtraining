@@ -54,7 +54,7 @@ export const RecommendationResult = ({
 
       <div className="flex gap-3">
         <Button
-          variant="outline"
+          variant="secondaryOutline"
           onClick={onTryAgain}
           className="flex items-center gap-2"
         >
@@ -62,6 +62,7 @@ export const RecommendationResult = ({
           Try Again
         </Button>
         <Button
+          variant="primaryMinimal"
           onClick={() => onSelect(workshop)}
           className="flex-1"
         >

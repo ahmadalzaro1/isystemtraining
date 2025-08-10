@@ -77,6 +77,7 @@ export const RecommendationQuiz = ({ onSubmit }: RecommendationQuizProps) => {
       </RadioGroup>
 
       <Button
+        variant="primaryMinimal"
         onClick={() => onSubmit(selectedGoal)}
         className="w-full"
         disabled={!selectedGoal}

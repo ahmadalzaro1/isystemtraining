@@ -17,14 +17,15 @@ export const RegistrationNavigation = ({
   <div className="flex justify-between gap-4 pb-8">
     {currentStep > 1 && (
       <Button
-        variant="outline"
+        variant="secondaryOutline"
         onClick={onPrevious}
-        className="flex-1 sm:flex-none animate-fade-up transition-all duration-300 hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98]"
+        className="flex-1 sm:flex-none animate-fade-up transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
       >
         Back
       </Button>
     )}
     <Button
+      variant="primaryMinimal"
       onClick={onNext}
       className={`flex-1 sm:flex-none animate-fade-up transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
         currentStep === 1 ? "w-full" : "ml-auto"
