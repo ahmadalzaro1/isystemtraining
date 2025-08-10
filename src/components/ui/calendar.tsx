@@ -61,4 +61,6 @@ function Calendar({
 }
 Calendar.displayName = "Calendar";
 
+export const calendarEventPill = "rounded-full px-2 py-0.5 border border-[hsl(var(--border))] text-[12px]";
+
 export { Calendar };
