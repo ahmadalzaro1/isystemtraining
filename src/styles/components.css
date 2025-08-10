@@ -90,3 +90,8 @@ button[class*="ghostGlass"]{background:transparent !important;border:1px solid h
 
 /* Utilities */
 .focus-ring:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(10,132,255,.28)}
+.container-page{max-width:80rem;margin-inline:auto;padding:2rem 1rem}
+@media(min-width:768px){.container-page{padding:3.5rem 1.5rem}}
+.text-measure{max-width:70ch}
+.section-gap{padding-block:2.5rem}
+@media(min-width:768px){.section-gap{padding-block:4rem}}
