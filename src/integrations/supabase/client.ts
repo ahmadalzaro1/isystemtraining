@@ -2,11 +2,21 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = "https://esludtfcnmgjzmvbofdv.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzbHVkdGZjbm1nanptdmJvZmR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI4NjU5OTQsImV4cCI6MjA2ODQ0MTk5NH0.8rVBggpGCseWHfX2AETSeSW2Q6JENJDA4HHCP6koVEA";
+// Read Supabase config from runtime meta tags to avoid hardcoding credentials
+const getMeta = (name: string): string | null => {
+  const el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+  return el?.content?.trim() || null;
+};
 
-// Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
+const SUPABASE_URL = getMeta('x-supabase-url') || '';
+const SUPABASE_PUBLISHABLE_KEY = getMeta('x-supabase-anon-key') || '';
+
+if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+  // eslint-disable-next-line no-console
+  console.error(
+    'Missing Supabase configuration. Please set <meta name="x-supabase-url"> and <meta name="x-supabase-anon-key"> in index.html.'
+  );
+}
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {

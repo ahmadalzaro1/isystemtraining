@@ -12,6 +12,10 @@
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://cdn.gpteng.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
     
+    <!-- Supabase runtime configuration (populate at deploy time; keep empty in repo) -->
+    <meta name="x-supabase-url" content="">
+    <meta name="x-supabase-anon-key" content="">
+    
     <!-- iOS PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
