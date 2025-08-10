@@ -142,7 +142,8 @@ const Index = memo(() => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white/80" />
       </div>
 
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-2 ios-safe-area-top">
+      <div className="container-page section-gap">
+        <div className="absolute top-4 right-4 z-20 flex items-center gap-2 ios-safe-area-top">
         {user ? (
           <div className="flex items-center gap-2">
             <Button
@@ -208,7 +209,7 @@ const Index = memo(() => {
           </h1>
           
           {/* Subheadline */}
-          <p className="text-[#6E6E73] text-base xs:text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow px-4 leading-relaxed">
+          <p className="text-[#6E6E73] text-base xs:text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto apple-subheadline hover-glow px-4 leading-relaxed text-measure">
             {subheadlineLetters.map((letter, index) => (
               <span
                 key={index}
@@ -220,8 +221,28 @@ const Index = memo(() => {
             ))}
           </p>
 
-          {/* CTA Button */}
-          <div className="pt-8 px-4 relative z-30">
+          {/* CTAs */}
+          <div className="pt-6 px-4 relative z-30">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+              <Button
+                variant="primaryMinimal"
+                onClick={scrollToWorkshops}
+                aria-label="Browse workshops"
+              >
+                Browse Workshops
+              </Button>
+              <Button
+                variant="secondaryOutline"
+                onClick={() => navigate(user ? '/my-registrations' : '/auth')}
+                aria-label={user ? 'Go to my registrations' : 'Sign in to manage registrations'}
+              >
+                {user ? 'My Registrations' : 'Sign In'}
+              </Button>
+            </div>
+          </div>
+
+          {/* Existing scroll CTA */}
+          <div className="pt-6 px-4 relative z-30">
             <div className="flex flex-col items-center">
               <HomeButton
                 onClick={scrollToWorkshops}
@@ -278,6 +299,7 @@ const Index = memo(() => {
           />
         )}
       </main>
+      </div>
     </div>
   );
 });
