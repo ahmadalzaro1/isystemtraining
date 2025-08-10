@@ -104,8 +104,8 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
   return (
     <Card 
       className={cn(
-        "group relative overflow-hidden border-0 bg-white/70 backdrop-blur-xl",
-        "hover:bg-white/90 hover:shadow-xl hover:-translate-y-1",
+        "group relative overflow-hidden",
+        "hover:shadow-elev-2 hover:-translate-y-1",
         "transition-all duration-500 ease-out will-change-transform",
         "border-l-4", statusConfig.accent,
         statusConfig.glow

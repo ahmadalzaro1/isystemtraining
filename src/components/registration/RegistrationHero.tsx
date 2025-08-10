@@ -34,7 +34,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
       <div className="absolute inset-0 bg-gradient-mesh opacity-20 rounded-3xl" 
            style={{ animation: 'gradientShift 15s ease infinite' }} />
       
-      <Card className="relative border-0 bg-white/60 backdrop-blur-xl shadow-xl">
+      <Card className="relative">
         <CardContent className="p-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             {/* Welcome Section */}

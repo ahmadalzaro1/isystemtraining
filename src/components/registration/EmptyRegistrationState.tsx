@@ -8,7 +8,7 @@ export const EmptyRegistrationState = () => {
   const navigate = useNavigate();
 
   return (
-    <Card className="border-0 bg-gradient-to-br from-gray-50/50 to-white shadow-xl">
+    <Card>
       <CardContent className="p-12 text-center">
         <div className="relative mb-8">
           {/* Floating Icons Animation */}

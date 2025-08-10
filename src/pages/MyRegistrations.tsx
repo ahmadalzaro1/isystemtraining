@@ -21,7 +21,7 @@ const GuestLookup = () => {
 
   return (
     <div className="space-y-8">
-      <Card className="border-0 bg-white/80 backdrop-blur-xl shadow-xl">
+      <Card>
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-3 text-xl">
             <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-100">
@@ -92,7 +92,7 @@ const GuestLookup = () => {
       )}
 
       {email && !isLoading && registrations.length === 0 && email.length > 0 && (
-        <Card className="border-0 bg-gray-50/50 shadow-sm">
+        <Card>
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
               <Search className="h-8 w-8 text-[hsl(var(--text-muted))]" />
@@ -212,7 +212,7 @@ const MyRegistrations = () => {
                     </div>
 
                     {filteredRegistrations.length === 0 && searchQuery && (
-                      <Card className="border-0 bg-white/50 backdrop-blur-sm">
+                      <Card>
                         <CardContent className="p-8 text-center">
                           <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
                             <Search className="h-8 w-8 text-[hsl(var(--text-muted))]" />

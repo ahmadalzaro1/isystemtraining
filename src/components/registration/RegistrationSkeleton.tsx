@@ -6,7 +6,7 @@ export const RegistrationSkeleton = () => {
   return (
     <div className="space-y-6">
       {/* Hero Skeleton */}
-      <Card className="border-0 bg-white/60 backdrop-blur-xl">
+      <Card>
         <CardContent className="p-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="space-y-2">
@@ -31,7 +31,7 @@ export const RegistrationSkeleton = () => {
         {[...Array(3)].map((_, index) => (
           <Card 
             key={index}
-            className="border-0 bg-white/70 backdrop-blur-xl border-l-4 border-l-gray-200"
+            className="border-l-4 border-l-gray-200"
             style={{
               animationDelay: `${index * 100}ms`,
               animation: 'slideInUp 0.6s ease-out forwards'
