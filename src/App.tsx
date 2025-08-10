@@ -9,6 +9,7 @@ import React, { lazy, Suspense } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import { ProtectedRoute, AdminRoute } from "@/components/auth/ProtectedRoute";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 
 // Lazy load pages for better performance with explicit imports
 const Index = lazy(() => import("./pages/Index").then(module => ({ default: module.default })));
@@ -72,6 +73,7 @@ function App(): JSX.Element {
           <BrowserRouter>
             <AuthProvider>
               <SkipToContent />
+              <SiteHeader />
               <Suspense fallback={<LoadingSpinner />}>
                 <main id="main-content" tabIndex={-1}>
                   <Routes>

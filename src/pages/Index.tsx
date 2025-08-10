@@ -3,7 +3,7 @@ import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
 import { RegistrationSuccess } from "@/components/registration/RegistrationSuccess";
 import { toast } from "sonner";
-import { ChevronDown, User, LogIn } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { FormData } from "@/types/registration";
 import { WorkshopRegistration } from "@/services/registrationService";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
@@ -143,42 +143,6 @@ const Index = memo(() => {
       </div>
 
       <div className="container-page section-gap">
-        <div className="absolute top-4 right-4 z-20 flex items-center gap-2 ios-safe-area-top">
-        {user ? (
-          <div className="flex items-center gap-2">
-            <Button
-              variant="secondaryOutline"
-              size="sm"
-              onClick={() => navigate('/my-registrations')}
-              className="flex items-center gap-2"
-            >
-              <User className="h-4 w-4" />
-              My Registrations
-            </Button>
-            {auth.isAdmin && (
-              <Button
-                variant="secondaryOutline"
-                size="sm"
-                onClick={() => navigate('/admin')}
-                className="flex items-center gap-2"
-              >
-                <LogIn className="h-4 w-4" />
-                Admin Dashboard
-              </Button>
-            )}
-          </div>
-        ) : (
-          <Button
-            variant="secondaryOutline"
-            size="sm"
-            onClick={() => navigate('/auth')}
-            className="flex items-center gap-2"
-          >
-            <LogIn className="h-4 w-4" />
-            Admin Login
-          </Button>
-        )}
-        </div>
       {/* Hero Section */}
       <section 
         ref={setHeroRef}
