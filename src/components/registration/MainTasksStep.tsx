@@ -50,7 +50,7 @@ export const MainTasksStep = ({ data, onChange, className }: MainTasksStepProps)
           <Label
             key={task.value}
             className={cn(
-              "flex items-start space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors",
+              "flex items-start gap-3 p-4 bg-surface2 border border-[hsl(var(--border))] rounded-xl shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus",
               data.mainTasks.length >= 3 && !data.mainTasks.includes(task.value) && "opacity-50"
             )}
           >

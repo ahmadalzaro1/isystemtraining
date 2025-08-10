@@ -40,7 +40,7 @@ export const LearningStylesStep = ({ data, onChange, className }: LearningStyles
         {LEARNING_STYLES.map((style) => (
           <Label
             key={style.value}
-            className="flex items-start space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+            className="flex items-start gap-3 p-4 bg-surface2 border border-[hsl(var(--border))] rounded-xl shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus"
           >
             <Checkbox
               checked={data.learningStyles.includes(style.value)}

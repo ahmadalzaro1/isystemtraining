@@ -34,21 +34,21 @@ export const UserTypeStep = ({ data, onChange, className }: UserTypeStepProps) =
           }}
           className="space-y-4"
         >
-          <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+          <Label className="flex items-center gap-3 p-4 bg-surface2 border border-[hsl(var(--border))] rounded-xl shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus">
             <RadioGroupItem value="first-time" />
             <div className="flex items-center gap-2">
               <span>🆕</span>
               <span>First-time Apple user</span>
             </div>
           </Label>
-          <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+          <Label className="flex items-center gap-3 p-4 bg-surface2 border border-[hsl(var(--border))] rounded-xl shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus">
             <RadioGroupItem value="existing" />
             <div className="flex items-center gap-2">
               <span>🍏</span>
               <span>No, I've always used Apple</span>
             </div>
           </Label>
-          <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+          <Label className="flex items-center gap-3 p-4 bg-surface2 border border-[hsl(var(--border))] rounded-xl shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus">
             <RadioGroupItem value="switching" />
             <div className="flex items-center gap-2">
               <span>🔄</span>

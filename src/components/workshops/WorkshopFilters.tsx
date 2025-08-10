@@ -78,10 +78,10 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
             {["All", "Beginner", "Intermediate", "Advanced"].map((level) => (
               <Label
                 key={level}
-                className={`px-4 py-2 rounded-full border cursor-pointer transition-all hover:bg-gray-50 ${
+              className={`px-4 py-2 rounded-full bg-surface2 border border-[hsl(var(--border))] shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus ${
                   filters.skillLevel === level 
-                    ? "border-primary bg-primary/5 text-primary" 
-                    : "border-gray-200"
+                    ? "border-[hsl(var(--accent-a))] bg-[hsl(var(--accent-a))/0.08] text-[hsl(var(--accent-a))]" 
+                    : ""
                 }`}
               >
                 <RadioGroupItem value={level} className="sr-only" />
@@ -99,11 +99,11 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
               <button
                 key={value}
                 onClick={() => handleCategoryClick(value)}
-                className={`px-4 py-2 rounded-full border transition-all hover:bg-gray-50 ${
-                  filters.category === value 
-                    ? "border-primary bg-primary/5 text-primary" 
-                    : "border-gray-200"
-                }`}
+                 className={`px-4 py-2 rounded-full bg-surface2 border border-[hsl(var(--border))] shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus ${
+                    filters.category === value 
+                      ? "border-[hsl(var(--accent-a))] bg-[hsl(var(--accent-a))/0.08] text-[hsl(var(--accent-a))]" 
+                      : ""
+                  }`}
               >
                 {label}
               </button>

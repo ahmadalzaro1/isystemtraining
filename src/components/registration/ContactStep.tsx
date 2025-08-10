@@ -69,7 +69,7 @@ export const ContactStep = ({ data, onChange, className }: ContactStepProps) => 
           {CONTACT_PREFERENCES.map((pref) => (
             <Label
               key={pref.value}
-              className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 p-4 bg-surface2 border border-[hsl(var(--border))] rounded-xl shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus"
             >
               <RadioGroupItem value={pref.value} />
               <div className="flex items-center gap-2">
@@ -101,7 +101,7 @@ export const ContactStep = ({ data, onChange, className }: ContactStepProps) => 
           {PAID_INTEREST.map((option) => (
             <Label
               key={option.value}
-              className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 p-4 bg-surface2 border border-[hsl(var(--border))] rounded-xl shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus"
             >
               <RadioGroupItem value={option.value} />
               <span>{option.label}</span>
