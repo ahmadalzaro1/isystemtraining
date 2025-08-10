@@ -29,7 +29,7 @@ const buttonVariants = cva(
         "ios-secondary":
           "bg-[#E8E8ED] text-[#1D1D1F] hover:bg-[#D2D2D7] active:bg-[#C7C7CC] shadow-md rounded-xl active:scale-[0.98]",
         "ios-tertiary":
-          "bg-transparent text-[#0071e3] hover:bg-black/5 active:bg-black/10 border border-[#0071e3]/20 rounded-xl active:scale-[0.98]",
+          "bg-transparent text-[#0071e3] hover:bg-[hsl(var(--background))]/10 active:bg-[hsl(var(--muted))]/20 border border-[#0071e3]/20 rounded-xl active:scale-[0.98]",
         // Apple/Unicorn variants (additive)
         primaryPill:
           "rounded-pill px-5 py-2.5 bg-brand text-white shadow-elev-2 hover:bg-brand/90 transition-[transform,box-shadow] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]",
