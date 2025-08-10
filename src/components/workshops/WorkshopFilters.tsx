@@ -46,7 +46,7 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
     <div className="space-y-6 animate-fade-up">
       {/* Search Bar */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[hsl(var(--text-muted))] h-4 w-4" />
         <Input
           placeholder="Search workshops..."
           value={filters.search}
@@ -56,7 +56,7 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
         {filters.search && (
           <button
             onClick={() => onChange({ ...filters, search: "" })}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[hsl(var(--text-muted))] hover:text-gray-600 transition-colors"
           >
             <X className="h-4 w-4" />
           </button>

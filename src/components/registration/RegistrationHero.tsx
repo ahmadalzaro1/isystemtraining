@@ -39,7 +39,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             {/* Welcome Section */}
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-[40px] leading-[44px] font-bold text-gray-900">
                 {getGreeting()}{userName ? `, ${userName}` : ''}
               </h1>
               <p className="text-gray-600 text-lg">
@@ -61,7 +61,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
                     <CheckCircle className="h-6 w-6" />
                   </div>
                   <div className="text-2xl font-bold text-gray-900">{confirmedCount}</div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wide">Confirmed</div>
+                  <div className="text-xs text-[hsl(var(--text-muted))] uppercase tracking-wide">Confirmed</div>
                 </div>
 
                 <div className="text-center">
@@ -72,7 +72,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
                     <Clock className="h-6 w-6" />
                   </div>
                   <div className="text-2xl font-bold text-gray-900">{pendingCount}</div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wide">Pending</div>
+                  <div className="text-xs text-[hsl(var(--text-muted))] uppercase tracking-wide">Pending</div>
                 </div>
 
                 <div className="text-center">
@@ -83,7 +83,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
                     <Calendar className="h-6 w-6" />
                   </div>
                   <div className="text-2xl font-bold text-gray-900">{upcomingRegistrations.length}</div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wide">Upcoming</div>
+                  <div className="text-xs text-[hsl(var(--text-muted))] uppercase tracking-wide">Upcoming</div>
                 </div>
               </div>
             )}

@@ -168,7 +168,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
               </div>
               <div>
                 <p className="font-medium text-gray-900">{workshop.date.toLocaleDateString()}</p>
-                <p className="text-gray-500 text-xs">Workshop Date</p>
+                <p className="text-[hsl(var(--text-muted))] text-xs">Workshop Date</p>
               </div>
             </div>
             
@@ -178,7 +178,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
               </div>
               <div>
                 <p className="font-medium text-gray-900">{workshop.time}</p>
-                <p className="text-gray-500 text-xs">Duration</p>
+                <p className="text-[hsl(var(--text-muted))] text-xs">Duration</p>
               </div>
             </div>
           </div>
@@ -190,20 +190,20 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
               </div>
               <div>
                 <p className="font-medium text-gray-900">Online Workshop</p>
-                <p className="text-gray-500 text-xs">Virtual Event</p>
+                <p className="text-[hsl(var(--text-muted))] text-xs">Virtual Event</p>
               </div>
             </div>
             
             <div className="text-sm">
               <p className="font-medium text-gray-900">{workshop.skillLevel}</p>
-              <p className="text-gray-500 text-xs">Skill Level</p>
+              <p className="text-[hsl(var(--text-muted))] text-xs">Skill Level</p>
             </div>
           </div>
         </div>
 
         {/* Footer */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-[hsl(var(--text-muted))]">
             <span>Registered: {new Date(registration.registration_date).toLocaleDateString()}</span>
           </div>
           

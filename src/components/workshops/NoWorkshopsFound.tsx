@@ -12,7 +12,7 @@ export const NoWorkshopsFound = ({ filters, onReset }: NoWorkshopsFoundProps) =>
 
   return (
     <div className="text-center py-12 bg-gray-50 rounded-lg animate-fade-up">
-      <p className="text-xl text-gray-500">
+      <p className="text-xl text-[hsl(var(--text-muted))]">
         No workshops found
         {hasActiveFilters ? " — try adjusting your filters!" : " this week"}
       </p>

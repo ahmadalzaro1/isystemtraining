@@ -19,7 +19,7 @@ export const RegistrationConfirmation = ({
       <Card className="border-green-200 bg-green-50/50">
         <CardHeader className="text-center">
           <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <QrCode className="w-8 h-8 text-white" />
+            <QrCode className="w-8 h-8 text-[hsl(var(--text-strong))]" />
           </div>
           <CardTitle className="text-2xl text-green-700">Registration Confirmed!</CardTitle>
           <Badge className="mx-auto bg-green-100 text-green-700 border-green-200">

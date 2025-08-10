@@ -13,7 +13,7 @@ export const WorkshopNavigation = ({ currentWeek, onNavigate }: WorkshopNavigati
 
   return (
     <div className="text-center space-y-6">
-      <h1 className="text-[2rem] sm:text-[2.5rem] font-medium tracking-tight text-[#007AFF]">
+      <h1 className="text-[40px] leading-[44px] font-medium tracking-tight text-[#007AFF]">
         Available Workshops
       </h1>
 
@@ -48,7 +48,7 @@ export const WorkshopNavigation = ({ currentWeek, onNavigate }: WorkshopNavigati
         </div>
       </div>
 
-      <p className="text-gray-500 text-lg">
+      <p className="text-[hsl(var(--text-muted))] text-lg">
         Workshops available on Sundays, Tuesdays, and Thursdays
       </p>
     </div>

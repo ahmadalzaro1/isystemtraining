@@ -69,14 +69,14 @@ const GuestLookup = () => {
 
       {registration && (
         <div>
-          <h3 className="text-xl font-semibold mb-6 text-gray-900">Found Your Registration</h3>
+          <h3 className="text-[22px] leading-[28px] font-semibold mb-6 text-gray-900">Found Your Registration</h3>
           <ModernRegistrationCard registration={registration} index={0} />
         </div>
       )}
 
       {email && registrations.length > 0 && (
         <div>
-          <h3 className="text-xl font-semibold mb-6 text-gray-900">
+          <h3 className="text-[22px] leading-[28px] font-semibold mb-6 text-gray-900">
             Your Registrations ({registrations.length})
           </h3>
           <div className="space-y-4">
@@ -95,10 +95,10 @@ const GuestLookup = () => {
         <Card className="border-0 bg-gray-50/50 shadow-sm">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-              <Search className="h-8 w-8 text-gray-400" />
+              <Search className="h-8 w-8 text-[hsl(var(--text-muted))]" />
             </div>
             <h3 className="font-medium text-gray-900 mb-2">No Registrations Found</h3>
-            <p className="text-gray-500 mb-4">
+            <p className="text-[hsl(var(--text-muted))] mb-4">
               We couldn't find any registrations for this email address.
             </p>
             <Button 
@@ -148,7 +148,7 @@ const MyRegistrations = () => {
           
           <div className="h-4 w-px bg-gray-300" />
           
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
+          <h1 className="text-[40px] leading-[44px] font-bold text-gray-900">
             Workshop Registrations
           </h1>
         </div>
@@ -171,7 +171,7 @@ const MyRegistrations = () => {
                     {/* Search and Filters */}
                     <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
                       <div className="relative flex-1 max-w-md">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[hsl(var(--text-muted))]" />
                         <Input
                           placeholder="Search registrations or confirmation codes..."
                           value={searchQuery}
@@ -215,10 +215,10 @@ const MyRegistrations = () => {
                       <Card className="border-0 bg-white/50 backdrop-blur-sm">
                         <CardContent className="p-8 text-center">
                           <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-                            <Search className="h-8 w-8 text-gray-400" />
+                            <Search className="h-8 w-8 text-[hsl(var(--text-muted))]" />
                           </div>
                           <h3 className="font-medium text-gray-900 mb-2">No Results Found</h3>
-                          <p className="text-gray-500 mb-4">
+                          <p className="text-[hsl(var(--text-muted))] mb-4">
                             Try adjusting your search terms or clearing the filter.
                           </p>
                           <Button 
