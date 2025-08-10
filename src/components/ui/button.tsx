@@ -25,6 +25,9 @@ const buttonVariants = cva(
         // Apple/Unicorn variants (additive)
         primaryPill: "rounded-pill px-5 py-2.5 bg-brand text-white shadow-elev-2 hover:bg-brand/90 focus-visible:shadow-focus transition-[transform,box-shadow] duration-ios ease-ios",
         ghostGlass: "rounded-pill px-5 py-2.5 glass text-foreground shadow-elev-1 hover:bg-white/70 dark:hover:bg-white/10 focus-visible:shadow-focus",
+        // Minimal, non-breaking variants
+        primaryMinimal: "rounded-lg px-5 py-2.5 bg-accent text-white hover:bg-accent/90 focus-visible:shadow-focus",
+        secondaryOutline: "rounded-lg px-5 py-2.5 border border-border bg-surface hover:bg-surface2 focus-visible:shadow-focus",
       },
       size: {
         default: "h-10 px-4 py-2",
