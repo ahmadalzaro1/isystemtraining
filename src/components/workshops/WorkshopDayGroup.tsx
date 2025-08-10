@@ -1,5 +1,5 @@
 
-import { format } from "date-fns";
+import { format, isToday } from "date-fns";
 import { Workshop } from "@/types/workshop";
 import { WorkshopCard } from "./WorkshopCard";
 
@@ -16,17 +16,36 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
     workshops: workshops.map(w => ({ id: w.id, name: w.name, date: w.date.toISOString() }))
   });
 
-  // Sort workshops by trending status and remaining spots
+  const dateObj = new Date(date);
+  const today = isToday(dateObj);
+
+  // Sort workshops by remaining spots
   const sortedWorkshops = [...workshops].sort((a, b) => {
-    // First prioritize workshops with fewer spots
     return a.spotsRemaining - b.spotsRemaining;
   });
 
   return (
     <div className="space-y-4 animate-fade-up">
-      <h2 className="text-2xl font-medium text-gray-800">
-        {format(new Date(date), "EEEE, MMMM d")}
-      </h2>
+      <div className="flex items-center gap-3">
+        <h2 className="text-2xl font-medium text-gray-800">
+          {format(new Date(date), "EEEE, MMMM d")}
+        </h2>
+        {today && (
+          <span className="rounded-full bg-[hsl(var(--accent-a))/0.12] text-[hsl(var(--accent-a))] px-2 py-0.5 text-[12px]">
+            Today
+          </span>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {sortedWorkshops.map((w) => (
+          <span
+            key={`${w.id}-chip`}
+            className="rounded-pill px-2 py-0.5 border border-[hsl(var(--border))] text-[12px] text-muted-foreground"
+          >
+            {format(w.date, "HH:mm")} • {w.name}
+          </span>
+        ))}
+      </div>
       <div className="grid md:grid-cols-2 gap-4">
         {sortedWorkshops.map((workshop, index) => (
           <WorkshopCard
