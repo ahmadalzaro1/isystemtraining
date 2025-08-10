@@ -219,14 +219,6 @@ const Index = memo(() => {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="section-gap container-page">
-        <div className="card p-8 text-center">
-          <h2 className="text-[28px] leading-[32px] mb-3 text-[hsl(var(--text-strong))]">Start your next skill today</h2>
-          <p className="text-[hsl(var(--text-muted))] mb-6">Spots are limited. Secure your seat now.</p>
-          <a className="glass rounded-lg px-5 py-2.5 focus-ring" href="/workshops">Find my workshop</a>
-        </div>
-      </section>
 
 
       {/* Upcoming dates (dynamic) */}
