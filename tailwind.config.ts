@@ -50,6 +50,17 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+
+        // Semantic tokens
+        surface: "hsl(var(--surface))",
+        surface2: "hsl(var(--surface-2))",
+        text: "hsl(var(--text))",
+        "text-muted": "hsl(var(--text-muted))",
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        "accent-a": "hsl(var(--accent-a))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -66,10 +77,6 @@ export default {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -78,15 +85,19 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Apple/Unicorn semantic tokens
-        surface: "hsl(var(--surface))",
-        surface2: "hsl(var(--surface-2))",
+
+        // Status colors
+        success: "hsl(var(--success))",
+        danger: "hsl(var(--danger))",
+
+        // Legacy/compat aliases (to be migrated)
         brand: "hsl(var(--accent-a))",
         textStrong: "hsl(var(--text-strong))",
         textMuted: "hsl(var(--text-muted))",
-        text: "hsl(var(--text-strong))",
+        text: "hsl(var(--text))",
         mutedText: "hsl(var(--text-muted))",
-        // iOS system colors
+
+        // iOS system colors (kept for reference)
         'ios-blue': '#007AFF',
         'ios-green': '#34C759',
         'ios-orange': '#FF9500',
@@ -115,9 +126,11 @@ export default {
         'ios-xl': '0 16px 48px rgba(0, 0, 0, 0.20)',
         'elev-1': '0 1px 2px rgba(0,0,0,.06)',
         'elev-2': '0 8px 24px rgba(0,0,0,.08)',
+        'elev-3': '0 12px 32px rgba(0,0,0,.10)',
         'focus': '0 0 0 4px rgba(10,132,255,.28)'
       },
       borderRadius: {
+        'lg': '1rem',
         'ios': '8px',
         'ios-lg': '12px',
         'ios-xl': '16px',

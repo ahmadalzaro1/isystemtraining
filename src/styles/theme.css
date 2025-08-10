@@ -415,6 +415,7 @@
     --surface: 0 0% 100%;
     --surface-2: 210 20% 98%;
     --text-strong: 222 28% 12%;
+    --text: 222 28% 12%;
     --text-muted: 222 12% 42%;
     --accent-a: 209 100% 50%;
     --accent-b: 252 85% 60%;
@@ -422,6 +423,8 @@
     --glass-bg: 0 0% 100% / 0.55;
     --glass-border: 221 16% 85% / 0.65;
     --border: 222 16% 88%;
+    --success: 135 63% 49%;
+    --danger: 4 100% 60%;
     color-scheme: light;
   }
 }
