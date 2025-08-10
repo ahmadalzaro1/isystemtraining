@@ -68,9 +68,9 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
         };
       default:
         return {
-          color: 'bg-gray-50 text-gray-700 border-gray-200/50',
-          glow: 'shadow-gray-500/10',
-          accent: 'border-l-gray-400'
+          color: 'bg-surface text-text-muted border-border/50',
+          glow: 'shadow-elev-1',
+          accent: 'border-l-[hsl(var(--border))]'
         };
     }
   };
@@ -104,7 +104,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
   return (
     <Card 
       className={cn(
-        "group relative overflow-hidden",
+        "lgx-card rounded-2xl group relative overflow-hidden",
         "hover:shadow-elev-2 hover:-translate-y-1",
         "transition-all duration-500 ease-out will-change-transform",
         "border-l-4", statusConfig.accent,
@@ -121,7 +121,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h3 className="font-semibold text-lg text-gray-900 group-hover:text-gray-800 transition-colors">
+            <h3 className="font-semibold text-lg text-text group-hover:text-text transition-colors">
               {workshop.name}
             </h3>
             <div className="flex items-center gap-2 mt-1 text-sm text-gray-600">
@@ -167,7 +167,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
                 <Calendar className="h-4 w-4 text-[hsl(var(--text-strong))]" />
               </div>
               <div>
-                <p className="font-medium text-gray-900">{workshop.date.toLocaleDateString()}</p>
+                <p className="font-medium text-[hsl(var(--text-strong))]">{workshop.date.toLocaleDateString()}</p>
                 <p className="text-[hsl(var(--text-muted))] text-xs">Workshop Date</p>
               </div>
             </div>
@@ -177,7 +177,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
                 <Clock className="h-4 w-4 text-purple-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-900">{workshop.time}</p>
+                <p className="font-medium text-[hsl(var(--text-strong))]">{workshop.time}</p>
                 <p className="text-[hsl(var(--text-muted))] text-xs">Duration</p>
               </div>
             </div>
@@ -189,13 +189,13 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
                 <MapPin className="h-4 w-4 text-green-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-900">Online Workshop</p>
+                <p className="font-medium text-[hsl(var(--text-strong))]">Online Workshop</p>
                 <p className="text-[hsl(var(--text-muted))] text-xs">Virtual Event</p>
               </div>
             </div>
             
             <div className="text-sm">
-              <p className="font-medium text-gray-900">{workshop.skillLevel}</p>
+              <p className="font-medium text-[hsl(var(--text-strong))]">{workshop.skillLevel}</p>
               <p className="text-[hsl(var(--text-muted))] text-xs">Skill Level</p>
             </div>
           </div>
@@ -208,7 +208,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
           </div>
           
           <div className="flex items-center gap-2">
-            <code className="px-2 py-1 bg-gray-100 rounded text-xs font-mono text-gray-700">
+            <code className="px-2 py-1 bg-surface2 rounded text-xs font-mono text-[hsl(var(--text-muted))]">
               {registration.confirmation_code}
             </code>
             <Button 

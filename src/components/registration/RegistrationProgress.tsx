@@ -19,7 +19,7 @@ export const RegistrationProgress = ({
           <div
             key={index}
             className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-              index <= currentStepIndex ? "bg-primary scale-100" : "bg-gray-200 scale-95"
+              index <= currentStepIndex ? "bg-primary scale-100" : "bg-[hsl(var(--border))] scale-95"
             }`}
           />
         ))}

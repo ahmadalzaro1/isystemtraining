@@ -34,15 +34,15 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
       <div className="absolute inset-0 bg-gradient-mesh opacity-20 rounded-3xl" 
            style={{ animation: 'gradientShift 15s ease infinite' }} />
       
-      <Card className="relative">
+      <Card className="relative lgx-card rounded-2xl">
         <CardContent className="p-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             {/* Welcome Section */}
             <div className="space-y-2">
-              <h1 className="text-[40px] leading-[44px] font-bold text-gray-900">
+              <h1 className="text-[40px] leading-[44px] font-bold text-[hsl(var(--text-strong))]">
                 {getGreeting()}{userName ? `, ${userName}` : ''}
               </h1>
-              <p className="text-gray-600 text-lg">
+              <p className="text-[hsl(var(--text-muted))] text-lg">
                 {totalCount === 0 
                   ? "Ready to start your learning journey?"
                   : `You have ${totalCount} workshop${totalCount === 1 ? '' : 's'} registered`
@@ -60,7 +60,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
                   )}>
                     <CheckCircle className="h-6 w-6" />
                   </div>
-                  <div className="text-2xl font-bold text-gray-900">{confirmedCount}</div>
+                  <div className="text-2xl font-bold text-[hsl(var(--text-strong))]">{confirmedCount}</div>
                   <div className="text-xs text-[hsl(var(--text-muted))] uppercase tracking-wide">Confirmed</div>
                 </div>
 
@@ -71,7 +71,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
                   )}>
                     <Clock className="h-6 w-6" />
                   </div>
-                  <div className="text-2xl font-bold text-gray-900">{pendingCount}</div>
+                  <div className="text-2xl font-bold text-[hsl(var(--text-strong))]">{pendingCount}</div>
                   <div className="text-xs text-[hsl(var(--text-muted))] uppercase tracking-wide">Pending</div>
                 </div>
 
@@ -82,7 +82,7 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
                   )}>
                     <Calendar className="h-6 w-6" />
                   </div>
-                  <div className="text-2xl font-bold text-gray-900">{upcomingRegistrations.length}</div>
+                  <div className="text-2xl font-bold text-[hsl(var(--text-strong))]">{upcomingRegistrations.length}</div>
                   <div className="text-xs text-[hsl(var(--text-muted))] uppercase tracking-wide">Upcoming</div>
                 </div>
               </div>
@@ -91,16 +91,16 @@ export const RegistrationHero = ({ registrations, userName }: RegistrationHeroPr
 
           {/* Next Workshop Preview */}
           {upcomingRegistrations.length > 0 && (
-            <div className="mt-6 pt-6 border-t border-gray-200/50">
+            <div className="mt-6 pt-6 border-t border-[hsl(var(--border))/0.5]">
               <div className="flex items-center gap-2 mb-2">
                 <TrendingUp className="h-4 w-4 text-[hsl(var(--text-strong))]" />
-                <span className="text-sm font-medium text-gray-700">Next Workshop</span>
+                <span className="text-sm font-medium text-[hsl(var(--text-strong))]">Next Workshop</span>
               </div>
               <div className="flex items-center gap-3">
                 <Badge variant="outline" className="bg-blue-50 text-[hsl(var(--text-strong))] border-blue-200">
                   {new Date(upcomingRegistrations[0].registration_date).toLocaleDateString()}
                 </Badge>
-                <span className="text-gray-600">
+                <span className="text-[hsl(var(--text-muted))]">
                   Your next learning session is coming up!
                 </span>
               </div>

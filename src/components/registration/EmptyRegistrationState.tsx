@@ -8,7 +8,7 @@ export const EmptyRegistrationState = () => {
   const navigate = useNavigate();
 
   return (
-    <Card>
+    <Card className="lgx-card rounded-2xl">
       <CardContent className="p-12 text-center">
         <div className="relative mb-8">
           {/* Floating Icons Animation */}
@@ -28,11 +28,11 @@ export const EmptyRegistrationState = () => {
           </div>
         </div>
 
-        <h2 className="text-[28px] leading-[32px] font-bold text-gray-900 mb-3">
+        <h2 className="text-[28px] leading-[32px] font-bold text-text mb-3">
           Your Learning Journey Starts Here
         </h2>
         
-        <p className="text-gray-600 text-lg mb-8 max-w-md mx-auto leading-relaxed">
+        <p className="text-text-muted text-lg mb-8 max-w-md mx-auto leading-relaxed">
           You haven't registered for any workshops yet. Discover amazing learning opportunities 
           and start building new skills today.
         </p>
@@ -41,7 +41,7 @@ export const EmptyRegistrationState = () => {
           <Button 
             onClick={() => navigate('/')}
             size="lg"
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-[hsl(var(--text-strong))] px-8 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg group"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-[hsl(var(--text-strong))] px-8 py-3 font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg group"
           >
             Browse Available Workshops
             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -53,12 +53,12 @@ export const EmptyRegistrationState = () => {
         </div>
 
         {/* Feature highlights */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-100">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pt-8 border-t border-border">
           <div className="text-center">
             <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
               <Calendar className="h-6 w-6 text-purple-600" />
             </div>
-            <h3 className="font-medium text-gray-900 mb-1">Easy Scheduling</h3>
+            <h3 className="font-medium text-text mb-1">Easy Scheduling</h3>
             <p className="text-sm text-[hsl(var(--text-muted))]">Pick times that work for you</p>
           </div>
           
@@ -66,7 +66,7 @@ export const EmptyRegistrationState = () => {
             <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
               <BookOpen className="h-6 w-6 text-[hsl(var(--text-strong))]" />
             </div>
-            <h3 className="font-medium text-gray-900 mb-1">Expert Instructors</h3>
+            <h3 className="font-medium text-text mb-1">Expert Instructors</h3>
             <p className="text-sm text-[hsl(var(--text-muted))]">Learn from industry professionals</p>
           </div>
           
@@ -74,7 +74,7 @@ export const EmptyRegistrationState = () => {
             <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
               <Sparkles className="h-6 w-6 text-green-600" />
             </div>
-            <h3 className="font-medium text-gray-900 mb-1">Instant Access</h3>
+            <h3 className="font-medium text-text mb-1">Instant Access</h3>
             <p className="text-sm text-[hsl(var(--text-muted))]">Start learning immediately</p>
           </div>
         </div>
