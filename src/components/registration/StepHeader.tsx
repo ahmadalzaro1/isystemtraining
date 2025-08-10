@@ -12,7 +12,7 @@ export const StepHeader = ({ title, description, isTransitioning }: StepHeaderPr
     <h2 className="text-[28px] leading-[32px] font-medium tracking-tight">
       {title}
     </h2>
-    <p className="text-sm sm:text-base text-gray-600">
+    <p className="text-sm sm:text-base text-text-muted">
       {description}
     </p>
   </div>

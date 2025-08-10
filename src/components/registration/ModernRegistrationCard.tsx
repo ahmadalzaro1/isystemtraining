@@ -124,7 +124,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
             <h3 className="font-semibold text-lg text-text group-hover:text-text transition-colors">
               {workshop.name}
             </h3>
-            <div className="flex items-center gap-2 mt-1 text-sm text-gray-600">
+            <div className="flex items-center gap-2 mt-1 text-sm text-text-muted">
               <User className="h-4 w-4" />
               <span>{workshop.instructor}</span>
             </div>
@@ -202,7 +202,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+        <div className="flex items-center justify-between pt-4 border-t border-border">
           <div className="text-xs text-[hsl(var(--text-muted))]">
             <span>Registered: {new Date(registration.registration_date).toLocaleDateString()}</span>
           </div>

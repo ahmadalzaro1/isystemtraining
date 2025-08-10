@@ -40,7 +40,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
   return (
     <IOSCard
       className={cn(
-        "p-6 cursor-pointer group relative animate-card-slide-up glass glass-pressable bg-surface rounded-xl border border-[hsl(var(--border))] shadow-elev-1 hover:shadow-elev-2 transition-shadow transition-[transform,box-shadow] duration-ios ease-ios hover:-translate-y-[2px]",
+        "p-6 cursor-pointer group relative animate-card-slide-up glass-pressable lgx-card rounded-2xl shadow-elev-1 hover:shadow-elev-2 transition-shadow transition-[transform,box-shadow] duration-ios ease-ios hover:-translate-y-[2px]",
         "w-[90vw] max-w-[420px] mx-auto"
       )}
       onClick={handleCardClick}

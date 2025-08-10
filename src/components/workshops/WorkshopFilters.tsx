@@ -51,12 +51,12 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
           placeholder="Search workshops..."
           value={filters.search}
           onChange={(e) => onChange({ ...filters, search: e.target.value })}
-          className="pl-10 bg-gray-50/50 border-gray-200 focus:bg-white transition-colors"
+          className="pl-10 bg-surface2 border-border focus:bg-background transition-colors"
         />
         {filters.search && (
           <button
             onClick={() => onChange({ ...filters, search: "" })}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-[hsl(var(--text-muted))] hover:text-gray-600 transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[hsl(var(--text-muted))] hover:text-text-muted transition-colors"
           >
             <X className="h-4 w-4" />
           </button>
@@ -67,7 +67,7 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
       <div className="space-y-4">
         {/* Skill Level Filter */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">Skill Level</Label>
+          <Label className="text-sm font-medium text-text-muted">Skill Level</Label>
           <RadioGroup
             value={filters.skillLevel}
             onValueChange={(value) => 
@@ -93,7 +93,7 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
 
         {/* Category Filter */}
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">Category</Label>
+          <Label className="text-sm font-medium text-text-muted">Category</Label>
           <div className="flex flex-wrap gap-2">
             {categories.map(({ value, label }) => (
               <button

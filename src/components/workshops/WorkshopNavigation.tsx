@@ -19,7 +19,7 @@ export const WorkshopNavigation = ({ currentWeek, onNavigate }: WorkshopNavigati
 
       <div className="flex flex-col items-center gap-4 max-w-2xl mx-auto">
         <div className="text-[#1D1D1F] text-center">
-          <div className="text-lg text-gray-600 mb-2">Week of</div>
+          <div className="text-lg text-text-muted mb-2">Week of</div>
           <div className="text-[1.5rem] sm:text-[2rem] text-[#007AFF] font-medium">
             {format(currentWeek, "MMMM d")}
             <span className="mx-2 text-[#007AFF]">→</span>

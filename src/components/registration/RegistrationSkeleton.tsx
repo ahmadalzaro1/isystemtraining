@@ -31,7 +31,7 @@ export const RegistrationSkeleton = () => {
         {[...Array(3)].map((_, index) => (
           <Card 
             key={index}
-            className="border-l-4 border-l-gray-200"
+            className="border-l-4 border-l-[hsl(var(--border))]"
             style={{
               animationDelay: `${index * 100}ms`,
               animation: 'slideInUp 0.6s ease-out forwards'
@@ -74,7 +74,7 @@ export const RegistrationSkeleton = () => {
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+              <div className="flex items-center justify-between pt-4 border-t border-border">
                 <Skeleton className="h-3 w-32" />
                 <div className="flex items-center gap-2">
                   <Skeleton className="h-6 w-20 rounded" />
