@@ -12,7 +12,7 @@ export function PostFX() {
   return (
     <EffectComposer multisampling={0}>
       <Bloom intensity={0.55} luminanceThreshold={0.8} luminanceSmoothing={0.2} />
-      <ChromaticAberration offset={new Vector2(0.0015, 0.001)} radialModulation={false} modulationOffset={0} />
+      <ChromaticAberration {...({ offset: new Vector2(0.0015, 0.001) } as any)} />
       {!lowEnd && <DepthOfField focusDistance={0.02} focalLength={0.02} bokehScale={1.3} />}
     </EffectComposer>
   )

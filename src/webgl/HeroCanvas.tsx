@@ -5,6 +5,7 @@ import { useWebGLStore } from './store'
 import { Interaction } from './Interaction'
 import { PostFX } from './PostFX'
 import { Particles } from './Particles'
+import { WebGLErrorBoundary } from './ErrorBoundary'
 import { watchFrameBudget, capDpr } from './utils/perf'
 
 export default function HeroCanvas() {
@@ -20,6 +21,12 @@ export default function HeroCanvas() {
     })
   }, [enableEffects, setEnableEffects])
 
+
+  useEffect(() => {
+    try { console.info('[HeroCanvas] three', THREE.REVISION) } catch {}
+  }, [])
+
+  const heroSafe = import.meta.env.VITE_HERO_SAFE_MODE === '1'
 
   return (
       <Canvas
@@ -43,9 +50,11 @@ export default function HeroCanvas() {
         }}
         frameloop="always"
       >
-        <Interaction />
-        <Particles />
-        <PostFX />
+        <WebGLErrorBoundary>
+          <Interaction />
+          {!heroSafe && <Particles />}
+          {!heroSafe && <PostFX />}
+        </WebGLErrorBoundary>
       </Canvas>
   )
 }

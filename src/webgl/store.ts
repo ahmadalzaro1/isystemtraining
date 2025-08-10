@@ -11,6 +11,8 @@ interface WebGLState {
   enableEffects: boolean
   timeScale: number
   pointer: PointerNDC
+  disableFX?: boolean
+  heroSafeMode?: boolean
   setPointer: (p: PointerNDC) => void
   setTimeScale: (t: number) => void
   setEnableEffects: (v: boolean) => void
@@ -45,6 +47,8 @@ export const useWebGLStore = create<WebGLState>((set, get) => {
     enableEffects: !(lowEnd || mobile || reduced),
     timeScale: reduced ? 0.8 : 1,
     pointer: { x: 0, y: 0 },
+    disableFX: import.meta.env.VITE_DISABLE_POSTFX === '1',
+    heroSafeMode: import.meta.env.VITE_HERO_SAFE_MODE === '1',
     setPointer: (p) => {
       if (document.hidden) return
       set({ pointer: p })
