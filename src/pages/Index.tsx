@@ -239,23 +239,6 @@ const Index = memo(() => {
             </div>
           </div>
 
-          {/* Existing scroll CTA */}
-          <div className="pt-6 px-4 relative z-30">
-            <div className="flex flex-col items-center">
-              <HomeButton
-                onClick={scrollToWorkshops}
-                aria-label="Navigate to available workshops section"
-              >
-                <span className="relative z-10">View Available Workshops</span>
-                <ChevronDown 
-                  className={`h-5 w-5 relative z-10 ${
-                    prefersReducedMotion ? "" : "transition-all duration-300 group-hover:translate-y-1"
-                  }`}
-                  aria-hidden="true"
-                />
-              </HomeButton>
-            </div>
-          </div>
         </div>
 
         {/* Scroll Indicator */}
