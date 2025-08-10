@@ -49,7 +49,7 @@
   
   body {
     @apply bg-background text-foreground antialiased overflow-x-hidden;
-    background: linear-gradient(180deg, #F9F9F9 0%, #FFFFFF 100%);
+    background-color: hsl(var(--background));
     min-height: 100vh;
     min-height: -webkit-fill-available;
     /* iOS Safari viewport fix */
