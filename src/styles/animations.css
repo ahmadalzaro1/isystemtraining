@@ -149,10 +149,7 @@
 
 @keyframes checkbox-bounce {
   0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
+    transform: scale(0.98);
   }
   100% {
     transform: scale(1);
@@ -161,16 +158,14 @@
 
 @keyframes topic-pulse {
   0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.4);
-  }
-  70% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 10px rgba(0, 113, 227, 0);
+    opacity: 0;
+    transform: scale(0.98);
+    box-shadow: none;
   }
   100% {
+    opacity: 1;
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(0, 113, 227, 0);
+    box-shadow: none;
   }
 }
 
@@ -234,22 +229,22 @@
 }
 
 .animate-button-fade {
-  animation: buttonFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: buttonFadeIn 0.18s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: 0.6s;
   opacity: 0;
 }
 
 .animate-form-slide {
-  animation: form-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: form-slide-in 0.16s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: transform, opacity;
 }
 
 .animate-checkbox-bounce {
-  animation: checkbox-bounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: checkbox-bounce 0.16s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .animate-topic-pulse {
-  animation: topic-pulse 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: topic-pulse 0.18s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .animate-checkmark {
@@ -278,15 +273,15 @@
 .registration-step {
   opacity: 0;
   transform: translateY(20px);
-  animation: form-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: form-slide-in 0.16s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .checkbox-selected {
-  animation: checkbox-bounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: checkbox-bounce 0.16s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .topic-selected {
-  animation: topic-pulse 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: topic-pulse 0.18s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .register-button {
@@ -302,5 +297,5 @@
   width: 200%;
   height: 200%;
   background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
-  animation: buttonPulse 2s infinite;
+  animation: none;
 }

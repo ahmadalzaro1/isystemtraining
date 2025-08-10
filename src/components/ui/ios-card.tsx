@@ -67,15 +67,12 @@ const IOSCard = forwardRef<HTMLDivElement, IOSCardProps>(
           }
         }}
         className={cn(
-          "bg-surface2 rounded-xl border border-[hsl(var(--border))] transition-all duration-ios ease-ios will-change-transform",
+          "lgx-card rounded-2xl transition-all duration-150 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform",
           "touch-manipulation select-none",
           elevated ? [
-            "shadow-elev-1 hover:shadow-elev-2",
-            "hover:-translate-y-1 hover:scale-[1.02]",
+            "hover:shadow-elev-2 hover:-translate-y-0.5",
             "active:translate-y-0 active:scale-[0.98]"
-          ] : [
-            "shadow-elev-1"
-          ],
+          ] : [],
           className
         )}
         onClick={handleClick}
