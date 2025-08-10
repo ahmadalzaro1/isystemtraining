@@ -4,7 +4,6 @@ import { RegistrationForm } from "@/components/RegistrationForm";
 import { RegistrationSuccess } from "@/components/registration/RegistrationSuccess";
 import { toast } from "sonner";
 import { ChevronDown, User, LogIn } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { FormData } from "@/types/registration";
 import { WorkshopRegistration } from "@/services/registrationService";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
@@ -178,9 +177,7 @@ const Index = memo(() => {
             Admin Login
           </Button>
         )}
-        <ThemeToggle />
-      </div>
-      
+        </div>
       {/* Hero Section */}
       <section 
         ref={setHeroRef}

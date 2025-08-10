@@ -137,10 +137,10 @@ const RegistrationManagement: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'confirmed': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      case 'pending': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      case 'cancelled': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+      case 'confirmed': return 'bg-green-100 text-green-800';
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -266,7 +266,7 @@ const RegistrationManagement: React.FC = () => {
                     filteredRegistrations.map((registration) => (
                       <TableRow 
                         key={registration.id}
-                        className="cursor-pointer transition-colors hover:bg-[hsl(var(--text-strong)/0.03)] dark:hover:bg-[hsl(var(--text-strong)/0.06)]"
+                        className="cursor-pointer transition-colors hover:bg-[hsl(var(--text-strong)/0.03)]"
                         onClick={() => setSelectedRegistration(registration)}
                       >
                         <TableCell>
