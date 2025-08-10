@@ -1,0 +1,10 @@
+/* Global canvas styles for WebGL hero (not mounted yet) */
+html, body, #root { height: 100%; }
+
+/* Fixed, non-interactive canvas layer; enable pointer events when you mount */
+.hero-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
