@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { useWebGLStore } from './store'
 import { Interaction } from './Interaction'
@@ -20,31 +20,32 @@ export default function HeroCanvas() {
     })
   }, [enableEffects, setEnableEffects])
 
-  const glProps = useMemo(() => ({
-    antialias: false,
-    powerPreference: 'high-performance' as const,
-    preserveDrawingBuffer: false,
-  }), [])
 
   return (
-    <Canvas
-      className="hero-canvas"
-      dpr={[1, dprCap]}
-      gl={glProps}
-      onCreated={({ gl }) => {
-        gl.outputColorSpace = THREE.SRGBColorSpace
-        gl.toneMapping = THREE.ACESFilmicToneMapping
-        gl.toneMappingExposure = 1
-        gl.setClearColor(0x000000, 1)
-        // Ensure DPR is capped at runtime
-        gl.setPixelRatio(capDpr(dprCap))
-        console.info('[HeroCanvas] Renderer created', { dprCap })
-      }}
-      frameloop="always"
-    >
-      <Interaction />
-      <Particles />
-      <PostFX />
-    </Canvas>
+      <Canvas
+        className="hero-canvas"
+        dpr={[1, dprCap]}
+        gl={(canvas) => new THREE.WebGLRenderer({
+          canvas,
+          antialias: false,
+          powerPreference: 'high-performance',
+          preserveDrawingBuffer: false,
+        })}
+        onCreated={({ gl }) => {
+          gl.outputColorSpace = THREE.SRGBColorSpace
+          gl.toneMapping = THREE.ACESFilmicToneMapping
+          gl.toneMappingExposure = 1
+          gl.setClearColor(0x000000, 1)
+          // Ensure DPR is capped at runtime
+          gl.setPixelRatio(capDpr(dprCap))
+          console.info('[HeroCanvas] Renderer created', { dprCap })
+          try { console.info('[HeroCanvas] DPR', gl.getPixelRatio?.()) } catch {}
+        }}
+        frameloop="always"
+      >
+        <Interaction />
+        <Particles />
+        <PostFX />
+      </Canvas>
   )
 }
