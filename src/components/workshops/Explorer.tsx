@@ -41,14 +41,6 @@ export default function Explorer(props:{
             <button className="wx-pill" onClick={onResetFilters}>Reset</button>
           </div>
         </div>
-        <div className="wx-row" style={{marginTop:8}}>
-          <span className="wx-sub">{weekLabel}</span>
-          <div className="wx-pills">
-            {weekDays.map(d => (
-              <button key={d.key} className="wx-pill" data-active={d.active} onClick={()=>onSelectDay(d.date)}>{d.label} {d.count>0 && <span style={{opacity:.6}}>· {d.count}</span>}</button>
-            ))}
-          </div>
-        </div>
       </div>
       <div className="wx-content">{children}</div>
     </section>
