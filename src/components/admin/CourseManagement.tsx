@@ -78,7 +78,7 @@ export const CourseManagement = () => {
             )
           )
         `)
-        .order('sort_order');
+        .order('sort_order', { ascending: true, foreignTable: 'courses' });
 
       if (error) throw error;
       return data as Course[];
@@ -93,7 +93,7 @@ export const CourseManagement = () => {
         .from('subjects')
         .select('id, name, categories(name)')
         .eq('is_active', true)
-        .order('sort_order');
+        .order('sort_order', { ascending: true, foreignTable: 'subjects' });
 
       if (error) throw error;
       return data;

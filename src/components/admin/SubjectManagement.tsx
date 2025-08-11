@@ -64,7 +64,7 @@ export const SubjectManagement = () => {
             name
           )
         `)
-        .order('sort_order');
+        .order('sort_order', { ascending: true, foreignTable: 'subjects' });
 
       if (error) throw error;
       return data as Subject[];
