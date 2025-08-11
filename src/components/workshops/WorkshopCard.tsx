@@ -39,13 +39,13 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
 
   return (
     <div
-      className="wk-card p-5 cursor-pointer group relative transition-[transform,box-shadow] duration-300 hover:-translate-y-[2px] hover:shadow-lg w-[90vw] max-w-[420px] mx-auto"
+      className="wk-card p-5 cursor-pointer group relative transition-[transform,box-shadow] duration-300 hover:-translate-y-[2px] hover:shadow-lg h-full flex flex-col"
       onClick={handleCardClick}
       style={{ 
         animationDelay: `${index * 0.1}s`,
       }}
     >
-      <div className="space-y-4 transition-transform duration-300">
+      <div className="flex-1 flex flex-col transition-transform duration-300">
         {/* Header Section */}
         <div className="space-y-2">
           <div className="flex items-start justify-between">
@@ -62,13 +62,13 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
             
             <div className="flex flex-col items-end gap-1 flex-shrink-0">
               {isTrending && (
-                <span className="flex items-center gap-1 text-orange-500 text-sm font-medium">
+                <span className="flex items-center gap-1 text-[hsl(var(--accent-a))] text-sm font-medium">
                   <Flame className="h-4 w-4 animate-pulse" />
                   Trending
                 </span>
               )}
               {isAlmostFull && (
-                <span className="text-red-500 text-sm font-medium flex items-center gap-1">
+                <span className="text-[hsl(var(--accent-b))] text-sm font-medium flex items-center gap-1">
                   <Zap className="h-4 w-4 animate-[pulse_2s_ease-in-out_infinite]" />
                   Limited!
                 </span>
@@ -86,12 +86,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-[hsl(var(--text-muted))]">Available Spots</span>
-            <span className={cn(
-              "font-medium",
-              workshop.spotsRemaining <= 2 ? "text-red-500" : 
-              workshop.spotsRemaining <= 4 ? "text-yellow-500" : 
-              "text-green-500"
-            )}>
+            <span className="font-medium text-[hsl(var(--text-strong))]">
               {workshop.spotsRemaining} / {totalSeats}
             </span>
           </div>
@@ -101,7 +96,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4 border-t border-[hsl(var(--border))]">
+        <div className="mt-auto flex items-center justify-between pt-4 border-t border-[hsl(var(--border))]">
           <div className="flex items-center gap-2 text-[hsl(var(--text-muted))]">
             <Clock className="h-4 w-4" />
             <span className="text-sm">{workshop.time}</span>

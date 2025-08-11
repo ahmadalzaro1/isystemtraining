@@ -41,7 +41,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
           </span>
         ))}
       </div>
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 auto-rows-fr gap-4">
         {sortedWorkshops.map((workshop, index) => (
           <WorkshopCard
             key={workshop.id}
