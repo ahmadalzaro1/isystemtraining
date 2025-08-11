@@ -22,7 +22,7 @@ export default function UpcomingSectionIOS(props:{
             <button aria-pressed={true} onClick={onToday}>Today</button>
             <button onClick={onNextWeek}>Week ›</button>
           </div>
-          <span className='ios-sub' style={{marginLeft:8}}>{weekLabel}</span>
+          <span className='ios-sub ios-week' style={{marginLeft:8}}>{weekLabel}</span>
         </div>
         <div className='ios-row'>
           <button className='ios-pill' onClick={onOpenCalendar}>📅 Pick a date</button>
@@ -47,7 +47,7 @@ export default function UpcomingSectionIOS(props:{
       </div>
       <div>
         {days.map(day=> (
-          <section key={day.key}>
+          <section key={day.key} id={`day-${day.key}`}>
             <h3 className='ios-day'>{day.header}</h3>
             <div className='ios-list'>
               {day.sessions.map(s=>{
