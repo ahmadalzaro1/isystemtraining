@@ -633,6 +633,34 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cancel_registration_by_code: {
+        Args: { p_code: string }
+        Returns: {
+          confirmation_code: string
+          created_at: string
+          guest_email: string | null
+          guest_name: string | null
+          guest_phone: string | null
+          id: string
+          registration_date: string
+          status: string
+          updated_at: string
+          user_id: string | null
+          workshop_id: string | null
+        }
+      }
+      create_guest_registration: {
+        Args: {
+          p_workshop_id: string
+          p_email: string
+          p_name?: string
+          p_phone?: string
+        }
+        Returns: {
+          id: string
+          confirmation_code: string
+        }[]
+      }
       get_registration_by_code: {
         Args: { p_code: string }
         Returns: {
@@ -671,6 +699,10 @@ export type Database = {
       is_current_user_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean
+      }
+      link_guest_regs_to_user: {
+        Args: { p_email: string }
+        Returns: number
       }
     }
     Enums: {

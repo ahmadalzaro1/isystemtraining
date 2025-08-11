@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { FormData } from "@/types/registration";
 import { log, error as logError } from "@/utils/logger";
@@ -40,16 +41,66 @@ export class RegistrationService {
     log('Current authenticated user', { id: currentUser?.id });
     // Use current user if available, otherwise fall back to provided user_id
     const authenticatedUserId = currentUser?.id || user_id;
+
+    // Guest flow: use secure RPC to handle capacity and race-conditions
+    if (!authenticatedUserId) {
+      log('No authenticated user detected — using RPC create_guest_registration');
+      
+      // Final runtime guard to fail closed before DB call
+      if (!isUUID(workshop_id)) {
+        throw new Error('Invalid workshop selection');
+      }
+
+      const { data: rpcData, error: rpcError } = await supabase.rpc('create_guest_registration', {
+        p_workshop_id: workshop_id,
+        p_email: formData.email,
+        p_name: formData.name,
+        p_phone: formData.phone,
+      });
+
+      if (rpcError) {
+        logError('Guest registration RPC error:', {
+          message: rpcError.message,
+          code: rpcError.code,
+          details: rpcError.details,
+          hint: rpcError.hint,
+        });
+
+        const msg = rpcError.message?.toLowerCase() || '';
+        if (msg.includes('workshop not found')) {
+          throw new Error('Workshop not found. Please refresh and try again.');
+        }
+        if (msg.includes('workshop is full')) {
+          throw new Error('This workshop is full. Please pick another time.');
+        }
+        throw new Error(`Registration failed: ${rpcError.message}`);
+      }
+
+      const confirmation_code = Array.isArray(rpcData) ? rpcData[0]?.confirmation_code : (rpcData as any)?.confirmation_code;
+      if (!confirmation_code) {
+        throw new Error('Registration created but no confirmation code was returned. Please contact support.');
+      }
+
+      // Fetch full row via security definer RPC to avoid RLS issues for guests
+      const fullRow = await RegistrationService.getRegistrationByConfirmationCode(confirmation_code);
+      if (!fullRow) {
+        throw new Error('Could not retrieve registration details after creation. Please contact support.');
+      }
+
+      log('Guest registration created', { id: fullRow.id });
+      return fullRow;
+    }
     
+    // Authenticated user flow: direct insert (RLS will allow with matching user_id)
     const registrationData = {
       workshop_id,
-      user_id: authenticatedUserId || null,
-      guest_email: !authenticatedUserId ? formData.email : null,
-      guest_name: !authenticatedUserId ? formData.name : null,
-      guest_phone: !authenticatedUserId ? formData.phone : null,
+      user_id: authenticatedUserId,
+      guest_email: null,
+      guest_name: null,
+      guest_phone: null,
     };
 
-    log('Registration insert prepared');
+    log('Registration insert prepared for authenticated user');
 
     // Final runtime guard to fail closed before DB call
     if (!isUUID(registrationData.workshop_id)) {
@@ -115,18 +166,19 @@ export class RegistrationService {
   }
 
   static async getRegistrationByConfirmationCode(confirmationCode: string) {
-    const { data, error } = await supabase
-      .from('workshop_registrations')
-      .select('*')
-      .eq('confirmation_code', confirmationCode)
-      .single();
+    // Use security definer RPC so guests can look up without auth and without violating RLS
+    const { data, error } = await supabase.rpc('get_registration_by_code', {
+      p_code: confirmationCode
+    });
 
     if (error) {
-      logError('Error fetching registration:', error);
+      logError('Error fetching registration via RPC:', error);
       return null;
     }
 
-    return data;
+    // Function returns SETOF with limit 1; normalize to single row
+    const row = Array.isArray(data) ? data[0] : data;
+    return row || null;
   }
 
   static async updateRegistrationStatus(id: string, status: string) {
