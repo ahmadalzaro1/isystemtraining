@@ -37,7 +37,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
             key={`${w.id}-chip`}
             className="rounded-pill px-2 py-0.5 border border-[hsl(var(--border))] text-[12px] text-muted-foreground"
           >
-            {format(w.date, "HH:mm")} • {w.name}
+            {format(w.date, "HH:mm")} {w.name}
           </span>
         ))}
       </div>
