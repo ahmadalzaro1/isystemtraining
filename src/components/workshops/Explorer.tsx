@@ -47,10 +47,10 @@ export default function Explorer(props:{
               />
             </PopoverContent>
           </Popover>
-          <div className="grow"/>
+          <div className="grow" style={{minWidth:0}}/>
           <input className="wx-input" placeholder="Search workshops" onChange={onSearch} aria-label="Search workshops" />
         </div>
-        <div className="wx-row" style={{marginTop:10}}>
+        <div className="wx-row wx-row--scroll" style={{marginTop:10}}>
           <div className="wx-seg" role="group" aria-label="Skill level">
             {['All','Beginner','Intermediate','Advanced'].map(l=> (
               <button key={l} aria-pressed={level===l} onClick={()=>onLevel(l)}>{l}</button>
