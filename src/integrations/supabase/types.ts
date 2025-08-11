@@ -649,6 +649,25 @@ export type Database = {
           workshop_id: string | null
         }[]
       }
+      get_workshops_week: {
+        Args: {
+          p_start: string
+          p_end: string
+          p_levels?: string[]
+          p_categories?: string[]
+          p_query?: string
+        }
+        Returns: {
+          id: string
+          name: string
+          instructor: string
+          date: string
+          time_text: string
+          skill_level: string
+          category: string
+          spots_remaining: number
+        }[]
+      }
       is_current_user_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean

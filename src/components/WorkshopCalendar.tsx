@@ -1,6 +1,6 @@
 
 import { useState, useMemo, memo, useCallback, useEffect } from "react";
-import { format, addWeeks } from "date-fns";
+import { format, addWeeks, startOfWeek, endOfWeek } from "date-fns";
 import { Workshop, WorkshopFilters } from "@/types/workshop";
 import { WorkshopNavigation } from "./workshops/WorkshopNavigation";
 import { WorkshopDayGroup } from "./workshops/WorkshopDayGroup";
@@ -29,14 +29,16 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
   });
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
 
-  // Load workshops from Supabase so IDs are UUIDs
+  // Load workshops for the current week via RPC, keep UUIDs intact
   useEffect(() => {
     let isMounted = true;
-    WorkshopService.getWorkshops()
+    const weekStart = startOfWeek(currentWeek, { weekStartsOn: 0 });
+    const weekEnd = endOfWeek(currentWeek, { weekStartsOn: 0 });
+    WorkshopService.getWorkshopsWeek(weekStart, weekEnd, filters)
       .then((list) => { if (isMounted) setWorkshops(list); })
       .catch(() => { /* noop */ });
     return () => { isMounted = false; };
-  }, []);
+  }, [currentWeek, filters]);
 
   const navigateWeek = useCallback((direction: 'next' | 'prev') => {
     if (!prefersReducedMotion) {

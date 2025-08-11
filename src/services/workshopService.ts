@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import { Workshop } from "@/types/workshop";
+import { Workshop, WorkshopFilters } from "@/types/workshop";
 
 export interface DatabaseWorkshop {
   id: string;
@@ -39,6 +39,39 @@ export class WorkshopService {
     }
 
     return data.map(this.transformDatabaseWorkshop);
+  }
+
+  static async getWorkshopsWeek(weekStart: Date, weekEnd: Date, filters: WorkshopFilters): Promise<Workshop[]> {
+    const p_start = weekStart.toISOString().slice(0, 10);
+    const p_end = weekEnd.toISOString().slice(0, 10);
+    const p_levels = filters.skillLevel !== 'All' ? [filters.skillLevel] : null;
+    const p_categories = filters.category !== 'All' ? [filters.category] : null;
+    const p_query = filters.search?.trim() || null;
+
+    const { data, error } = await supabase.rpc('get_workshops_week', {
+      p_start,
+      p_end,
+      p_levels,
+      p_categories,
+      p_query,
+    });
+
+    if (error) {
+      console.error('Error fetching workshops (week RPC):', error);
+      throw new Error('Failed to fetch workshops for the selected week');
+    }
+
+    return (data || []).map((row: any) => ({
+      id: row.id,
+      name: row.name,
+      date: new Date(row.date),
+      time: row.time_text,
+      description: '', // RPC omits description for performance; UI doesn't require it in listings
+      spotsRemaining: row.spots_remaining,
+      skillLevel: row.skill_level,
+      category: row.category,
+      instructor: row.instructor,
+    } as Workshop));
   }
 
   static async createWorkshop(workshopData: CreateWorkshopData): Promise<Workshop> {
