@@ -1,4 +1,9 @@
 import React from 'react';
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export type Day = { key:string; label:string; date:string; count:number; active:boolean };
 export type Category = { id:string; name:string; icon?:React.ReactNode; active:boolean };
@@ -11,6 +16,7 @@ export default function Explorer(props:{
   children?:React.ReactNode;
 }){
   const {weekLabel, weekDays, level, categories, onPrevWeek, onNextWeek, onToday, onOpenCalendar, onSearch, onLevel, onToggleCat, onResetFilters, onSelectDay, children} = props;
+  const [date, setDate] = React.useState<Date>();
   return (
     <section className="wx-shell" aria-label="Workshops explorer">
       <header className="wx-head">
@@ -24,7 +30,23 @@ export default function Explorer(props:{
             <button aria-pressed="false" onClick={onToday}>Today</button>
             <button aria-pressed="false" onClick={onNextWeek}>Week ›</button>
           </div>
-          <button className="wx-pill" onClick={onOpenCalendar}>📅 Pick date</button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="wx-pill wx-date" aria-label="Pick a date">
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date ? format(date, "PPP") : "Pick a date"}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={(d) => { setDate(d); if (d) { onSelectDay(format(d, "yyyy-MM-dd")); } }}
+                initialFocus
+                className={cn("p-3 pointer-events-auto")}
+              />
+            </PopoverContent>
+          </Popover>
           <div className="grow"/>
           <input className="wx-input" placeholder="Search workshops" onChange={onSearch} aria-label="Search workshops" />
         </div>
