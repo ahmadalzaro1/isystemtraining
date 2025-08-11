@@ -12,42 +12,40 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from '@/components/ui/button';
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import VanillaBgCanvas from '@/webgl/VanillaBgCanvas';
-
 const Index = memo(() => {
   usePerformanceMonitor('Index');
   const prefersReducedMotion = useReducedMotion();
   const navigate = useNavigate();
   const auth = useAuth();
-  const { user } = auth;
-  const { triggerHaptic } = useHapticFeedback();
-  
+  const {
+    user
+  } = auth;
+  const {
+    triggerHaptic
+  } = useHapticFeedback();
   const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
   const [registrationData, setRegistrationData] = useState<FormData | null>(null);
   const [registration, setRegistration] = useState<WorkshopRegistration | null>(null);
-
   const handleWorkshopSelect = useCallback((workshop: any) => {
     setSelectedWorkshop(workshop);
     setStep("registration");
     triggerHaptic('medium');
-    
     toast("Workshop Selected", {
       description: `You've selected ${workshop.name} on ${workshop.date.toLocaleDateString()}`,
       position: "top-right",
       className: "z-[1000]"
     });
   }, [triggerHaptic]);
-
   const handleRegistrationComplete = useCallback((formData: FormData, registrationRecord?: WorkshopRegistration) => {
     setRegistrationData(formData);
     setRegistration(registrationRecord || null);
     setStep("success");
     triggerHaptic('success');
     toast("Registration Complete!", {
-      description: "Check your email for confirmation details.",
+      description: "Check your email for confirmation details."
     });
   }, [triggerHaptic]);
-
   const handleViewWorkshops = useCallback(() => {
     setStep("calendar");
     setSelectedWorkshop(null);
@@ -55,17 +53,14 @@ const Index = memo(() => {
     setRegistration(null);
     triggerHaptic('light');
   }, [triggerHaptic]);
-
   const scrollToWorkshops = useCallback(() => {
     triggerHaptic('selection');
-    
     const element = document.getElementById("workshops");
     if (element) {
-      element.scrollIntoView({ 
+      element.scrollIntoView({
         behavior: prefersReducedMotion ? 'auto' : 'smooth',
         block: 'start'
       });
-      
       toast("Scrolling to workshops", {
         description: "Finding available workshops for you",
         position: "bottom-center",
@@ -79,27 +74,18 @@ const Index = memo(() => {
       });
     }
   }, [prefersReducedMotion, triggerHaptic]);
-
-  return (
-    <>
+  return <>
       <VanillaBgCanvas />
-      <section className="fold container-page" style={{position:'relative', zIndex:1}}>
+      <section className="fold container-page" style={{
+      position: 'relative',
+      zIndex: 1
+    }}>
         <div>
           <h1 className="text-[40px] leading-[44px] mb-3 text-[hsl(var(--text-strong))]">Master your Apple devices with focused, hands-on workshops.</h1>
           <p className="text-[hsl(var(--text-muted))] lead mb-6">Small groups. Practical projects. Real results. Pick a date and start learning.</p>
           <div className="cta-row">
-            <Button
-              variant="glassPrimary"
-              onClick={scrollToWorkshops}
-              aria-label="Browse workshops"
-            >
-              Find my workshop
-            </Button>
-            <Button
-              variant="secondaryOutline"
-              onClick={() => navigate(user ? '/my-registrations' : '/auth')}
-              aria-label={user ? 'Go to my registrations' : 'Sign in to manage registrations'}
-            >
+            <Button variant="glassPrimary" onClick={scrollToWorkshops} aria-label="Browse workshops">Browse Workshops</Button>
+            <Button variant="secondaryOutline" onClick={() => navigate(user ? '/my-registrations' : '/auth')} aria-label={user ? 'Go to my registrations' : 'Sign in to manage registrations'}>
               {user ? 'My registrations' : 'Sign In'}
             </Button>
           </div>
@@ -110,29 +96,12 @@ const Index = memo(() => {
       <section id="workshops" className="section-gap container-page" aria-labelledby="workshops-heading">
         <h2 id="workshops-heading" className="text-[28px] leading-[32px] mb-4 text-[hsl(var(--text-strong))]">Upcoming dates</h2>
         <div className="card p-0 overflow-hidden">
-          {step === 'calendar' && (
-            <WorkshopCalendar onSelect={handleWorkshopSelect} />
-          )}
-          {step === 'registration' && selectedWorkshop && (
-            <RegistrationForm 
-              workshop={selectedWorkshop}
-              onComplete={handleRegistrationComplete} 
-            />
-          )}
-          {step === 'success' && selectedWorkshop && registrationData && (
-            <RegistrationSuccess
-              workshop={selectedWorkshop}
-              registrationData={registrationData}
-              registration={registration}
-              onViewWorkshops={handleViewWorkshops}
-            />
-          )}
+          {step === 'calendar' && <WorkshopCalendar onSelect={handleWorkshopSelect} />}
+          {step === 'registration' && selectedWorkshop && <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />}
+          {step === 'success' && selectedWorkshop && registrationData && <RegistrationSuccess workshop={selectedWorkshop} registrationData={registrationData} registration={registration} onViewWorkshops={handleViewWorkshops} />}
         </div>
       </section>
-    </>
-  );
+    </>;
 });
-
 Index.displayName = 'Index';
-
 export default Index;
