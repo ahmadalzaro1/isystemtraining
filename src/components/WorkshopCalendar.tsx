@@ -2,11 +2,10 @@
 import { useState, useMemo, memo, useCallback, useEffect } from "react";
 import { format, addWeeks, startOfWeek, endOfWeek } from "date-fns";
 import { Workshop, WorkshopFilters } from "@/types/workshop";
-import { WorkshopNavigation } from "./workshops/WorkshopNavigation";
 import { WorkshopDayGroup } from "./workshops/WorkshopDayGroup";
 import { WorkshopRecommender } from "./recommendation/WorkshopRecommender";
-import { WorkshopFilterBar } from "./workshops/WorkshopFilters";
 import { NoWorkshopsFound } from "./workshops/NoWorkshopsFound";
+import Explorer from "@/components/workshops/Explorer";
 import { WorkshopService } from "@/services/workshopService";
 import { filterWorkshopsByWeek, filterWorkshopsByFilters } from "@/utils/workshopFilters";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
@@ -81,26 +80,43 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
     return grouped;
   }, [currentWeekWorkshops]);
 
+  // Build explorer UI data
+  const allCategories: Workshop["category"][] = ["Mac","iPhone","Apple Watch","AI","Digital Safety","Creativity","Productivity","iCloud"];
+  const weekDays = useMemo(() => {
+    return Object.entries(workshopsByDate)
+      .sort(([a],[b]) => a.localeCompare(b))
+      .map(([dateStr, list]) => ({
+        key: dateStr,
+        label: format(new Date(dateStr), 'EEE d'),
+        date: dateStr,
+        count: list.length,
+        active: false,
+      }));
+  }, [workshopsByDate]);
+  const categoriesList = useMemo(() => allCategories.map(c => ({ id: c, name: c, active: filters.category === c })), [filters.category]);
+
   return (
-    <div className={prefersReducedMotion ? "space-y-8" : "space-y-8 animate-fade-up"}>
-
-      <WorkshopNavigation 
-        currentWeek={currentWeek}
-        onNavigate={navigateWeek}
-      />
-
-      <WorkshopFilterBar 
-        filters={filters}
-        onChange={setFilters}
-      />
-
+    <Explorer
+      weekLabel={`Week of ${format(currentWeek, "MMMM d")} → ${format(addWeeks(currentWeek, 1), "MMMM d, yyyy")}`}
+      weekDays={weekDays}
+      level={filters.skillLevel}
+      categories={categoriesList}
+      onPrevWeek={() => navigateWeek('prev')}
+      onNextWeek={() => navigateWeek('next')}
+      onToday={() => setCurrentWeek(new Date())}
+      onOpenCalendar={() => {}}
+      onSearch={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+      onLevel={(l) => setFilters(prev => ({ ...prev, skillLevel: l as WorkshopFilters["skillLevel"] }))}
+      onToggleCat={(id) => setFilters(prev => ({ ...prev, category: prev.category === id ? "All" : (id as Workshop["category"]) }))}
+      onResetFilters={resetFilters}
+      onSelectDay={(d) => document.getElementById(`day-${d}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+    >
       <div className="flex justify-center mb-8">
         <WorkshopRecommender 
           workshops={workshops}
           onSelect={onSelect}
         />
       </div>
-
       <div 
         className={`grid gap-6 bg-surface rounded-xl2 hairline ${
           prefersReducedMotion ? '' : `transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`
@@ -116,7 +132,6 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
             onSelect={onSelect}
           />
         ))}
-        
         {currentWeekWorkshops.length === 0 && (
           <NoWorkshopsFound 
             filters={filters}
@@ -124,7 +139,7 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
           />
         )}
       </div>
-    </div>
+    </Explorer>
   );
 });
 

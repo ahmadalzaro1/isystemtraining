@@ -7,5 +7,6 @@ import '/src/styles/layout.css';
 import '/src/styles/workshops.css';
 import App from './App.tsx'
 import './index.css'
+import '/src/styles/workshops.explorer.css';
 
 createRoot(document.getElementById("root")!).render(<App />);

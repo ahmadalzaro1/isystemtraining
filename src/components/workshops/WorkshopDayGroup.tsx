@@ -20,7 +20,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
   });
 
   return (
-    <div className="space-y-4 animate-fade-up">
+    <div id={`day-${date}`} className="space-y-4 animate-fade-up">
       <div className="flex items-center gap-3">
         <h2 className="text-2xl font-medium text-[hsl(var(--text-strong))]">
           {format(new Date(date), "EEEE, MMMM d")}
