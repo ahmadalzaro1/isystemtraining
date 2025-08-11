@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { linkRegsToUser } from "@/lib/registration/manageLink";
 
 
 const Auth = () => {
@@ -51,14 +52,13 @@ const Auth = () => {
           setMessage('Please check your email to confirm your account.');
         }
       } else {
-        
         const { error } = await signIn(email, password);
         
         if (error) {
           console.error('Sign in error:', error);
           setError(error.message);
         } else {
-          
+          try { await linkRegsToUser(email); } catch {}
         }
       }
     } catch (err) {

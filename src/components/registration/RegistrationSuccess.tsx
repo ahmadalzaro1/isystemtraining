@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
 import { RegistrationConfirmation } from "./RegistrationConfirmation";
 import { useNavigate } from "react-router-dom";
+import { sendManageLink } from "@/lib/registration/manageLink";
 
 interface RegistrationSuccessProps {
   workshop: Workshop;
@@ -83,6 +84,22 @@ export const RegistrationSuccess = ({
     );
   };
 
+  const handleCreateAccount = () => {
+    const params = new URLSearchParams({ email: registrationData.email });
+    if (registration?.confirmation_code) params.set('code', registration.confirmation_code);
+    navigate(`/auth?${params.toString()}`);
+  };
+
+  const handleSendManageLink = async () => {
+    try {
+      if (!registration?.confirmation_code) throw new Error('Missing confirmation code');
+      await sendManageLink(registration.confirmation_code, registrationData.email);
+      toast.success('Manage link sent to your email');
+    } catch (e: any) {
+      toast.error(e?.message || 'Failed to send manage link');
+    }
+  };
+
   const handleViewMyRegistrations = () => {
     navigate('/my-registrations');
   };
@@ -111,6 +128,13 @@ export const RegistrationSuccess = ({
               </p>
             </div>
           )}
+          {registration && (
+            <div className="mt-4 flex flex-col sm:flex-row gap-3">
+              <Button variant="primaryPill" onClick={handleCreateAccount}>Create account</Button>
+              <Button variant="secondaryOutline" onClick={handleSendManageLink}>Email me a manage link</Button>
+            </div>
+          )}
+
         </div>
 
         {/* Registration Confirmation Details */}

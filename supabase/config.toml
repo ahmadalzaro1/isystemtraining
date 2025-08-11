@@ -5,3 +5,7 @@ verify_jwt = false
 
 [functions.verify-captcha]
 verify_jwt = false
+
+[functions.send-manage-link]
+verify_jwt = false
+

@@ -196,4 +196,19 @@ export class RegistrationService {
 
     return data;
   }
+
+  static async cancelRegistrationByCode(confirmationCode: string): Promise<WorkshopRegistration | null> {
+    const { data, error } = await supabase.rpc('cancel_registration_by_code', {
+      p_code: confirmationCode,
+    });
+
+    if (error) {
+      logError('Error canceling registration via RPC:', error);
+      throw new Error('Failed to cancel registration');
+    }
+
+    // RPC returns the updated row
+    return (Array.isArray(data) ? data[0] : (data as any)) || null;
+  }
 }
+

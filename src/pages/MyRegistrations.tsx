@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,17 +7,23 @@ import { Separator } from "@/components/ui/separator";
 import { useRegistrations, useGuestRegistrations, useConfirmationLookup } from "@/hooks/useRegistrations";
 import { useAuth } from "@/contexts/AuthContext";
 import { Search, ArrowLeft, Filter, Download, Calendar as CalendarIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ModernRegistrationCard } from "@/components/registration/ModernRegistrationCard";
 import { RegistrationHero } from "@/components/registration/RegistrationHero";
 import { EmptyRegistrationState } from "@/components/registration/EmptyRegistrationState";
 import { RegistrationSkeleton } from "@/components/registration/RegistrationSkeleton";
-import { WorkshopRegistration } from "@/services/registrationService";
+import { RegistrationService, WorkshopRegistration } from "@/services/registrationService";
+import { toast } from "sonner";
 
 const GuestLookup = () => {
   const [email, setEmail] = useState("");
   const { registrations, isLoading } = useGuestRegistrations(email);
   const { registration, confirmationCode, setConfirmationCode, isLoading: isLookupLoading } = useConfirmationLookup();
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    const urlCode = searchParams.get('code');
+    if (urlCode) setConfirmationCode(urlCode);
+  }, [searchParams, setConfirmationCode]);
 
   return (
     <div className="space-y-8">
@@ -71,8 +77,19 @@ const GuestLookup = () => {
         <div>
           <h3 className="text-[22px] leading-[28px] font-semibold mb-6 text-gray-900">Found Your Registration</h3>
           <ModernRegistrationCard registration={registration} index={0} />
+          <div className="mt-4">
+            <Button variant="destructive" onClick={async () => {
+              try {
+                await RegistrationService.cancelRegistrationByCode(confirmationCode);
+                toast.success("Registration canceled");
+              } catch (e: any) {
+                toast.error(e?.message || "Failed to cancel registration");
+              }
+            }}>Cancel registration</Button>
+          </div>
         </div>
       )}
+
 
       {email && registrations.length > 0 && (
         <div>
