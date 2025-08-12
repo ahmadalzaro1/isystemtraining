@@ -1,7 +1,7 @@
 
 import { format, isToday } from "date-fns";
 import { Workshop } from "@/types/workshop";
-import { WorkshopCard } from "./WorkshopCard";
+import { WorkshopCardV2 } from "./WorkshopCardV2";
 
 interface WorkshopDayGroupProps {
   date: string;
@@ -43,7 +43,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
       </div>
       <div className="grid md:grid-cols-2 auto-rows-fr gap-4">
         {sortedWorkshops.map((workshop, index) => (
-          <WorkshopCard
+          <WorkshopCardV2
             key={workshop.id}
             workshop={workshop}
             onSelect={onSelect}
