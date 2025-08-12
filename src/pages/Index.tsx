@@ -12,6 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from '@/components/ui/button';
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import VanillaBgCanvas from '@/webgl/VanillaBgCanvas';
+import { WorkshopsSectionV2 } from '@/components/workshops/WorkshopsSectionV2';
 const Index = memo(() => {
   usePerformanceMonitor('Index');
   const prefersReducedMotion = useReducedMotion();
@@ -93,14 +94,20 @@ const Index = memo(() => {
       </section>
 
       {/* Upcoming dates (dynamic) */}
-      <section id="workshops" className="section-gap container-page" aria-labelledby="workshops-heading">
-        <h2 id="workshops-heading" className="text-[28px] leading-[32px] mb-4 text-[hsl(var(--text-strong))]">Upcoming dates</h2>
-        <div className="card p-0 overflow-hidden">
-          {step === 'calendar' && <WorkshopCalendar onSelect={handleWorkshopSelect} />}
-          {step === 'registration' && selectedWorkshop && <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />}
-          {step === 'success' && selectedWorkshop && registrationData && <RegistrationSuccess workshop={selectedWorkshop} registrationData={registrationData} registration={registration} onViewWorkshops={handleViewWorkshops} />}
-        </div>
-      </section>
+      <WorkshopsSectionV2>
+        {step === 'calendar' && <WorkshopCalendar onSelect={handleWorkshopSelect} />}
+        {step === 'registration' && selectedWorkshop && (
+          <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
+        )}
+        {step === 'success' && selectedWorkshop && registrationData && (
+          <RegistrationSuccess
+            workshop={selectedWorkshop}
+            registrationData={registrationData}
+            registration={registration}
+            onViewWorkshops={handleViewWorkshops}
+          />
+        )}
+      </WorkshopsSectionV2>
     </>;
 });
 Index.displayName = 'Index';
