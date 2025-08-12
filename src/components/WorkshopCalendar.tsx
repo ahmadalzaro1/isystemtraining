@@ -10,8 +10,7 @@ import { WorkshopService } from "@/services/workshopService";
 import { filterWorkshopsByWeek, filterWorkshopsByFilters } from "@/utils/workshopFilters";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-
-
+import { WorkshopSkeleton } from "./workshops/WorkshopSkeleton";
 
 interface WorkshopCalendarProps {
   onSelect: (workshop: Workshop) => void;
@@ -30,15 +29,18 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
     category: "All"
   });
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Load workshops for the current week via RPC, keep UUIDs intact
   useEffect(() => {
     let isMounted = true;
+    setIsLoading(true);
     const weekStart = startOfWeek(currentWeek, { weekStartsOn: 0 });
     const weekEnd = endOfWeek(currentWeek, { weekStartsOn: 0 });
     WorkshopService.getWorkshopsWeek(weekStart, weekEnd, filters)
       .then((list) => { if (isMounted) setWorkshops(list); })
-      .catch(() => { /* noop */ });
+      .catch(() => { /* noop */ })
+      .finally(() => { if (isMounted) setIsLoading(false); });
     return () => { isMounted = false; };
   }, [currentWeek, filters]);
 
@@ -128,19 +130,31 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
         role="region"
         aria-label="Workshop listings"
       >
-        {Object.entries(workshopsByDate).map(([dateStr, dayWorkshops]) => (
-          <WorkshopDayGroup
-            key={dateStr}
-            date={dateStr}
-            workshops={dayWorkshops}
-            onSelect={onSelect}
-          />
-        ))}
-        {currentWeekWorkshops.length === 0 && (
-          <NoWorkshopsFound 
-            filters={filters}
-            onReset={resetFilters}
-          />
+        {(isLoading || isTransitioning) ? (
+          <div className="p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-4 md:gap-6 min-w-0">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <WorkshopSkeleton key={i} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <>
+            {Object.entries(workshopsByDate).map(([dateStr, dayWorkshops]) => (
+              <WorkshopDayGroup
+                key={dateStr}
+                date={dateStr}
+                workshops={dayWorkshops}
+                onSelect={onSelect}
+              />
+            ))}
+            {currentWeekWorkshops.length === 0 && (
+              <NoWorkshopsFound 
+                filters={filters}
+                onReset={resetFilters}
+              />
+            )}
+          </>
         )}
       </div>
     </Explorer>

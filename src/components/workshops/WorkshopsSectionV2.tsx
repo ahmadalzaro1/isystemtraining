@@ -24,7 +24,7 @@ export function WorkshopsSectionV2({
       {subtitle ? (
         <p className="text-[hsl(var(--text-muted))] mb-3">{subtitle}</p>
       ) : null}
-      <div className="card p-0 overflow-hidden">{children}</div>
+      <div className="card p-0 overflow-hidden min-w-0">{children}</div>
     </section>
   );
 }
