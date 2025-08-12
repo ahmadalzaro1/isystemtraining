@@ -10,8 +10,8 @@ import { WorkshopService } from "@/services/workshopService";
 import { filterWorkshopsByWeek, filterWorkshopsByFilters } from "@/utils/workshopFilters";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import UpcomingSectionIOS from "@/components/workshops/UpcomingSectionIOS";
-import { useIsMobile } from "@/hooks/use-mobile";
+
+
 
 interface WorkshopCalendarProps {
   onSelect: (workshop: Workshop) => void;
@@ -20,7 +20,7 @@ interface WorkshopCalendarProps {
 export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
   usePerformanceMonitor('WorkshopCalendar');
   const prefersReducedMotion = useReducedMotion();
-  const isMobile = useIsMobile();
+  
   
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -83,24 +83,6 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
     return grouped;
   }, [currentWeekWorkshops]);
 
-  // iOS section days data
-  const iosDays = useMemo(() => {
-    return Object.entries(workshopsByDate)
-      .sort(([a],[b]) => a.localeCompare(b))
-      .map(([dateStr, list]) => ({
-        key: dateStr,
-        header: format(new Date(dateStr), "EEEE, MMMM d"),
-        sessions: list.map(w => ({
-          id: w.id,
-          title: w.name,
-          instructor: w.instructor,
-          timeLabel: format(w.date, "HH:mm"),
-          capacity: 12,
-          spots_available: w.spotsRemaining,
-          past: w.date < new Date()
-        }))
-      }));
-  }, [workshopsByDate]);
 
   // Build explorer UI data
   const allCategories: Workshop["category"][] = ["Mac","iPhone","Apple Watch","AI","Digital Safety","Creativity","Productivity","iCloud"];
@@ -118,73 +100,50 @@ export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
   const categoriesList = useMemo(() => allCategories.map(c => ({ id: c, name: c, active: filters.category === c })), [filters.category]);
 
   return (
-    isMobile ? (
-      <UpcomingSectionIOS
-        weekLabel={`Week of ${format(currentWeek, "MMMM d")} → ${format(addWeeks(currentWeek, 1), "MMMM d, yyyy")}`}
-        weekDays={weekDays}
-        level={filters.skillLevel}
-        categories={categoriesList}
-        onPrevWeek={() => navigateWeek('prev')}
-        onNextWeek={() => navigateWeek('next')}
-        onToday={() => setCurrentWeek(new Date())}
-        onOpenCalendar={() => {}}
-        onSearch={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-        onLevel={(l) => setFilters(prev => ({ ...prev, skillLevel: l as WorkshopFilters["skillLevel"] }))}
-        onToggleCat={(id) => setFilters(prev => ({ ...prev, category: prev.category === id ? "All" : (id as Workshop["category"]) }))}
-        onResetFilters={resetFilters}
-        onSelectDay={(d) => document.getElementById(`day-${d}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-        days={iosDays}
-        onRegister={(s) => {
-          const w = workshops.find(w => w.id === s.id);
-          if (w) onSelect(w);
-        }}
-      />
-    ) : (
-      <Explorer
-        weekLabel={`Week of ${format(currentWeek, "MMMM d")} → ${format(addWeeks(currentWeek, 1), "MMMM d, yyyy")}`}
-        weekDays={weekDays}
-        level={filters.skillLevel}
-        categories={categoriesList}
-        onPrevWeek={() => navigateWeek('prev')}
-        onNextWeek={() => navigateWeek('next')}
-        onToday={() => setCurrentWeek(new Date())}
-        onOpenCalendar={() => {}}
-        onSearch={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-        onLevel={(l) => setFilters(prev => ({ ...prev, skillLevel: l as WorkshopFilters["skillLevel"] }))}
-        onToggleCat={(id) => setFilters(prev => ({ ...prev, category: prev.category === id ? "All" : (id as Workshop["category"]) }))}
-        onResetFilters={resetFilters}
-        onSelectDay={(d) => document.getElementById(`day-${d}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+    <Explorer
+      weekLabel={`Week of ${format(currentWeek, "MMMM d")} → ${format(addWeeks(currentWeek, 1), "MMMM d, yyyy")}`}
+      weekDays={weekDays}
+      level={filters.skillLevel}
+      categories={categoriesList}
+      onPrevWeek={() => navigateWeek('prev')}
+      onNextWeek={() => navigateWeek('next')}
+      onToday={() => setCurrentWeek(new Date())}
+      onOpenCalendar={() => {}}
+      onSearch={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+      onLevel={(l) => setFilters(prev => ({ ...prev, skillLevel: l as WorkshopFilters["skillLevel"] }))}
+      onToggleCat={(id) => setFilters(prev => ({ ...prev, category: prev.category === id ? "All" : (id as Workshop["category"]) }))}
+      onResetFilters={resetFilters}
+      onSelectDay={(d) => document.getElementById(`day-${d}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+    >
+      <div className="flex justify-center mb-8">
+        <WorkshopRecommender 
+          workshops={workshops}
+          onSelect={onSelect}
+        />
+      </div>
+      <div 
+        className={`grid gap-6 bg-surface rounded-xl2 hairline ${
+          prefersReducedMotion ? '' : `transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`
+        }`}
+        role="region"
+        aria-label="Workshop listings"
       >
-        <div className="flex justify-center mb-8">
-          <WorkshopRecommender 
-            workshops={workshops}
+        {Object.entries(workshopsByDate).map(([dateStr, dayWorkshops]) => (
+          <WorkshopDayGroup
+            key={dateStr}
+            date={dateStr}
+            workshops={dayWorkshops}
             onSelect={onSelect}
           />
-        </div>
-        <div 
-          className={`grid gap-6 bg-surface rounded-xl2 hairline ${
-            prefersReducedMotion ? '' : `transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`
-          }`}
-          role="region"
-          aria-label="Workshop listings"
-        >
-          {Object.entries(workshopsByDate).map(([dateStr, dayWorkshops]) => (
-            <WorkshopDayGroup
-              key={dateStr}
-              date={dateStr}
-              workshops={dayWorkshops}
-              onSelect={onSelect}
-            />
-          ))}
-          {currentWeekWorkshops.length === 0 && (
-            <NoWorkshopsFound 
-              filters={filters}
-              onReset={resetFilters}
-            />
-          )}
-        </div>
-      </Explorer>
-    )
+        ))}
+        {currentWeekWorkshops.length === 0 && (
+          <NoWorkshopsFound 
+            filters={filters}
+            onReset={resetFilters}
+          />
+        )}
+      </div>
+    </Explorer>
   );
 });
 

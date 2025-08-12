@@ -39,3 +39,9 @@
   .wx-pill{padding:8px 10px}
   .btn{padding:10px 12px}
 }
+
+/* Contextual styling inside Index workshops card */
+#workshops > .card .wx-shell{background:transparent;border:0;border-radius:0}
+#workshops > .card .wx-head{padding:16px 16px 6px}
+#workshops > .card .wx-toolbar{top:calc(env(safe-area-inset-top) + 64px)}
+#workshops > .card .wx-content{padding:16px 24px 24px}
