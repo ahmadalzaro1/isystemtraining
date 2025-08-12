@@ -14,7 +14,7 @@ export function WorkshopsSectionV2({
   children,
 }: WorkshopsSectionV2Props) {
   return (
-    <section id="workshops" className="section-gap container-page" aria-labelledby="workshops-heading">
+    <section id="workshops" data-qa="workshops-section" className="section-gap container-page" aria-labelledby="workshops-heading">
       <h2
         id="workshops-heading"
         className="text-[28px] leading-[32px] mb-4 text-[hsl(var(--text-strong))]"

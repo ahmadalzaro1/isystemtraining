@@ -6,6 +6,7 @@ import { WorkshopDayGroup } from "./workshops/WorkshopDayGroup";
 import { WorkshopRecommender } from "./recommendation/WorkshopRecommender";
 import { NoWorkshopsFound } from "./workshops/NoWorkshopsFound";
 import Explorer from "@/components/workshops/Explorer";
+import UpcomingSectionIOS from "@/components/workshops/UpcomingSectionIOS";
 import { WorkshopService } from "@/services/workshopService";
 import { filterWorkshopsByWeek, filterWorkshopsByFilters } from "@/utils/workshopFilters";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
@@ -14,9 +15,10 @@ import { WorkshopSkeleton } from "./workshops/WorkshopSkeleton";
 
 interface WorkshopCalendarProps {
   onSelect: (workshop: Workshop) => void;
+  variant?: 'v1' | 'v2';
 }
 
-export const WorkshopCalendar = memo(({ onSelect }: WorkshopCalendarProps) => {
+export const WorkshopCalendar = memo(({ onSelect, variant = 'v2' }: WorkshopCalendarProps) => {
   usePerformanceMonitor('WorkshopCalendar');
   const prefersReducedMotion = useReducedMotion();
   

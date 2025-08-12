@@ -10,6 +10,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import { ProtectedRoute, AdminRoute } from "@/components/auth/ProtectedRoute";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { FeatureFlagsProvider } from "@/contexts/FeatureFlagsContext";
 
 // Lazy load pages for better performance with explicit imports
 const Index = lazy(() => import("./pages/Index").then(module => ({ default: module.default })));
@@ -71,6 +72,7 @@ function App(): JSX.Element {
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <FeatureFlagsProvider>
             <AuthProvider>
               <SkipToContent />
               <SiteHeader />
@@ -87,6 +89,7 @@ function App(): JSX.Element {
                 </main>
               </Suspense>
             </AuthProvider>
+          </FeatureFlagsProvider>
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
