@@ -2,6 +2,7 @@ import React from "react";
 import { format } from "date-fns";
 import { Workshop } from "@/types/workshop";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 interface WorkshopCardV2Props {
   workshop: Workshop;
@@ -31,7 +32,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
 
   return (
     <div
-      className="wk-card p-5 cursor-pointer group relative transition-[transform,box-shadow] duration-300 hover:-translate-y-[2px] hover:shadow-lg h-full flex flex-col"
+      className="wk-card p-5 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-md h-full flex flex-col rounded-2xl"
       onClick={handleCardClick}
       style={{ animationDelay: `${index * 0.1}s` }}
     >
@@ -66,21 +67,25 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       {/* Footer - aligned action */}
       <div className="mt-auto pt-4 border-t border-[hsl(var(--border))] flex justify-end">
         {workshop.spotsRemaining > 0 ? (
-          <button
-            className="wk-cta min-w-[120px] text-[hsl(var(--text-strong))]"
+          <Button
+            variant="ios"
+            size="sm"
+            className="min-w-[120px]"
             onClick={handleRegister}
             aria-label="Register for this workshop"
           >
             Register
-          </button>
+          </Button>
         ) : (
-          <button
-            className="wk-cta min-w-[120px] text-[hsl(var(--text-muted))]"
+          <Button
+            variant="outline"
+            size="sm"
+            className="min-w-[120px]"
             onClick={handleWaitlist}
             aria-label="Join the waitlist for this workshop"
           >
             Waitlist
-          </button>
+          </Button>
         )}
       </div>
     </div>
