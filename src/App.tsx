@@ -19,8 +19,8 @@ const Auth = lazy(() => import("./pages/Auth").then(module => ({ default: module
 const Admin = lazy(() => import("./pages/Admin").then(module => ({ default: module.default })));
 const MyRegistrations = lazy(() => import("./pages/MyRegistrations").then(module => ({ default: module.default })));
 
-// Create a single QueryClient instance at module scope (no hooks)
-const appQueryClient = new QueryClient({
+// Create QueryClient with proper React integration
+const createQueryClient = () => new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
@@ -58,8 +58,8 @@ const LoadingSpinner = (): JSX.Element => (
 );
 
 function App(): JSX.Element {
-  // Configure React Query with optimized settings for performance
-  const queryClient = appQueryClient;
+  // Create QueryClient instance within React component
+  const queryClient = React.useMemo(() => createQueryClient(), []);
   
   // Feature flag for V4 workshops redesign - clean minimal design
   const useMassiveWorkshopsDesign = true;
