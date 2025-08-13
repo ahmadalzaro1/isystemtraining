@@ -20,14 +20,14 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
   });
 
   return (
-    <div id={`day-${date}`} className="space-y-6 md:space-y-8 animate-fade-up">
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
+    <div id={`day-${date}`} className="space-y-12 md:space-y-16 animate-fade-up">
+      <div className="space-y-8">
+        <div className="flex items-center gap-8">
           <h2 className="text-lg font-bold text-[hsl(var(--text-strong))]">
             {format(new Date(date), "EEEE, MMMM d")}
           </h2>
           {today && (
-            <span className="rounded-full bg-[hsl(var(--accent-a))/0.12] text-[hsl(var(--accent-a))] px-3 py-1 text-sm">
+            <span className="rounded-full bg-[hsl(var(--accent-a))/0.12] text-[hsl(var(--accent-a))] px-6 py-2 text-sm">
               Today
             </span>
           )}
@@ -35,7 +35,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
         <hr className="border-t border-[hsl(var(--border))] opacity-50" />
       </div>
       <div 
-        className="flex gap-4 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[hsl(var(--border))] pb-2"
+        className="flex gap-8 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[hsl(var(--border))] pb-4"
         style={{
           maskImage: 'linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%)'
         }}
@@ -43,13 +43,13 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
         {sortedWorkshops.map((w) => (
           <span
             key={`${w.id}-chip`}
-            className="rounded-pill px-6 py-3 border border-[hsl(var(--border))] text-sm text-muted-foreground whitespace-nowrap flex-shrink-0"
+            className="rounded-pill px-8 py-4 border border-[hsl(var(--border))] text-sm text-muted-foreground whitespace-nowrap flex-shrink-0"
           >
             {format(w.date, "HH:mm")} {w.name}
           </span>
         ))}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-6 md:gap-8 min-w-0 max-w-screen-xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-12 md:gap-16 min-w-0 max-w-screen-xl mx-auto">
         {sortedWorkshops.map((workshop, index) => (
           <WorkshopCardV2
             key={workshop.id}

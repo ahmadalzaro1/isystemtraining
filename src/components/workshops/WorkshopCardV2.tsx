@@ -32,27 +32,27 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
 
   return (
     <div
-      className="wk-card p-6 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-lg motion-reduce:transition-none motion-reduce:transform-none h-full flex flex-col rounded-2xl bg-gradient-to-b from-[hsl(var(--surface))] to-[hsl(var(--surface-2))] shadow-md"
+      className="wk-card p-12 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-lg motion-reduce:transition-none motion-reduce:transform-none h-full flex flex-col rounded-2xl bg-gradient-to-b from-[hsl(var(--surface))] to-[hsl(var(--surface-2))] shadow-md"
       onClick={handleCardClick}
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Meta row */}
-      <div className="text-base text-[hsl(var(--text-muted))] mb-3">
+      <div className="text-base text-[hsl(var(--text-muted))] mb-6">
         {format(workshop.date, "EEE, MMM d")} • {workshop.time} • {workshop.skillLevel} • {workshop.category}
       </div>
 
       {/* Title */}
-      <h3 className="font-semibold text-xl text-[hsl(var(--text-strong))] leading-tight mb-3">
+      <h3 className="font-semibold text-xl text-[hsl(var(--text-strong))] leading-tight mb-6">
         {workshop.name}
       </h3>
 
       {/* Description */}
-      <p className="text-[hsl(var(--text-muted))] leading-relaxed text-base line-clamp-3 mb-5">
+      <p className="text-[hsl(var(--text-muted))] leading-relaxed text-base line-clamp-3 mb-10">
         {workshop.description}
       </p>
 
       {/* Capacity */}
-      <div className="space-y-3">
+      <div className="space-y-6">
         <div className="flex items-center justify-between text-base">
           <span className="text-[hsl(var(--text-muted))]">Available spots</span>
           <span className="font-medium text-[hsl(var(--text-strong))]">
@@ -65,7 +65,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       </div>
 
       {/* Footer - aligned action */}
-      <div className="mt-auto pt-5 border-t border-[hsl(var(--border))] flex justify-between items-center">
+      <div className="mt-auto pt-10 border-t border-[hsl(var(--border))] flex justify-between items-center">
         {workshop.spotsRemaining > 0 ? (
           <Button
             variant="ios"

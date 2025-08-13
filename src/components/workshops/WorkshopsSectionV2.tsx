@@ -17,17 +17,17 @@ export function WorkshopsSectionV2({
     <section 
       id="workshops" 
       data-qa="workshops-section" 
-      className="section-gap-lg container-page bg-gradient-to-b from-[hsl(var(--background))] to-[hsl(var(--surface))/0.3]" 
+      className="section-gap-lg container-page bg-gradient-to-b from-[hsl(var(--background))] to-[hsl(var(--surface))/0.3] px-8 py-16" 
       aria-labelledby="workshops-heading"
     >
       <h2
         id="workshops-heading"
-        className="text-3xl leading-[36px] mb-6 text-[hsl(var(--text-strong))]"
+        className="text-3xl leading-[36px] mb-12 text-[hsl(var(--text-strong))]"
       >
         {title}
       </h2>
       {subtitle ? (
-        <p className="text-[hsl(var(--text-muted))] mb-5">{subtitle}</p>
+        <p className="text-[hsl(var(--text-muted))] mb-10">{subtitle}</p>
       ) : null}
       <div className="card p-0 overflow-hidden min-w-0 shadow-lg">{children}</div>
     </section>
