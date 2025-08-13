@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import VanillaBgCanvas from '@/webgl/VanillaBgCanvas';
 import { WorkshopsSectionV2 } from '@/components/workshops/WorkshopsSectionV2';
+import { WorkshopsSectionMassiveV2 } from '@/components/workshops/WorkshopsSectionMassiveV2';
 import { useFeatureFlags } from "@/contexts/FeatureFlagsContext";
 const Index = memo(() => {
   usePerformanceMonitor('Index');
@@ -27,6 +28,9 @@ const Index = memo(() => {
   } = useHapticFeedback();
   const { workshopsV2 } = useFeatureFlags();
   const calendarVariant: 'v1' | 'v2' = workshopsV2 ? 'v2' : 'v1';
+  
+  // Feature flag for massive workshops redesign
+  const useMassiveWorkshopsDesign = true;
   const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
   const [registrationData, setRegistrationData] = useState<FormData | null>(null);
@@ -97,20 +101,41 @@ const Index = memo(() => {
       </section>
 
       {/* Upcoming dates (dynamic) */}
-      <WorkshopsSectionV2>
-        {step === 'calendar' && <WorkshopCalendar onSelect={handleWorkshopSelect} variant={calendarVariant} />}
-        {step === 'registration' && selectedWorkshop && (
-          <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
-        )}
-        {step === 'success' && selectedWorkshop && registrationData && (
-          <RegistrationSuccess
-            workshop={selectedWorkshop}
-            registrationData={registrationData}
-            registration={registration}
-            onViewWorkshops={handleViewWorkshops}
-          />
-        )}
-      </WorkshopsSectionV2>
+      {useMassiveWorkshopsDesign ? (
+        <>
+          {step === 'calendar' && <WorkshopsSectionMassiveV2 onSelect={handleWorkshopSelect} />}
+          {step === 'registration' && selectedWorkshop && (
+            <WorkshopsSectionV2>
+              <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
+            </WorkshopsSectionV2>
+          )}
+          {step === 'success' && selectedWorkshop && registrationData && (
+            <WorkshopsSectionV2>
+              <RegistrationSuccess
+                workshop={selectedWorkshop}
+                registrationData={registrationData}
+                registration={registration}
+                onViewWorkshops={handleViewWorkshops}
+              />
+            </WorkshopsSectionV2>
+          )}
+        </>
+      ) : (
+        <WorkshopsSectionV2>
+          {step === 'calendar' && <WorkshopCalendar onSelect={handleWorkshopSelect} variant={calendarVariant} />}
+          {step === 'registration' && selectedWorkshop && (
+            <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
+          )}
+          {step === 'success' && selectedWorkshop && registrationData && (
+            <RegistrationSuccess
+              workshop={selectedWorkshop}
+              registrationData={registrationData}
+              registration={registration}
+              onViewWorkshops={handleViewWorkshops}
+            />
+          )}
+        </WorkshopsSectionV2>
+      )}
     </>;
 });
 Index.displayName = 'Index';

@@ -1,0 +1,87 @@
+/* Workshops Massive V2 - Mobile-first responsive design */
+.mask-image-fade {
+  mask-image: linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%);
+}
+
+/* Enhanced touch scrolling for mobile */
+.workshops-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.workshops-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Improved button hover states */
+.workshops-massive-button {
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  touch-action: manipulation;
+}
+
+.workshops-massive-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.workshops-massive-button:active {
+  transform: translateY(0);
+  transition-duration: 0.1s;
+}
+
+/* Enhanced cards with deeper shadows */
+.workshops-massive-card {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  background: hsl(var(--surface));
+  border: 1px solid hsl(var(--border));
+}
+
+.workshops-massive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: hsl(var(--accent-a) / 0.3);
+}
+
+/* Responsive grid improvements */
+@media (max-width: 768px) {
+  .workshops-massive-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .workshops-massive-filters {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .workshops-massive-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .workshops-massive-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Focus states for accessibility */
+.workshops-massive-button:focus-visible,
+.workshops-massive-card:focus-visible {
+  outline: 2px solid hsl(var(--accent-a));
+  outline-offset: 2px;
+}
+
+/* Improved animation timing */
+@media (prefers-reduced-motion: reduce) {
+  .workshops-massive-button,
+  .workshops-massive-card {
+    transition: none;
+  }
+}

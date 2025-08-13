@@ -61,12 +61,14 @@ function App(): JSX.Element {
   // Configure React Query with optimized settings for performance
   const queryClient = appQueryClient;
   
-  // Force re-render cache bust for spacing updates
-  const spacingVersion = "v2.0-unsubtle-spacing";
+  // Feature flag for massive workshops redesign
+  const useMassiveWorkshopsDesign = true;
+  const spacingVersion = "v3.0-massive-workshops";
   
   try {
     console.info('[Debug] React version', React.version);
     console.info('[Debug] QueryClient ready', !!queryClient);
+    console.info('[Debug] Workshops design', useMassiveWorkshopsDesign ? 'Massive V2' : 'Original');
     console.info('[Debug] Spacing version', spacingVersion);
   } catch {}
 

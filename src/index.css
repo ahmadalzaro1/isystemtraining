@@ -5,6 +5,7 @@
 @import './styles/glass.css';
 @import './styles/forms.css';
 @import './styles/canvas.css';
+@import './styles/workshops-massive.css';
 
 /* Optimized for all devices */
 body, html {
