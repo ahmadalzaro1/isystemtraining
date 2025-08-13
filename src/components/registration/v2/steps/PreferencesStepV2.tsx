@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -39,24 +39,23 @@ const PAID_INTEREST_OPTIONS = [
 ];
 
 export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data }) => {
-  const selectedTasks = data?.mainTasks || [];
-  const selectedStyles = data?.learningStyles || [];
-
-  const handleTaskToggle = (taskValue: string) => {
-    const current = selectedTasks;
-    const updated = current.includes(taskValue)
-      ? current.filter((t: string) => t !== taskValue)
-      : [...current, taskValue];
+  const handleTaskToggle = useCallback((taskValue: string, checked: boolean) => {
+    const current = form.watch('mainTasks') || [];
+    const updated = checked
+      ? current.length < 3 ? [...current, taskValue] : current
+      : current.filter((t: string) => t !== taskValue);
     form.setValue('mainTasks', updated);
-  };
+    form.trigger('mainTasks');
+  }, [form]);
 
-  const handleStyleToggle = (styleValue: string) => {
-    const current = selectedStyles;
-    const updated = current.includes(styleValue)
-      ? current.filter((s: string) => s !== styleValue)
-      : [...current, styleValue];
+  const handleStyleToggle = useCallback((styleValue: string, checked: boolean) => {
+    const current = form.watch('learningStyles') || [];
+    const updated = checked
+      ? [...current, styleValue]
+      : current.filter((s: string) => s !== styleValue);
     form.setValue('learningStyles', updated);
-  };
+    form.trigger('learningStyles');
+  }, [form]);
 
   return (
     <div className="space-y-8">
@@ -77,37 +76,42 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
       <FormField
         control={form.control}
         name="mainTasks"
-        render={() => (
+        render={({ field }) => (
           <FormItem className="space-y-4">
             <FormLabel className="text-ios-callout font-sf-pro font-medium text-text">
               What do you primarily use your Apple devices for? (Select up to 3)
             </FormLabel>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {MAIN_TASKS.map((task) => (
-                <div
-                  key={task.value}
-                  className={cn(
-                    "relative flex items-center space-x-3 p-4 rounded-xl2",
-                    "bg-surface-2 border-2 border-transparent cursor-pointer",
-                    "hover:bg-surface transition-all duration-200",
-                    selectedTasks.includes(task.value) && "border-accent-a bg-accent-a/5",
-                    selectedTasks.length >= 3 && !selectedTasks.includes(task.value) && "opacity-50 cursor-not-allowed"
-                  )}
-                  onClick={() => handleTaskToggle(task.value)}
-                >
-                  <Checkbox
-                    checked={selectedTasks.includes(task.value)}
-                    onChange={() => {}} // Controlled by parent
-                    disabled={selectedTasks.length >= 3 && !selectedTasks.includes(task.value)}
-                    className="pointer-events-none"
-                  />
-                  <div className="text-xl">{task.icon}</div>
-                  <div className="text-ios-callout font-sf-pro font-medium text-text">
-                    {task.label}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <FormControl>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {MAIN_TASKS.map((task) => {
+                  const isSelected = (field.value || []).includes(task.value);
+                  const isDisabled = !isSelected && (field.value || []).length >= 3;
+                  
+                  return (
+                    <div
+                      key={task.value}
+                      className={cn(
+                        "relative flex items-center space-x-3 p-4 rounded-xl2",
+                        "bg-surface-2 border-2 border-transparent",
+                        "hover:bg-surface transition-all duration-200",
+                        isSelected && "border-accent-a bg-accent-a/5",
+                        isDisabled && "opacity-50"
+                      )}
+                    >
+                      <Checkbox
+                        checked={isSelected}
+                        onCheckedChange={(checked) => handleTaskToggle(task.value, checked as boolean)}
+                        disabled={isDisabled}
+                      />
+                      <div className="text-xl">{task.icon}</div>
+                      <div className="text-ios-callout font-sf-pro font-medium text-text">
+                        {task.label}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}
@@ -117,43 +121,45 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
       <FormField
         control={form.control}
         name="learningStyles"
-        render={() => (
+        render={({ field }) => (
           <FormItem className="space-y-4">
             <FormLabel className="text-ios-callout font-sf-pro font-medium text-text">
               How do you prefer to learn new features?
             </FormLabel>
-            <div className="space-y-3">
-              {LEARNING_STYLES.map((style) => {
-                const Icon = style.icon;
-                return (
-                  <div
-                    key={style.value}
-                    className={cn(
-                      "relative flex items-center space-x-4 p-4 rounded-xl2",
-                      "bg-surface-2 border-2 border-transparent cursor-pointer",
-                      "hover:bg-surface transition-all duration-200",
-                      selectedStyles.includes(style.value) && "border-accent-a bg-accent-a/5"
-                    )}
-                    onClick={() => handleStyleToggle(style.value)}
-                  >
-                    <Checkbox
-                      checked={selectedStyles.includes(style.value)}
-                      onChange={() => {}} // Controlled by parent
-                      className="pointer-events-none"
-                    />
-                    <Icon className="w-5 h-5 text-accent-a" />
-                    <div className="flex-1">
-                      <div className="text-ios-callout font-sf-pro font-medium text-text">
-                        {style.label}
-                      </div>
-                      <div className="text-ios-footnote text-text-muted">
-                        {style.description}
+            <FormControl>
+              <div className="space-y-3">
+                {LEARNING_STYLES.map((style) => {
+                  const Icon = style.icon;
+                  const isSelected = (field.value || []).includes(style.value);
+                  
+                  return (
+                    <div
+                      key={style.value}
+                      className={cn(
+                        "relative flex items-center space-x-4 p-4 rounded-xl2",
+                        "bg-surface-2 border-2 border-transparent",
+                        "hover:bg-surface transition-all duration-200",
+                        isSelected && "border-accent-a bg-accent-a/5"
+                      )}
+                    >
+                      <Checkbox
+                        checked={isSelected}
+                        onCheckedChange={(checked) => handleStyleToggle(style.value, checked as boolean)}
+                      />
+                      <Icon className="w-5 h-5 text-accent-a" />
+                      <div className="flex-1">
+                        <div className="text-ios-callout font-sf-pro font-medium text-text">
+                          {style.label}
+                        </div>
+                        <div className="text-ios-footnote text-text-muted">
+                          {style.description}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}
