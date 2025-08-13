@@ -115,7 +115,7 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
         setCurrentStep(prev => prev + 1);
       });
     }
-  }, [validateCurrentStep, currentStep, startTransition]);
+  }, [validateCurrentStep, currentStep]);
 
   const handlePrevious = useCallback(() => {
     if (currentStep > 0) {
@@ -123,7 +123,7 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
         setCurrentStep(prev => prev - 1);
       });
     }
-  }, [currentStep, startTransition]);
+  }, [currentStep]);
 
   const handleSubmit = useCallback(async (data: RegistrationFormDataV2) => {
     setIsSubmitting(true);

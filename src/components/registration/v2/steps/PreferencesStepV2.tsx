@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useTransition } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -39,22 +39,26 @@ const PAID_INTEREST_OPTIONS = [
 ];
 
 export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data }) => {
-  const handleTaskToggle = useCallback((taskValue: string, checked: boolean) => {
-    const current = form.watch('mainTasks') || [];
-    const updated = checked
-      ? current.length < 3 ? [...current, taskValue] : current
-      : current.filter((t: string) => t !== taskValue);
-    form.setValue('mainTasks', updated);
-    form.trigger('mainTasks');
+  const [isPending, startTransition] = useTransition();
+
+  const handleTaskToggle = useCallback((taskValue: string, checked: boolean, currentValue: string[]) => {
+    startTransition(() => {
+      const updated = checked
+        ? currentValue.length < 3 ? [...currentValue, taskValue] : currentValue
+        : currentValue.filter((t: string) => t !== taskValue);
+      form.setValue('mainTasks', updated);
+      form.trigger('mainTasks');
+    });
   }, [form]);
 
-  const handleStyleToggle = useCallback((styleValue: string, checked: boolean) => {
-    const current = form.watch('learningStyles') || [];
-    const updated = checked
-      ? [...current, styleValue]
-      : current.filter((s: string) => s !== styleValue);
-    form.setValue('learningStyles', updated);
-    form.trigger('learningStyles');
+  const handleStyleToggle = useCallback((styleValue: string, checked: boolean, currentValue: string[]) => {
+    startTransition(() => {
+      const updated = checked
+        ? [...currentValue, styleValue]
+        : currentValue.filter((s: string) => s !== styleValue);
+      form.setValue('learningStyles', updated);
+      form.trigger('learningStyles');
+    });
   }, [form]);
 
   return (
@@ -100,8 +104,8 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
                     >
                       <Checkbox
                         checked={isSelected}
-                        onCheckedChange={(checked) => handleTaskToggle(task.value, checked as boolean)}
-                        disabled={isDisabled}
+                        onCheckedChange={(checked) => handleTaskToggle(task.value, checked as boolean, field.value || [])}
+                        disabled={isDisabled || isPending}
                       />
                       <div className="text-xl">{task.icon}</div>
                       <div className="text-ios-callout font-sf-pro font-medium text-text">
@@ -144,7 +148,8 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
                     >
                       <Checkbox
                         checked={isSelected}
-                        onCheckedChange={(checked) => handleStyleToggle(style.value, checked as boolean)}
+                        onCheckedChange={(checked) => handleStyleToggle(style.value, checked as boolean, field.value || [])}
+                        disabled={isPending}
                       />
                       <Icon className="w-5 h-5 text-accent-a" />
                       <div className="flex-1">
