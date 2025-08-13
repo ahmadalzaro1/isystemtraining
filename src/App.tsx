@@ -1,11 +1,11 @@
 
+import React, { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { lazy, Suspense } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import { ProtectedRoute, AdminRoute } from "@/components/auth/ProtectedRoute";
