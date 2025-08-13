@@ -21,15 +21,18 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
 
   return (
     <div id={`day-${date}`} className="space-y-6 md:space-y-8 animate-fade-up">
-      <div className="flex items-center gap-4">
-        <h2 className="text-2xl font-medium text-[hsl(var(--text-strong))]">
-          {format(new Date(date), "EEEE, MMMM d")}
-        </h2>
-        {today && (
-          <span className="rounded-full bg-[hsl(var(--accent-a))/0.12] text-[hsl(var(--accent-a))] px-3 py-1 text-sm">
-            Today
-          </span>
-        )}
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h2 className="text-lg font-bold text-[hsl(var(--text-strong))]">
+            {format(new Date(date), "EEEE, MMMM d")}
+          </h2>
+          {today && (
+            <span className="rounded-full bg-[hsl(var(--accent-a))/0.12] text-[hsl(var(--accent-a))] px-3 py-1 text-sm">
+              Today
+            </span>
+          )}
+        </div>
+        <hr className="border-t border-[hsl(var(--border))] opacity-50" />
       </div>
       <div className="flex flex-wrap gap-4">
         {sortedWorkshops.map((w) => (

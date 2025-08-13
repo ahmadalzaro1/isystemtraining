@@ -42,7 +42,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       </div>
 
       {/* Title */}
-      <h3 className="font-medium text-xl text-[hsl(var(--text-strong))] leading-tight mb-3">
+      <h3 className="font-semibold text-xl text-[hsl(var(--text-strong))] leading-tight mb-3">
         {workshop.name}
       </h3>
 
@@ -65,7 +65,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       </div>
 
       {/* Footer - aligned action */}
-      <div className="mt-auto pt-5 border-t border-[hsl(var(--border))] flex justify-end">
+      <div className="mt-auto pt-5 border-t border-[hsl(var(--border))] flex justify-between items-center">
         {workshop.spotsRemaining > 0 ? (
           <Button
             variant="ios"
