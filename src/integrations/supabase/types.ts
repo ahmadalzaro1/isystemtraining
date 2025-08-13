@@ -556,7 +556,7 @@ export type Database = {
           status: string
           updated_at: string
           user_id: string | null
-          workshop_id: string | null
+          workshop_id: string
         }
         Insert: {
           confirmation_code?: string
@@ -569,7 +569,7 @@ export type Database = {
           status?: string
           updated_at?: string
           user_id?: string | null
-          workshop_id?: string | null
+          workshop_id: string
         }
         Update: {
           confirmation_code?: string
@@ -582,9 +582,17 @@ export type Database = {
           status?: string
           updated_at?: string
           user_id?: string | null
-          workshop_id?: string | null
+          workshop_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_workshop_registrations_workshop_id"
+            columns: ["workshop_id"]
+            isOneToOne: false
+            referencedRelation: "workshops"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       workshops: {
         Row: {
@@ -646,7 +654,7 @@ export type Database = {
           status: string
           updated_at: string
           user_id: string | null
-          workshop_id: string | null
+          workshop_id: string
         }
       }
       create_guest_registration: {
@@ -674,7 +682,7 @@ export type Database = {
           status: string
           updated_at: string
           user_id: string | null
-          workshop_id: string | null
+          workshop_id: string
         }[]
       }
       get_workshops_week: {
