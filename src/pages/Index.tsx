@@ -1,6 +1,7 @@
 import { useState, useCallback, memo } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { RegistrationForm } from "@/components/RegistrationForm";
+import { RegistrationWizardV2 } from "@/components/registration/v2/RegistrationWizardV2";
 import { RegistrationSuccess } from "@/components/registration/RegistrationSuccess";
 import { toast } from "sonner";
 import { FormData } from "@/types/registration";
@@ -31,7 +32,7 @@ const Index = memo(() => {
   const {
     triggerHaptic
   } = useHapticFeedback();
-  const { workshopsV2 } = useFeatureFlags();
+  const { workshopsV2, registrationV2 } = useFeatureFlags();
   const calendarVariant: 'v1' | 'v2' = workshopsV2 ? 'v2' : 'v1';
   
 // Feature flag for massive workshops redesign
@@ -142,7 +143,22 @@ const [step, setStep] = useState<"calendar" | "registration" | "success">("calen
           )}
           {step === 'registration' && selectedWorkshop && (
             <WorkshopsSectionV2>
-              <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
+              {registrationV2 ? (
+                <RegistrationWizardV2 
+                  workshop={selectedWorkshop} 
+                  onSubmit={async (data) => {
+                    const { RegistrationService } = await import("@/services/registrationService");
+                    return RegistrationService.createRegistration({
+                      workshop_id: data.workshop_id,
+                      formData: data as any,
+                      user_id: user?.id,
+                    });
+                  }}
+                  onComplete={handleRegistrationComplete} 
+                />
+              ) : (
+                <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
+              )}
             </WorkshopsSectionV2>
           )}
           {step === 'success' && selectedWorkshop && registrationData && (
@@ -160,7 +176,22 @@ const [step, setStep] = useState<"calendar" | "registration" | "success">("calen
         <WorkshopsSectionV2>
           {step === 'calendar' && <WorkshopCalendar onSelect={handleWorkshopSelect} variant={calendarVariant} />}
           {step === 'registration' && selectedWorkshop && (
-            <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
+            registrationV2 ? (
+              <RegistrationWizardV2 
+                workshop={selectedWorkshop} 
+                onSubmit={async (data) => {
+                  const { RegistrationService } = await import("@/services/registrationService");
+                  return RegistrationService.createRegistration({
+                    workshop_id: data.workshop_id,
+                    formData: data as any,
+                    user_id: user?.id,
+                  });
+                }}
+                onComplete={handleRegistrationComplete} 
+              />
+            ) : (
+              <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
+            )
           )}
           {step === 'success' && selectedWorkshop && registrationData && (
             <RegistrationSuccess

@@ -13,7 +13,7 @@ export function useFeatureFlags(): FeatureFlags {
   const ctx = useContext(FeatureFlagsContext);
   if (!ctx) {
     // Sensible defaults if provider is missing.
-    return { workshopsV2: true };
+    return { workshopsV2: true, registrationV2: true };
   }
   return ctx;
 }
