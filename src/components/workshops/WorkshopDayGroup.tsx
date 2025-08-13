@@ -34,17 +34,22 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
         </div>
         <hr className="border-t border-[hsl(var(--border))] opacity-50" />
       </div>
-      <div className="flex flex-wrap gap-4">
+      <div 
+        className="flex gap-4 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[hsl(var(--border))] pb-2"
+        style={{
+          maskImage: 'linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%)'
+        }}
+      >
         {sortedWorkshops.map((w) => (
           <span
             key={`${w.id}-chip`}
-            className="rounded-pill px-3 py-1 border border-[hsl(var(--border))] text-sm text-muted-foreground"
+            className="rounded-pill px-6 py-3 border border-[hsl(var(--border))] text-sm text-muted-foreground whitespace-nowrap flex-shrink-0"
           >
             {format(w.date, "HH:mm")} {w.name}
           </span>
         ))}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-6 md:gap-8 min-w-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-6 md:gap-8 min-w-0 max-w-screen-xl mx-auto">
         {sortedWorkshops.map((workshop, index) => (
           <WorkshopCardV2
             key={workshop.id}
