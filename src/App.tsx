@@ -60,9 +60,14 @@ const LoadingSpinner = (): JSX.Element => (
 function App(): JSX.Element {
   // Configure React Query with optimized settings for performance
   const queryClient = appQueryClient;
+  
+  // Force re-render cache bust for spacing updates
+  const spacingVersion = "v2.0-unsubtle-spacing";
+  
   try {
     console.info('[Debug] React version', React.version);
     console.info('[Debug] QueryClient ready', !!queryClient);
+    console.info('[Debug] Spacing version', spacingVersion);
   } catch {}
 
   return (
