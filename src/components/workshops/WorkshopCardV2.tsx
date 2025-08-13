@@ -32,27 +32,27 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
 
   return (
     <div
-      className="wk-card p-5 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-md motion-reduce:transition-none motion-reduce:transform-none h-full flex flex-col rounded-2xl"
+      className="wk-card p-6 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-md motion-reduce:transition-none motion-reduce:transform-none h-full flex flex-col rounded-2xl"
       onClick={handleCardClick}
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Meta row */}
-      <div className="text-[12px] text-[hsl(var(--text-muted))] mb-2">
+      <div className="text-[12px] text-[hsl(var(--text-muted))] mb-3">
         {format(workshop.date, "EEE, MMM d")} • {workshop.time} • {workshop.skillLevel} • {workshop.category}
       </div>
 
       {/* Title */}
-      <h3 className="font-medium text-xl text-[hsl(var(--text-strong))] leading-tight mb-2">
+      <h3 className="font-medium text-xl text-[hsl(var(--text-strong))] leading-tight mb-3">
         {workshop.name}
       </h3>
 
       {/* Description */}
-      <p className="text-[hsl(var(--text-muted))] leading-relaxed text-sm line-clamp-3 mb-4">
+      <p className="text-[hsl(var(--text-muted))] leading-relaxed text-sm line-clamp-3 mb-5">
         {workshop.description}
       </p>
 
       {/* Capacity */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         <div className="flex items-center justify-between text-sm">
           <span className="text-[hsl(var(--text-muted))]">Available spots</span>
           <span className="font-medium text-[hsl(var(--text-strong))]">
@@ -65,7 +65,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       </div>
 
       {/* Footer - aligned action */}
-      <div className="mt-auto pt-4 border-t border-[hsl(var(--border))] flex justify-end">
+      <div className="mt-auto pt-5 border-t border-[hsl(var(--border))] flex justify-end">
         {workshop.spotsRemaining > 0 ? (
           <Button
             variant="ios"

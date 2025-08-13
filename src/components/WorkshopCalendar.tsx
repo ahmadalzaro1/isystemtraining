@@ -119,22 +119,22 @@ export const WorkshopCalendar = memo(({ onSelect, variant = 'v2' }: WorkshopCale
       onResetFilters={resetFilters}
       onSelectDay={(d) => document.getElementById(`day-${d}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
     >
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-10">
         <WorkshopRecommender 
           workshops={workshops}
           onSelect={onSelect}
         />
       </div>
       <div 
-        className={`grid gap-6 bg-surface rounded-xl2 hairline ${
+        className={`grid gap-8 bg-surface rounded-xl2 hairline ${
           prefersReducedMotion ? '' : `transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`
         }`}
         role="region"
         aria-label="Workshop listings"
       >
         {(isLoading || isTransitioning) ? (
-          <div className="p-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-4 md:gap-6 min-w-0">
+          <div className="p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-6 md:gap-8 min-w-0">
               {Array.from({ length: 6 }).map((_, i) => (
                 <WorkshopSkeleton key={i} />
               ))}

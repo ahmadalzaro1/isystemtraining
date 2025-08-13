@@ -20,8 +20,8 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
   });
 
   return (
-    <div id={`day-${date}`} className="space-y-4 animate-fade-up">
-      <div className="flex items-center gap-3">
+    <div id={`day-${date}`} className="space-y-6 md:space-y-8 animate-fade-up">
+      <div className="flex items-center gap-4">
         <h2 className="text-2xl font-medium text-[hsl(var(--text-strong))]">
           {format(new Date(date), "EEEE, MMMM d")}
         </h2>
@@ -31,7 +31,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
           </span>
         )}
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-4">
         {sortedWorkshops.map((w) => (
           <span
             key={`${w.id}-chip`}
@@ -41,7 +41,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
           </span>
         ))}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-4 md:gap-6 min-w-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr gap-6 md:gap-8 min-w-0">
         {sortedWorkshops.map((workshop, index) => (
           <WorkshopCardV2
             key={workshop.id}
