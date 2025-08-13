@@ -60,7 +60,7 @@ export const ContactStepV2: React.FC<ContactStepV2Props> = ({ form, data }) => {
                 <Input
                   {...field}
                   type="tel"
-                  placeholder="+962 7X XXX XXXX"
+                  placeholder="07XXXXXXXX"
                   className={cn(
                     "h-14 pl-12 pr-4 text-ios-body bg-surface-2 border-0",
                     "rounded-xl2 focus:ring-2 focus:ring-accent-a/30",
