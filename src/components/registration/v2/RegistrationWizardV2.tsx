@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -70,6 +70,7 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
   const prefersReducedMotion = useReducedMotion();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<RegistrationFormDataV2>({
     resolver: zodResolver(registrationSchemaV2),
@@ -103,25 +104,29 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
   const progress = ((currentStep + 1) / STEPS.length) * 100;
   const currentStepData = STEPS[currentStep];
 
-  const validateCurrentStep = async (): Promise<boolean> => {
+  const validateCurrentStep = useCallback(async (): Promise<boolean> => {
     const fieldsToValidate = getFieldsForStep(currentStep);
     return await form.trigger(fieldsToValidate);
-  };
+  }, [currentStep, form]);
 
-  const handleNext = async () => {
+  const handleNext = useCallback(async () => {
     const isValid = await validateCurrentStep();
     if (isValid && currentStep < STEPS.length - 1) {
-      setCurrentStep(prev => prev + 1);
+      startTransition(() => {
+        setCurrentStep(prev => prev + 1);
+      });
     }
-  };
+  }, [validateCurrentStep, currentStep, startTransition]);
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
+      startTransition(() => {
+        setCurrentStep(prev => prev - 1);
+      });
     }
-  };
+  }, [currentStep, startTransition]);
 
-  const handleSubmit = async (data: RegistrationFormDataV2) => {
+  const handleSubmit = useCallback(async (data: RegistrationFormDataV2) => {
     setIsSubmitting(true);
     try {
       const registration = await onSubmit({ ...data, workshop_id: workshop.id });
@@ -133,7 +138,7 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [onSubmit, workshop.id, onComplete]);
 
   const slideAnimation = useMemo(() => {
     if (prefersReducedMotion) return {};
@@ -233,7 +238,7 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
         onNext={handleNext}
         onPrevious={handlePrevious}
         onSubmit={form.handleSubmit(handleSubmit)}
-        isSubmitting={isSubmitting}
+        isSubmitting={isSubmitting || isPending}
         isValid={form.formState.isValid}
       />
     </div>
