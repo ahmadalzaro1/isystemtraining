@@ -32,6 +32,7 @@ const registrationSchemaV2 = z.object({
   phone: z.string().min(1, 'Phone number is required').regex(/^07[789]\d{7}$/, 'Please enter a valid Jordanian mobile number (07XXXXXXXX)'),
   contactPreference: z.enum(['email', 'phone', 'sms', 'whatsapp']),
   receiveUpdates: z.boolean().default(true),
+  platformSwitch: z.enum(['windows', 'android', 'linux', 'other']).optional(),
 
   // Preferences (Step 3)
   mainTasks: z.array(z.string()).min(1, 'Please select at least one task'),
@@ -49,7 +50,7 @@ type RegistrationFormDataV2 = z.infer<typeof registrationSchemaV2>;
 
 interface RegistrationWizardV2Props {
   workshop: { id: string; title: string };
-  onSubmit: (data: RegistrationFormDataV2 & { workshop_id: string }) => Promise<any>;
+  onSubmit: (data: RegistrationFormDataV2 & { workshop_id: string; formData: any }) => Promise<any>;
   onComplete: (data: any, registration?: any) => void;
 }
 
@@ -128,7 +129,23 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
   const handleSubmit = useCallback(async (data: RegistrationFormDataV2) => {
     setIsSubmitting(true);
     try {
-      const registration = await onSubmit({ ...data, workshop_id: workshop.id });
+      // Convert V2 form data to legacy FormData format for the service
+      const legacyFormData = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        userType: data.userType,
+        platformSwitch: data.platformSwitch,
+        mainTasks: data.mainTasks,
+        learningStyles: data.learningStyles,
+        workshopTopics: data.workshopTopics,
+        otherTopics: data.otherTopics,
+        paidTrainingInterest: data.paidTrainingInterest,
+        contactPreference: data.contactPreference,
+        receiveUpdates: data.receiveUpdates,
+      };
+
+      const registration = await onSubmit({ ...data, workshop_id: workshop.id, formData: legacyFormData });
       // Clear auto-saved data on successful submission
       localStorage.removeItem(`registration-v2-${workshop.id}`);
       onComplete(data, registration);

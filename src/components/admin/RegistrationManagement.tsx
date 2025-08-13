@@ -57,6 +57,24 @@ const RegistrationManagement: React.FC = () => {
     );
   }
 
+  // Fetch registration responses for detailed view
+  const { data: registrationResponses = [] } = useQuery({
+    queryKey: ['registration-responses'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('registration_responses')
+        .select('*')
+        .eq('step_name', 'complete_registration');
+
+      if (error) {
+        console.error('Error fetching registration responses:', error);
+        return [];
+      }
+
+      return data as any[];
+    },
+  });
+
   const { data: registrations = [], isLoading } = useQuery({
     queryKey: ['all-registrations'],
     queryFn: async () => {
@@ -363,6 +381,90 @@ const RegistrationManagement: React.FC = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Detailed Registration Responses */}
+                {(() => {
+                  const userResponse = registrationResponses.find(
+                    response => response.user_id === selectedRegistration.user_id
+                  );
+                  
+                  if (!userResponse) {
+                    return (
+                      <div>
+                        <h4 className="font-semibold mb-2">Registration Form Responses</h4>
+                        <p className="text-sm text-muted-foreground">No detailed form responses available for this registration.</p>
+                      </div>
+                    );
+                  }
+
+                  const responseData = userResponse.response_data;
+                  
+                  return (
+                    <div className="space-y-4">
+                      <h4 className="font-semibold mb-2">Registration Form Responses</h4>
+                      
+                      {/* Personal Information */}
+                      {responseData.personal_info && (
+                        <div>
+                          <h5 className="font-medium mb-2 text-sm">Personal Information</h5>
+                          <div className="space-y-1 text-sm text-muted-foreground">
+                            <div><strong>User Type:</strong> {responseData.personal_info.userType || 'N/A'}</div>
+                            {responseData.personal_info.platformSwitch && (
+                              <div><strong>Platform:</strong> {responseData.personal_info.platformSwitch}</div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Contact Preferences */}
+                      {responseData.contact_preferences && (
+                        <div>
+                          <h5 className="font-medium mb-2 text-sm">Contact Preferences</h5>
+                          <div className="space-y-1 text-sm text-muted-foreground">
+                            <div><strong>Preferred Contact:</strong> {responseData.contact_preferences.contactPreference || 'N/A'}</div>
+                            <div><strong>Receive Updates:</strong> {responseData.contact_preferences.receiveUpdates ? 'Yes' : 'No'}</div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Learning Preferences */}
+                      {responseData.learning_preferences && (
+                        <div>
+                          <h5 className="font-medium mb-2 text-sm">Learning Preferences</h5>
+                          <div className="space-y-1 text-sm text-muted-foreground">
+                            {responseData.learning_preferences.mainTasks && (
+                              <div><strong>Main Tasks:</strong> {responseData.learning_preferences.mainTasks.join(', ')}</div>
+                            )}
+                            {responseData.learning_preferences.learningStyles && (
+                              <div><strong>Learning Styles:</strong> {responseData.learning_preferences.learningStyles.join(', ')}</div>
+                            )}
+                            {responseData.learning_preferences.paidTrainingInterest && (
+                              <div><strong>Paid Training Interest:</strong> {responseData.learning_preferences.paidTrainingInterest}</div>
+                            )}
+                            {responseData.learning_preferences.workshopTopics && responseData.learning_preferences.workshopTopics.length > 0 && (
+                              <div>
+                                <strong>Workshop Topics:</strong>
+                                <div className="mt-1 flex flex-wrap gap-1">
+                                  {responseData.learning_preferences.workshopTopics
+                                    .filter((topic: any) => topic.selected)
+                                    .map((topic: any, index: number) => (
+                                      <Badge key={index} variant="outline" className="text-xs">
+                                        {topic.topic}
+                                      </Badge>
+                                    ))
+                                  }
+                                </div>
+                              </div>
+                            )}
+                            {responseData.learning_preferences.otherTopics && (
+                              <div><strong>Other Topics:</strong> {responseData.learning_preferences.otherTopics}</div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
             </ScrollArea>
           )}

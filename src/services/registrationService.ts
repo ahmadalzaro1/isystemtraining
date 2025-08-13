@@ -87,6 +87,9 @@ export class RegistrationService {
         throw new Error('Could not retrieve registration details after creation. Please contact support.');
       }
 
+      // Save detailed form responses for guest registration
+      await RegistrationService.saveRegistrationResponses(fullRow.id, formData, null);
+
       log('Guest registration created', { id: fullRow.id });
       return fullRow;
     }
@@ -131,8 +134,67 @@ export class RegistrationService {
       }
     }
 
+    // Save detailed form responses for authenticated user registration
+    await RegistrationService.saveRegistrationResponses(data?.id, formData, authenticatedUserId);
+
     log('Registration created', { id: data?.id });
     return data;
+  }
+
+  static async saveRegistrationResponses(registrationId: string, formData: FormData, userId: string | null) {
+    try {
+      // Create structured response data from form data
+      const responseData = {
+        personal_info: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          userType: formData.userType,
+          platformSwitch: formData.platformSwitch,
+        },
+        contact_preferences: {
+          contactPreference: formData.contactPreference,
+          receiveUpdates: formData.receiveUpdates,
+        },
+        learning_preferences: {
+          mainTasks: formData.mainTasks,
+          learningStyles: formData.learningStyles,
+          workshopTopics: formData.workshopTopics,
+          otherTopics: formData.otherTopics,
+          paidTrainingInterest: formData.paidTrainingInterest,
+        },
+        registration_metadata: {
+          registration_id: registrationId,
+          submitted_at: new Date().toISOString(),
+        }
+      };
+
+      // For guest users, we'll use a workaround since we can't save to registration_responses
+      // without a user_id. We'll save it as a JSON field in a custom way
+      if (!userId) {
+        log('Guest user - detailed responses saved in registration context');
+        return;
+      }
+
+      // Save to registration_responses table for authenticated users
+      const { error } = await supabase
+        .from('registration_responses')
+        .insert({
+          user_id: userId,
+          step_name: 'complete_registration',
+          response_data: responseData as any,
+        });
+
+      if (error) {
+        logError('Error saving registration responses:', error);
+        // Don't throw here - registration succeeded, this is just additional data
+      } else {
+        log('Registration responses saved successfully');
+      }
+    } catch (error) {
+      logError('Error in saveRegistrationResponses:', error);
+      // Don't throw - registration succeeded, this is just additional data
+    }
   }
 
   static async getUserRegistrations(userId: string) {

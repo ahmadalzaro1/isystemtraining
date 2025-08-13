@@ -150,7 +150,7 @@ const [step, setStep] = useState<"calendar" | "registration" | "success">("calen
                     const { RegistrationService } = await import("@/services/registrationService");
                     return RegistrationService.createRegistration({
                       workshop_id: data.workshop_id,
-                      formData: data as any,
+                      formData: data.formData,
                       user_id: user?.id,
                     });
                   }}
@@ -183,7 +183,7 @@ const [step, setStep] = useState<"calendar" | "registration" | "success">("calen
                   const { RegistrationService } = await import("@/services/registrationService");
                   return RegistrationService.createRegistration({
                     workshop_id: data.workshop_id,
-                    formData: data as any,
+                    formData: data.formData,
                     user_id: user?.id,
                   });
                 }}
