@@ -57,14 +57,17 @@ const WorkshopManagement: React.FC = () => {
 
   const createMutation = useMutation({
     mutationFn: (data: CreateWorkshopData) => WorkshopService.createWorkshop(data),
-    onSuccess: () => {
+    onSuccess: (workshop) => {
+      console.log('Workshop created successfully:', workshop);
       queryClient.invalidateQueries({ queryKey: ['workshops'] });
       toast.success('Workshop created successfully');
       setIsDialogOpen(false);
+      form.reset();
     },
     onError: (error) => {
-      toast.error('Failed to create workshop');
-      console.error('Create workshop error:', error);
+      console.error('Create workshop error details:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create workshop';
+      toast.error(`Failed to create workshop: ${errorMessage}`);
     },
   });
 
@@ -110,6 +113,8 @@ const WorkshopManagement: React.FC = () => {
   });
 
   const onSubmit = (data: WorkshopFormData) => {
+    console.log('Workshop form submitted:', data);
+    
     const workshopData: CreateWorkshopData = {
       name: data.name,
       date: new Date(data.date),
@@ -121,9 +126,13 @@ const WorkshopManagement: React.FC = () => {
       instructor: data.instructor,
     };
 
+    console.log('Workshop data prepared for submission:', workshopData);
+
     if (selectedWorkshop) {
+      console.log('Updating existing workshop:', selectedWorkshop.id);
       updateMutation.mutate({ id: selectedWorkshop.id, data: workshopData });
     } else {
+      console.log('Creating new workshop');
       createMutation.mutate(workshopData);
     }
   };

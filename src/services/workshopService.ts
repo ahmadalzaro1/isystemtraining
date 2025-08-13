@@ -75,26 +75,47 @@ export class WorkshopService {
   }
 
   static async createWorkshop(workshopData: CreateWorkshopData): Promise<Workshop> {
+    console.log('Creating workshop with data:', workshopData);
+    
+    const insertData = {
+      name: workshopData.name,
+      date: workshopData.date.toISOString().split('T')[0],
+      time: workshopData.time,
+      description: workshopData.description || null,
+      spots_remaining: workshopData.spots_remaining,
+      skill_level: workshopData.skill_level,
+      category: workshopData.category,
+      instructor: workshopData.instructor,
+    };
+
+    console.log('Insert data prepared:', insertData);
+
     const { data, error } = await supabase
       .from('workshops')
-      .insert({
-        name: workshopData.name,
-        date: workshopData.date.toISOString().split('T')[0],
-        time: workshopData.time,
-        description: workshopData.description || null,
-        spots_remaining: workshopData.spots_remaining,
-        skill_level: workshopData.skill_level,
-        category: workshopData.category,
-        instructor: workshopData.instructor,
-      })
+      .insert(insertData)
       .select()
       .single();
 
     if (error) {
-      console.error('Error creating workshop:', error);
-      throw new Error('Failed to create workshop');
+      console.error('Database error creating workshop:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint
+      });
+      
+      if (error.code === '23505') {
+        throw new Error('A workshop with this name already exists');
+      } else if (error.code === '23514') {
+        throw new Error('Invalid workshop data provided');
+      } else if (error.message.includes('uuid')) {
+        throw new Error('Invalid workshop identifier format');
+      } else {
+        throw new Error(`Failed to create workshop: ${error.message}`);
+      }
     }
 
+    console.log('Workshop created in database:', data);
     return this.transformDatabaseWorkshop(data);
   }
 
