@@ -52,7 +52,7 @@ export const ContactStepV2: React.FC<ContactStepV2Props> = ({ form, data }) => {
         render={({ field }) => (
           <FormItem className="space-y-3">
             <FormLabel className="text-ios-callout font-sf-pro font-medium text-text">
-              Phone Number (Optional)
+              Phone Number
             </FormLabel>
             <FormControl>
               <div className="relative">
@@ -60,7 +60,7 @@ export const ContactStepV2: React.FC<ContactStepV2Props> = ({ form, data }) => {
                 <Input
                   {...field}
                   type="tel"
-                  placeholder="+1 (555) 123-4567"
+                  placeholder="+962 7X XXX XXXX"
                   className={cn(
                     "h-14 pl-12 pr-4 text-ios-body bg-surface-2 border-0",
                     "rounded-xl2 focus:ring-2 focus:ring-accent-a/30",

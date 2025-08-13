@@ -29,7 +29,7 @@ const registrationSchemaV2 = z.object({
   }),
 
   // Contact & Platform (Step 2)
-  phone: z.string().optional(),
+  phone: z.string().min(1, 'Phone number is required').regex(/^(\+962|0)7[789]\d{7}$/, 'Please enter a valid Jordanian mobile number'),
   contactPreference: z.enum(['email', 'phone', 'sms', 'whatsapp']),
   platformSwitch: z.enum(['windows', 'android', 'linux', 'other']).optional(),
   receiveUpdates: z.boolean().default(true),
@@ -251,7 +251,7 @@ function getFieldsForStep(step: number): (keyof RegistrationFormDataV2)[] {
     case 0:
       return ['name', 'email', 'userType'];
     case 1:
-      return ['contactPreference'];
+      return ['phone', 'contactPreference'];
     case 2:
       return ['mainTasks', 'learningStyles', 'paidTrainingInterest'];
     case 3:
