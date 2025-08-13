@@ -37,7 +37,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Meta row */}
-      <div className="text-[12px] text-[hsl(var(--text-muted))] mb-3">
+      <div className="text-base text-[hsl(var(--text-muted))] mb-3">
         {format(workshop.date, "EEE, MMM d")} • {workshop.time} • {workshop.skillLevel} • {workshop.category}
       </div>
 
@@ -47,13 +47,13 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       </h3>
 
       {/* Description */}
-      <p className="text-[hsl(var(--text-muted))] leading-relaxed text-sm line-clamp-3 mb-5">
+      <p className="text-[hsl(var(--text-muted))] leading-relaxed text-base line-clamp-3 mb-5">
         {workshop.description}
       </p>
 
       {/* Capacity */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center justify-between text-base">
           <span className="text-[hsl(var(--text-muted))]">Available spots</span>
           <span className="font-medium text-[hsl(var(--text-strong))]">
             {workshop.spotsRemaining} / {totalSeats}
@@ -69,8 +69,8 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
         {workshop.spotsRemaining > 0 ? (
           <Button
             variant="ios"
-            size="sm"
-            className="min-w-[120px]"
+            size="default"
+            className="min-w-[120px] w-full sm:w-auto"
             onClick={handleRegister}
             aria-label="Register for this workshop"
           >
@@ -79,8 +79,8 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
         ) : (
           <Button
             variant="outline"
-            size="sm"
-            className="min-w-[120px]"
+            size="default"
+            className="min-w-[120px] w-full sm:w-auto"
             onClick={handleWaitlist}
             aria-label="Join the waitlist for this workshop"
           >

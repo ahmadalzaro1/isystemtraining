@@ -17,7 +17,7 @@ export function WorkshopsSectionV2({
     <section id="workshops" data-qa="workshops-section" className="section-gap-lg container-page" aria-labelledby="workshops-heading">
       <h2
         id="workshops-heading"
-        className="text-[28px] leading-[32px] mb-6 text-[hsl(var(--text-strong))]"
+        className="text-3xl leading-[36px] mb-6 text-[hsl(var(--text-strong))]"
       >
         {title}
       </h2>

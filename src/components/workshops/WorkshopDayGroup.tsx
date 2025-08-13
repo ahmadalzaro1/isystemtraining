@@ -26,7 +26,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
           {format(new Date(date), "EEEE, MMMM d")}
         </h2>
         {today && (
-          <span className="rounded-full bg-[hsl(var(--accent-a))/0.12] text-[hsl(var(--accent-a))] px-2 py-0.5 text-[12px]">
+          <span className="rounded-full bg-[hsl(var(--accent-a))/0.12] text-[hsl(var(--accent-a))] px-3 py-1 text-sm">
             Today
           </span>
         )}
@@ -35,7 +35,7 @@ export const WorkshopDayGroup = ({ date, workshops, onSelect }: WorkshopDayGroup
         {sortedWorkshops.map((w) => (
           <span
             key={`${w.id}-chip`}
-            className="rounded-pill px-2 py-0.5 border border-[hsl(var(--border))] text-[12px] text-muted-foreground"
+            className="rounded-pill px-3 py-1 border border-[hsl(var(--border))] text-sm text-muted-foreground"
           >
             {format(w.date, "HH:mm")} {w.name}
           </span>
