@@ -85,20 +85,37 @@ export const UserManagement = () => {
   });
 
   const handleToggleAdmin = async (user: UserProfile) => {
-    // Prevent self-demotion
-    if (user.user_id === currentUser?.id && user.is_admin) {
+    // Use secure admin status update function
+    try {
+      const { error } = await supabase.rpc('update_user_admin_status', {
+        target_user_id: user.user_id,
+        new_admin_status: !user.is_admin,
+        requester_ip: null, // Could be enhanced to capture real IP
+        requester_user_agent: navigator.userAgent
+      });
+
+      if (error) {
+        toast({
+          title: "Security Error",
+          description: error.message,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Refresh data on success
+      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
       toast({
-        title: "Action Not Allowed",
-        description: "You cannot remove your own admin privileges.",
+        title: "Success",
+        description: `User admin status ${user.is_admin ? 'revoked' : 'granted'} successfully.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update admin status. This action has been logged.",
         variant: "destructive",
       });
-      return;
     }
-
-    updateUserMutation.mutate({
-      userId: user.id,
-      updates: { is_admin: !user.is_admin }
-    });
   };
 
   const handleEditUser = (user: UserProfile) => {

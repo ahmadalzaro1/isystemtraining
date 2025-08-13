@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, BookOpen, BarChart3, Calendar, Settings, UserCheck } from 'lucide-react';
+import { Users, BookOpen, BarChart3, Calendar, Settings, UserCheck, Shield } from 'lucide-react';
 
 import { UserManagement } from '@/components/admin/UserManagement';
 import { CourseManagement } from '@/components/admin/CourseManagement';
@@ -12,6 +12,7 @@ import { CategoryManagement } from '@/components/admin/CategoryManagement';
 import { SubjectManagement } from '@/components/admin/SubjectManagement';
 import { RegistrationStepManagement } from '@/components/admin/RegistrationStepManagement';
 import { CampaignManagement } from '@/components/admin/CampaignManagement';
+import { AdminAuditLog } from '@/components/admin/AdminAuditLog';
 
 const Admin = () => {
   return (
@@ -23,7 +24,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="workshops" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
             <TabsTrigger value="workshops" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               <span className="hidden sm:inline">Workshops</span>
@@ -43,6 +44,10 @@ const Admin = () => {
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="security" className="flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              <span className="hidden sm:inline">Security</span>
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
@@ -68,6 +73,10 @@ const Admin = () => {
 
           <TabsContent value="analytics">
             <AnalyticsDashboard />
+          </TabsContent>
+
+          <TabsContent value="security">
+            <AdminAuditLog />
           </TabsContent>
 
           <TabsContent value="settings">

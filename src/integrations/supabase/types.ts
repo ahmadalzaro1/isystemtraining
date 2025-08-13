@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          admin_user_id: string
+          created_at: string
+          details: Json | null
+          id: string
+          ip_address: unknown | null
+          target_user_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          admin_user_id: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          target_user_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          admin_user_id?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          target_user_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       analytics_events: {
         Row: {
           created_at: string
@@ -669,6 +702,19 @@ export type Database = {
           confirmation_code: string
         }[]
       }
+      get_admin_audit_logs: {
+        Args: { limit_count?: number; offset_count?: number }
+        Returns: {
+          id: string
+          admin_email: string
+          target_email: string
+          action: string
+          details: Json
+          ip_address: unknown
+          user_agent: string
+          created_at: string
+        }[]
+      }
       get_registration_by_code: {
         Args: { p_code: string }
         Returns: {
@@ -711,6 +757,15 @@ export type Database = {
       link_guest_regs_to_user: {
         Args: { p_email: string }
         Returns: number
+      }
+      update_user_admin_status: {
+        Args: {
+          target_user_id: string
+          new_admin_status: boolean
+          requester_ip?: unknown
+          requester_user_agent?: string
+        }
+        Returns: boolean
       }
     }
     Enums: {
