@@ -14,6 +14,7 @@ import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import VanillaBgCanvas from '@/webgl/VanillaBgCanvas';
 import { WorkshopsSectionV2 } from '@/components/workshops/WorkshopsSectionV2';
 import { WorkshopsSectionMassiveV2 } from '@/components/workshops/WorkshopsSectionMassiveV2';
+import { WorkshopsSectionV4 } from '@/components/workshops/WorkshopsSectionV4';
 import { useFeatureFlags } from "@/contexts/FeatureFlagsContext";
 const Index = memo(() => {
   usePerformanceMonitor('Index');
@@ -103,7 +104,7 @@ const Index = memo(() => {
       {/* Upcoming dates (dynamic) */}
       {useMassiveWorkshopsDesign ? (
         <>
-          {step === 'calendar' && <WorkshopsSectionMassiveV2 onSelect={handleWorkshopSelect} />}
+          {step === 'calendar' && <WorkshopsSectionV4 workshops={[]} onSelect={handleWorkshopSelect} />}
           {step === 'registration' && selectedWorkshop && (
             <WorkshopsSectionV2>
               <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />

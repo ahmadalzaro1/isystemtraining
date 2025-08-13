@@ -61,9 +61,9 @@ function App(): JSX.Element {
   // Configure React Query with optimized settings for performance
   const queryClient = appQueryClient;
   
-  // Feature flag for massive workshops redesign
+  // Feature flag for V4 workshops redesign - clean minimal design
   const useMassiveWorkshopsDesign = true;
-  const spacingVersion = "v3.0-massive-workshops";
+  const spacingVersion = "v4.0-clean-minimal-workshops";
   
   try {
     console.info('[Debug] React version', React.version);
