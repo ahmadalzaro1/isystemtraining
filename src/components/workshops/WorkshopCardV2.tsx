@@ -32,7 +32,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
 
   return (
     <div
-      className="wk-card p-6 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-md motion-reduce:transition-none motion-reduce:transform-none h-full flex flex-col rounded-2xl"
+      className="wk-card p-6 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-lg motion-reduce:transition-none motion-reduce:transform-none h-full flex flex-col rounded-2xl bg-gradient-to-b from-[hsl(var(--surface))] to-[hsl(var(--surface-2))] shadow-md"
       onClick={handleCardClick}
       style={{ animationDelay: `${index * 0.1}s` }}
     >

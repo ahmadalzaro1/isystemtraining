@@ -14,7 +14,12 @@ export function WorkshopsSectionV2({
   children,
 }: WorkshopsSectionV2Props) {
   return (
-    <section id="workshops" data-qa="workshops-section" className="section-gap-lg container-page" aria-labelledby="workshops-heading">
+    <section 
+      id="workshops" 
+      data-qa="workshops-section" 
+      className="section-gap-lg container-page bg-gradient-to-b from-[hsl(var(--background))] to-[hsl(var(--surface))/0.3]" 
+      aria-labelledby="workshops-heading"
+    >
       <h2
         id="workshops-heading"
         className="text-3xl leading-[36px] mb-6 text-[hsl(var(--text-strong))]"
@@ -24,7 +29,7 @@ export function WorkshopsSectionV2({
       {subtitle ? (
         <p className="text-[hsl(var(--text-muted))] mb-5">{subtitle}</p>
       ) : null}
-      <div className="card p-0 overflow-hidden min-w-0">{children}</div>
+      <div className="card p-0 overflow-hidden min-w-0 shadow-lg">{children}</div>
     </section>
   );
 }

@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const WorkshopSkeleton: React.FC = () => {
   return (
-    <div className="wk-card p-6 h-full flex flex-col">
+    <div className="wk-card p-6 h-full flex flex-col bg-gradient-to-b from-[hsl(var(--surface))] to-[hsl(var(--surface-2))] shadow-md">
       {/* Meta row */}
       <Skeleton className="h-4 w-2/3 mb-3" />
 
