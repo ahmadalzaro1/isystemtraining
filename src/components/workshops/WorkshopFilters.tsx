@@ -73,15 +73,15 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
             onValueChange={(value) => 
               onChange({ ...filters, skillLevel: value as WorkshopFilters["skillLevel"] })
             }
-            className="flex gap-2 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[hsl(var(--border))] pb-2"
+            className="flex gap-4 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[hsl(var(--border))] pb-4"
             style={{
-              maskImage: 'linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%)'
+              maskImage: 'linear-gradient(to right, transparent 0%, black 24px, black calc(100% - 24px), transparent 100%)'
             }}
           >
             {["All", "Beginner", "Intermediate", "Advanced"].map((level) => (
               <Label
                 key={level}
-              className={`px-6 py-3 rounded-full bg-surface2 border border-[hsl(var(--border))] shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus whitespace-nowrap flex-shrink-0 ${
+              className={`px-8 py-4 text-lg rounded-full bg-surface2 border border-[hsl(var(--border))] shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus whitespace-nowrap flex-shrink-0 ${
                   filters.skillLevel === level 
                     ? "border-[hsl(var(--accent-a))] bg-[hsl(var(--accent-a))/0.08] text-[hsl(var(--accent-a))]" 
                     : ""
@@ -98,16 +98,16 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
         <div className="space-y-2">
           <Label className="text-sm font-medium text-text-muted">Category</Label>
           <div 
-            className="flex gap-2 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[hsl(var(--border))] pb-2"
+            className="flex gap-4 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[hsl(var(--border))] pb-4"
             style={{
-              maskImage: 'linear-gradient(to right, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%)'
+              maskImage: 'linear-gradient(to right, transparent 0%, black 24px, black calc(100% - 24px), transparent 100%)'
             }}
           >
             {categories.map(({ value, label }) => (
               <button
                 key={value}
                 onClick={() => handleCategoryClick(value)}
-                 className={`px-6 py-3 rounded-full bg-surface2 border border-[hsl(var(--border))] shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus whitespace-nowrap flex-shrink-0 ${
+                 className={`px-8 py-4 text-lg rounded-full bg-surface2 border border-[hsl(var(--border))] shadow-elev-1 hover:shadow-elev-2 transition duration-ios ease-ios focus-visible:shadow-focus whitespace-nowrap flex-shrink-0 ${
                     filters.category === value 
                       ? "border-[hsl(var(--accent-a))] bg-[hsl(var(--accent-a))/0.08] text-[hsl(var(--accent-a))]" 
                       : ""
