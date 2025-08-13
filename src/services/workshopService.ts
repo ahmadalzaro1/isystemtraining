@@ -28,17 +28,37 @@ export interface CreateWorkshopData {
 
 export class WorkshopService {
   static async getWorkshops(): Promise<Workshop[]> {
-    const { data, error } = await supabase
-      .from('workshops')
-      .select('*')
-      .order('date', { ascending: true });
+    // Use RPC with security definer to avoid RLS issues and fetch a default window
+    const today = new Date();
+    const p_start = today.toISOString().slice(0, 10);
+    const end = new Date(today);
+    end.setDate(end.getDate() + 45); // next ~6 weeks
+    const p_end = end.toISOString().slice(0, 10);
+
+    const { data, error } = await supabase.rpc('get_workshops_week', {
+      p_start,
+      p_end,
+      p_levels: null,
+      p_categories: null,
+      p_query: null,
+    });
 
     if (error) {
-      console.error('Error fetching workshops:', error);
-      throw new Error('Failed to fetch workshops');
+      console.error('Error fetching workshops (RPC default):', error);
+      throw new Error(error.message || 'Failed to fetch workshops');
     }
 
-    return data.map(this.transformDatabaseWorkshop);
+    return (data || []).map((row: any) => ({
+      id: row.id,
+      name: row.name,
+      date: new Date(row.date),
+      time: row.time_text,
+      description: '',
+      spotsRemaining: row.spots_remaining,
+      skillLevel: row.skill_level,
+      category: row.category,
+      instructor: row.instructor,
+    } as Workshop));
   }
 
   static async getWorkshopsWeek(weekStart: Date, weekEnd: Date, filters: WorkshopFilters): Promise<Workshop[]> {

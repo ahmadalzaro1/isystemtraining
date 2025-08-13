@@ -38,7 +38,7 @@ const Index = memo(() => {
 const useMassiveWorkshopsDesign = true;
 
 // Load workshops with React Query
-const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshopsError, refetch } = useQuery({
+const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshopsError, error: workshopsError, refetch } = useQuery({
   queryKey: ['workshops'],
   queryFn: WorkshopService.getWorkshops,
   staleTime: 60000,
@@ -121,7 +121,10 @@ const [step, setStep] = useState<"calendar" | "registration" | "success">("calen
             isWorkshopsError ? (
               <WorkshopsSectionV2 title="Upcoming dates">
                 <div className="p-6">
-                  <p className="text-[hsl(var(--text-muted))] mb-4">We couldn't load workshops. Please try again.</p>
+                  <p className="text-[hsl(var(--text-muted))] mb-2">We couldn't load workshops. Please try again.</p>
+                  {workshopsError && (
+                    <p className="text-sm text-[hsl(var(--text-muted))] mb-4">Details: {(workshopsError as Error).message}</p>
+                  )}
                   <Button variant="secondaryOutline" onClick={() => refetch()}>Retry</Button>
                 </div>
               </WorkshopsSectionV2>
