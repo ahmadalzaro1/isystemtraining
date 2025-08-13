@@ -31,7 +31,6 @@ const registrationSchemaV2 = z.object({
   // Contact & Platform (Step 2)
   phone: z.string().min(1, 'Phone number is required').regex(/^07[789]\d{7}$/, 'Please enter a valid Jordanian mobile number (07XXXXXXXX)'),
   contactPreference: z.enum(['email', 'phone', 'sms', 'whatsapp']),
-  platformSwitch: z.enum(['windows', 'android', 'linux', 'other']).optional(),
   receiveUpdates: z.boolean().default(true),
 
   // Preferences (Step 3)

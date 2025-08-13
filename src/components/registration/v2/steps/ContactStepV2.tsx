@@ -20,15 +20,8 @@ const CONTACT_PREFERENCES = [
   { value: 'whatsapp', label: 'WhatsApp', icon: MessageCircle, description: 'Easy messaging' },
 ];
 
-const PLATFORM_OPTIONS = [
-  { value: 'windows', label: 'Windows', icon: '🪟' },
-  { value: 'android', label: 'Android', icon: '🤖' },
-  { value: 'linux', label: 'Linux', icon: '🐧' },
-  { value: 'other', label: 'Other', icon: '💻' },
-];
 
 export const ContactStepV2: React.FC<ContactStepV2Props> = ({ form, data }) => {
-  const showPlatformSwitch = data?.userType === 'switching';
 
   return (
     <div className="space-y-8">
@@ -134,61 +127,6 @@ export const ContactStepV2: React.FC<ContactStepV2Props> = ({ form, data }) => {
           </FormItem>
         )}
       />
-
-      {/* Platform Switch (Conditional) */}
-      {showPlatformSwitch && (
-        <FormField
-          control={form.control}
-          name="platformSwitch"
-          render={({ field }) => (
-            <FormItem className="space-y-4">
-              <FormLabel className="text-ios-callout font-sf-pro font-medium text-text">
-                What platform are you switching from?
-              </FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  className="grid grid-cols-2 gap-3"
-                >
-                  {PLATFORM_OPTIONS.map((option) => (
-                    <div
-                      key={option.value}
-                      className={cn(
-                        "relative flex items-center space-x-3 p-4 rounded-xl2",
-                        "bg-surface-2 border-2 border-transparent",
-                        "hover:bg-surface cursor-pointer transition-all duration-200",
-                        field.value === option.value && "border-accent-a bg-accent-a/5"
-                      )}
-                    >
-                      <RadioGroupItem 
-                        value={option.value} 
-                        id={`platform-${option.value}`}
-                        className="sr-only"
-                      />
-                      <Label 
-                        htmlFor={`platform-${option.value}`}
-                        className="flex items-center space-x-3 cursor-pointer flex-1"
-                      >
-                        <div className="text-xl">{option.icon}</div>
-                        <div className="text-ios-callout font-sf-pro font-medium text-text">
-                          {option.label}
-                        </div>
-                        {field.value === option.value && (
-                          <div className="w-4 h-4 bg-accent-a rounded-full flex items-center justify-center ml-auto">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full" />
-                          </div>
-                        )}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )}
 
       {/* Updates Preference */}
       <FormField
