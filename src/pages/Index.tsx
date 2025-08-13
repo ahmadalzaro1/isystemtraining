@@ -16,6 +16,10 @@ import { WorkshopsSectionV2 } from '@/components/workshops/WorkshopsSectionV2';
 import { WorkshopsSectionMassiveV2 } from '@/components/workshops/WorkshopsSectionMassiveV2';
 import { WorkshopsSectionV4 } from '@/components/workshops/WorkshopsSectionV4';
 import { useFeatureFlags } from "@/contexts/FeatureFlagsContext";
+import { useQuery } from '@tanstack/react-query';
+import { WorkshopService } from '@/services/workshopService';
+import { WorkshopSkeleton } from '@/components/workshops/WorkshopSkeleton';
+
 const Index = memo(() => {
   usePerformanceMonitor('Index');
   const prefersReducedMotion = useReducedMotion();
@@ -30,9 +34,18 @@ const Index = memo(() => {
   const { workshopsV2 } = useFeatureFlags();
   const calendarVariant: 'v1' | 'v2' = workshopsV2 ? 'v2' : 'v1';
   
-  // Feature flag for massive workshops redesign
-  const useMassiveWorkshopsDesign = true;
-  const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
+// Feature flag for massive workshops redesign
+const useMassiveWorkshopsDesign = true;
+
+// Load workshops with React Query
+const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshopsError, refetch } = useQuery({
+  queryKey: ['workshops'],
+  queryFn: WorkshopService.getWorkshops,
+  staleTime: 60000,
+  refetchOnWindowFocus: false,
+});
+
+const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
   const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
   const [registrationData, setRegistrationData] = useState<FormData | null>(null);
   const [registration, setRegistration] = useState<WorkshopRegistration | null>(null);
@@ -104,7 +117,26 @@ const Index = memo(() => {
       {/* Upcoming dates (dynamic) */}
       {useMassiveWorkshopsDesign ? (
         <>
-          {step === 'calendar' && <WorkshopsSectionV4 workshops={[]} onSelect={handleWorkshopSelect} />}
+          {step === 'calendar' && (
+            isWorkshopsError ? (
+              <WorkshopsSectionV2 title="Upcoming dates">
+                <div className="p-6">
+                  <p className="text-[hsl(var(--text-muted))] mb-4">We couldn't load workshops. Please try again.</p>
+                  <Button variant="secondaryOutline" onClick={() => refetch()}>Retry</Button>
+                </div>
+              </WorkshopsSectionV2>
+            ) : isWorkshopsLoading ? (
+              <WorkshopsSectionV2 title="Upcoming dates">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+                  <WorkshopSkeleton />
+                  <WorkshopSkeleton />
+                  <WorkshopSkeleton />
+                </div>
+              </WorkshopsSectionV2>
+            ) : (
+              <WorkshopsSectionV4 workshops={workshops} onSelect={handleWorkshopSelect} />
+            )
+          )}
           {step === 'registration' && selectedWorkshop && (
             <WorkshopsSectionV2>
               <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
