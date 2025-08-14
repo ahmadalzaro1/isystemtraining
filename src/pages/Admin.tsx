@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, BookOpen, BarChart3, Calendar, Settings, UserCheck, Shield } from 'lucide-react';
+import { useAdminSessionTracking } from '@/hooks/useAdminSessionTracking';
 
 import { UserManagement } from '@/components/admin/UserManagement';
 import { CourseManagement } from '@/components/admin/CourseManagement';
@@ -16,6 +17,9 @@ import { AdminAuditLog } from '@/components/admin/AdminAuditLog';
 import { SecurityManagement } from '@/components/admin/SecurityManagement';
 
 const Admin = () => {
+  // Track admin session for security
+  useAdminSessionTracking();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5">
       <div className="container mx-auto px-4 py-8">

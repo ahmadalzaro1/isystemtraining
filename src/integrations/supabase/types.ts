@@ -47,6 +47,39 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_sessions: {
+        Row: {
+          ended_at: string | null
+          id: string
+          ip_address: unknown | null
+          is_active: boolean
+          last_activity: string
+          session_start: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          ended_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          is_active?: boolean
+          last_activity?: string
+          session_start?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          ended_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          is_active?: boolean
+          last_activity?: string
+          session_start?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       analytics_events: {
         Row: {
           created_at: string
@@ -705,6 +738,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: number
       }
+      anonymize_old_guest_registrations: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       anonymize_user_data: {
         Args: { target_user_id: string }
         Returns: boolean
@@ -820,6 +857,10 @@ export type Database = {
       }
       sanitize_text_input: {
         Args: { input_text: string }
+        Returns: string
+      }
+      track_admin_session: {
+        Args: { p_ip_address?: unknown; p_user_agent?: string }
         Returns: string
       }
       update_user_admin_status: {

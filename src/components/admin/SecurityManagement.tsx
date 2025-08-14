@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Shield, AlertTriangle, Database, Clock, FileText } from 'lucide-react';
+import { anonymizeOldGuestData } from '@/utils/guestDataSecurity';
 
 interface RetentionPolicy {
   id: string;
@@ -50,16 +51,19 @@ export const SecurityManagement: React.FC = () => {
   // Run cleanup mutation
   const cleanupMutation = useMutation({
     mutationFn: async (type: 'guest' | 'analytics') => {
-      const functionName = type === 'guest' 
-        ? 'cleanup_expired_guest_registrations'
-        : 'anonymize_expired_analytics';
-      
-      const { data, error } = await supabase.rpc(functionName);
-      if (error) throw error;
-      return data;
+      if (type === 'guest') {
+        const result = await anonymizeOldGuestData();
+        if (!result.success) throw new Error(result.error);
+        return result.recordsAnonymized;
+      } else {
+        const { data, error } = await supabase.rpc('cleanup_expired_analytics_data');
+        if (error) throw error;
+        return data;
+      }
     },
-    onSuccess: (data, type) => {
-      toast.success(`Cleanup completed: ${data} records processed`);
+    onSuccess: (recordsProcessed, type) => {
+      const action = type === 'guest' ? 'anonymized' : 'cleaned up';
+      toast.success(`Cleanup completed: ${recordsProcessed} records ${action}`);
       queryClient.invalidateQueries({ queryKey: ['retention-policies'] });
     },
     onError: (error) => {

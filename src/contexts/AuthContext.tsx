@@ -103,11 +103,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       
       if (error) {
+        // Track failed authentication attempt
+        failedAuthMonitor(true);
+        
+        // Log security event for failed login
+        await securityLogger.logEvent({
+          type: 'auth_attempt',
+          details: {
+            event: 'failed_login',
+            email: email.substring(0, 3) + '***', // Partially obscure email
+            error_message: error.message
+          },
+          severity: 'medium'
+        });
+
         toast.error(`Sign in failed: ${error.message}`);
+      } else {
+        // Track successful authentication
+        failedAuthMonitor(false);
+        
+        // Log successful login
+        await securityLogger.logEvent({
+          type: 'auth_attempt',
+          details: {
+            event: 'successful_login'
+          },
+          severity: 'low'
+        });
       }
       
       return { error };
     } catch (error) {
+      // Track failed attempt
+      failedAuthMonitor(true);
+      
       const authError = error as AuthError;
       toast.error(`Sign in error: ${authError.message}`);
       return { error: authError };
