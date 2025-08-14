@@ -416,7 +416,7 @@
     --surface-2: 210 20% 98%;
     --text-strong: 222 28% 12%;
     --text: 222 28% 12%;
-    --text-muted: 222 12% 42%;
+    --text-muted: 222 12% 60%;
     --accent-a: 209 100% 50%;
     --accent-b: 252 85% 60%;
     --accent-gradient: linear-gradient(135deg, hsl(var(--accent-a)) 0%, hsl(var(--accent-b)) 100%);
