@@ -108,9 +108,19 @@ const [step, setStep] = useState<"calendar" | "registration" | "success">("calen
           <p className="text-[hsl(var(--text-muted))] lead mb-6">Small groups. Practical projects. Real results. Pick a date and start learning.</p>
           <div className="cta-row">
             <Button variant="glassPrimary" onClick={scrollToWorkshops} aria-label="Browse workshops">Browse Workshops</Button>
-            <Button variant="secondaryOutline" onClick={() => navigate(user ? '/my-registrations' : '/auth')} aria-label={user ? 'Go to my registrations' : 'Sign in to manage registrations'}>
-              {user ? 'My registrations' : 'Sign In'}
-            </Button>
+            {auth.isAdmin ? (
+              <Button variant="primaryPill" onClick={() => navigate('/admin')} aria-label="Go to Admin Dashboard">
+                View Registrations (Admin)
+              </Button>
+            ) : user ? (
+              <Button variant="secondaryOutline" onClick={() => navigate('/my-registrations')} aria-label="Go to my registrations">
+                My registrations
+              </Button>
+            ) : (
+              <Button variant="secondaryOutline" onClick={() => navigate('/auth')} aria-label="Sign in to manage registrations">
+                Sign In
+              </Button>
+            )}
           </div>
         </div>
       </section>
