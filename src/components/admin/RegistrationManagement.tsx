@@ -27,13 +27,13 @@ interface RegistrationData {
   status: string;
   registration_date: string;
   confirmation_code: string;
-  user_profiles?: {
+  user_profile?: {
     first_name: string | null;
     last_name: string | null;
     email: string | null;
     phone: string | null;
   } | null;
-  workshops?: {
+  workshop?: {
     name: string | null;
     date: string | null;
     time: string | null;
@@ -78,21 +78,64 @@ const RegistrationManagement: React.FC = () => {
   const { data: registrations = [], isLoading } = useQuery({
     queryKey: ['all-registrations'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First get all registrations
+      const { data: regData, error: regError } = await supabase
         .from('workshop_registrations')
-        .select(`
-          *,
-          user_profiles(first_name, last_name, email, phone),
-          workshops(name, date, time, category, skill_level)
-        `)
+        .select('*')
         .order('registration_date', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching registrations:', error);
+      if (regError) {
+        console.error('Error fetching registrations:', regError);
         throw new Error('Failed to fetch registrations');
       }
 
-      return data as any[];
+      // Get unique user IDs and workshop IDs for batch fetching
+      const userIds = [...new Set(regData.filter(r => r.user_id).map(r => r.user_id))];
+      const workshopIds = [...new Set(regData.map(r => r.workshop_id))];
+
+      // Fetch user profiles
+      let userProfiles: any[] = [];
+      if (userIds.length > 0) {
+        const { data: profileData, error: profileError } = await supabase
+          .from('user_profiles')
+          .select('user_id, first_name, last_name, email, phone')
+          .in('user_id', userIds);
+
+        if (profileError) {
+          console.error('Error fetching user profiles:', profileError);
+        } else {
+          userProfiles = profileData || [];
+        }
+      }
+
+      // Fetch workshops
+      let workshops: any[] = [];
+      if (workshopIds.length > 0) {
+        const { data: workshopData, error: workshopError } = await supabase
+          .from('workshops')
+          .select('id, name, date, time, category, skill_level')
+          .in('id', workshopIds);
+
+        if (workshopError) {
+          console.error('Error fetching workshops:', workshopError);
+        } else {
+          workshops = workshopData || [];
+        }
+      }
+
+      // Combine the data
+      const enrichedRegistrations = regData.map(registration => {
+        const userProfile = userProfiles.find(p => p.user_id === registration.user_id);
+        const workshop = workshops.find(w => w.id === registration.workshop_id);
+
+        return {
+          ...registration,
+          user_profile: userProfile || null,
+          workshop: workshop || null,
+        };
+      });
+
+      return enrichedRegistrations as RegistrationData[];
     },
   });
 
@@ -116,16 +159,16 @@ const RegistrationManagement: React.FC = () => {
       'Confirmation Code': registration.confirmation_code,
       'Registration Date': format(new Date(registration.registration_date), 'yyyy-MM-dd HH:mm'),
       'Status': registration.status,
-      'User Name': registration.user_profiles 
-        ? `${registration.user_profiles.first_name} ${registration.user_profiles.last_name}`
+      'User Name': registration.user_profile 
+        ? `${registration.user_profile.first_name} ${registration.user_profile.last_name}`
         : registration.guest_name || 'N/A',
-      'Email': registration.user_profiles?.email || registration.guest_email || 'N/A',
-      'Phone': registration.user_profiles?.phone || registration.guest_phone || 'N/A',
-      'Workshop Name': registration.workshops?.name || 'N/A',
-      'Workshop Date': registration.workshops?.date || 'N/A',
-      'Workshop Time': registration.workshops?.time || 'N/A',
-      'Category': registration.workshops?.category || 'N/A',
-      'Skill Level': registration.workshops?.skill_level || 'N/A',
+      'Email': registration.user_profile?.email || registration.guest_email || 'N/A',
+      'Phone': registration.user_profile?.phone || registration.guest_phone || 'N/A',
+      'Workshop Name': registration.workshop?.name || 'N/A',
+      'Workshop Date': registration.workshop?.date || 'N/A',
+      'Workshop Time': registration.workshop?.time || 'N/A',
+      'Category': registration.workshop?.category || 'N/A',
+      'Skill Level': registration.workshop?.skill_level || 'N/A',
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -140,12 +183,12 @@ const RegistrationManagement: React.FC = () => {
 
   const filteredRegistrations = registrations.filter(registration => {
     const matchesSearch = 
-      (registration.user_profiles?.first_name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (registration.user_profiles?.last_name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (registration.user_profiles?.email?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (registration.user_profile?.first_name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (registration.user_profile?.last_name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (registration.user_profile?.email?.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (registration.guest_name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (registration.guest_email?.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (registration.workshops?.name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (registration.workshop?.name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
       registration.confirmation_code.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesStatus = statusFilter === 'all' || registration.status === statusFilter;
@@ -163,18 +206,18 @@ const RegistrationManagement: React.FC = () => {
   };
 
   const getUserDisplayName = (registration: RegistrationData) => {
-    if (registration.user_profiles) {
-      return `${registration.user_profiles.first_name || ''} ${registration.user_profiles.last_name || ''}`.trim();
+    if (registration.user_profile) {
+      return `${registration.user_profile.first_name || ''} ${registration.user_profile.last_name || ''}`.trim();
     }
     return registration.guest_name || 'Guest User';
   };
 
   const getUserEmail = (registration: RegistrationData) => {
-    return registration.user_profiles?.email || registration.guest_email || 'N/A';
+    return registration.user_profile?.email || registration.guest_email || 'N/A';
   };
 
   const getUserPhone = (registration: RegistrationData) => {
-    return registration.user_profiles?.phone || registration.guest_phone || 'N/A';
+    return registration.user_profile?.phone || registration.guest_phone || 'N/A';
   };
 
   return (
@@ -277,7 +320,7 @@ const RegistrationManagement: React.FC = () => {
                   {filteredRegistrations.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                        No registrations found
+                        {isLoading ? 'Loading registrations...' : 'No registrations found'}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -297,16 +340,16 @@ const RegistrationManagement: React.FC = () => {
                         </TableCell>
                         <TableCell>
                           <div>
-                            <div className="font-medium">{registration.workshops?.name || 'N/A'}</div>
+                            <div className="font-medium">{registration.workshop?.name || 'N/A'}</div>
                             <div className="text-sm text-muted-foreground">
-                              {registration.workshops?.category} • {registration.workshops?.skill_level}
+                              {registration.workshop?.category} • {registration.workshop?.skill_level}
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">
-                            <div>{registration.workshops?.date ? format(new Date(registration.workshops.date), 'MMM dd, yyyy') : 'N/A'}</div>
-                            <div className="text-muted-foreground">{registration.workshops?.time || 'N/A'}</div>
+                            <div>{registration.workshop?.date ? format(new Date(registration.workshop.date), 'MMM dd, yyyy') : 'N/A'}</div>
+                            <div className="text-muted-foreground">{registration.workshop?.time || 'N/A'}</div>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -356,11 +399,11 @@ const RegistrationManagement: React.FC = () => {
                   <div>
                     <h4 className="font-semibold mb-2">Workshop Information</h4>
                     <div className="space-y-2 text-sm">
-                      <div><strong>Workshop:</strong> {selectedRegistration.workshops?.name || 'N/A'}</div>
-                      <div><strong>Date:</strong> {selectedRegistration.workshops?.date ? format(new Date(selectedRegistration.workshops.date), 'MMMM dd, yyyy') : 'N/A'}</div>
-                      <div><strong>Time:</strong> {selectedRegistration.workshops?.time || 'N/A'}</div>
-                      <div><strong>Category:</strong> {selectedRegistration.workshops?.category || 'N/A'}</div>
-                      <div><strong>Skill Level:</strong> {selectedRegistration.workshops?.skill_level || 'N/A'}</div>
+                      <div><strong>Workshop:</strong> {selectedRegistration.workshop?.name || 'N/A'}</div>
+                      <div><strong>Date:</strong> {selectedRegistration.workshop?.date ? format(new Date(selectedRegistration.workshop.date), 'MMMM dd, yyyy') : 'N/A'}</div>
+                      <div><strong>Time:</strong> {selectedRegistration.workshop?.time || 'N/A'}</div>
+                      <div><strong>Category:</strong> {selectedRegistration.workshop?.category || 'N/A'}</div>
+                      <div><strong>Skill Level:</strong> {selectedRegistration.workshop?.skill_level || 'N/A'}</div>
                     </div>
                   </div>
                 </div>
