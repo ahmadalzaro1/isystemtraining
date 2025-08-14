@@ -14,50 +14,50 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "180x180",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "152x152",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "144x144",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "120x120",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "114x114",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "76x76",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "72x72",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "60x60",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/placeholder.svg",
+      "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
       "sizes": "57x57",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ],
   "shortcuts": [
@@ -66,24 +66,24 @@
       "short_name": "Workshops",
       "description": "View available workshop sessions",
       "url": "/#workshops",
-      "icons": [
-        {
-          "src": "/placeholder.svg",
-          "sizes": "96x96"
-        }
-      ]
+        "icons": [
+          {
+            "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
+            "sizes": "96x96"
+          }
+        ]
     },
     {
       "name": "My Registrations",
       "short_name": "My Registrations",
       "description": "View your workshop registrations",
       "url": "/my-registrations",
-      "icons": [
-        {
-          "src": "/placeholder.svg",
-          "sizes": "96x96"
-        }
-      ]
+        "icons": [
+          {
+            "src": "/lovable-uploads/a018b936-934e-49bb-aab2-06f2da476a06.png",
+            "sizes": "96x96"
+          }
+        ]
     }
   ]
 }

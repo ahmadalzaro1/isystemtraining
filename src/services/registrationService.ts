@@ -15,8 +15,6 @@ export interface WorkshopRegistration {
   registration_date: string;
   status: string;
   confirmation_code: string;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface CreateRegistrationData {
