@@ -7,6 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { linkRegsToUser } from "@/lib/registration/manageLink";
+import { validatePassword } from '@/utils/passwordValidation';
+import { validateEmail, validateName, authRateLimiter } from '@/utils/inputValidation';
+import { PasswordStrengthIndicator } from '@/components/auth/PasswordStrengthIndicator';
+import { useSecurityMonitoring } from '@/hooks/useSecurityMonitoring';
 
 
 const Auth = () => {
@@ -18,8 +22,16 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [passwordValidation, setPasswordValidation] = useState<{
+    isValid: boolean;
+    errors: string[];
+    strength: 'weak' | 'fair' | 'good' | 'strong';
+  }>({ isValid: false, errors: [], strength: 'weak' });
+  const [showPasswordStrength, setShowPasswordStrength] = useState(false);
   
   const { signIn, signUp, user, isAdmin, loading: authLoading } = useAuth();
+  const { monitorFailedAuthAttempts } = useSecurityMonitoring();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,11 +45,58 @@ const Auth = () => {
     }
   }, [user, isAdmin, authLoading, navigate]);
 
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    
+    // Email validation
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.isValid) {
+      errors.email = emailValidation.error!;
+    }
+    
+    // Password validation
+    if (!passwordValidation.isValid) {
+      errors.password = 'Password does not meet security requirements';
+    }
+    
+    // Name validation for sign up
+    if (isSignUp) {
+      const firstNameValidation = validateName(firstName, 'First name');
+      if (!firstNameValidation.isValid) {
+        errors.firstName = firstNameValidation.error!;
+      }
+      
+      const lastNameValidation = validateName(lastName, 'Last name');
+      if (!lastNameValidation.isValid) {
+        errors.lastName = lastNameValidation.error!;
+      }
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
     setMessage(null);
+    
+    // Check rate limiting
+    const clientId = `${window.navigator.userAgent}_${email || 'anonymous'}`;
+    const rateLimitCheck = authRateLimiter.checkRateLimit(clientId);
+    
+    if (!rateLimitCheck.allowed) {
+      const minutes = Math.ceil(rateLimitCheck.remainingTime! / 60);
+      setError(`Too many attempts. Please try again in ${minutes} minute(s).`);
+      return;
+    }
+    
+    // Validate form
+    if (!validateForm()) {
+      return;
+    }
+    
+    setLoading(true);
 
     try {
       if (isSignUp) {
@@ -48,8 +107,10 @@ const Auth = () => {
         
         if (error) {
           setError(error.message);
+          monitorFailedAuthAttempts(true);
         } else {
           setMessage('Please check your email to confirm your account.');
+          authRateLimiter.reset(clientId);
         }
       } else {
         const { error } = await signIn(email, password);
@@ -57,12 +118,16 @@ const Auth = () => {
         if (error) {
           console.error('Sign in error:', error);
           setError(error.message);
+          monitorFailedAuthAttempts(true);
         } else {
+          monitorFailedAuthAttempts(false);
+          authRateLimiter.reset(clientId);
           try { await linkRegsToUser(email); } catch {}
         }
       }
     } catch (err) {
       setError('An unexpected error occurred.');
+      monitorFailedAuthAttempts(true);
     } finally {
       setLoading(false);
     }
@@ -96,7 +161,11 @@ const Auth = () => {
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       required
+                      className={validationErrors.firstName ? 'border-red-500' : ''}
                     />
+                    {validationErrors.firstName && (
+                      <p className="text-sm text-red-600">{validationErrors.firstName}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
@@ -106,7 +175,11 @@ const Auth = () => {
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       required
+                      className={validationErrors.lastName ? 'border-red-500' : ''}
                     />
+                    {validationErrors.lastName && (
+                      <p className="text-sm text-red-600">{validationErrors.lastName}</p>
+                    )}
                   </div>
                 </div>
               </>
@@ -120,7 +193,11 @@ const Auth = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className={validationErrors.email ? 'border-red-500' : ''}
               />
+              {validationErrors.email && (
+                <p className="text-sm text-red-600">{validationErrors.email}</p>
+              )}
             </div>
             
             <div className="space-y-2">
@@ -129,9 +206,25 @@ const Auth = () => {
                 id="password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  const newPassword = e.target.value;
+                  setPassword(newPassword);
+                  const validation = validatePassword(newPassword);
+                  setPasswordValidation(validation);
+                  setShowPasswordStrength(newPassword.length > 0 && isSignUp);
+                }}
+                onFocus={() => setShowPasswordStrength(isSignUp)}
                 required
-                minLength={6}
+                minLength={8}
+                className={validationErrors.password ? 'border-red-500' : ''}
+              />
+              {validationErrors.password && (
+                <p className="text-sm text-red-600">{validationErrors.password}</p>
+              )}
+              <PasswordStrengthIndicator 
+                strength={passwordValidation.strength}
+                errors={passwordValidation.errors}
+                show={showPasswordStrength}
               />
             </div>
 
