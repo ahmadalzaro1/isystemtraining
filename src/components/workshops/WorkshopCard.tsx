@@ -38,7 +38,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
 
   return (
     <div
-      className="wk-card p-5 cursor-pointer group relative transition-[transform,box-shadow] duration-300 hover:-translate-y-[2px] hover:shadow-lg h-full flex flex-col"
+      className="wk-card p-[clamp(16px,4.5vw,24px)] cursor-pointer group relative transition-[transform,box-shadow] duration-300 hover:-translate-y-[2px] hover:shadow-lg h-full flex flex-col w-full min-w-0"
       onClick={handleCardClick}
       style={{ 
         animationDelay: `${index * 0.1}s`,
@@ -47,13 +47,13 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
       <div className="flex-1 flex flex-col transition-transform duration-300">
         {/* Header Section */}
         <div className="space-y-2">
-          <div className="flex items-start justify-between">
-            <div className="space-y-1">
-              <h3 className="font-medium text-xl text-[hsl(var(--text-strong))] transition-colors leading-tight">
+          <div className="flex items-start justify-between gap-[clamp(8px,2vw,12px)]">
+            <div className="space-y-1 min-w-0 flex-1">
+              <h3 className="font-medium text-[clamp(18px,3.5vw,24px)] text-[hsl(var(--text-strong))] transition-colors leading-tight">
                 {workshop.name}
               </h3>
-              <div className="flex items-center gap-2 text-[hsl(var(--text-muted))]">
-                <UserCircle2 className="h-4 w-4 flex-shrink-0" />
+              <div className="flex items-center gap-2 text-[hsl(var(--text-muted))] text-[clamp(12px,2.5vw,14px)]">
+                <UserCircle2 className="h-[clamp(14px,2.8vw,16px)] w-[clamp(14px,2.8vw,16px)] flex-shrink-0" />
                 <span className="font-medium">Instructor:</span>
                 <span className="truncate">{workshop.instructor}</span>
               </div>
@@ -61,14 +61,14 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
             
             <div className="flex flex-col items-end gap-1 flex-shrink-0">
               {isTrending && (
-                <span className="flex items-center gap-1 text-[hsl(var(--accent-a))] text-sm font-medium">
-                  <Flame className="h-4 w-4 animate-pulse" />
+                <span className="flex items-center gap-1 text-[hsl(var(--accent-a))] text-[clamp(12px,2.5vw,14px)] font-medium">
+                  <Flame className="h-[clamp(14px,2.8vw,16px)] w-[clamp(14px,2.8vw,16px)] animate-pulse" />
                   Trending
                 </span>
               )}
               {isAlmostFull && (
-                <span className="text-[hsl(var(--accent-b))] text-sm font-medium flex items-center gap-1">
-                  <Zap className="h-4 w-4 animate-[pulse_2s_ease-in-out_infinite]" />
+                <span className="text-[hsl(var(--accent-b))] text-[clamp(12px,2.5vw,14px)] font-medium flex items-center gap-1">
+                  <Zap className="h-[clamp(14px,2.8vw,16px)] w-[clamp(14px,2.8vw,16px)] animate-[pulse_2s_ease-in-out_infinite]" />
                   Limited!
                 </span>
               )}
@@ -77,13 +77,13 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         </div>
 
         {/* Description */}
-        <p className="text-[hsl(var(--text-muted))] leading-relaxed text-sm line-clamp-2">
+        <p className="text-[hsl(var(--text-muted))] leading-relaxed text-[clamp(14px,2.9vw,16px)] line-clamp-2">
           {workshop.description}
         </p>
 
         {/* Seats Progress */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
+          <div className="flex items-center justify-between text-[clamp(12px,2.5vw,14px)]">
             <span className="text-[hsl(var(--text-muted))]">Available Spots</span>
             <span className="font-medium text-[hsl(var(--text-strong))]">
               {workshop.spotsRemaining} / {totalSeats}
@@ -95,23 +95,23 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         </div>
 
         {/* Footer */}
-        <div className="mt-auto flex items-center justify-between pt-4 border-t border-[hsl(var(--border))]">
+        <div className="mt-auto flex items-center justify-between pt-[clamp(12px,3vw,16px)] border-t border-[hsl(var(--border))]">
           <div className="flex items-center gap-2 text-[hsl(var(--text-muted))]">
-            <Clock className="h-4 w-4" />
-            <span className="text-sm">{workshop.time}</span>
+            <Clock className="h-[clamp(14px,2.8vw,16px)] w-[clamp(14px,2.8vw,16px)]" />
+            <span className="text-[clamp(12px,2.5vw,14px)]">{workshop.time}</span>
           </div>
           
           {workshop.spotsRemaining > 0 ? (
             <button 
-              className="wk-cta flex items-center gap-2 text-[hsl(var(--text-strong))]"
+              className="wk-cta flex items-center gap-2 text-[hsl(var(--text-strong))] min-h-[44px] px-[clamp(12px,3vw,16px)]"
               onClick={handleRegister}
             >
-              <CheckCircle className="h-4 w-4" />
-              Register
+              <CheckCircle className="h-[clamp(14px,2.8vw,16px)] w-[clamp(14px,2.8vw,16px)]" />
+              <span className="text-[clamp(12px,2.5vw,14px)]">Register</span>
             </button>
           ) : (
             <button 
-              className="wk-cta text-[hsl(var(--text-muted))]"
+              className="wk-cta text-[hsl(var(--text-muted))] min-h-[44px] px-[clamp(12px,3vw,16px)] text-[clamp(12px,2.5vw,14px)]"
               onClick={handleWaitlist}
             >
               Waitlist

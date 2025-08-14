@@ -46,28 +46,28 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
   };
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-[hsl(var(--background))] to-[hsl(var(--surface))/0.3]">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-[clamp(40px,8vh,80px)] px-[clamp(16px,4vw,32px)] bg-gradient-to-b from-[hsl(var(--background))] to-[hsl(var(--surface))/0.3]">
+      <div className="max-w-[min(1100px,92vw)] mx-auto w-full">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[hsl(var(--text-strong))] mb-6">
+        <div className="text-center mb-[clamp(32px,8vw,64px)]">
+          <h2 className="text-[clamp(32px,6vw,56px)] font-bold text-[hsl(var(--text-strong))] mb-[clamp(16px,3vw,24px)] leading-tight">
             Upcoming Workshops
           </h2>
-          <p className="text-xl text-[hsl(var(--text-muted))] max-w-2xl mx-auto">
+          <p className="text-[clamp(16px,3.2vw,20px)] text-[hsl(var(--text-muted))] max-w-[min(600px,90%)] mx-auto leading-relaxed">
             Navigate by week, filter by your needs, and register for the perfect learning experience.
           </p>
         </div>
 
         {/* Week Navigation */}
-        <div className="flex flex-col items-center gap-6 mb-12">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center gap-[clamp(16px,4vw,24px)] mb-[clamp(32px,6vw,48px)]">
+          <div className="flex flex-col sm:flex-row items-center gap-[clamp(8px,2vw,16px)] w-full sm:w-auto">
             <Button
               variant="outline"
               size="lg"
               onClick={() => navigateWeek('prev')}
-              className="h-14 px-8 text-lg"
+              className="min-h-[clamp(48px,8vw,56px)] px-[clamp(16px,4vw,32px)] text-[clamp(14px,2.8vw,18px)] w-full sm:w-auto"
             >
-              <ChevronLeft className="w-5 h-5 mr-2" />
+              <ChevronLeft className="w-[clamp(16px,3vw,20px)] h-[clamp(16px,3vw,20px)] mr-2" />
               Previous Week
             </Button>
             
@@ -75,9 +75,9 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
               variant="outline"
               size="lg"
               onClick={() => setCurrentWeek(new Date())}
-              className="h-14 px-8 text-lg"
+              className="min-h-[clamp(48px,8vw,56px)] px-[clamp(16px,4vw,32px)] text-[clamp(14px,2.8vw,18px)] w-full sm:w-auto"
             >
-              <Calendar className="w-5 h-5 mr-2" />
+              <Calendar className="w-[clamp(16px,3vw,20px)] h-[clamp(16px,3vw,20px)] mr-2" />
               This Week
             </Button>
             
@@ -85,32 +85,32 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
               variant="outline"
               size="lg"
               onClick={() => navigateWeek('next')}
-              className="h-14 px-8 text-lg"
+              className="min-h-[clamp(48px,8vw,56px)] px-[clamp(16px,4vw,32px)] text-[clamp(14px,2.8vw,18px)] w-full sm:w-auto"
             >
               Next Week
-              <ChevronRight className="w-5 h-5 ml-2" />
+              <ChevronRight className="w-[clamp(16px,3vw,20px)] h-[clamp(16px,3vw,20px)] ml-2" />
             </Button>
           </div>
           
           <div className="text-center">
-            <p className="text-2xl font-semibold text-[hsl(var(--text-strong))]">
+            <p className="text-[clamp(18px,3.5vw,24px)] font-semibold text-[hsl(var(--text-strong))]">
               {format(startOfWeek(currentWeek, { weekStartsOn: 0 }), 'MMMM d')} - {format(endOfWeek(currentWeek, { weekStartsOn: 0 }), 'MMMM d, yyyy')}
             </p>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="space-y-10 mb-16">
+        <div className="space-y-[clamp(24px,6vw,40px)] mb-[clamp(32px,6vw,64px)]">
           {/* Difficulty Filter */}
           <div className="text-center">
-            <h3 className="text-2xl font-semibold text-[hsl(var(--text-strong))] mb-6">Difficulty Level</h3>
-            <div className="flex flex-wrap justify-center gap-4">
+            <h3 className="text-[clamp(20px,3.8vw,28px)] font-semibold text-[hsl(var(--text-strong))] mb-[clamp(16px,3vw,24px)]">Difficulty Level</h3>
+            <div className="flex gap-[clamp(8px,2.5vw,12px)] overflow-x-auto snap-x snap-mandatory -mx-[clamp(8px,2vw,16px)] px-[clamp(8px,2vw,16px)] -webkit-overflow-scrolling-touch">
               {['All', 'Beginner', 'Intermediate', 'Advanced'].map((level) => (
                 <Badge
                   key={level}
                   variant={filters.skillLevel === level ? "default" : "outline"}
                   className={cn(
-                    "px-8 py-4 text-lg cursor-pointer transition-all duration-200 min-h-[44px] flex items-center justify-center",
+                    "px-[clamp(16px,4vw,32px)] py-[clamp(12px,3vw,16px)] text-[clamp(14px,2.8vw,18px)] cursor-pointer transition-all duration-200 min-h-[44px] flex items-center justify-center flex-none snap-start whitespace-nowrap",
                     filters.skillLevel === level 
                       ? "bg-[hsl(var(--accent-a))] text-white border-[hsl(var(--accent-a))]" 
                       : "hover:bg-[hsl(var(--surface-2))]"
@@ -125,8 +125,8 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
 
           {/* Category Filter */}
           <div className="text-center">
-            <h3 className="text-2xl font-semibold text-[hsl(var(--text-strong))] mb-6">Categories</h3>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 max-w-4xl mx-auto">
+            <h3 className="text-[clamp(20px,3.8vw,28px)] font-semibold text-[hsl(var(--text-strong))] mb-[clamp(16px,3vw,24px)]">Categories</h3>
+            <div className="flex gap-[clamp(8px,2.5vw,12px)] overflow-x-auto snap-x snap-mandatory -mx-[clamp(8px,2vw,16px)] px-[clamp(8px,2vw,16px)] -webkit-overflow-scrolling-touch">
               {[
                 { value: 'Digital Safety', label: '🔐 Digital Safety & Security' },
                 { value: 'AI', label: '🤖 AI Tools for Everyday Life' },
@@ -136,7 +136,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                   key={value}
                   variant={filters.category === value ? "default" : "outline"}
                   className={cn(
-                    "px-6 py-4 text-lg cursor-pointer transition-all duration-200 min-h-[44px] flex items-center justify-center flex-1",
+                    "px-[clamp(16px,4vw,24px)] py-[clamp(12px,3vw,16px)] text-[clamp(14px,2.8vw,18px)] cursor-pointer transition-all duration-200 min-h-[44px] flex items-center justify-center flex-none snap-start whitespace-nowrap",
                     filters.category === value 
                       ? "bg-[hsl(var(--accent-a))] text-white border-[hsl(var(--accent-a))]" 
                       : "hover:bg-[hsl(var(--surface-2))]"
@@ -155,7 +155,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
               <Button
                 variant="outline"
                 onClick={() => setFilters({ search: "", skillLevel: "All", category: "All" })}
-                className="h-12 px-8 text-lg"
+                className="min-h-[clamp(44px,6vw,48px)] px-[clamp(16px,4vw,32px)] text-[clamp(14px,2.8vw,18px)] w-full sm:w-auto"
               >
                 Reset Filters
               </Button>
@@ -164,37 +164,37 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
         </div>
 
         {/* Workshop Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-[clamp(16px,4vw,32px)]">
           {weekWorkshops.map((workshop) => (
-            <Card key={workshop.id} className="lgx-card hover:shadow-xl transition-all duration-300">
-              <CardHeader className="pb-4">
-                <div className="text-sm text-[hsl(var(--text-muted))] mb-2">
+            <Card key={workshop.id} className="lgx-card hover:shadow-xl transition-all duration-300 w-full min-w-0">
+              <CardHeader className="pb-[clamp(12px,3vw,16px)] p-[clamp(16px,4.5vw,24px)]">
+                <div className="text-[clamp(12px,2.5vw,14px)] text-[hsl(var(--text-muted))] mb-2">
                   {format(new Date(workshop.date), 'EEEE, MMMM d')}
                 </div>
-                <CardTitle className="text-xl leading-tight">
+                <CardTitle className="text-[clamp(18px,3.5vw,24px)] leading-tight">
                   {workshop.name}
                 </CardTitle>
               </CardHeader>
               
-              <CardContent className="space-y-4">
-                <div className="flex flex-wrap gap-4 text-sm text-[hsl(var(--text-muted))]">
-                  <span className="flex items-center">
+              <CardContent className="space-y-[clamp(12px,3vw,16px)] p-[clamp(16px,4.5vw,24px)] pt-0">
+                <div className="flex flex-wrap gap-[clamp(8px,2vw,16px)] text-[clamp(12px,2.5vw,14px)] text-[hsl(var(--text-muted))]">
+                  <span className="flex items-center gap-1">
                     🕐 {workshop.time}
                   </span>
-                  <span className="flex items-center">
+                  <span className="flex items-center gap-1">
                     📊 {workshop.skillLevel}
                   </span>
-                  <span className="flex items-center">
+                  <span className="flex items-center gap-1">
                     📁 {workshop.category}
                   </span>
                 </div>
                 
-                <p className="text-[hsl(var(--text-muted))] leading-relaxed">
+                <p className="text-[clamp(14px,2.9vw,16px)] text-[hsl(var(--text-muted))] leading-relaxed">
                   {workshop.description}
                 </p>
                 
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
+                  <div className="flex justify-between text-[clamp(12px,2.5vw,14px)]">
                     <span>Available spots</span>
                     <span className="font-medium">{workshop.spotsRemaining} spots left</span>
                   </div>
@@ -207,10 +207,10 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                 </div>
               </CardContent>
               
-              <CardFooter>
+              <CardFooter className="p-[clamp(16px,4.5vw,24px)] pt-0">
                 <Button
                   onClick={() => navigate(`/registration/${workshop.id}`)}
-                  className="w-full h-12 text-lg bg-[hsl(var(--accent-a))] hover:bg-[hsl(var(--accent-a))/0.9] text-white"
+                  className="w-full min-h-[clamp(44px,6vw,48px)] text-[clamp(14px,2.8vw,18px)] bg-[hsl(var(--accent-a))] hover:bg-[hsl(var(--accent-a))/0.9] text-white"
                   disabled={workshop.spotsRemaining === 0}
                 >
                   {workshop.spotsRemaining === 0 ? 'Fully Booked' : 'Register Now'}
@@ -220,12 +220,12 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
           ))}
           
           {weekWorkshops.length === 0 && (
-            <div className="col-span-full text-center py-16">
-              <div className="text-6xl mb-4">📅</div>
-              <h3 className="text-2xl font-semibold text-[hsl(var(--text-strong))] mb-2">
+            <div className="col-span-full text-center py-[clamp(32px,8vw,64px)]">
+              <div className="text-[clamp(48px,10vw,96px)] mb-[clamp(16px,3vw,24px)]">📅</div>
+              <h3 className="text-[clamp(20px,3.8vw,28px)] font-semibold text-[hsl(var(--text-strong))] mb-2">
                 No workshops this week
               </h3>
-              <p className="text-lg text-[hsl(var(--text-muted))]">
+              <p className="text-[clamp(16px,3.2vw,20px)] text-[hsl(var(--text-muted))]">
                 Try navigating to a different week or adjusting your filters.
               </p>
             </div>
