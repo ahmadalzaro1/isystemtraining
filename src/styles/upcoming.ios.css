@@ -23,7 +23,7 @@ button,input{font:inherit}
 /* Pick date + search */
 .ios-row{display:flex;gap:14px;align-items:center}
 .ios-pill{height:var(--touch);display:inline-flex;align-items:center;gap:8px;padding:0 16px;border:1px solid hsl(var(--border) / 0.5);border-radius:999px;background:hsl(var(--surface) / 0.35);white-space:nowrap}
-.ios-input{height:var(--touch);flex:1;min-width:0;padding:0 14px;border:1px solid hsl(var(--border) / 0.6);border-radius:12px;background:hsl(var(--surface) / 0.7);font-size:16px;line-height:1.2;-webkit-text-size-adjust:100%}/* 16px prevents iOS zoom */
+.ios-input{height:var(--touch);flex:1;min-width:0;padding:0 14px;border:2px solid hsl(212 13% 84%);border-radius:12px;background:hsl(212 14% 96% / 0.8);font-size:16px;line-height:1.2;-webkit-text-size-adjust:100%;transition:background-color 0.2s ease}/* 16px prevents iOS zoom */
 /* Level & categories with horizontal scroll + fade edges */
 .ios-scroll{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,transparent 0,#000 20px,#000 calc(100% - 20px),transparent)}
 .ios-scroll::-webkit-scrollbar{display:none}

@@ -14,7 +14,7 @@
 .wx-seg{display:inline-flex;border:1px solid hsl(var(--border));border-radius:999px;overflow:hidden}
 .wx-seg button{padding:8px 12px;background:hsl(var(--surface));border:0;font-size:15px;line-height:1.1;height:var(--control-h)}
 .wx-seg button[aria-pressed='true']{background:hsl(var(--surface-2))}
-.wx-input{width:min(420px,88vw);padding:10px 12px;border:1px solid hsl(var(--border));border-radius:var(--control-r);background:hsl(var(--surface));font-size:16px;line-height:1.2;height:var(--control-h)}
+.wx-input{width:min(420px,88vw);padding:10px 12px;border:2px solid hsl(212 13% 84%);border-radius:var(--control-r);background:hsl(212 14% 96% / 0.8);font-size:16px;line-height:1.2;height:var(--control-h);transition:background-color 0.2s ease}
 .wx-pills{display:flex;gap:10px;overflow:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;position:relative}
 .wx-pills::-webkit-scrollbar{display:none}
 .wx-pills::before,.wx-pills::after{content:'';position:absolute;top:0;bottom:0;width:var(--fade-size);pointer-events:none;z-index:1}
