@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useCallback, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,7 +11,6 @@ import { Form } from '@/components/ui/form';
 import { PersonalInfoStepV2 } from './steps/PersonalInfoStepV2';
 import { ContactStepV2 } from './steps/ContactStepV2';
 import { PreferencesStepV2 } from './steps/PreferencesStepV2';
-import { ReviewStepV2 } from './steps/ReviewStepV2';
 import { WizardNavigation } from './components/WizardNavigation';
 import { ProgressIndicator } from './components/ProgressIndicator';
 import { useAutoSave } from './hooks/useAutoSave';
@@ -58,7 +58,6 @@ const STEPS = [
   { id: 'personal', title: 'Personal Info', description: 'Tell us about yourself' },
   { id: 'contact', title: 'Contact & Platform', description: 'How to reach you' },
   { id: 'preferences', title: 'Preferences', description: 'Your learning interests' },
-  { id: 'review', title: 'Review & Submit', description: 'Confirm your registration' },
 ];
 
 export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
@@ -182,8 +181,6 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
         return <ContactStepV2 {...stepProps} />;
       case 2:
         return <PreferencesStepV2 {...stepProps} />;
-      case 3:
-        return <ReviewStepV2 {...stepProps} workshop={workshop} />;
       default:
         return null;
     }
@@ -270,8 +267,6 @@ function getFieldsForStep(step: number): (keyof RegistrationFormDataV2)[] {
       return ['phone', 'contactPreference'];
     case 2:
       return ['mainTasks', 'learningStyles', 'paidTrainingInterest'];
-    case 3:
-      return []; // Review step - all fields should be valid
     default:
       return [];
   }
