@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo, useCallback, useTransition } from 'react';
+import React, { useState, useMemo, useCallback, useTransition, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -16,6 +16,7 @@ import { ProgressIndicator } from './components/ProgressIndicator';
 import { useAutoSave } from './hooks/useAutoSave';
 import { usePerformanceMonitor } from '@/hooks/usePerformanceMonitor';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useViewportResize } from '@/hooks/useViewportResize';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -67,6 +68,7 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
 }) => {
   usePerformanceMonitor('RegistrationWizardV2');
   const prefersReducedMotion = useReducedMotion();
+  const viewport = useViewportResize();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -113,6 +115,8 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
     if (isValid && currentStep < STEPS.length - 1) {
       startTransition(() => {
         setCurrentStep(prev => prev + 1);
+        // Smooth scroll to top on step change
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
   }, [validateCurrentStep, currentStep]);
@@ -121,6 +125,8 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
     if (currentStep > 0) {
       startTransition(() => {
         setCurrentStep(prev => prev - 1);
+        // Smooth scroll to top on step change
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
   }, [currentStep]);
@@ -186,15 +192,64 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
     }
   };
 
+  // Scroll to top on step change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentStep]);
+
+  // Dynamic container sizing based on viewport
+  const containerClasses = useMemo(() => {
+    const baseClasses = "w-full mx-auto";
+    
+    if (viewport.isSmall) {
+      return `${baseClasses} max-w-[95vw] px-2`;
+    } else if (viewport.isMedium) {
+      return `${baseClasses} max-w-[85vw] px-4`;
+    } else {
+      return `${baseClasses} max-w-3xl xl:max-w-4xl px-6 lg:px-8`;
+    }
+  }, [viewport]);
+
+  // Dynamic card sizing and padding
+  const cardClasses = useMemo(() => {
+    const baseClasses = cn(
+      "relative overflow-hidden bg-surface border-0 rounded-3xl",
+      "shadow-elev-2 backdrop-blur-md",
+      "max-h-[80vh] overflow-y-auto",
+      !prefersReducedMotion && "transition-all duration-300 hover:shadow-elev-3"
+    );
+    
+    if (viewport.isSmall) {
+      return `${baseClasses} p-4`;
+    } else if (viewport.isMedium) {
+      return `${baseClasses} p-6`;
+    } else {
+      return `${baseClasses} p-8`;
+    }
+  }, [viewport, prefersReducedMotion]);
+
+  // Dynamic minimum height based on viewport
+  const contentMinHeight = useMemo(() => {
+    if (viewport.isSmall) return "min-h-[50vh]";
+    if (viewport.isMedium) return "min-h-[45vh]";
+    return "min-h-[40vh]";
+  }, [viewport]);
+
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 sm:px-6">
+    <div className={containerClasses} style={{ WebkitOverflowScrolling: 'touch' }}>
       {/* Progress Header */}
-      <div className="mb-8 space-y-6">
+      <div className="mb-6 sm:mb-8 space-y-4 sm:space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-ios-title1 font-sf-pro font-semibold text-text">
+          <h1 className={cn(
+            "font-sf-pro font-semibold text-text",
+            viewport.isSmall ? "text-xl" : viewport.isMedium ? "text-2xl" : "text-ios-title1"
+          )}>
             {currentStepData.title}
           </h1>
-          <p className="text-ios-body text-text-muted">
+          <p className={cn(
+            "text-text-muted",
+            viewport.isSmall ? "text-sm" : "text-ios-body"
+          )}>
             {currentStepData.description}
           </p>
         </div>
@@ -212,11 +267,7 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
       </div>
 
       {/* Main Form Card */}
-      <Card className={cn(
-        "relative overflow-hidden bg-surface border-0 rounded-3xl p-8",
-        "shadow-elev-2 backdrop-blur-md",
-        !prefersReducedMotion && "transition-all duration-300 hover:shadow-elev-3"
-      )}>
+      <Card className={cardClasses}>
         {/* Glass effect overlay */}
         <div className="absolute inset-0 bg-aurora-soft opacity-30 pointer-events-none" />
         
@@ -224,7 +275,7 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
           <form onSubmit={form.handleSubmit(handleSubmit)} className="relative">
             <AnimatePresence mode="wait">
               {prefersReducedMotion ? (
-                <div key={currentStep} className="min-h-[400px]">
+                <div key={currentStep} className={contentMinHeight}>
                   {renderCurrentStep()}
                 </div>
               ) : (
@@ -233,8 +284,8 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="min-h-[400px]"
+                  transition={{ duration: 0.2 }}
+                  className={contentMinHeight}
                 >
                   {renderCurrentStep()}
                 </motion.div>
