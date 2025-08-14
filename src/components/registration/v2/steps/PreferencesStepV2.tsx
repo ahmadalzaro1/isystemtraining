@@ -87,7 +87,7 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
               What do you primarily use your Apple devices for?
             </FormLabel>
             <FormControl>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3">
                 {MAIN_TASKS.map((task) => {
                   const isSelected = (field.value || []).includes(task.value);
                   

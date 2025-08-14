@@ -69,7 +69,7 @@ export const WizardNavigation: React.FC<WizardNavigationProps> = ({
             "bg-accent-a hover:bg-accent-a/90 text-white border-0 rounded-xl2",
             "transition-all duration-200 touch-manipulation",
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            viewport.isSmall ? "px-6 min-w-[100px]" : "px-8 min-w-[120px]"
+            "w-1/2 min-w-[200px]"
           )}
         >
           {isSubmitting ? (
@@ -88,7 +88,8 @@ export const WizardNavigation: React.FC<WizardNavigationProps> = ({
           className={cn(
             buttonHeight, buttonPadding, textSize, "font-sf-pro font-semibold",
             "bg-accent-a hover:bg-accent-a/90 text-white border-0 rounded-xl2",
-            "transition-all duration-200 touch-manipulation"
+            "transition-all duration-200 touch-manipulation",
+            "w-1/2 min-w-[200px]"
           )}
         >
           Next

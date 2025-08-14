@@ -213,18 +213,18 @@ export const RegistrationWizardV2: React.FC<RegistrationWizardV2Props> = ({
   // Dynamic card sizing and padding
   const cardClasses = useMemo(() => {
     const baseClasses = cn(
-      "relative overflow-hidden bg-surface border-0 rounded-3xl",
+      "relative overflow-visible bg-surface border-0 rounded-3xl",
       "shadow-elev-2 backdrop-blur-md",
-      "max-h-[80vh] overflow-y-auto",
+      "min-h-fit",
       !prefersReducedMotion && "transition-all duration-300 hover:shadow-elev-3"
     );
     
     if (viewport.isSmall) {
-      return `${baseClasses} p-4`;
+      return `${baseClasses} p-[4%]`;
     } else if (viewport.isMedium) {
-      return `${baseClasses} p-6`;
+      return `${baseClasses} p-[3%]`;
     } else {
-      return `${baseClasses} p-8`;
+      return `${baseClasses} p-[2%]`;
     }
   }, [viewport, prefersReducedMotion]);
 
