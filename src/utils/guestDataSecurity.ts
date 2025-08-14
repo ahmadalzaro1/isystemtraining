@@ -1,15 +1,15 @@
 import { supabase } from '@/integrations/supabase/client';
 
-// Secure helper for guest registration access  
-export const getRegistrationByCode = async (confirmationCode: string) => {
+// SECURE guest registration access - only via confirmation code
+export const getRegistrationByCode = async (confirmationCode: string, guestEmail?: string) => {
   try {
-    // Use the existing secure RPC function
-    const { data, error } = await supabase.rpc('get_registration_by_code', {
-      p_code: confirmationCode
+    const { data, error } = await supabase.rpc('get_guest_registration_secure', {
+      p_confirmation_code: confirmationCode,
+      p_guest_email: guestEmail || null
     });
 
     if (error) throw error;
-    return data;
+    return data && data.length > 0 ? data[0] : null;
   } catch (error) {
     console.error('Error fetching guest registration:', error);
     throw error;

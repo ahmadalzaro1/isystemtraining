@@ -17,7 +17,14 @@ import { toast } from "sonner";
 
 const GuestLookup = () => {
   const [email, setEmail] = useState("");
-  const { registrations, isLoading } = useGuestRegistrations(email);
+  const [guestConfirmationCode, setGuestConfirmationCode] = useState("");
+  
+  // Now requires both email and confirmation code for security
+  const { registrations, isLoading } = useGuestRegistrations(
+    email, 
+    guestConfirmationCode
+  );
+  
   const { registration, confirmationCode, setConfirmationCode, isLoading: isLookupLoading } = useConfirmationLookup();
   const [searchParams] = useSearchParams();
   useEffect(() => {
@@ -49,11 +56,20 @@ const GuestLookup = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-12 border-gray-200 focus:border-blue-400 focus:ring-blue-400/20"
               />
+              <Input
+                placeholder="Confirmation code (required for security)"
+                value={guestConfirmationCode}
+                onChange={(e) => setGuestConfirmationCode(e.target.value)}
+                className="h-12 border-gray-200 focus:border-blue-400 focus:ring-blue-400/20 mt-3"
+              />
+              <p className="text-xs text-amber-600 mt-2">
+                🔒 For security, both email and confirmation code are required
+              </p>
             </div>
             
             <div>
               <label className="text-sm font-medium mb-3 block text-gray-700">
-                Or Confirmation Code
+                Or Single Confirmation Code
               </label>
               <Input
                 placeholder="Enter your confirmation code"
@@ -76,7 +92,14 @@ const GuestLookup = () => {
       {registration && (
         <div>
           <h3 className="text-[22px] leading-[28px] font-semibold mb-6 text-gray-900">Found Your Registration</h3>
-          <ModernRegistrationCard registration={registration} index={0} />
+          <ModernRegistrationCard 
+            registration={{
+              ...registration,
+              created_at: registration.registration_date,
+              updated_at: registration.registration_date
+            }} 
+            index={0} 
+          />
           <div className="mt-4">
             <Button variant="destructive" onClick={async () => {
               try {
@@ -91,7 +114,7 @@ const GuestLookup = () => {
       )}
 
 
-      {email && registrations.length > 0 && (
+      {email && guestConfirmationCode && registrations.length > 0 && (
         <div>
           <h3 className="text-[22px] leading-[28px] font-semibold mb-6 text-gray-900">
             Your Registrations ({registrations.length})
@@ -100,7 +123,11 @@ const GuestLookup = () => {
             {registrations.map((registration, index) => (
               <ModernRegistrationCard 
                 key={registration.id} 
-                registration={registration} 
+                registration={{
+                  ...registration,
+                  created_at: registration.registration_date,
+                  updated_at: registration.registration_date
+                }} 
                 index={index}
               />
             ))}
@@ -108,7 +135,7 @@ const GuestLookup = () => {
         </div>
       )}
 
-      {email && !isLoading && registrations.length === 0 && email.length > 0 && (
+      {email && guestConfirmationCode && !isLoading && registrations.length === 0 && (
         <Card>
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
@@ -116,14 +143,17 @@ const GuestLookup = () => {
             </div>
             <h3 className="font-medium text-gray-900 mb-2">No Registrations Found</h3>
             <p className="text-[hsl(var(--text-muted))] mb-4">
-              We couldn't find any registrations for this email address.
+              We couldn't find any registrations for this email and confirmation code combination.
             </p>
             <Button 
               variant="outline" 
-              onClick={() => setEmail("")}
+              onClick={() => {
+                setEmail("");
+                setGuestConfirmationCode("");
+              }}
               className="bg-white hover:bg-gray-50"
             >
-              Try Different Email
+              Try Again
             </Button>
           </CardContent>
         </Card>

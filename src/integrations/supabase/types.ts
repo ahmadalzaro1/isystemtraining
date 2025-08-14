@@ -358,6 +358,33 @@ export type Database = {
           },
         ]
       }
+      guest_access_rate_limit: {
+        Row: {
+          attempt_count: number
+          first_attempt_at: string
+          id: string
+          ip_address: unknown
+          is_blocked: boolean
+          last_attempt_at: string
+        }
+        Insert: {
+          attempt_count?: number
+          first_attempt_at?: string
+          id?: string
+          ip_address: unknown
+          is_blocked?: boolean
+          last_attempt_at?: string
+        }
+        Update: {
+          attempt_count?: number
+          first_attempt_at?: string
+          id?: string
+          ip_address?: unknown
+          is_blocked?: boolean
+          last_attempt_at?: string
+        }
+        Relationships: []
+      }
       marketing_campaigns: {
         Row: {
           campaign_type: string
@@ -762,6 +789,10 @@ export type Database = {
           workshop_id: string
         }
       }
+      check_guest_access_rate_limit: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       cleanup_expired_analytics_data: {
         Args: Record<PropertyKey, never>
         Returns: number
@@ -793,6 +824,32 @@ export type Database = {
           ip_address: unknown
           target_email: string
           user_agent: string
+        }[]
+      }
+      get_guest_registration_secure: {
+        Args: { p_confirmation_code: string; p_guest_email?: string }
+        Returns: {
+          confirmation_code: string
+          guest_email: string
+          guest_name: string
+          guest_phone: string
+          id: string
+          registration_date: string
+          status: string
+          workshop_id: string
+        }[]
+      }
+      get_guest_registrations_by_email_secure: {
+        Args: { p_confirmation_code: string; p_email: string }
+        Returns: {
+          confirmation_code: string
+          guest_email: string
+          guest_name: string
+          guest_phone: string
+          id: string
+          registration_date: string
+          status: string
+          workshop_id: string
         }[]
       }
       get_registration_by_code: {

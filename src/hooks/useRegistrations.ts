@@ -42,11 +42,14 @@ export const useRegistrations = () => {
   };
 };
 
-export const useGuestRegistrations = (email: string) => {
+export const useGuestRegistrations = (email: string, confirmationCode?: string) => {
   const { data: registrations, isLoading, error } = useQuery({
-    queryKey: ['guest-registrations', email],
-    queryFn: () => email ? RegistrationService.getGuestRegistrations(email) : Promise.resolve([]),
-    enabled: !!email,
+    queryKey: ['guest-registrations', email, confirmationCode],
+    queryFn: () => {
+      if (!email || !confirmationCode) return Promise.resolve([]);
+      return RegistrationService.getGuestRegistrations(email, confirmationCode);
+    },
+    enabled: !!email && !!confirmationCode,
   });
 
   return {

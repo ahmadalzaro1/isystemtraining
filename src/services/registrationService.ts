@@ -212,35 +212,46 @@ export class RegistrationService {
     return data;
   }
 
-  static async getGuestRegistrations(email: string) {
-    const { data, error } = await supabase
-      .from('workshop_registrations')
-      .select('*')
-      .eq('guest_email', email)
-      .order('registration_date', { ascending: false });
-
-    if (error) {
-      logError('Error fetching guest registrations:', error);
-      throw new Error('Failed to fetch registrations');
+  static async getGuestRegistrations(email: string, confirmationCode?: string) {
+    // SECURITY FIX: Now requires confirmation code to prevent data theft
+    if (!confirmationCode) {
+      throw new Error('Confirmation code required for guest access');
     }
 
-    return data;
+    try {
+      const { data, error } = await supabase.rpc('get_guest_registrations_by_email_secure', {
+        p_email: email,
+        p_confirmation_code: confirmationCode
+      });
+
+      if (error) {
+        logError('Error fetching guest registrations:', error);
+        throw new Error('Failed to fetch registrations');
+      }
+
+      return data || [];
+    } catch (error) {
+      logError('Error in secure guest registration fetch:', error);
+      throw error;
+    }
   }
 
   static async getRegistrationByConfirmationCode(confirmationCode: string) {
-    // Use security definer RPC so guests can look up without auth and without violating RLS
-    const { data, error } = await supabase.rpc('get_registration_by_code', {
-      p_code: confirmationCode
-    });
+    try {
+      const { data, error } = await supabase.rpc('get_guest_registration_secure', {
+        p_confirmation_code: confirmationCode
+      });
 
-    if (error) {
-      logError('Error fetching registration via RPC:', error);
-      return null;
+      if (error) {
+        logError('Error fetching registration by code:', error);
+        throw new Error('Registration not found');
+      }
+
+      return data && data.length > 0 ? data[0] : null;
+    } catch (error) {
+      logError('Error in secure registration fetch:', error);
+      throw error;
     }
-
-    // Function returns SETOF with limit 1; normalize to single row
-    const row = Array.isArray(data) ? data[0] : data;
-    return row || null;
   }
 
   static async updateRegistrationStatus(id: string, status: string) {
