@@ -3,6 +3,7 @@ import { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { Database } from '@/integrations/supabase/types';
 import { toast } from 'sonner';
+import { securityLogger, failedAuthMonitor } from '@/utils/securityLogger';
 
 type UserProfile = Database['public']['Tables']['user_profiles']['Row'];
 

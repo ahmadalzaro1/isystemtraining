@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -262,6 +262,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      data_retention_policies: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          last_cleanup_at: string | null
+          retention_days: number
+          table_name: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_cleanup_at?: string | null
+          retention_days: number
+          table_name: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_cleanup_at?: string | null
+          retention_days?: number
+          table_name?: string
+        }
+        Relationships: []
       }
       enrollments: {
         Row: {
@@ -674,6 +701,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      anonymize_expired_analytics: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      anonymize_user_data: {
+        Args: { target_user_id: string }
+        Returns: boolean
+      }
       cancel_registration_by_code: {
         Args: { p_code: string }
         Returns: {
@@ -690,29 +725,33 @@ export type Database = {
           workshop_id: string
         }
       }
+      cleanup_expired_guest_registrations: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       create_guest_registration: {
         Args: {
-          p_workshop_id: string
           p_email: string
           p_name?: string
           p_phone?: string
+          p_workshop_id: string
         }
         Returns: {
-          id: string
           confirmation_code: string
+          id: string
         }[]
       }
       get_admin_audit_logs: {
         Args: { limit_count?: number; offset_count?: number }
         Returns: {
-          id: string
-          admin_email: string
-          target_email: string
           action: string
-          details: Json
-          ip_address: unknown
-          user_agent: string
+          admin_email: string
           created_at: string
+          details: Json
+          id: string
+          ip_address: unknown
+          target_email: string
+          user_agent: string
         }[]
       }
       get_registration_by_code: {
@@ -733,21 +772,21 @@ export type Database = {
       }
       get_workshops_week: {
         Args: {
-          p_start: string
+          p_categories?: string[]
           p_end: string
           p_levels?: string[]
-          p_categories?: string[]
           p_query?: string
+          p_start: string
         }
         Returns: {
-          id: string
-          name: string
-          instructor: string
-          date: string
-          time_text: string
-          skill_level: string
           category: string
+          date: string
+          id: string
+          instructor: string
+          name: string
+          skill_level: string
           spots_remaining: number
+          time_text: string
         }[]
       }
       is_current_user_admin: {
@@ -758,12 +797,21 @@ export type Database = {
         Args: { p_email: string }
         Returns: number
       }
+      log_sensitive_data_access: {
+        Args: {
+          p_operation: string
+          p_record_id?: string
+          p_table_name: string
+          p_user_agent?: string
+        }
+        Returns: undefined
+      }
       update_user_admin_status: {
         Args: {
-          target_user_id: string
           new_admin_status: boolean
           requester_ip?: unknown
           requester_user_agent?: string
+          target_user_id: string
         }
         Returns: boolean
       }

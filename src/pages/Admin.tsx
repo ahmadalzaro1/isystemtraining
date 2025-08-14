@@ -13,6 +13,7 @@ import { SubjectManagement } from '@/components/admin/SubjectManagement';
 import { RegistrationStepManagement } from '@/components/admin/RegistrationStepManagement';
 import { CampaignManagement } from '@/components/admin/CampaignManagement';
 import { AdminAuditLog } from '@/components/admin/AdminAuditLog';
+import { SecurityManagement } from '@/components/admin/SecurityManagement';
 
 const Admin = () => {
   return (
@@ -76,7 +77,10 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="security">
-            <AdminAuditLog />
+            <div className="space-y-6">
+              <SecurityManagement />
+              <AdminAuditLog />
+            </div>
           </TabsContent>
 
           <TabsContent value="settings">
