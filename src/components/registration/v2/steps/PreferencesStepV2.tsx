@@ -1,3 +1,4 @@
+
 import React, { useCallback, useTransition } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
@@ -44,7 +45,7 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
   const handleTaskToggle = useCallback((taskValue: string, checked: boolean, currentValue: string[]) => {
     startTransition(() => {
       const updated = checked
-        ? currentValue.length < 3 ? [...currentValue, taskValue] : currentValue
+        ? [...currentValue, taskValue]
         : currentValue.filter((t: string) => t !== taskValue);
       form.setValue('mainTasks', updated);
       form.trigger('mainTasks');
@@ -83,13 +84,12 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
         render={({ field }) => (
           <FormItem className="space-y-4">
             <FormLabel className="text-ios-callout font-sf-pro font-medium text-text">
-              What do you primarily use your Apple devices for? (Select up to 3)
+              What do you primarily use your Apple devices for?
             </FormLabel>
             <FormControl>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {MAIN_TASKS.map((task) => {
                   const isSelected = (field.value || []).includes(task.value);
-                  const isDisabled = !isSelected && (field.value || []).length >= 3;
                   
                   return (
                     <div
@@ -98,14 +98,13 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
                         "relative flex items-center space-x-3 p-4 rounded-xl2",
                         "bg-surface-2 border-2 border-transparent",
                         "hover:bg-surface transition-all duration-200",
-                        isSelected && "border-accent-a bg-accent-a/5",
-                        isDisabled && "opacity-50"
+                        isSelected && "border-accent-a bg-accent-a/5"
                       )}
                     >
                       <Checkbox
                         checked={isSelected}
                         onCheckedChange={(checked) => handleTaskToggle(task.value, checked as boolean, field.value || [])}
-                        disabled={isDisabled || isPending}
+                        disabled={isPending}
                       />
                       <div className="text-xl">{task.icon}</div>
                       <div className="text-ios-callout font-sf-pro font-medium text-text">
