@@ -85,7 +85,7 @@ const RegistrationManagement: React.FC = () => {
           user_profiles(first_name, last_name, email, phone),
           workshops(name, date, time, category, skill_level)
         `)
-        .order('registration_date', { ascending: false, foreignTable: 'workshop_registrations' });
+        .order('registration_date', { ascending: false });
 
       if (error) {
         console.error('Error fetching registrations:', error);
