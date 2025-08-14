@@ -725,6 +725,10 @@ export type Database = {
           workshop_id: string
         }
       }
+      cleanup_expired_analytics_data: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       cleanup_expired_guest_registrations: {
         Args: Record<PropertyKey, never>
         Returns: number
@@ -797,6 +801,14 @@ export type Database = {
         Args: { p_email: string }
         Returns: number
       }
+      log_security_event: {
+        Args: {
+          p_event_details?: Json
+          p_event_type: string
+          p_severity?: string
+        }
+        Returns: undefined
+      }
       log_sensitive_data_access: {
         Args: {
           p_operation: string
@@ -805,6 +817,10 @@ export type Database = {
           p_user_agent?: string
         }
         Returns: undefined
+      }
+      sanitize_text_input: {
+        Args: { input_text: string }
+        Returns: string
       }
       update_user_admin_status: {
         Args: {

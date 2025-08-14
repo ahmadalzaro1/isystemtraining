@@ -5,6 +5,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormData, ContactPreference, PaidInterest } from "@/types/registration";
 import { cn } from "@/lib/utils";
+import { validateEmail, validatePhone, validateName } from "@/utils/inputValidation";
+import { useState } from "react";
 
 interface ContactStepProps {
   data: Pick<FormData, "name" | "email" | "phone" | "receiveUpdates" | "contactPreference" | "paidTrainingInterest">;
@@ -25,6 +27,39 @@ const PAID_INTEREST: { value: PaidInterest; label: string }[] = [
 ];
 
 export const ContactStep = ({ data, onChange, className }: ContactStepProps) => {
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+
+  const handleFieldChange = (field: keyof FormData, value: any) => {
+    onChange({ [field]: value });
+    
+    // Clear validation error when user starts typing
+    if (validationErrors[field]) {
+      setValidationErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+    
+    // Validate on change
+    let validation;
+    switch (field) {
+      case 'name':
+        validation = validateName(value, 'Full name');
+        break;
+      case 'email':
+        validation = validateEmail(value);
+        break;
+      case 'phone':
+        validation = validatePhone(value);
+        break;
+    }
+    
+    if (validation && !validation.isValid && value.trim()) {
+      setValidationErrors(prev => ({ ...prev, [field]: validation.error! }));
+    }
+  };
+
   return (
     <div className={cn("space-y-6", className)}>
       <div className="space-y-4">
@@ -32,9 +67,13 @@ export const ContactStep = ({ data, onChange, className }: ContactStepProps) => 
         <Input
           id="name"
           value={data.name}
-          onChange={(e) => onChange({ name: e.target.value })}
+          onChange={(e) => handleFieldChange('name', e.target.value)}
           placeholder="Enter your full name"
+          className={validationErrors.name ? 'border-red-500' : ''}
         />
+        {validationErrors.name && (
+          <p className="text-sm text-red-600">{validationErrors.name}</p>
+        )}
       </div>
 
       <div className="space-y-4">
@@ -43,9 +82,13 @@ export const ContactStep = ({ data, onChange, className }: ContactStepProps) => 
           id="email"
           type="email"
           value={data.email}
-          onChange={(e) => onChange({ email: e.target.value })}
+          onChange={(e) => handleFieldChange('email', e.target.value)}
           placeholder="Enter your email address"
+          className={validationErrors.email ? 'border-red-500' : ''}
         />
+        {validationErrors.email && (
+          <p className="text-sm text-red-600">{validationErrors.email}</p>
+        )}
       </div>
 
       <div className="space-y-4">
@@ -54,9 +97,13 @@ export const ContactStep = ({ data, onChange, className }: ContactStepProps) => 
           id="phone"
           type="tel"
           value={data.phone}
-          onChange={(e) => onChange({ phone: e.target.value })}
-          placeholder="Enter your Jordanian phone number"
+          onChange={(e) => handleFieldChange('phone', e.target.value)}
+          placeholder="Enter your Jordanian phone number (e.g., 07XXXXXXXX)"
+          className={validationErrors.phone ? 'border-red-500' : ''}
         />
+        {validationErrors.phone && (
+          <p className="text-sm text-red-600">{validationErrors.phone}</p>
+        )}
       </div>
 
       <div className="space-y-4">
