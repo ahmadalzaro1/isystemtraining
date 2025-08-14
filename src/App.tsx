@@ -77,8 +77,8 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 function App(): JSX.Element {
-  // Create QueryClient instance within React component
-  const queryClient = React.useMemo(() => createQueryClient(), []);
+  // Create QueryClient instance outside of React hooks to avoid dispatcher issues
+  const queryClient = createQueryClient();
   
   // Feature flag for V4 workshops redesign - clean minimal design
   const useMassiveWorkshopsDesign = true;
