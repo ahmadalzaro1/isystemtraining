@@ -1,11 +1,6 @@
-import { useState, useCallback, memo } from "react";
+import { useCallback, memo } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
-import { RegistrationForm } from "@/components/RegistrationForm";
-import { RegistrationWizardV2 } from "@/components/registration/v2/RegistrationWizardV2";
-import { RegistrationSuccess } from "@/components/registration/RegistrationSuccess";
 import { toast } from "sonner";
-import { FormData } from "@/types/registration";
-import { WorkshopRegistration } from "@/services/registrationService";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useNavigate } from "react-router-dom";
@@ -46,36 +41,10 @@ const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshop
   refetchOnWindowFocus: false,
 });
 
-const [step, setStep] = useState<"calendar" | "registration" | "success">("calendar");
-  const [selectedWorkshop, setSelectedWorkshop] = useState<any>(null);
-  const [registrationData, setRegistrationData] = useState<FormData | null>(null);
-  const [registration, setRegistration] = useState<WorkshopRegistration | null>(null);
   const handleWorkshopSelect = useCallback((workshop: any) => {
-    setSelectedWorkshop(workshop);
-    setStep("registration");
+    navigate(`/registration/${workshop.id}`);
     triggerHaptic('medium');
-    toast("Workshop Selected", {
-      description: `You've selected ${workshop.name} on ${workshop.date.toLocaleDateString()}`,
-      position: "top-right",
-      className: "z-[1000]"
-    });
-  }, [triggerHaptic]);
-  const handleRegistrationComplete = useCallback((formData: FormData, registrationRecord?: WorkshopRegistration) => {
-    setRegistrationData(formData);
-    setRegistration(registrationRecord || null);
-    setStep("success");
-    triggerHaptic('success');
-    toast("Registration Complete!", {
-      description: "Check your email for confirmation details."
-    });
-  }, [triggerHaptic]);
-  const handleViewWorkshops = useCallback(() => {
-    setStep("calendar");
-    setSelectedWorkshop(null);
-    setRegistrationData(null);
-    setRegistration(null);
-    triggerHaptic('light');
-  }, [triggerHaptic]);
+  }, [navigate, triggerHaptic]);
   const scrollToWorkshops = useCallback(() => {
     triggerHaptic('selection');
     const element = document.getElementById("workshops");
@@ -127,90 +96,30 @@ const [step, setStep] = useState<"calendar" | "registration" | "success">("calen
 
       {/* Upcoming dates (dynamic) */}
       {useMassiveWorkshopsDesign ? (
-        <>
-          {step === 'calendar' && (
-            isWorkshopsError ? (
-              <WorkshopsSectionV2 title="Upcoming dates">
-                <div className="p-6">
-                  <p className="text-[hsl(var(--text-muted))] mb-2">We couldn't load workshops. Please try again.</p>
-                  {workshopsError && (
-                    <p className="text-sm text-[hsl(var(--text-muted))] mb-4">Details: {(workshopsError as Error).message}</p>
-                  )}
-                  <Button variant="secondaryOutline" onClick={() => refetch()}>Retry</Button>
-                </div>
-              </WorkshopsSectionV2>
-            ) : isWorkshopsLoading ? (
-              <WorkshopsSectionV2 title="Upcoming dates">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-                  <WorkshopSkeleton />
-                  <WorkshopSkeleton />
-                  <WorkshopSkeleton />
-                </div>
-              </WorkshopsSectionV2>
-            ) : (
-              <WorkshopsSectionV4 workshops={workshops} onSelect={handleWorkshopSelect} />
-            )
-          )}
-          {step === 'registration' && selectedWorkshop && (
-            <WorkshopsSectionV2>
-              {registrationV2 ? (
-                <RegistrationWizardV2 
-                  workshop={selectedWorkshop} 
-                  onSubmit={async (data) => {
-                    const { RegistrationService } = await import("@/services/registrationService");
-                    return RegistrationService.createRegistration({
-                      workshop_id: data.workshop_id,
-                      formData: data.formData,
-                      user_id: user?.id,
-                    });
-                  }}
-                  onComplete={handleRegistrationComplete} 
-                />
-              ) : (
-                <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
+        isWorkshopsError ? (
+          <WorkshopsSectionV2 title="Upcoming dates">
+            <div className="p-6">
+              <p className="text-[hsl(var(--text-muted))] mb-2">We couldn't load workshops. Please try again.</p>
+              {workshopsError && (
+                <p className="text-sm text-[hsl(var(--text-muted))] mb-4">Details: {(workshopsError as Error).message}</p>
               )}
-            </WorkshopsSectionV2>
-          )}
-          {step === 'success' && selectedWorkshop && registrationData && (
-            <WorkshopsSectionV2>
-              <RegistrationSuccess
-                workshop={selectedWorkshop}
-                registrationData={registrationData}
-                registration={registration}
-                onViewWorkshops={handleViewWorkshops}
-              />
-            </WorkshopsSectionV2>
-          )}
-        </>
+              <Button variant="secondaryOutline" onClick={() => refetch()}>Retry</Button>
+            </div>
+          </WorkshopsSectionV2>
+        ) : isWorkshopsLoading ? (
+          <WorkshopsSectionV2 title="Upcoming dates">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+              <WorkshopSkeleton />
+              <WorkshopSkeleton />
+              <WorkshopSkeleton />
+            </div>
+          </WorkshopsSectionV2>
+        ) : (
+          <WorkshopsSectionV4 workshops={workshops} onSelect={handleWorkshopSelect} />
+        )
       ) : (
         <WorkshopsSectionV2>
-          {step === 'calendar' && <WorkshopCalendar onSelect={handleWorkshopSelect} variant={calendarVariant} />}
-          {step === 'registration' && selectedWorkshop && (
-            registrationV2 ? (
-              <RegistrationWizardV2 
-                workshop={selectedWorkshop} 
-                onSubmit={async (data) => {
-                  const { RegistrationService } = await import("@/services/registrationService");
-                  return RegistrationService.createRegistration({
-                    workshop_id: data.workshop_id,
-                    formData: data.formData,
-                    user_id: user?.id,
-                  });
-                }}
-                onComplete={handleRegistrationComplete} 
-              />
-            ) : (
-              <RegistrationForm workshop={selectedWorkshop} onComplete={handleRegistrationComplete} />
-            )
-          )}
-          {step === 'success' && selectedWorkshop && registrationData && (
-            <RegistrationSuccess
-              workshop={selectedWorkshop}
-              registrationData={registrationData}
-              registration={registration}
-              onViewWorkshops={handleViewWorkshops}
-            />
-          )}
+          <WorkshopCalendar onSelect={handleWorkshopSelect} variant={calendarVariant} />
         </WorkshopsSectionV2>
       )}
     </>;

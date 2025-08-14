@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { Workshop } from "@/types/workshop";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface WorkshopCardV2Props {
   workshop: Workshop;
@@ -11,12 +12,13 @@ interface WorkshopCardV2Props {
 }
 
 export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Props) => {
+  const navigate = useNavigate();
   const totalSeats = 12;
   const percentFilled = ((totalSeats - workshop.spotsRemaining) / totalSeats) * 100;
 
   const handleRegister = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onSelect(workshop);
+    navigate(`/registration/${workshop.id}`);
   };
 
   const handleWaitlist = (e: React.MouseEvent) => {
@@ -27,7 +29,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
   };
 
   const handleCardClick = () => {
-    onSelect(workshop);
+    navigate(`/registration/${workshop.id}`);
   };
 
   return (

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface WorkshopsSectionV4Props {
   workshops: Workshop[];
@@ -13,6 +14,7 @@ interface WorkshopsSectionV4Props {
 }
 
 export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Props) {
+  const navigate = useNavigate();
   const [currentWeek, setCurrentWeek] = useState<Date>(new Date());
   const [filters, setFilters] = useState<WorkshopFilters>({
     search: "",
@@ -207,7 +209,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
               
               <CardFooter>
                 <Button
-                  onClick={() => onSelect(workshop)}
+                  onClick={() => navigate(`/registration/${workshop.id}`)}
                   className="w-full h-12 text-lg bg-[hsl(var(--accent-a))] hover:bg-[hsl(var(--accent-a))/0.9] text-white"
                   disabled={workshop.spotsRemaining === 0}
                 >

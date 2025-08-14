@@ -5,7 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import { ProtectedRoute, AdminRoute } from "@/components/auth/ProtectedRoute";
@@ -18,6 +18,7 @@ const NotFound = lazy(() => import("./pages/NotFound").then(module => ({ default
 const Auth = lazy(() => import("./pages/Auth").then(module => ({ default: module.default })));
 const Admin = lazy(() => import("./pages/Admin").then(module => ({ default: module.default })));
 const MyRegistrations = lazy(() => import("./pages/MyRegistrations").then(module => ({ default: module.default })));
+const RegistrationPage = lazy(() => import("./pages/RegistrationPage").then(module => ({ default: module.default })));
 
 // Create QueryClient with proper React integration
 const createQueryClient = () => new QueryClient({
@@ -57,6 +58,24 @@ const LoadingSpinner = (): JSX.Element => (
   </div>
 );
 
+// Main app layout component that conditionally shows hero
+const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+  
+  return (
+    <>
+      <SkipToContent />
+      <SiteHeader />
+      <Suspense fallback={<LoadingSpinner />}>
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
+      </Suspense>
+    </>
+  );
+};
+
 function App(): JSX.Element {
   // Create QueryClient instance within React component
   const queryClient = React.useMemo(() => createQueryClient(), []);
@@ -81,20 +100,17 @@ function App(): JSX.Element {
           <BrowserRouter>
             <FeatureFlagsProvider>
             <AuthProvider>
-              <SkipToContent />
-              <SiteHeader />
-              <Suspense fallback={<LoadingSpinner />}>
-                <main id="main-content" tabIndex={-1}>
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/auth" element={<Auth />} />
-                    <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
-                    <Route path="/my-registrations" element={<ProtectedRoute><MyRegistrations /></ProtectedRoute>} />
-                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </main>
-              </Suspense>
+              <AppLayout>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/registration/:workshopId" element={<RegistrationPage />} />
+                  <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
+                  <Route path="/my-registrations" element={<ProtectedRoute><MyRegistrations /></ProtectedRoute>} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </AppLayout>
             </AuthProvider>
           </FeatureFlagsProvider>
           </BrowserRouter>

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { IOSCard } from "@/components/ui/ios-card";
+import { useNavigate } from "react-router-dom";
 
 interface WorkshopCardProps {
   workshop: Workshop;
@@ -14,12 +15,12 @@ interface WorkshopCardProps {
 }
 
 export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) => {
+  const navigate = useNavigate();
   const totalSeats = 12;
   const isTrending = workshop.spotsRemaining <= 4;
   const isAlmostFull = workshop.spotsRemaining <= 2;
 
   const handleWaitlist = (e: React.MouseEvent) => {
-    
     e.stopPropagation();
     toast.success("Added to waitlist", {
       description: "We'll notify you if a spot becomes available"
@@ -27,14 +28,12 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
   };
 
   const handleRegister = (e: React.MouseEvent) => {
-    
     e.stopPropagation();
-    onSelect(workshop);
+    navigate(`/registration/${workshop.id}`);
   };
 
   const handleCardClick = () => {
-    
-    onSelect(workshop);
+    navigate(`/registration/${workshop.id}`);
   };
 
   return (
