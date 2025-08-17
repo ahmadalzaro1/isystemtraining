@@ -765,6 +765,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: number
       }
+      anonymize_guest_data_enhanced: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       anonymize_old_guest_registrations: {
         Args: Record<PropertyKey, never>
         Returns: number
@@ -790,6 +794,10 @@ export type Database = {
         }
       }
       check_guest_access_rate_limit: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      check_guest_access_rate_limit_enhanced: {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
