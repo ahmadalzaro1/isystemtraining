@@ -194,6 +194,7 @@ export const RegistrationSuccess = ({
                 <Switch
                   checked={smsReminders}
                   onCheckedChange={toggleSmsReminders}
+                  className="scale-90"
                 />
               </div>
             </div>
