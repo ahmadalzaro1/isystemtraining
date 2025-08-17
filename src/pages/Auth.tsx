@@ -54,8 +54,8 @@ const Auth = () => {
       errors.email = emailValidation.error!;
     }
     
-    // Password validation
-    if (!passwordValidation.isValid) {
+    // Password validation - only for sign up, not sign in
+    if (isSignUp && !passwordValidation.isValid) {
       errors.password = 'Password does not meet security requirements';
     }
     
@@ -209,8 +209,11 @@ const Auth = () => {
                 onChange={(e) => {
                   const newPassword = e.target.value;
                   setPassword(newPassword);
-                  const validation = validatePassword(newPassword);
-                  setPasswordValidation(validation);
+                  // Only validate password strength during sign-up
+                  if (isSignUp) {
+                    const validation = validatePassword(newPassword);
+                    setPasswordValidation(validation);
+                  }
                   setShowPasswordStrength(newPassword.length > 0 && isSignUp);
                 }}
                 onFocus={() => setShowPasswordStrength(isSignUp)}
