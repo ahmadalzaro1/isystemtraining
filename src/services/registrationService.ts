@@ -289,14 +289,20 @@ export class RegistrationService {
   }
 
   static async sendConfirmationEmail(registration: WorkshopRegistration, formData: FormData) {
-    console.log('[RegistrationService] 🚀 Starting sendConfirmationEmail function');
-    console.log('[RegistrationService] Function called with:', {
+    // Force immediate logging to console
+    console.error('[RegistrationService] 🚀 STARTING EMAIL FUNCTION - FORCED LOG');
+    console.error('[RegistrationService] Function called with:', {
       registrationId: registration.id,
       workshopId: registration.workshop_id,
       userId: registration.user_id,
       guestEmail: registration.guest_email,
       confirmationCode: registration.confirmation_code
     });
+    
+    // Also use window.alert to force visibility if console is being suppressed
+    if (typeof window !== 'undefined') {
+      window.alert('sendConfirmationEmail function called! Check console for details.');
+    }
 
     try {
       console.log('[RegistrationService] 📋 Fetching workshop details...');
