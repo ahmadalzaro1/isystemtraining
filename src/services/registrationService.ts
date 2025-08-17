@@ -289,7 +289,17 @@ export class RegistrationService {
   }
 
   static async sendConfirmationEmail(registration: WorkshopRegistration, formData: FormData) {
+    console.log('[RegistrationService] 🚀 Starting sendConfirmationEmail function');
+    console.log('[RegistrationService] Function called with:', {
+      registrationId: registration.id,
+      workshopId: registration.workshop_id,
+      userId: registration.user_id,
+      guestEmail: registration.guest_email,
+      confirmationCode: registration.confirmation_code
+    });
+
     try {
+      console.log('[RegistrationService] 📋 Fetching workshop details...');
       // Get workshop details for the email
       const { data: workshop, error: workshopError } = await supabase
         .from('workshops')
@@ -298,11 +308,20 @@ export class RegistrationService {
         .single();
 
       if (workshopError || !workshop) {
+        console.error('[RegistrationService] ❌ Workshop fetch failed:', workshopError);
         logError('Error fetching workshop for email:', workshopError);
         // Don't throw - registration succeeded, email is secondary
         return;
       }
 
+      console.log('[RegistrationService] ✅ Workshop details fetched:', {
+        name: workshop.name,
+        date: workshop.date,
+        time: workshop.time,
+        instructor: workshop.instructor
+      });
+
+      console.log('[RegistrationService] 👤 Determining participant details...');
       // Determine participant name and email
       let participantName = formData.name || 'Workshop Participant';
       let participantEmail: string;
@@ -321,6 +340,7 @@ export class RegistrationService {
             participantName = `${profile.first_name} ${profile.last_name || ''}`.trim();
           }
         } else {
+          console.warn('[RegistrationService] ⚠️ No email found for authenticated user');
           log('No email found for authenticated user, skipping confirmation email');
           return;
         }
@@ -330,11 +350,19 @@ export class RegistrationService {
           participantEmail = registration.guest_email;
           participantName = registration.guest_name || participantName;
         } else {
+          console.warn('[RegistrationService] ⚠️ No email found for guest user');
           log('No email found for guest user, skipping confirmation email');
           return;
         }
       }
 
+      console.log('[RegistrationService] ✅ Participant details determined:', {
+        name: participantName,
+        email: participantEmail,
+        isAuthenticated: !!registration.user_id
+      });
+
+      console.log('[RegistrationService] 📅 Formatting email content...');
       // Format date and time for email
       const workshopDate = new Date(workshop.date).toLocaleDateString('en-US', {
         weekday: 'long',
@@ -480,6 +508,13 @@ export class RegistrationService {
       }
 
     } catch (error) {
+      console.error('[RegistrationService] 💥 CATCH BLOCK - Unhandled error in sendConfirmationEmail:', {
+        error,
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : 'No stack trace',
+        registrationId: registration.id,
+        workshopId: registration.workshop_id
+      });
       logError('Error in sendConfirmationEmail:', error);
       // Don't throw - registration succeeded, email is secondary
     }
