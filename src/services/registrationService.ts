@@ -427,7 +427,14 @@ export class RegistrationService {
         </html>
       `;
 
-      // Send email via the edge function
+      // Send email via the edge function with detailed logging
+      console.log('[RegistrationService] Attempting to invoke send-confirmation-email function...');
+      console.log('[RegistrationService] Email payload:', {
+        to: participantEmail,
+        subject: `Registration Confirmed: ${workshop.name}`,
+        htmlLength: emailHTML.length
+      });
+
       const emailResult = await supabase.functions.invoke('send-confirmation-email', {
         body: {
           to: participantEmail,
@@ -436,9 +443,22 @@ export class RegistrationService {
         }
       });
 
+      console.log('[RegistrationService] Function invoke result:', {
+        hasError: !!emailResult.error,
+        hasData: !!emailResult.data
+      });
+
       if (emailResult.error) {
+        console.error('[RegistrationService] Edge function error details:', {
+          error: emailResult.error,
+          message: emailResult.error?.message,
+          details: emailResult.error?.details,
+          hint: emailResult.error?.hint,
+          code: emailResult.error?.code
+        });
         logError('Error sending confirmation email:', emailResult.error);
       } else {
+        console.log('[RegistrationService] Edge function success:', emailResult.data);
         log('Confirmation email sent successfully', { 
           registrationId: registration.id,
           email: participantEmail 
