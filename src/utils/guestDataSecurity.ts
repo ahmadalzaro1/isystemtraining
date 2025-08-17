@@ -40,10 +40,10 @@ export const maskGuestData = (email: string, name?: string, phone?: string) => {
   };
 };
 
-// Trigger guest data anonymization
+// Trigger enhanced guest data anonymization
 export const anonymizeOldGuestData = async () => {
   try {
-    const { data, error } = await supabase.rpc('anonymize_old_guest_registrations');
+    const { data, error } = await supabase.rpc('anonymize_guest_data_enhanced');
     
     if (error) throw error;
     
@@ -55,6 +55,27 @@ export const anonymizeOldGuestData = async () => {
     console.error('Error anonymizing guest data:', error);
     return {
       success: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    };
+  }
+};
+
+// Enhanced rate limiting check for guest access
+export const checkGuestAccessRateLimit = async () => {
+  try {
+    const { data, error } = await supabase.rpc('check_guest_access_rate_limit_enhanced');
+    
+    if (error) throw error;
+    
+    return {
+      allowed: data === true,
+      blocked: data === false
+    };
+  } catch (error) {
+    console.error('Error checking rate limit:', error);
+    return {
+      allowed: false,
+      blocked: true,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }

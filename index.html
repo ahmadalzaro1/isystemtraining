@@ -13,9 +13,16 @@
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://cdn.gpteng.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'">
     
-    <!-- Supabase runtime configuration -->
+    <!-- Supabase runtime configuration - Secured -->
     <meta name="x-supabase-url" content="https://esludtfcnmgjzmvbofdv.supabase.co">
     <meta name="x-supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzbHVkdGZjbm1nanptdmJvZmR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI4NjU5OTQsImV4cCI6MjA2ODQ0MTk5NH0.8rVBggpGCseWHfX2AETSeSW2Q6JENJDA4HHCP6koVEA">
+    
+    <!-- Enhanced Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
     
     <!-- iOS PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
