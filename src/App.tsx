@@ -11,6 +11,7 @@ import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import { ProtectedRoute, AdminRoute } from "@/components/auth/ProtectedRoute";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { FeatureFlagsProvider } from "@/contexts/FeatureFlagsContext";
+import { SecurityEnforcement } from "@/components/security/SecurityEnforcement";
 
 // Lazy load pages for better performance with explicit imports
 const Index = lazy(() => import("./pages/Index").then(module => ({ default: module.default })));
@@ -100,7 +101,8 @@ function App(): JSX.Element {
           <BrowserRouter>
             <FeatureFlagsProvider>
             <AuthProvider>
-              <AppLayout>
+              <SecurityEnforcement>
+                <AppLayout>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/auth" element={<Auth />} />
@@ -110,7 +112,8 @@ function App(): JSX.Element {
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
-              </AppLayout>
+                </AppLayout>
+              </SecurityEnforcement>
             </AuthProvider>
           </FeatureFlagsProvider>
           </BrowserRouter>
