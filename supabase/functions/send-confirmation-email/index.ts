@@ -33,9 +33,9 @@ serve(async (req: Request): Promise<Response> => {
       return new Response(JSON.stringify({ error: 'missing_fields' }), { status: 400, headers: corsHeaders(origin) });
     }
 
-    const provider = (Deno.env.get('EMAIL_PROVIDER') || '').toLowerCase();
-    const apiKey = Deno.env.get('EMAIL_API_KEY') || '';
-    const from = Deno.env.get('EMAIL_FROM') || 'iSystem Training <onboarding@resend.dev>';
+    const provider = 'resend'; // Always use Resend
+    const apiKey = Deno.env.get('RESEND_API_KEY') || '';
+    const from = 'iSystem Training <onboarding@resend.dev>';
 
     // No-op if provider not configured (local/dev friendly)
     if (!provider || !apiKey) {

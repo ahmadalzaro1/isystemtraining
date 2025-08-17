@@ -88,6 +88,9 @@ export class RegistrationService {
       // Save detailed form responses for guest registration
       await RegistrationService.saveRegistrationResponses(fullRow.id, formData, null);
 
+      // Send confirmation email for guest registration
+      await RegistrationService.sendConfirmationEmail(fullRow, formData);
+
       log('Guest registration created', { id: fullRow.id });
       return fullRow;
     }
@@ -134,6 +137,9 @@ export class RegistrationService {
 
     // Save detailed form responses for authenticated user registration
     await RegistrationService.saveRegistrationResponses(data?.id, formData, authenticatedUserId);
+
+    // Send confirmation email for authenticated user registration
+    await RegistrationService.sendConfirmationEmail(data, formData);
 
     log('Registration created', { id: data?.id });
     return data;
@@ -280,6 +286,183 @@ export class RegistrationService {
 
     // RPC returns the updated row
     return (Array.isArray(data) ? data[0] : (data as any)) || null;
+  }
+
+  static async sendConfirmationEmail(registration: WorkshopRegistration, formData: FormData) {
+    try {
+      // Get workshop details for the email
+      const { data: workshop, error: workshopError } = await supabase
+        .from('workshops')
+        .select('name, date, time, instructor')
+        .eq('id', registration.workshop_id)
+        .single();
+
+      if (workshopError || !workshop) {
+        logError('Error fetching workshop for email:', workshopError);
+        // Don't throw - registration succeeded, email is secondary
+        return;
+      }
+
+      // Determine participant name and email
+      let participantName = formData.name || 'Workshop Participant';
+      let participantEmail: string;
+
+      if (registration.user_id) {
+        // For authenticated users, get email from profile
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('email, first_name, last_name')
+          .eq('user_id', registration.user_id)
+          .single();
+
+        if (profile?.email) {
+          participantEmail = profile.email;
+          if (profile.first_name) {
+            participantName = `${profile.first_name} ${profile.last_name || ''}`.trim();
+          }
+        } else {
+          log('No email found for authenticated user, skipping confirmation email');
+          return;
+        }
+      } else {
+        // For guest users, use guest email
+        if (registration.guest_email) {
+          participantEmail = registration.guest_email;
+          participantName = registration.guest_name || participantName;
+        } else {
+          log('No email found for guest user, skipping confirmation email');
+          return;
+        }
+      }
+
+      // Format date and time for email
+      const workshopDate = new Date(workshop.date).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      // Generate email HTML using our template
+      const emailHTML = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Workshop Registration Confirmed</title>
+        </head>
+        <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px 20px;">
+          
+          <div style="text-align: center; margin-bottom: 40px; border-bottom: 2px solid #007AFF; padding-bottom: 20px;">
+            <div style="font-size: 32px; font-weight: bold; color: #007AFF; margin-bottom: 10px;">iSystem</div>
+            <h1 style="font-size: 24px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">Workshop Registration Confirmed!</h1>
+            <p style="font-size: 16px; color: #6e6e73; margin-bottom: 30px;">
+              Get ready for an amazing learning experience, ${participantName}!
+            </p>
+          </div>
+
+          <div style="background-color: #f5f5f7; border: 2px solid #007AFF; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 30px;">
+            <p style="margin: 0 0 10px 0; font-weight: 600; color: #1d1d1f;">
+              Your Confirmation Code
+            </p>
+            <div style="font-size: 24px; font-weight: bold; color: #007AFF; font-family: Monaco, monospace; letter-spacing: 2px;">${registration.confirmation_code}</div>
+            <p style="margin: 10px 0 0 0; font-size: 12px; color: #6e6e73;">
+              Save this code for your records
+            </p>
+          </div>
+
+          <div style="background-color: #f9f9f9; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+            <h2 style="margin: 0 0 20px 0; color: #1d1d1f;">Workshop Details</h2>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e5e5e7;">
+              <span style="font-weight: 600; color: #1d1d1f;">Workshop:</span>
+              <span style="color: #6e6e73;">${workshop.name}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e5e5e7;">
+              <span style="font-weight: 600; color: #1d1d1f;">Date:</span>
+              <span style="color: #6e6e73;">${workshopDate}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e5e5e7;">
+              <span style="font-weight: 600; color: #1d1d1f;">Time:</span>
+              <span style="color: #6e6e73;">${workshop.time}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e5e5e7;">
+              <span style="font-weight: 600; color: #1d1d1f;">Instructor:</span>
+              <span style="color: #6e6e73;">${workshop.instructor}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; border-bottom: none;">
+              <span style="font-weight: 600; color: #1d1d1f;">Join Link:</span>
+              <span style="color: #6e6e73;">Will be provided 1 hour before the session</span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 30px;">
+            <h2 style="margin: 0 0 20px 0; color: #1d1d1f;">What Happens Next?</h2>
+            <ul style="padding-left: 0; list-style: none;">
+              <li style="padding: 10px 0; border-left: 3px solid #007AFF; padding-left: 15px; margin-bottom: 10px; background-color: #f5f5f7; border-radius: 4px;">
+                📧 You'll receive workshop materials 24 hours before the session
+              </li>
+              <li style="padding: 10px 0; border-left: 3px solid #007AFF; padding-left: 15px; margin-bottom: 10px; background-color: #f5f5f7; border-radius: 4px;">
+                🔗 Join link and meeting details will be shared 1 hour before start time
+              </li>
+              <li style="padding: 10px 0; border-left: 3px solid #007AFF; padding-left: 15px; margin-bottom: 10px; background-color: #f5f5f7; border-radius: 4px;">
+                📱 Add this event to your calendar to never miss it
+              </li>
+              <li style="padding: 10px 0; border-left: 3px solid #007AFF; padding-left: 15px; margin-bottom: 10px; background-color: #f5f5f7; border-radius: 4px;">
+                💡 Prepare any questions you'd like to ask during the session
+              </li>
+            </ul>
+          </div>
+
+          <div style="text-align: center; padding-top: 30px; border-top: 1px solid #e5e5e7; color: #6e6e73; font-size: 14px;">
+            <p>Need help? Contact us at support@isystem.com</p>
+            <p>© 2024 iSystem Training. All rights reserved.</p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      // Send email via the edge function
+      const emailResult = await supabase.functions.invoke('send-confirmation-email', {
+        body: {
+          to: participantEmail,
+          subject: `Registration Confirmed: ${workshop.name}`,
+          html: emailHTML
+        }
+      });
+
+      if (emailResult.error) {
+        logError('Error sending confirmation email:', emailResult.error);
+      } else {
+        log('Confirmation email sent successfully', { 
+          registrationId: registration.id,
+          email: participantEmail 
+        });
+
+        // Log email sent event
+        await supabase
+          .from('analytics_events')
+          .insert({
+            event_name: 'confirmation_email_sent',
+            user_id: registration.user_id,
+            event_data: {
+              registration_id: registration.id,
+              workshop_id: registration.workshop_id,
+              workshop_name: workshop.name,
+              email_sent_to: participantEmail
+            }
+          });
+      }
+
+    } catch (error) {
+      logError('Error in sendConfirmationEmail:', error);
+      // Don't throw - registration succeeded, email is secondary
+    }
   }
 }
 
