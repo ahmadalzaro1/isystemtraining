@@ -27,20 +27,44 @@ serve(async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Enhanced debugging: Log all environment variables (safely)
+    console.log('[send-confirmation-email] Starting email send process...');
+    console.log('[send-confirmation-email] Request origin:', origin);
+    
+    // Debug environment variables (safely)
+    const allEnvKeys = Object.keys(Deno.env.toObject());
+    console.log('[send-confirmation-email] Available env keys:', allEnvKeys);
+    
+    const apiKey = Deno.env.get('RESEND_API_KEY');
+    console.log('[send-confirmation-email] RESEND_API_KEY exists:', !!apiKey);
+    console.log('[send-confirmation-email] RESEND_API_KEY length:', apiKey ? apiKey.length : 0);
+    console.log('[send-confirmation-email] RESEND_API_KEY starts with re_:', apiKey ? apiKey.startsWith('re_') : false);
+
     const { to, subject, html }: EmailRequest = await req.json();
+    console.log('[send-confirmation-email] Email request - to:', to, 'subject:', subject);
 
     if (!to || !subject || !html) {
+      console.error('[send-confirmation-email] Missing required fields:', { to: !!to, subject: !!subject, html: !!html });
       return new Response(JSON.stringify({ error: 'missing_fields' }), { status: 400, headers: corsHeaders(origin) });
     }
 
     const provider = 'resend'; // Always use Resend
-    const apiKey = Deno.env.get('RESEND_API_KEY') || '';
     const from = 'iSystem Training <onboarding@resend.dev>';
 
-    // No-op if provider not configured (local/dev friendly)
-    if (!provider || !apiKey) {
-      console.log('[send-confirmation-email] Provider not configured; returning 200 (noop).');
-      return new Response(JSON.stringify({ id: `noop-${Date.now()}`, status: 'accepted' }), { status: 200, headers: corsHeaders(origin) });
+    // Enhanced error messaging for missing API key
+    if (!apiKey || apiKey.trim() === '') {
+      const errorMsg = 'RESEND_API_KEY is missing or empty';
+      console.error(`[send-confirmation-email] ${errorMsg}`);
+      console.error('[send-confirmation-email] This will prevent emails from being sent');
+      return new Response(JSON.stringify({ 
+        error: 'api_key_missing', 
+        message: errorMsg,
+        debug: {
+          keyExists: !!apiKey,
+          keyLength: apiKey ? apiKey.length : 0,
+          envKeysAvailable: allEnvKeys.length
+        }
+      }), { status: 500, headers: corsHeaders(origin) });
     }
 
     if (provider === 'resend') {
