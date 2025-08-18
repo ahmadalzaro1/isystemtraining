@@ -53,7 +53,7 @@ export default {
 
         // Semantic tokens
         surface: "hsl(var(--surface))",
-        surface2: "hsl(var(--surface-2))",
+        "surface-2": "hsl(var(--surface-2))",
         text: "hsl(var(--text))",
         "text-muted": "hsl(var(--text-muted))",
         accent: {
