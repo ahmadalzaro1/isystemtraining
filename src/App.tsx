@@ -21,8 +21,8 @@ const Admin = lazy(() => import("./pages/Admin").then(module => ({ default: modu
 const MyRegistrations = lazy(() => import("./pages/MyRegistrations").then(module => ({ default: module.default })));
 const RegistrationPage = lazy(() => import("./pages/RegistrationPage").then(module => ({ default: module.default })));
 
-// Create QueryClient with proper React integration
-const createQueryClient = () => new QueryClient({
+// Create QueryClient instance outside of component to avoid dispatcher issues
+const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
@@ -78,9 +78,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 function App(): JSX.Element {
-  // Create QueryClient instance outside of React hooks to avoid dispatcher issues
-  const queryClient = createQueryClient();
-  
   // Feature flag for V4 workshops redesign - clean minimal design
   const useMassiveWorkshopsDesign = true;
   const spacingVersion = "v4.0-clean-minimal-workshops";
