@@ -85,11 +85,7 @@ const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshop
               <Button variant="secondaryOutline" onClick={() => navigate('/my-registrations')} aria-label="Go to my registrations">
                 My registrations
               </Button>
-            ) : (
-              <Button variant="secondaryOutline" onClick={() => navigate('/auth')} aria-label="Sign in to manage registrations">
-                Sign In
-              </Button>
-            )}
+            ) : null}
           </div>
         </div>
       </section>
