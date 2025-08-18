@@ -146,11 +146,11 @@ export const RegistrationSuccess = ({
         )}
 
         {/* Main Content */}
-        <div className="grid gap-8 md:grid-cols-2">
-          {/* Workshop Details Card */}
+        <div className="grid gap-8">
+          {/* Workshop Details & Next Steps Card */}
           <Card className="glass-morphism p-6 hover:scale-[1.02] transition-all duration-300">
             <h2 className="text-2xl font-semibold mb-4">Workshop Details</h2>
-            <div className="space-y-4">
+            <div className="space-y-4 mb-8">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Workshop</span>
                 <span className="font-medium">{workshop.name}</span>
@@ -172,19 +172,18 @@ export const RegistrationSuccess = ({
                 Add to Calendar
               </Button>
             </div>
-          </Card>
-
-          {/* Next Steps Card */}
-          <Card className="glass-morphism p-6">
-            <h2 className="text-2xl font-semibold mb-4">Next Steps</h2>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Mail className="w-4 h-4 text-primary" />
+            
+            <div className="border-t pt-6">
+              <h3 className="text-xl font-semibold mb-4">Next Steps</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Mail className="w-4 h-4 text-primary" />
+                  </div>
+                  <span className="text-sm">
+                    Confirmation sent to {registrationData.email}
+                  </span>
                 </div>
-                <span className="text-sm">
-                  Confirmation sent to {registrationData.email}
-                </span>
               </div>
             </div>
           </Card>
