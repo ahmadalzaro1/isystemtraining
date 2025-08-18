@@ -92,16 +92,17 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
                   const isSelected = (field.value || []).includes(task.value);
                   
                   return (
-                    <div
-                      key={task.value}
+                    <Label
+                      htmlFor={`task-${task.value}`}
                       className={cn(
-                        "relative flex items-center space-x-3 p-4 rounded-xl2",
+                        "relative flex items-center space-x-3 p-4 rounded-xl2 cursor-pointer",
                         "bg-surface-2 border-2 border-transparent",
                         "hover:bg-surface transition-all duration-200",
                         isSelected && "border-accent-a bg-accent-a/5"
                       )}
                     >
                       <Checkbox
+                        id={`task-${task.value}`}
                         checked={isSelected}
                         onCheckedChange={(checked) => handleTaskToggle(task.value, checked as boolean, field.value || [])}
                         disabled={isPending}
@@ -110,7 +111,7 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
                       <div className="text-ios-callout font-sf-pro font-medium text-text">
                         {task.label}
                       </div>
-                    </div>
+                    </Label>
                   );
                 })}
               </div>
@@ -136,16 +137,17 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
                   const isSelected = (field.value || []).includes(style.value);
                   
                   return (
-                    <div
-                      key={style.value}
+                    <Label
+                      htmlFor={`style-${style.value}`}
                       className={cn(
-                        "relative flex items-center space-x-4 p-4 rounded-xl2",
+                        "relative flex items-center space-x-4 p-4 rounded-xl2 cursor-pointer",
                         "bg-surface-2 border-2 border-transparent",
                         "hover:bg-surface transition-all duration-200",
                         isSelected && "border-accent-a bg-accent-a/5"
                       )}
                     >
                       <Checkbox
+                        id={`style-${style.value}`}
                         checked={isSelected}
                         onCheckedChange={(checked) => handleStyleToggle(style.value, checked as boolean, field.value || [])}
                         disabled={isPending}
@@ -159,7 +161,7 @@ export const PreferencesStepV2: React.FC<PreferencesStepV2Props> = ({ form, data
                           {style.description}
                         </div>
                       </div>
-                    </div>
+                    </Label>
                   );
                 })}
               </div>
