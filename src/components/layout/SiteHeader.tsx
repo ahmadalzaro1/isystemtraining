@@ -16,7 +16,7 @@ export function SiteHeader(): JSX.Element {
           </Link>
         </div>
         <nav aria-label="Primary" className="flex items-center gap-2">
-          {user ? (
+          {user && (
             <>
               <Button
                 variant="secondaryOutline"
@@ -37,15 +37,6 @@ export function SiteHeader(): JSX.Element {
                 </Button>
               )}
             </>
-          ) : (
-            <Button
-              variant="secondaryOutline"
-              size="sm"
-              onClick={() => navigate("/auth")}
-              aria-label="Admin Login"
-            >
-              Admin Login
-            </Button>
           )}
         </nav>
       </div>
