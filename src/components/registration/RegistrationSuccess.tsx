@@ -186,17 +186,6 @@ export const RegistrationSuccess = ({
                   Confirmation sent to {registrationData.email}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Bell className="w-4 h-4" />
-                  <span>SMS Reminders</span>
-                </div>
-                <Switch
-                  checked={smsReminders}
-                  onCheckedChange={toggleSmsReminders}
-                  className="scale-90"
-                />
-              </div>
             </div>
           </Card>
         </div>
