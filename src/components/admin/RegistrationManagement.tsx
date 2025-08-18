@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { format, startOfWeek, endOfWeek, isWithinInterval } from 'date-fns';
 import * as XLSX from 'xlsx';
 import { toast } from 'sonner';
-import { Download, Search, Filter, FileText, Users, Calendar } from 'lucide-react';
+import { Download, Search, Filter, FileText, Users, Calendar, Trash2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 import { supabase } from '@/integrations/supabase/client';
@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface RegistrationData {
@@ -44,9 +45,11 @@ interface RegistrationData {
 
 const RegistrationManagement: React.FC = () => {
   const { isAdmin } = useAuth();
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedRegistration, setSelectedRegistration] = useState<RegistrationData | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // Guard against non-admin access
   if (!isAdmin) {
@@ -220,6 +223,53 @@ const RegistrationManagement: React.FC = () => {
     return registration.user_profile?.phone || registration.guest_phone || 'N/A';
   };
 
+  const deleteRegistration = async (registrationId: string, workshopId: string) => {
+    try {
+      setDeletingId(registrationId);
+      
+      // Delete the registration
+      const { error: deleteError } = await supabase
+        .from('workshop_registrations')
+        .delete()
+        .eq('id', registrationId);
+
+      if (deleteError) {
+        throw deleteError;
+      }
+
+      // Increase the workshop spots count
+      const { data: workshopData, error: workshopError } = await supabase
+        .from('workshops')
+        .select('spots_remaining')
+        .eq('id', workshopId)
+        .single();
+
+      if (workshopData && !workshopError) {
+        const { error: updateError } = await supabase
+          .from('workshops')
+          .update({ 
+            spots_remaining: workshopData.spots_remaining + 1
+          })
+          .eq('id', workshopId);
+
+        if (updateError) {
+          console.warn('Failed to update workshop spots:', updateError);
+        }
+      }
+
+      // Refresh the data
+      queryClient.invalidateQueries({ queryKey: ['all-registrations'] });
+      
+      toast.success('Registration deleted successfully');
+      setSelectedRegistration(null);
+    } catch (error) {
+      console.error('Error deleting registration:', error);
+      toast.error('Failed to delete registration');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -378,7 +428,42 @@ const RegistrationManagement: React.FC = () => {
       <Dialog open={!!selectedRegistration} onOpenChange={() => setSelectedRegistration(null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Registration Details</DialogTitle>
+            <DialogTitle className="flex items-center justify-between">
+              Registration Details
+              {selectedRegistration && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button 
+                      variant="destructive" 
+                      size="sm"
+                      disabled={deletingId === selectedRegistration.id}
+                      className="gap-2"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      {deletingId === selectedRegistration.id ? 'Deleting...' : 'Delete'}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Registration</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete this registration? This action cannot be undone.
+                        The workshop spot will be made available again.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => deleteRegistration(selectedRegistration.id, selectedRegistration.workshop_id)}
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        Delete Registration
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
+            </DialogTitle>
             <DialogDescription>
               Complete information for this workshop registration
             </DialogDescription>
