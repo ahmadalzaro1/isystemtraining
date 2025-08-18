@@ -134,29 +134,29 @@ export const ContactStepV2: React.FC<ContactStepV2Props> = ({ form, data }) => {
         name="receiveUpdates"
         render={({ field }) => (
           <FormItem className="space-y-3">
-            <div className={cn(
-              "flex items-start space-x-4 p-4 rounded-xl2 bg-surface-2",
-              "hover:bg-surface transition-colors duration-200"
-            )}>
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                  className="mt-1"
-                />
-              </FormControl>
-              <div className="flex-1 space-y-1">
-                <FormLabel className="text-ios-callout font-sf-pro font-medium text-text cursor-pointer">
+            <FormLabel className="text-ios-callout font-sf-pro font-medium text-text cursor-pointer">
+              <div className={cn(
+                "flex items-start space-x-4 p-4 rounded-xl2 bg-surface-2",
+                "hover:bg-surface transition-colors duration-200 cursor-pointer"
+              )}>
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    className="mt-1"
+                  />
+                </FormControl>
+                <div className="flex-1 space-y-1">
                   <div className="flex items-center space-x-2">
                     <Bell className="w-4 h-4 text-accent-a" />
                     <span>Keep me updated</span>
                   </div>
-                </FormLabel>
-                <p className="text-ios-footnote text-text-muted">
-                  Receive notifications about new workshops and Apple tips
-                </p>
+                  <p className="text-ios-footnote text-text-muted">
+                    Receive notifications about new workshops and Apple tips
+                  </p>
+                </div>
               </div>
-            </div>
+            </FormLabel>
             <FormMessage />
           </FormItem>
         )}
