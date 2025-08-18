@@ -1,4 +1,4 @@
-import { useCallback, memo } from "react";
+import { useCallback, memo, useEffect, useState } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { toast } from "sonner";
 import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
@@ -29,6 +29,17 @@ const Index = memo(() => {
   } = useHapticFeedback();
   const { workshopsV2, registrationV2 } = useFeatureFlags();
   const calendarVariant: 'v1' | 'v2' = workshopsV2 ? 'v2' : 'v1';
+
+  // Animation state for intro sequence
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger entrance animations on mount
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
   
 // Feature flag for massive workshops redesign
 const useMassiveWorkshopsDesign = true;
@@ -73,16 +84,61 @@ const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshop
       zIndex: 1
     }}>
         <div>
-          <h1 className="text-[40px] leading-[44px] mb-3 text-[hsl(var(--text-strong))]">Master your Apple devices with focused, hands-on workshops.</h1>
-          <p className="text-[hsl(var(--text-muted))] lead mb-6">Small groups. Practical projects. Real results. Pick a date and start learning.</p>
-          <div className="cta-row">
-            <Button variant="glassPrimary" onClick={scrollToWorkshops} aria-label="Browse workshops">Browse Workshops</Button>
+          <h1 className={`text-[40px] leading-[44px] mb-3 text-[hsl(var(--text-strong))] transition-all duration-700 ease-out transform ${
+            isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
+          } ${prefersReducedMotion ? '' : 'delay-150'}`}>
+            Master your Apple devices with focused, hands-on workshops.
+          </h1>
+          <p className={`text-[hsl(var(--text-muted))] lead mb-6 transition-all duration-700 ease-out transform ${
+            isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
+          } ${prefersReducedMotion ? '' : 'delay-300'}`}>
+            Small groups. Practical projects. Real results. Pick a date and start learning.
+          </p>
+          <div className={`cta-row transition-all duration-700 ease-out transform ${
+            isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
+          } ${prefersReducedMotion ? '' : 'delay-500'}`}>
+            <Button 
+              variant="glassPrimary" 
+              onClick={scrollToWorkshops} 
+              aria-label="Browse workshops"
+              className={`transform transition-all duration-300 ${
+                isVisible 
+                  ? 'scale-100' 
+                  : 'scale-95'
+              } ${prefersReducedMotion ? '' : 'hover:scale-105'}`}
+            >
+              Browse Workshops
+            </Button>
             {auth.isAdmin ? (
-              <Button variant="primaryPill" onClick={() => navigate('/admin')} aria-label="Go to Admin Dashboard">
+              <Button 
+                variant="primaryPill" 
+                onClick={() => navigate('/admin')} 
+                aria-label="Go to Admin Dashboard"
+                className={`transform transition-all duration-300 ${
+                  isVisible 
+                    ? 'scale-100' 
+                    : 'scale-95'
+                } ${prefersReducedMotion ? '' : 'hover:scale-105 delay-75'}`}
+              >
                 View Registrations (Admin)
               </Button>
             ) : user ? (
-              <Button variant="secondaryOutline" onClick={() => navigate('/my-registrations')} aria-label="Go to my registrations">
+              <Button 
+                variant="secondaryOutline" 
+                onClick={() => navigate('/my-registrations')} 
+                aria-label="Go to my registrations"
+                className={`transform transition-all duration-300 ${
+                  isVisible 
+                    ? 'scale-100' 
+                    : 'scale-95'
+                } ${prefersReducedMotion ? '' : 'hover:scale-105 delay-75'}`}
+              >
                 My registrations
               </Button>
             ) : null}
@@ -91,33 +147,39 @@ const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshop
       </section>
 
       {/* Upcoming dates (dynamic) */}
-      {useMassiveWorkshopsDesign ? (
-        isWorkshopsError ? (
-          <WorkshopsSectionV2 title="Upcoming dates">
-            <div className="p-6">
-              <p className="text-[hsl(var(--text-muted))] mb-2">We couldn't load workshops. Please try again.</p>
-              {workshopsError && (
-                <p className="text-sm text-[hsl(var(--text-muted))] mb-4">Details: {(workshopsError as Error).message}</p>
-              )}
-              <Button variant="secondaryOutline" onClick={() => refetch()}>Retry</Button>
-            </div>
-          </WorkshopsSectionV2>
-        ) : isWorkshopsLoading ? (
-          <WorkshopsSectionV2 title="Upcoming dates">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-              <WorkshopSkeleton />
-              <WorkshopSkeleton />
-              <WorkshopSkeleton />
-            </div>
-          </WorkshopsSectionV2>
+      <div className={`transition-all duration-900 ease-out transform ${
+        isVisible 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-12'
+      } ${prefersReducedMotion ? '' : 'delay-700'}`}>
+        {useMassiveWorkshopsDesign ? (
+          isWorkshopsError ? (
+            <WorkshopsSectionV2 title="Upcoming dates">
+              <div className="p-6">
+                <p className="text-[hsl(var(--text-muted))] mb-2">We couldn't load workshops. Please try again.</p>
+                {workshopsError && (
+                  <p className="text-sm text-[hsl(var(--text-muted))] mb-4">Details: {(workshopsError as Error).message}</p>
+                )}
+                <Button variant="secondaryOutline" onClick={() => refetch()}>Retry</Button>
+              </div>
+            </WorkshopsSectionV2>
+          ) : isWorkshopsLoading ? (
+            <WorkshopsSectionV2 title="Upcoming dates">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+                <WorkshopSkeleton />
+                <WorkshopSkeleton />
+                <WorkshopSkeleton />
+              </div>
+            </WorkshopsSectionV2>
+          ) : (
+            <WorkshopsSectionV4 workshops={workshops} onSelect={handleWorkshopSelect} />
+          )
         ) : (
-          <WorkshopsSectionV4 workshops={workshops} onSelect={handleWorkshopSelect} />
-        )
-      ) : (
-        <WorkshopsSectionV2>
-          <WorkshopCalendar onSelect={handleWorkshopSelect} variant={calendarVariant} />
-        </WorkshopsSectionV2>
-      )}
+          <WorkshopsSectionV2>
+            <WorkshopCalendar onSelect={handleWorkshopSelect} variant={calendarVariant} />
+          </WorkshopsSectionV2>
+        )}
+      </div>
     </>;
 });
 Index.displayName = 'Index';
