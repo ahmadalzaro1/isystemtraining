@@ -80,7 +80,7 @@ export const ContactStepV2: React.FC<ContactStepV2Props> = ({ form, data }) => {
               <RadioGroup
                 onValueChange={field.onChange}
                 value={field.value}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                className="grid grid-cols-1 gap-3"
               >
                 {CONTACT_PREFERENCES.map((option) => {
                   const Icon = option.icon;
