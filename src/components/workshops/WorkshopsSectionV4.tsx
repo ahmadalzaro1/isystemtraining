@@ -19,7 +19,8 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
   const [filters, setFilters] = useState<WorkshopFilters>({
     search: "",
     skillLevel: "All",
-    category: "All"
+    category: "All",
+    location: "All"
   });
 
   // Group workshops by week
@@ -154,7 +155,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
             <div className="text-center">
               <Button
                 variant="outline"
-                onClick={() => setFilters({ search: "", skillLevel: "All", category: "All" })}
+                onClick={() => setFilters({ search: "", skillLevel: "All", category: "All", location: "All" })}
                 className="min-h-[clamp(44px,6vw,48px)] px-[clamp(16px,4vw,32px)] text-[clamp(14px,2.8vw,18px)] w-full sm:w-auto"
               >
                 Reset Filters

@@ -27,8 +27,9 @@ export function WorkshopsSectionMassiveV2({ onSelect }: WorkshopsSectionMassiveV
   const [date, setDate] = useState<Date>();
   const [filters, setFilters] = useState<WorkshopFilters>({
     search: "",
-    skillLevel: "All", 
-    category: "All"
+    skillLevel: "All",
+    category: "All",
+    location: "All"
   });
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +61,7 @@ export function WorkshopsSectionMassiveV2({ onSelect }: WorkshopsSectionMassiveV
   }, [prefersReducedMotion]);
 
   const handleReset = useCallback(() => {
-    setFilters({ search: "", skillLevel: "All", category: "All" });
+    setFilters({ search: "", skillLevel: "All", category: "All", location: "All" });
   }, []);
 
   const handleDateSelect = useCallback((selectedDate: Date | undefined) => {

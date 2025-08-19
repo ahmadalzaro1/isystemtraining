@@ -11,6 +11,7 @@ export interface DatabaseWorkshop {
   skill_level: string;
   category: string;
   instructor: string;
+  location: string;
   created_at: string;
   updated_at: string;
 }
@@ -24,6 +25,7 @@ export interface CreateWorkshopData {
   skill_level: "Beginner" | "Intermediate" | "Advanced";
   category: "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud";
   instructor: string;
+  location: "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Online";
 }
 
 export class WorkshopService {
@@ -58,6 +60,7 @@ export class WorkshopService {
       skillLevel: row.skill_level,
       category: row.category,
       instructor: row.instructor,
+      location: row.location || 'Online',
     } as Workshop));
   }
 
@@ -91,6 +94,7 @@ export class WorkshopService {
       skillLevel: row.skill_level,
       category: row.category,
       instructor: row.instructor,
+      location: row.location || 'Online',
     } as Workshop));
   }
 
@@ -106,6 +110,7 @@ export class WorkshopService {
       skill_level: workshopData.skill_level,
       category: workshopData.category,
       instructor: workshopData.instructor,
+      location: workshopData.location,
     };
 
     console.log('Insert data prepared:', insertData);
@@ -183,6 +188,7 @@ export class WorkshopService {
       skillLevel: dbWorkshop.skill_level as "Beginner" | "Intermediate" | "Advanced",
       category: dbWorkshop.category as "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud",
       instructor: dbWorkshop.instructor,
+      location: dbWorkshop.location as "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Online",
     };
   }
 }

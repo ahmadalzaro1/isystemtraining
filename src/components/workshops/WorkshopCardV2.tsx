@@ -40,7 +40,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
     >
       {/* Meta row */}
       <div className="text-base text-[hsl(var(--text-muted))] mb-6">
-        {format(workshop.date, "EEE, MMM d")} • {workshop.time} • {workshop.skillLevel} • {workshop.category}
+        {format(workshop.date, "EEE, MMM d")} • {workshop.time} • {workshop.location} • {workshop.skillLevel} • {workshop.category}
       </div>
 
       {/* Title */}

@@ -16,7 +16,8 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
     onChange({
       search: "",
       skillLevel: "All",
-      category: "All"
+      category: "All",
+      location: "All"
     });
   };
 

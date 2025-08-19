@@ -28,7 +28,8 @@ export const WorkshopCalendar = memo(({ onSelect, variant = 'v2' }: WorkshopCale
   const [filters, setFilters] = useState<WorkshopFilters>({
     search: "",
     skillLevel: "All",
-    category: "All"
+    category: "All",
+    location: "All"
   });
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +61,7 @@ export const WorkshopCalendar = memo(({ onSelect, variant = 'v2' }: WorkshopCale
   }, [prefersReducedMotion]);
 
   const resetFilters = useCallback(() => {
-    setFilters({ search: "", skillLevel: "All", category: "All" });
+    setFilters({ search: "", skillLevel: "All", category: "All", location: "All" });
   }, []);
 
   // Memoize expensive calculations

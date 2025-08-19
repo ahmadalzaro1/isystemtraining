@@ -30,6 +30,7 @@ const workshopSchema = z.object({
   skill_level: z.enum(['Beginner', 'Intermediate', 'Advanced']),
   category: z.enum(['Mac', 'iPhone', 'Apple Watch', 'AI', 'Digital Safety', 'Creativity', 'Productivity', 'iCloud']),
   instructor: z.string().min(1, 'Instructor is required'),
+  location: z.enum(['iSystem Khalda', 'iSystem Abdoun', 'iSystem Mecca Street', 'iSystem Swefieh', 'iSystem City Mall', 'Online']),
 });
 
 type WorkshopFormData = z.infer<typeof workshopSchema>;
@@ -109,6 +110,7 @@ const WorkshopManagement: React.FC = () => {
       skill_level: 'Beginner',
       category: 'Mac',
       instructor: '',
+      location: 'Online',
     },
   });
 
@@ -124,6 +126,7 @@ const WorkshopManagement: React.FC = () => {
       skill_level: data.skill_level,
       category: data.category,
       instructor: data.instructor,
+      location: data.location,
     };
 
     console.log('Workshop data prepared for submission:', workshopData);
@@ -148,6 +151,7 @@ const WorkshopManagement: React.FC = () => {
       skill_level: workshop.skillLevel,
       category: workshop.category,
       instructor: workshop.instructor,
+      location: workshop.location,
     });
     setIsDialogOpen(true);
   };
@@ -318,6 +322,31 @@ const WorkshopManagement: React.FC = () => {
                             <SelectItem value="Creativity">Creativity</SelectItem>
                             <SelectItem value="Productivity">Productivity</SelectItem>
                             <SelectItem value="iCloud">iCloud</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem className="md:col-span-2">
+                        <FormLabel>Location</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select location" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="iSystem Khalda">iSystem Khalda</SelectItem>
+                            <SelectItem value="iSystem Abdoun">iSystem Abdoun</SelectItem>
+                            <SelectItem value="iSystem Mecca Street">iSystem Mecca Street</SelectItem>
+                            <SelectItem value="iSystem Swefieh">iSystem Swefieh</SelectItem>
+                            <SelectItem value="iSystem City Mall">iSystem City Mall</SelectItem>
+                            <SelectItem value="Online">Online</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

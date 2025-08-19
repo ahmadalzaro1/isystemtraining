@@ -722,6 +722,7 @@ export type Database = {
           description: string | null
           id: string
           instructor: string
+          location: string
           name: string
           skill_level: string
           spots_remaining: number
@@ -735,6 +736,7 @@ export type Database = {
           description?: string | null
           id?: string
           instructor: string
+          location?: string
           name: string
           skill_level: string
           spots_remaining?: number
@@ -748,6 +750,7 @@ export type Database = {
           description?: string | null
           id?: string
           instructor?: string
+          location?: string
           name?: string
           skill_level?: string
           spots_remaining?: number
