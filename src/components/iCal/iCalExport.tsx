@@ -3,9 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Calendar, Download } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { toast } from 'sonner';
-import { mockWorkshops } from '@/data/mockWorkshops';
+import { Workshop } from '@/types/workshop';
 
 interface iCalExportProps {
+  workshops?: Workshop[];
   workshopId?: string;
   variant?: 'default' | 'outline' | 'ghost';
   size?: 'default' | 'sm' | 'lg';
@@ -17,6 +18,7 @@ interface iCalExportProps {
  * Supports both single workshop and all registrations export
  */
 export const iCalExport: React.FC<iCalExportProps> = ({ 
+  workshops = [],
   workshopId, 
   variant = 'outline',
   size = 'default',
@@ -24,7 +26,7 @@ export const iCalExport: React.FC<iCalExportProps> = ({
 }) => {
   const { triggerHaptic } = useHapticFeedback();
 
-  const generateiCalContent = (workshops: typeof mockWorkshops): string => {
+  const generateiCalContent = (workshopsData: Workshop[]): string => {
     const now = new Date();
     const formatDate = (date: Date): string => {
       return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
@@ -40,7 +42,7 @@ export const iCalExport: React.FC<iCalExportProps> = ({
       'X-WR-CALDESC:Your registered iSystem Training workshops'
     ].join('\r\n') + '\r\n';
 
-    workshops.forEach((workshop) => {
+    workshopsData.forEach((workshop) => {
       const startDate = new Date(workshop.date);
       const endDate = new Date(startDate);
       endDate.setHours(startDate.getHours() + 2); // Assume 2-hour workshops
@@ -79,11 +81,11 @@ export const iCalExport: React.FC<iCalExportProps> = ({
     try {
       triggerHaptic('light');
       
-      let workshopsToExport = mockWorkshops;
+      let workshopsToExport = workshops;
       let filename = 'isystem-workshops.ics';
       
       if (workshopId) {
-        const workshop = mockWorkshops.find(w => w.id === workshopId);
+        const workshop = workshops.find(w => w.id === workshopId);
         if (!workshop) {
           toast.error('Workshop not found');
           return;

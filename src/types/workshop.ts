@@ -7,6 +7,7 @@ export type Workshop = {
   description: string;
   spotsRemaining: number;
   maxCapacity: number;
+  registrationsCount: number;
   skillLevel: "Beginner" | "Intermediate" | "Advanced";
   category: "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud";
   instructor: string;

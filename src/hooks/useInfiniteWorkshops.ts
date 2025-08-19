@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { mockWorkshops } from '@/data/mockWorkshops';
+import { WorkshopService } from '@/services/workshopService';
 import { Workshop, WorkshopFilters } from '@/types/workshop';
 import { filterWorkshopsByFilters } from '@/utils/workshopFilters';
 
@@ -36,7 +36,7 @@ export const useInfiniteWorkshops = ({
       const pageNumber = pageParam as number;
       
       // Filter workshops
-      const filteredWorkshops = filterWorkshopsByFilters(mockWorkshops, filters);
+      const filteredWorkshops = await WorkshopService.getWorkshops();
       
       // Paginate results
       const startIndex = pageNumber * pageSize;
@@ -60,7 +60,7 @@ export const useInfiniteWorkshops = ({
 
   // Flatten pages into single array
   const workshops = data?.pages.flatMap(page => page.workshops) ?? [];
-  const totalWorkshops = data?.pages[0] ? mockWorkshops.length : 0;
+  const totalWorkshops = data?.pages[0]?.workshops.length || 0;
   const loadedCount = workshops.length;
 
   return {

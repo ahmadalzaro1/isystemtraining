@@ -899,6 +899,7 @@ export type Database = {
           location: string
           max_capacity: number
           name: string
+          registrations_count: number
           skill_level: string
           spots_remaining: number
           time_text: string

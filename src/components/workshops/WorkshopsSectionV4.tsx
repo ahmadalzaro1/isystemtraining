@@ -218,7 +218,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                           Available spots
                         </div>
                         <div className="text-lg font-semibold text-[hsl(var(--text-strong))]">
-                          {workshop.maxCapacity - workshop.spotsRemaining} / {workshop.maxCapacity}
+                          {workshop.registrationsCount} / {workshop.maxCapacity}
                         </div>
                       </div>
                       

@@ -60,6 +60,7 @@ export class WorkshopService {
       description: row.description || '',
       spotsRemaining: row.spots_remaining,
       maxCapacity: row.max_capacity,
+      registrationsCount: row.registrations_count || 0,
       skillLevel: row.skill_level,
       category: row.category,
       instructor: row.instructor,
@@ -95,6 +96,7 @@ export class WorkshopService {
       description: row.description || '',
       spotsRemaining: row.spots_remaining,
       maxCapacity: row.max_capacity,
+      registrationsCount: row.registrations_count || 0,
       skillLevel: row.skill_level,
       category: row.category,
       instructor: row.instructor,
@@ -212,6 +214,7 @@ export class WorkshopService {
       description: dbWorkshop.description || '',
       spotsRemaining: dbWorkshop.spots_remaining,
       maxCapacity: dbWorkshop.max_capacity,
+      registrationsCount: dbWorkshop.max_capacity - dbWorkshop.spots_remaining, // Calculate from existing data
       skillLevel: dbWorkshop.skill_level as "Beginner" | "Intermediate" | "Advanced",
       category: dbWorkshop.category as "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud",
       instructor: dbWorkshop.instructor,
