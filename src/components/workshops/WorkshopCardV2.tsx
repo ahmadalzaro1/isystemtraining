@@ -13,6 +13,7 @@ interface WorkshopCardV2Props {
 
 export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Props) => {
   const navigate = useNavigate();
+  console.log('WorkshopCardV2 workshop data:', workshop);
   const totalSeats = 12;
   const percentFilled = ((totalSeats - workshop.spotsRemaining) / totalSeats) * 100;
 
