@@ -283,7 +283,7 @@ const RegistrationManagement: React.FC = () => {
         </Button>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Registrations</CardTitle>
@@ -309,7 +309,7 @@ const RegistrationManagement: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="sm:col-span-2 lg:col-span-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Confirmed</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
@@ -328,8 +328,8 @@ const RegistrationManagement: React.FC = () => {
           <CardDescription>Complete list of workshop registrations</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="relative flex-1 max-w-sm">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-6">
+            <div className="relative flex-1 sm:max-w-sm">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search registrations..."
@@ -339,7 +339,7 @@ const RegistrationManagement: React.FC = () => {
               />
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
@@ -354,19 +354,102 @@ const RegistrationManagement: React.FC = () => {
           {isLoading ? (
             <div className="text-center py-8">Loading registrations...</div>
           ) : (
-            <div className="rounded-md border">
-              <Table className="ledger-table [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 md:[&_th]:px-4 md:[&_th]:py-2.5 md:[&_td]:px-4 md:[&_td]:py-2.5">
-                <TableHeader className="sticky top-0 bg-surface z-10 shadow-[inset_0_-1px_0_hsl(var(--border))]">
-                  <TableRow>
-                    <TableHead>Participant</TableHead>
-                    <TableHead>Workshop</TableHead>
-                    <TableHead>Date & Time</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Registration Date</TableHead>
-                    <TableHead>Confirmation Code</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
+            <>
+              {/* Mobile: Card layout */}
+              <div className="block lg:hidden space-y-4">
+                {filteredRegistrations.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    {isLoading ? 'Loading registrations...' : 'No registrations found'}
+                  </div>
+                ) : (
+                  filteredRegistrations.map((registration) => (
+                    <Card key={registration.id} className="p-4">
+                      <div className="space-y-3">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <div className="font-medium">{getUserDisplayName(registration)}</div>
+                            <div className="text-sm text-muted-foreground">{getUserEmail(registration)}</div>
+                          </div>
+                          <Badge className={getStatusColor(registration.status)}>
+                            {registration.status}
+                          </Badge>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <div className="text-muted-foreground">Workshop</div>
+                            <div className="font-medium">{registration.workshop?.name || 'N/A'}</div>
+                          </div>
+                          <div>
+                            <div className="text-muted-foreground">Date</div>
+                            <div>{registration.workshop?.date ? format(new Date(registration.workshop.date), 'MMM dd, yyyy') : 'N/A'}</div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between pt-2 border-t">
+                          <code className="text-xs bg-muted px-2 py-1 rounded">
+                            {registration.confirmation_code}
+                          </code>
+                          <div className="flex gap-2">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => setSelectedRegistration(registration)}
+                              className="h-8 px-3"
+                            >
+                              View
+                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm"
+                                  className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                                  disabled={deletingId === registration.id}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Delete Registration</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Are you sure you want to delete this registration? This action cannot be undone.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction 
+                                    onClick={() => deleteRegistration(registration.id, registration.workshop_id)}
+                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                  >
+                                    Delete
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  ))
+                )}
+              </div>
+
+              {/* Desktop: Table layout */}
+              <div className="hidden lg:block rounded-md border overflow-x-auto">
+                <Table className="ledger-table [&_th]:px-4 [&_th]:py-2.5 [&_td]:px-4 [&_td]:py-2.5">
+                  <TableHeader className="sticky top-0 bg-surface z-10 shadow-[inset_0_-1px_0_hsl(var(--border))]">
+                    <TableRow>
+                      <TableHead>Participant</TableHead>
+                      <TableHead>Workshop</TableHead>
+                      <TableHead>Date & Time</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Registration Date</TableHead>
+                      <TableHead>Confirmation Code</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
                 <TableBody>
                   {filteredRegistrations.length === 0 ? (
                     <TableRow>
@@ -451,9 +534,10 @@ const RegistrationManagement: React.FC = () => {
                       </TableRow>
                     ))
                   )}
-                </TableBody>
-              </Table>
-            </div>
+                  </TableBody>
+                </Table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

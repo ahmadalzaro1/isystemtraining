@@ -158,23 +158,21 @@ export const UserManagement = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
         <div>
           <h3 className="text-lg font-medium">User Management</h3>
           <p className="text-sm text-muted-foreground">
             Manage user accounts, permissions, and contact information.
           </p>
         </div>
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search users..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 w-64"
-            />
-          </div>
+        <div className="relative w-full lg:w-64">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            placeholder="Search users..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 w-full"
+          />
         </div>
       </div>
 
@@ -196,17 +194,17 @@ export const UserManagement = () => {
                     )}
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
                     <div className="space-y-1">
                       {user.email && (
                         <div className="flex items-center space-x-2">
-                          <Mail className="h-4 w-4" />
-                          <span>{user.email}</span>
+                          <Mail className="h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{user.email}</span>
                         </div>
                       )}
                       {user.phone && (
                         <div className="flex items-center space-x-2">
-                          <Phone className="h-4 w-4" />
+                          <Phone className="h-4 w-4 flex-shrink-0" />
                           <span>{user.phone}</span>
                         </div>
                       )}
@@ -214,14 +212,14 @@ export const UserManagement = () => {
                     <div className="space-y-1">
                       {user.company && (
                         <div className="flex items-center space-x-2">
-                          <Building className="h-4 w-4" />
-                          <span>{user.company}</span>
+                          <Building className="h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{user.company}</span>
                         </div>
                       )}
                       {user.position && (
                         <div className="flex items-center space-x-2">
-                          <UserCheck className="h-4 w-4" />
-                          <span>{user.position}</span>
+                          <UserCheck className="h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{user.position}</span>
                         </div>
                       )}
                     </div>
@@ -232,14 +230,16 @@ export const UserManagement = () => {
                   </p>
                 </div>
                 
-                <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm" onClick={() => handleEditUser(user)}>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <Button variant="outline" size="sm" onClick={() => handleEditUser(user)} className="min-h-[44px] sm:min-h-[36px]">
                     <Edit className="h-4 w-4" />
+                    <span className="ml-2 sm:hidden">Edit</span>
                   </Button>
                   <Button
                     variant={user.is_admin ? "default" : "outline"}
                     size="sm"
                     onClick={() => handleToggleAdmin(user)}
+                    className="min-h-[44px] sm:min-h-[36px] text-sm"
                   >
                     {user.is_admin ? 'Remove Admin' : 'Make Admin'}
                   </Button>
@@ -261,7 +261,7 @@ export const UserManagement = () => {
           </DialogHeader>
           {editingUser && (
             <form onSubmit={handleUpdateUser} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="first_name">First Name</Label>
                   <Input
@@ -299,7 +299,7 @@ export const UserManagement = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="company">Company</Label>
                   <Input
@@ -342,11 +342,11 @@ export const UserManagement = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+              <div className="flex flex-col sm:flex-row justify-end gap-2">
+                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="order-2 sm:order-1">
                   Cancel
                 </Button>
-                <Button type="submit" disabled={updateUserMutation.isPending}>
+                <Button type="submit" disabled={updateUserMutation.isPending} className="order-1 sm:order-2">
                   {updateUserMutation.isPending ? 'Updating...' : 'Update User'}
                 </Button>
               </div>

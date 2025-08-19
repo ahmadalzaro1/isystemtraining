@@ -7,6 +7,7 @@
 @import './styles/canvas.css';
 @import './styles/workshops-massive.css';
 @import './styles/scrollbar.css';
+@import './styles/mobile-admin.css';
 
 /* Optimized for all devices */
 body, html {

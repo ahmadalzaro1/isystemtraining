@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, BookOpen, BarChart3, Calendar, Settings, UserCheck, Shield } from 'lucide-react';
+import { Users, BookOpen, BarChart3, Calendar, Settings, UserCheck, Shield, UserCog } from 'lucide-react';
 import { useAdminSessionTracking } from '@/hooks/useAdminSessionTracking';
 
 import { UserManagement } from '@/components/admin/UserManagement';
@@ -29,34 +29,64 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="workshops" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7 h-12 p-1">
+          {/* Mobile: Scrollable horizontal tabs */}
+          <div className="lg:hidden">
+            <div className="flex overflow-x-auto pb-2 no-scrollbar gap-1">
+              <TabsList className="inline-flex gap-1 bg-transparent p-0">
+                <TabsTrigger value="workshops" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                  <Calendar className="h-4 w-4" />
+                </TabsTrigger>
+                <TabsTrigger value="registrations" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                  <UserCheck className="h-4 w-4" />
+                </TabsTrigger>
+                <TabsTrigger value="users" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                  <UserCog className="h-4 w-4" />
+                </TabsTrigger>
+                <TabsTrigger value="courses" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                  <BookOpen className="h-4 w-4" />
+                </TabsTrigger>
+                <TabsTrigger value="analytics" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                  <BarChart3 className="h-4 w-4" />
+                </TabsTrigger>
+                <TabsTrigger value="security" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                  <Shield className="h-4 w-4" />
+                </TabsTrigger>
+                <TabsTrigger value="settings" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                  <Settings className="h-4 w-4" />
+                </TabsTrigger>
+              </TabsList>
+            </div>
+          </div>
+          
+          {/* Desktop: Grid layout */}
+          <TabsList className="hidden lg:grid w-full grid-cols-7 h-12 p-1">
             <TabsTrigger value="workshops" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              <span className="hidden sm:inline">Workshops</span>
+              <span>Workshops</span>
             </TabsTrigger>
             <TabsTrigger value="registrations" className="flex items-center gap-2">
               <UserCheck className="h-4 w-4" />
-              <span className="hidden sm:inline">Registrations</span>
+              <span>Registrations</span>
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">Users</span>
+              <UserCog className="h-4 w-4" />
+              <span>Users</span>
             </TabsTrigger>
             <TabsTrigger value="courses" className="flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
-              <span className="hidden sm:inline">Courses</span>
+              <span>Courses</span>
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
-              <span className="hidden sm:inline">Analytics</span>
+              <span>Analytics</span>
             </TabsTrigger>
             <TabsTrigger value="security" className="flex items-center gap-2">
               <Shield className="h-4 w-4" />
-              <span className="hidden sm:inline">Security</span>
+              <span>Security</span>
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
               <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline">Settings</span>
+              <span>Settings</span>
             </TabsTrigger>
           </TabsList>
 

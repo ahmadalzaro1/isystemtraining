@@ -1,0 +1,91 @@
+/* Mobile Admin Dashboard Styles */
+
+/* Hide scrollbar for mobile tabs */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile touch targets */
+@media (max-width: 768px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Ensure buttons are large enough for touch */
+  .admin-button {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+  
+  /* Mobile dialog optimization */
+  .mobile-dialog {
+    max-height: 90vh;
+    margin: 16px;
+  }
+  
+  /* Mobile table improvements */
+  .mobile-table-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Responsive text */
+  .mobile-text-responsive {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  /* Mobile spacing */
+  .mobile-spacing {
+    padding: 16px;
+    gap: 16px;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tablet-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .tablet-spacing {
+    padding: 20px;
+    gap: 20px;
+  }
+}
+
+/* Mobile-first animations */
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-smooth-transition {
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Focus styles for accessibility */
+.admin-focus:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Mobile card hover states */
+@media (hover: hover) {
+  .mobile-card-hover:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Sticky elements for mobile */
+.mobile-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: hsl(var(--background));
+  backdrop-filter: blur(8px);
+}
