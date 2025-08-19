@@ -29,7 +29,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="workshops" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7 h-12 p-1">
             <TabsTrigger value="workshops" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               <span className="hidden sm:inline">Workshops</span>
