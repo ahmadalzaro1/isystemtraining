@@ -35,7 +35,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
       const matchesCategory = filters.category === "All" || workshop.category === filters.category;
       
       return inWeek && matchesLevel && matchesCategory;
-    }).slice(0, 3); // Show max 3 workshops
+    }); // Show all workshops for current week
   }, [workshops, currentWeek, filters]);
 
   const navigateWeek = (direction: 'prev' | 'next') => {
@@ -165,7 +165,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
         </div>
 
         {/* Workshop Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-[clamp(16px,4vw,32px)]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[clamp(16px,3vw,24px)] auto-rows-fr">
           {weekWorkshops.map((workshop) => (
             <Card key={workshop.id} className="lgx-card hover:shadow-xl transition-all duration-300 w-full min-w-0">
               <CardHeader className="pb-[clamp(12px,3vw,16px)] p-[clamp(16px,4.5vw,24px)]">
