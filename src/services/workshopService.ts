@@ -145,23 +145,44 @@ export class WorkshopService {
   }
 
   static async updateWorkshop(id: string, workshopData: Partial<CreateWorkshopData>): Promise<Workshop> {
+    console.log('Updating workshop with ID:', id, 'Data:', workshopData);
+    
     const updateData: any = { ...workshopData };
     if (updateData.date) {
       updateData.date = updateData.date.toISOString().split('T')[0];
     }
+
+    console.log('Prepared update data:', updateData);
 
     const { data, error } = await supabase
       .from('workshops')
       .update(updateData)
       .eq('id', id)
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) {
-      console.error('Error updating workshop:', error);
-      throw new Error('Failed to update workshop');
+      console.error('Database error updating workshop:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint
+      });
+      
+      if (error.code === '42501') {
+        throw new Error('Access denied: Only administrators can update workshops');
+      } else if (error.code === '23505') {
+        throw new Error('A workshop with this name already exists');
+      } else {
+        throw new Error(`Failed to update workshop: ${error.message}`);
+      }
     }
 
+    if (!data) {
+      throw new Error('Workshop not found or you do not have permission to update it');
+    }
+
+    console.log('Workshop updated successfully:', data);
     return this.transformDatabaseWorkshop(data);
   }
 
