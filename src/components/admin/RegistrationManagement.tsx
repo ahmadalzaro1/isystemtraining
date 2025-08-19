@@ -364,12 +364,13 @@ const RegistrationManagement: React.FC = () => {
                     <TableHead>Status</TableHead>
                     <TableHead>Registration Date</TableHead>
                     <TableHead>Confirmation Code</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredRegistrations.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                      <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                         {isLoading ? 'Loading registrations...' : 'No registrations found'}
                       </TableCell>
                     </TableRow>
@@ -414,6 +415,38 @@ const RegistrationManagement: React.FC = () => {
                           <code className="text-xs bg-muted px-1 py-0.5 rounded">
                             {registration.confirmation_code}
                           </code>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete Registration</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete this registration? This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => deleteRegistration(registration.id, registration.workshop_id)}
+                                  disabled={deletingId === registration.id}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  {deletingId === registration.id ? 'Deleting...' : 'Delete'}
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </TableCell>
                       </TableRow>
                     ))
