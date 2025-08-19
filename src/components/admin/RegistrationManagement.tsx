@@ -17,6 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { formatTime } from '@/lib/utils';
 
 interface RegistrationData {
   id: string;
@@ -169,7 +170,7 @@ const RegistrationManagement: React.FC = () => {
       'Phone': registration.user_profile?.phone || registration.guest_phone || 'N/A',
       'Workshop Name': registration.workshop?.name || 'N/A',
       'Workshop Date': registration.workshop?.date || 'N/A',
-      'Workshop Time': registration.workshop?.time || 'N/A',
+      'Workshop Time': registration.workshop?.time ? formatTime(registration.workshop.time) : 'N/A',
       'Category': registration.workshop?.category || 'N/A',
       'Skill Level': registration.workshop?.skill_level || 'N/A',
     }));
@@ -603,7 +604,7 @@ const RegistrationManagement: React.FC = () => {
                     <div className="space-y-2 text-sm">
                       <div><strong>Workshop:</strong> {selectedRegistration.workshop?.name || 'N/A'}</div>
                       <div><strong>Date:</strong> {selectedRegistration.workshop?.date ? format(new Date(selectedRegistration.workshop.date), 'MMMM dd, yyyy') : 'N/A'}</div>
-                      <div><strong>Time:</strong> {selectedRegistration.workshop?.time || 'N/A'}</div>
+                      <div><strong>Time:</strong> {selectedRegistration.workshop?.time ? formatTime(selectedRegistration.workshop.time) : 'N/A'}</div>
                       <div><strong>Category:</strong> {selectedRegistration.workshop?.category || 'N/A'}</div>
                       <div><strong>Skill Level:</strong> {selectedRegistration.workshop?.skill_level || 'N/A'}</div>
                     </div>

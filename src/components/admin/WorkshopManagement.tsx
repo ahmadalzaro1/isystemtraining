@@ -20,6 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { formatTime } from '@/lib/utils';
 
 const workshopSchema = z.object({
   name: z.string().min(1, 'Workshop name is required'),
@@ -489,7 +490,7 @@ const WorkshopManagement: React.FC = () => {
                         <TableCell>
                           <div className="text-sm">
                             <div>{workshop.date.toLocaleDateString()}</div>
-                            <div className="text-muted-foreground">{workshop.time}</div>
+                            <div className="text-muted-foreground">{formatTime(workshop.time)}</div>
                           </div>
                         </TableCell>
                         <TableCell>{workshop.instructor}</TableCell>

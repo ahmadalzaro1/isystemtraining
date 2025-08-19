@@ -4,6 +4,7 @@ import { Calendar, Download } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { toast } from 'sonner';
 import { Workshop } from '@/types/workshop';
+import { formatTime } from '@/lib/utils';
 
 interface iCalExportProps {
   workshops?: Workshop[];
@@ -59,7 +60,7 @@ export const iCalExport: React.FC<iCalExportProps> = ({
         `DTSTART:${dtStart}`,
         `DTEND:${dtEnd}`,
         `SUMMARY:${workshop.name}`,
-        `DESCRIPTION:${workshop.description}\\n\\nLevel: ${workshop.skillLevel}\\nTime: ${workshop.time}\\nInstructor: ${workshop.instructor}`,
+        `DESCRIPTION:${workshop.description}\\n\\nLevel: ${workshop.skillLevel}\\nTime: ${formatTime(workshop.time)}\\nInstructor: ${workshop.instructor}`,
         `LOCATION:iSystem Training Center`,
         `STATUS:CONFIRMED`,
         `TRANSP:OPAQUE`,

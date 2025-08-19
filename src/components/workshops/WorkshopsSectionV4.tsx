@@ -5,7 +5,7 @@ import { Workshop, WorkshopFilters } from '@/types/workshop';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { cn, formatTime } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 
 interface WorkshopsSectionV4Props {
@@ -185,7 +185,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                        <span>🕐 {workshop.time}</span>
+                        <span>🕐 {formatTime(workshop.time)}</span>
                         <span className="truncate">📍 {workshop.location}</span>
                       </div>
                     </div>

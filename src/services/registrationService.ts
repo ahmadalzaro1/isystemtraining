@@ -4,6 +4,7 @@ import { FormData } from "@/types/registration";
 import { log, error as logError } from "@/utils/logger";
 import { z } from "zod";
 import { isUUID } from "@/utils/uuid";
+import { formatTime } from "@/lib/utils";
 
 export interface WorkshopRegistration {
   id: string;
@@ -421,7 +422,7 @@ export class RegistrationService {
             
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e5e5e7;">
               <span style="font-weight: 600; color: #1d1d1f;">Time:</span>
-              <span style="color: #6e6e73;">${workshop.time}</span>
+              <span style="color: #6e6e73;">${formatTime(workshop.time)}</span>
             </div>
             
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e5e5e7;">

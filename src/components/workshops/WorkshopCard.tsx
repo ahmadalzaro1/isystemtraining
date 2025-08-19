@@ -3,7 +3,7 @@ import { Clock, CheckCircle, Flame, Zap, UserCircle2 } from "lucide-react";
 import { Workshop } from "@/types/workshop";
 import { SeatsProgressBar } from "./SeatsProgressBar";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, formatTime } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { IOSCard } from "@/components/ui/ios-card";
 import { useNavigate } from "react-router-dom";
@@ -98,7 +98,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         <div className="mt-auto flex items-center justify-between pt-[clamp(12px,3vw,16px)] border-t border-[hsl(var(--border))]">
           <div className="flex items-center gap-2 text-[hsl(var(--text-muted))]">
             <Clock className="h-[clamp(14px,2.8vw,16px)] w-[clamp(14px,2.8vw,16px)]" />
-            <span className="text-[clamp(12px,2.5vw,14px)]">{workshop.time}</span>
+            <span className="text-[clamp(12px,2.5vw,14px)]">{formatTime(workshop.time)}</span>
           </div>
           
           {workshop.spotsRemaining > 0 ? (
