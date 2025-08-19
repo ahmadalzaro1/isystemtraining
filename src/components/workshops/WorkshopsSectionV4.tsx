@@ -164,62 +164,92 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
           )}
         </div>
 
-        {/* Workshop Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[clamp(16px,3vw,24px)] auto-rows-fr">
+        {/* Workshop Cards - Vertical List */}
+        <div className="max-w-4xl mx-auto space-y-6">
           {weekWorkshops.map((workshop) => (
-            <Card key={workshop.id} className="lgx-card hover:shadow-xl transition-all duration-300 w-full min-w-0">
-              <CardHeader className="pb-[clamp(12px,3vw,16px)] p-[clamp(16px,4.5vw,24px)]">
-                <div className="text-[clamp(12px,2.5vw,14px)] text-[hsl(var(--text-muted))] mb-2">
-                  {format(new Date(workshop.date), 'EEEE, MMMM d')}
-                </div>
-                <CardTitle className="text-[clamp(18px,3.5vw,24px)] leading-tight">
-                  {workshop.name}
-                </CardTitle>
-              </CardHeader>
-              
-              <CardContent className="space-y-[clamp(12px,3vw,16px)] p-[clamp(16px,4.5vw,24px)] pt-0">
-                <div className="flex flex-wrap gap-[clamp(8px,2vw,16px)] text-[clamp(12px,2.5vw,14px)] text-[hsl(var(--text-muted))]">
-                  <span className="flex items-center gap-1">
-                    🕐 {workshop.time}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    📊 {workshop.skillLevel}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    📁 {workshop.category}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    📍 {workshop.location}
-                  </span>
+            <Card 
+              key={workshop.id} 
+              className="group overflow-hidden bg-[hsl(var(--surface))] border-[hsl(var(--border))] hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+              onClick={() => navigate(`/registration/${workshop.id}`)}
+            >
+              <div className="p-8">
+                {/* Header Section */}
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
+                  <div className="flex-1">
+                    {/* Date and Meta Info */}
+                    <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-[hsl(var(--text-muted))]">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-[hsl(var(--accent-a))]"></div>
+                        <span className="font-medium text-[hsl(var(--text-strong))]">
+                          {format(new Date(workshop.date), 'EEEE, MMMM d')}
+                        </span>
+                      </div>
+                      <span>🕐 {workshop.time}</span>
+                      <span>📍 {workshop.location}</span>
+                    </div>
+                    
+                    {/* Title */}
+                    <h3 className="text-2xl font-semibold text-[hsl(var(--text-strong))] mb-3 group-hover:text-[hsl(var(--accent-a))] transition-colors">
+                      {workshop.name}
+                    </h3>
+                    
+                    {/* Description */}
+                    <p className="text-[hsl(var(--text-muted))] leading-relaxed mb-6">
+                      {workshop.description}
+                    </p>
+                  </div>
+                  
+                  {/* Right Side - Registration Area */}
+                  <div className="lg:ml-8 lg:min-w-[240px] lg:text-right">
+                    <div className="flex flex-col items-start lg:items-end gap-4">
+                      {/* Skill Level and Category Badges */}
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="secondary" className="text-xs px-3 py-1">
+                          📊 {workshop.skillLevel}
+                        </Badge>
+                        <Badge variant="outline" className="text-xs px-3 py-1">
+                          📁 {workshop.category}
+                        </Badge>
+                      </div>
+                      
+                      {/* Availability Status */}
+                      <div className="text-right">
+                        <div className="text-sm text-[hsl(var(--text-muted))] mb-1">
+                          Available spots
+                        </div>
+                        <div className="text-lg font-semibold text-[hsl(var(--text-strong))]">
+                          {workshop.spotsRemaining} / 12
+                        </div>
+                      </div>
+                      
+                      {/* Register Button */}
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/registration/${workshop.id}`);
+                        }}
+                        className={cn(
+                          "px-8 py-3 text-sm font-medium transition-all duration-200",
+                          workshop.spotsRemaining === 0 
+                            ? "bg-[hsl(var(--surface-2))] text-[hsl(var(--text-muted))] cursor-not-allowed" 
+                            : "bg-[hsl(var(--accent-a))] hover:bg-[hsl(var(--accent-a))/0.9] text-white shadow-md hover:shadow-lg"
+                        )}
+                        disabled={workshop.spotsRemaining === 0}
+                      >
+                        {workshop.spotsRemaining === 0 ? 'Fully Booked' : 'Register Now'}
+                      </Button>
+                    </div>
+                  </div>
                 </div>
                 
-                <p className="text-[clamp(14px,2.9vw,16px)] text-[hsl(var(--text-muted))] leading-relaxed">
-                  {workshop.description}
-                </p>
-                
-                <div className="space-y-2">
-                  <div className="flex justify-between text-[clamp(12px,2.5vw,14px)]">
-                    <span>Available spots</span>
-                    <span className="font-medium">{workshop.spotsRemaining} spots left</span>
-                  </div>
-                  <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-2">
-                    <div 
-                      className="bg-[hsl(var(--accent-a))] h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${Math.max(0, 100 - (workshop.spotsRemaining * 10))}%` }}
-                    />
-                  </div>
+                {/* Progress Bar */}
+                <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-2 overflow-hidden">
+                  <div 
+                    className="bg-gradient-to-r from-[hsl(var(--accent-a))] to-[hsl(var(--accent-b))] h-2 rounded-full transition-all duration-500 ease-out"
+                    style={{ width: `${Math.max(0, Math.min(100, ((12 - workshop.spotsRemaining) / 12) * 100))}%` }}
+                  />
                 </div>
-              </CardContent>
-              
-              <CardFooter className="p-[clamp(16px,4.5vw,24px)] pt-0">
-                <Button
-                  onClick={() => navigate(`/registration/${workshop.id}`)}
-                  className="w-full min-h-[clamp(44px,6vw,48px)] text-[clamp(14px,2.8vw,18px)] bg-[hsl(var(--accent-a))] hover:bg-[hsl(var(--accent-a))/0.9] text-white"
-                  disabled={workshop.spotsRemaining === 0}
-                >
-                  {workshop.spotsRemaining === 0 ? 'Fully Booked' : 'Register Now'}
-                </Button>
-              </CardFooter>
+              </div>
             </Card>
           ))}
           
