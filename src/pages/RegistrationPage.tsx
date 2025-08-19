@@ -14,6 +14,7 @@ import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatTime } from "@/lib/utils";
 
 export default function RegistrationPage() {
   const { workshopId } = useParams<{ workshopId: string }>();
@@ -117,7 +118,7 @@ export default function RegistrationPage() {
               <div className="text-[hsl(var(--text-muted))]">
                 <p className="text-lg">{workshop.name}</p>
                 <p className="text-sm">
-                  {workshop.date.toLocaleDateString()} • {workshop.time} • {workshop.skillLevel}
+                  {workshop.date.toLocaleDateString()} • {formatTime(workshop.time)} • {workshop.skillLevel}
                 </p>
               </div>
             </div>

@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { WorkshopRegistration } from "@/services/registrationService";
 import { Workshop } from "@/types/workshop";
 import { Calendar, Clock, MapPin, Mail, User, QrCode } from "lucide-react";
+import { formatTime } from "@/lib/utils";
 
 interface RegistrationConfirmationProps {
   registration: WorkshopRegistration;
@@ -46,7 +47,7 @@ export const RegistrationConfirmation = ({
               <div className="flex items-center gap-3">
                 <Clock className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="font-medium">{workshop.time}</p>
+                  <p className="font-medium">{formatTime(workshop.time)}</p>
                   <p className="text-sm text-muted-foreground">Start Time</p>
                 </div>
               </div>

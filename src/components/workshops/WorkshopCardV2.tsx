@@ -4,6 +4,7 @@ import { Workshop } from "@/types/workshop";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { formatTime } from "@/lib/utils";
 
 interface WorkshopCardV2Props {
   workshop: Workshop;
@@ -51,7 +52,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
         <div className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
           <span className="font-medium">{format(workshop.date, "EEE, MMM d")}</span>
           <span className="hidden sm:inline">•</span>
-          <span>{workshop.time}</span>
+          <span>{formatTime(workshop.time)}</span>
           <span className="hidden sm:inline">•</span>
           <span className="truncate">{workshop.location}</span>
         </div>

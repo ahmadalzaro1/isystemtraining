@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { RegistrationConfirmation } from "./RegistrationConfirmation";
 import { useNavigate } from "react-router-dom";
 import { sendManageLink } from "@/lib/registration/manageLink";
+import { formatTime } from "@/lib/utils";
 
 interface RegistrationSuccessProps {
   workshop: Workshop;
@@ -161,7 +162,7 @@ export const RegistrationSuccess = ({
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Time</span>
-                <span className="font-medium">{workshop.time}</span>
+                <span className="font-medium">{formatTime(workshop.time)}</span>
               </div>
               <Button 
                 variant="secondaryOutline" 

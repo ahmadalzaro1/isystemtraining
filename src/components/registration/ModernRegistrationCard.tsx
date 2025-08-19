@@ -8,7 +8,7 @@ import { WorkshopService } from "@/services/workshopService";
 import { Workshop } from "@/types/workshop";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, formatTime } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -177,7 +177,7 @@ export const ModernRegistrationCard = ({ registration, index }: ModernRegistrati
                 <Clock className="h-4 w-4 text-purple-600" />
               </div>
               <div>
-                <p className="font-medium text-[hsl(var(--text-strong))]">{workshop.time}</p>
+                <p className="font-medium text-[hsl(var(--text-strong))]">{formatTime(workshop.time)}</p>
                 <p className="text-[hsl(var(--text-muted))] text-xs">Duration</p>
               </div>
             </div>
