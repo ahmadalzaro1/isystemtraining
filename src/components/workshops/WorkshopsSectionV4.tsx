@@ -218,7 +218,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                           Available spots
                         </div>
                         <div className="text-lg font-semibold text-[hsl(var(--text-strong))]">
-                          {workshop.spotsRemaining} / 12
+                          {workshop.spotsRemaining} / {workshop.maxCapacity}
                         </div>
                       </div>
                       
@@ -246,7 +246,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                 <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-2 overflow-hidden">
                   <div 
                     className="bg-gradient-to-r from-[hsl(var(--accent-a))] to-[hsl(var(--accent-b))] h-2 rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${Math.max(0, Math.min(100, ((12 - workshop.spotsRemaining) / 12) * 100))}%` }}
+                    style={{ width: `${Math.max(0, Math.min(100, ((workshop.maxCapacity - workshop.spotsRemaining) / workshop.maxCapacity) * 100))}%` }}
                   />
                 </div>
               </div>

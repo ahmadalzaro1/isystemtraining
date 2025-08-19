@@ -27,6 +27,7 @@ const workshopSchema = z.object({
   time: z.string().min(1, 'Time is required'),
   description: z.string().optional(),
   spots_remaining: z.number().min(0, 'Spots must be 0 or more'),
+  max_capacity: z.number().min(1, 'Capacity must be at least 1'),
   skill_level: z.enum(['Beginner', 'Intermediate', 'Advanced']),
   category: z.enum(['Mac', 'iPhone', 'Apple Watch', 'AI', 'Digital Safety', 'Creativity', 'Productivity', 'iCloud']),
   instructor: z.string().min(1, 'Instructor is required'),
@@ -117,6 +118,7 @@ const WorkshopManagement: React.FC = () => {
       time: '',
       description: '',
       spots_remaining: 0,
+      max_capacity: 12,
       skill_level: 'Beginner',
       category: 'Mac',
       instructor: '',
@@ -133,6 +135,7 @@ const WorkshopManagement: React.FC = () => {
       time: data.time,
       description: data.description,
       spots_remaining: data.spots_remaining,
+      max_capacity: data.max_capacity,
       skill_level: data.skill_level,
       category: data.category,
       instructor: data.instructor,
@@ -158,6 +161,7 @@ const WorkshopManagement: React.FC = () => {
       time: workshop.time,
       description: workshop.description,
       spots_remaining: workshop.spotsRemaining,
+      max_capacity: workshop.maxCapacity,
       skill_level: workshop.skillLevel,
       category: workshop.category,
       instructor: workshop.instructor,
@@ -241,7 +245,7 @@ const WorkshopManagement: React.FC = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <FormField
                     control={form.control}
                     name="date"
@@ -263,6 +267,24 @@ const WorkshopManagement: React.FC = () => {
                         <FormLabel>Time</FormLabel>
                         <FormControl>
                           <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="max_capacity"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Max Capacity</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="number" 
+                            min="1"
+                            {...field}
+                            onChange={(e) => field.onChange(parseInt(e.target.value) || 12)}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

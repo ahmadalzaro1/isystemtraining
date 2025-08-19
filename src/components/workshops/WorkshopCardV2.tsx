@@ -14,8 +14,7 @@ interface WorkshopCardV2Props {
 export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Props) => {
   const navigate = useNavigate();
   console.log('WorkshopCardV2 workshop data:', workshop);
-  const totalSeats = 12;
-  const percentFilled = ((totalSeats - workshop.spotsRemaining) / totalSeats) * 100;
+  const percentFilled = ((workshop.maxCapacity - workshop.spotsRemaining) / workshop.maxCapacity) * 100;
 
   const handleRegister = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -59,7 +58,7 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
         <div className="flex items-center justify-between text-base">
           <span className="text-[hsl(var(--text-muted))]">Available spots</span>
           <span className="font-medium text-[hsl(var(--text-strong))]">
-            {workshop.spotsRemaining} / {totalSeats}
+            {workshop.spotsRemaining} / {workshop.maxCapacity}
           </span>
         </div>
         <div className="wk-progress mt-1">

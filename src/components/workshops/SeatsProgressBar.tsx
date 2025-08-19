@@ -2,13 +2,13 @@
 import { cn } from "@/lib/utils";
 
 interface SeatsProgressBarProps {
-  totalSeats: number;
+  maxCapacity: number;
   spotsRemaining: number;
 }
 
-export const SeatsProgressBar = ({ totalSeats, spotsRemaining }: SeatsProgressBarProps) => {
-  const spotsTaken = totalSeats - spotsRemaining;
-  const percentageFilled = (spotsTaken / totalSeats) * 100;
+export const SeatsProgressBar = ({ maxCapacity, spotsRemaining }: SeatsProgressBarProps) => {
+  const spotsTaken = maxCapacity - spotsRemaining;
+  const percentageFilled = (spotsTaken / maxCapacity) * 100;
   
   const getProgressColor = () => {
     if (percentageFilled >= 80) return "bg-red-500";

@@ -8,6 +8,7 @@ export interface DatabaseWorkshop {
   time: string;
   description: string | null;
   spots_remaining: number;
+  max_capacity: number;
   skill_level: string;
   category: string;
   instructor: string;
@@ -22,6 +23,7 @@ export interface CreateWorkshopData {
   time: string;
   description?: string;
   spots_remaining: number;
+  max_capacity: number;
   skill_level: "Beginner" | "Intermediate" | "Advanced";
   category: "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud";
   instructor: string;
@@ -57,6 +59,7 @@ export class WorkshopService {
       time: row.time_text,
       description: '',
       spotsRemaining: row.spots_remaining,
+      maxCapacity: row.max_capacity || 12,
       skillLevel: row.skill_level,
       category: row.category,
       instructor: row.instructor,
@@ -91,6 +94,7 @@ export class WorkshopService {
       time: row.time_text,
       description: '', // RPC omits description for performance; UI doesn't require it in listings
       spotsRemaining: row.spots_remaining,
+      maxCapacity: row.max_capacity || 12,
       skillLevel: row.skill_level,
       category: row.category,
       instructor: row.instructor,
@@ -107,6 +111,7 @@ export class WorkshopService {
       time: workshopData.time,
       description: workshopData.description || null,
       spots_remaining: workshopData.spots_remaining,
+      max_capacity: workshopData.max_capacity,
       skill_level: workshopData.skill_level,
       category: workshopData.category,
       instructor: workshopData.instructor,
@@ -206,6 +211,7 @@ export class WorkshopService {
       time: dbWorkshop.time,
       description: dbWorkshop.description || '',
       spotsRemaining: dbWorkshop.spots_remaining,
+      maxCapacity: dbWorkshop.max_capacity,
       skillLevel: dbWorkshop.skill_level as "Beginner" | "Intermediate" | "Advanced",
       category: dbWorkshop.category as "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud",
       instructor: dbWorkshop.instructor,
