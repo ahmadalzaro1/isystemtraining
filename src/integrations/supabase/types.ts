@@ -892,6 +892,7 @@ export type Database = {
           date: string
           id: string
           instructor: string
+          location: string
           name: string
           skill_level: string
           spots_remaining: number
