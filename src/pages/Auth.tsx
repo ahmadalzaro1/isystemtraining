@@ -109,7 +109,7 @@ const Auth = () => {
           setError(error.message);
           monitorFailedAuthAttempts(true);
         } else {
-          setMessage('Please check your email to confirm your account.');
+          setMessage('Account created successfully! You can now sign in.');
           authRateLimiter.reset(clientId);
         }
       } else {

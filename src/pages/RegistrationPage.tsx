@@ -40,7 +40,7 @@ export default function RegistrationPage() {
     setRegistration(registrationRecord || null);
     setStep("success");
     toast("Registration Complete!", {
-      description: "Check your email for confirmation details."
+      description: "Your workshop registration has been confirmed!"
     });
   }, []);
 

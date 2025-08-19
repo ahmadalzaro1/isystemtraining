@@ -179,10 +179,10 @@ export const RegistrationSuccess = ({
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Mail className="w-4 h-4 text-primary" />
+                    <Check className="w-4 h-4 text-primary" />
                   </div>
                   <span className="text-sm">
-                    Confirmation sent to {registrationData.email}
+                    Registration details saved successfully
                   </span>
                 </div>
               </div>

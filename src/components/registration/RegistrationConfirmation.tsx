@@ -85,7 +85,6 @@ export const RegistrationConfirmation = ({
           <div className="mt-6 p-4 bg-blue-50 rounded-lg">
             <h3 className="font-semibold text-blue-900 mb-2">What's Next?</h3>
             <ul className="space-y-1 text-sm text-[hsl(var(--text-strong))]">
-              <li>• A confirmation email has been sent to your email address</li>
               <li>• You'll receive workshop materials 24 hours before the session</li>
               <li>• Join link and meeting details will be shared 1 hour before start time</li>
               <li>• Save your confirmation code: <span className="font-mono font-semibold">{registration.confirmation_code}</span></li>
