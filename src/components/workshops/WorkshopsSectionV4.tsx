@@ -188,6 +188,9 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                   <span className="flex items-center gap-1">
                     📁 {workshop.category}
                   </span>
+                  <span className="flex items-center gap-1">
+                    📍 {workshop.location}
+                  </span>
                 </div>
                 
                 <p className="text-[clamp(14px,2.9vw,16px)] text-[hsl(var(--text-muted))] leading-relaxed">
