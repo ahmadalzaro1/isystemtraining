@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Shield, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { Shield, AlertTriangle, CheckCircle, Clock, Eye } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useSecurityMonitoring } from '@/hooks/useSecurityMonitoring';
 
@@ -116,7 +116,7 @@ export const SecurityDashboard: React.FC = () => {
         <h1 className="text-2xl font-bold">Security Dashboard</h1>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -155,6 +155,23 @@ export const SecurityDashboard: React.FC = () => {
                 </p>
               </div>
               <Clock className="w-8 h-8 text-green-600" />
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Failed Logins</p>
+                <p className="text-2xl font-bold text-warning">
+                  {alerts.filter(alert => 
+                    alert.type === 'suspicious_activity' && 
+                    alert.message.includes('failed')
+                  ).length}
+                </p>
+              </div>
+              <Eye className="w-8 h-8 text-orange-600" />
             </div>
           </CardContent>
         </Card>
@@ -210,30 +227,44 @@ export const SecurityDashboard: React.FC = () => {
       
       <Card>
         <CardHeader>
-          <CardTitle>Security Recommendations</CardTitle>
+          <CardTitle>Security Status & Recommendations</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-sm">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <span>Strong password requirements enforced</span>
+          <div className="space-y-4">
+            <div className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+              <h4 className="font-medium text-green-800 dark:text-green-200 mb-2">✅ Security Features Active</h4>
+              <ul className="space-y-1 text-sm text-green-700 dark:text-green-300">
+                <li>• Row Level Security (RLS) enabled</li>
+                <li>• Enhanced security headers configured</li>
+                <li>• Failed authentication monitoring</li>
+                <li>• Admin activity logging</li>
+                <li>• Guest access rate limiting</li>
+                <li>• Data retention policies active</li>
+                <li>• Database function search paths secured</li>
+              </ul>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <span>Rate limiting active on authentication endpoints</span>
+            
+            <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+              <h4 className="font-medium text-blue-800 dark:text-blue-200 mb-2">📋 Security Recommendations</h4>
+              <ul className="space-y-1 text-sm text-blue-700 dark:text-blue-300">
+                <li>• Review audit logs weekly</li>
+                <li>• Monitor failed authentication patterns</li>
+                <li>• Update admin permissions quarterly</li>
+                <li>• Verify CAPTCHA configuration in Supabase secrets</li>
+                <li>• Check email security settings (SPF/DKIM)</li>
+                <li>• Test backup and recovery procedures</li>
+              </ul>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <span>Input validation and sanitization enabled</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <span>Database-level security constraints active</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <span>Admin audit logging functional</span>
-            </div>
+            
+            {alerts.filter(a => a.severity === 'critical').length > 0 && (
+              <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                <h4 className="font-medium text-red-800 dark:text-red-200 mb-2">⚠️ Immediate Action Required</h4>
+                <p className="text-sm text-red-700 dark:text-red-300">
+                  {alerts.filter(a => a.severity === 'critical').length} critical security alert(s) detected. 
+                  Review and address immediately.
+                </p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
