@@ -1,3 +1,4 @@
+
 import { useCallback, memo, useEffect, useState } from "react";
 import { WorkshopCalendar } from "@/components/WorkshopCalendar";
 import { toast } from "sonner";
@@ -129,7 +130,7 @@ const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshop
               >
                 View Registrations (Admin)
               </Button>
-            ) : user ? (
+            ) : user && (
               <Button 
                 variant="secondaryOutline" 
                 onClick={() => navigate('/my-registrations')} 
@@ -141,19 +142,6 @@ const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshop
                 } ${prefersReducedMotion ? '' : 'hover:scale-105 delay-75'}`}
               >
                 My registrations
-              </Button>
-            ) : (
-              <Button 
-                variant="secondaryOutline" 
-                onClick={() => navigate('/auth')} 
-                aria-label="Admin Login"
-                className={`transform transition-all duration-300 ${
-                  isVisible 
-                    ? 'scale-100' 
-                    : 'scale-95'
-                } ${prefersReducedMotion ? '' : 'hover:scale-105 delay-75'}`}
-              >
-                Admin Login
               </Button>
             )}
           </div>
