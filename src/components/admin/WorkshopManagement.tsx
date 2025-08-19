@@ -75,8 +75,18 @@ const WorkshopManagement: React.FC = () => {
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<CreateWorkshopData> }) =>
       WorkshopService.updateWorkshop(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['workshops'] });
+    onSuccess: async () => {
+      // Invalidate and immediately refetch all workshop-related queries
+      await queryClient.invalidateQueries({ 
+        queryKey: ['workshops'], 
+        refetchType: 'active' 
+      });
+      
+      // Force refetch to ensure data is fresh
+      await queryClient.refetchQueries({ 
+        queryKey: ['workshops'] 
+      });
+      
       toast.success('Workshop updated successfully');
       setIsDialogOpen(false);
       setSelectedWorkshop(null);

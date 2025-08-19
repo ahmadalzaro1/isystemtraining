@@ -48,8 +48,9 @@ const useMassiveWorkshopsDesign = true;
 const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshopsError, error: workshopsError, refetch } = useQuery({
   queryKey: ['workshops'],
   queryFn: WorkshopService.getWorkshops,
-  staleTime: 60000,
+  staleTime: 30000, // Reduced from 60s to 30s for fresher data
   refetchOnWindowFocus: false,
+  refetchOnMount: true, // Ensure fresh data on component mount
 });
 
   const handleWorkshopSelect = useCallback((workshop: any) => {
