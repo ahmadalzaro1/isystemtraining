@@ -631,7 +631,7 @@ const RegistrationManagement: React.FC = () => {
                 {/* Detailed Registration Responses */}
                 {(() => {
                   const userResponse = registrationResponses.find(
-                    response => response.user_id === selectedRegistration.user_id
+                    response => response.registration_id === selectedRegistration.id
                   );
                   
                   if (!userResponse) {

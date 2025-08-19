@@ -475,25 +475,36 @@ export type Database = {
         Row: {
           completed_at: string
           id: string
+          registration_id: string | null
           response_data: Json
           step_name: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           completed_at?: string
           id?: string
+          registration_id?: string | null
           response_data: Json
           step_name: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           completed_at?: string
           id?: string
+          registration_id?: string | null
           response_data?: Json
           step_name?: string
-          user_id?: string
+          user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_registration_responses_registration_id"
+            columns: ["registration_id"]
+            isOneToOne: false
+            referencedRelation: "workshop_registrations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       registration_steps: {
         Row: {

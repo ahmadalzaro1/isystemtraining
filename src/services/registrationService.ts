@@ -174,17 +174,11 @@ export class RegistrationService {
         }
       };
 
-      // For guest users, we'll use a workaround since we can't save to registration_responses
-      // without a user_id. We'll save it as a JSON field in a custom way
-      if (!userId) {
-        log('Guest user - detailed responses saved in registration context');
-        return;
-      }
-
-      // Save to registration_responses table for authenticated users
+      // Save to registration_responses table for all users (both authenticated and guest)
       const { error } = await supabase
         .from('registration_responses')
         .insert({
+          registration_id: registrationId,
           user_id: userId,
           step_name: 'complete_registration',
           response_data: responseData as any,
@@ -194,7 +188,7 @@ export class RegistrationService {
         logError('Error saving registration responses:', error);
         // Don't throw here - registration succeeded, this is just additional data
       } else {
-        log('Registration responses saved successfully');
+        log('Registration responses saved successfully for registration:', registrationId);
       }
     } catch (error) {
       logError('Error in saveRegistrationResponses:', error);
