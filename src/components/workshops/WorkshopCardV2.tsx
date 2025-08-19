@@ -34,47 +34,72 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
 
   return (
     <div
-      className="wk-card p-12 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-lg motion-reduce:transition-none motion-reduce:transform-none h-full flex flex-col rounded-2xl bg-gradient-to-b from-[hsl(var(--surface))] to-[hsl(var(--surface-2))] shadow-md"
+      className="wk-card p-4 sm:p-6 lg:p-8 cursor-pointer group relative transition-all duration-150 ease-[var(--ease-ios)] hover:-translate-y-[1px] active:scale-[.99] hover:shadow-lg motion-reduce:transition-none motion-reduce:transform-none h-full flex flex-col rounded-xl sm:rounded-2xl bg-gradient-to-b from-[hsl(var(--surface))] to-[hsl(var(--surface-2))] shadow-md touch-manipulation"
       onClick={handleCardClick}
       style={{ animationDelay: `${index * 0.1}s` }}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleCardClick();
+        }
+      }}
     >
-      {/* Meta row */}
-      <div className="text-base text-[hsl(var(--text-muted))] mb-6">
-        {format(workshop.date, "EEE, MMM d")} • {workshop.time} • {workshop.location} • {workshop.skillLevel} • {workshop.category}
+      {/* Meta row - Mobile optimized */}
+      <div className="text-xs sm:text-sm text-[hsl(var(--text-muted))] mb-3 sm:mb-4 lg:mb-6">
+        <div className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
+          <span className="font-medium">{format(workshop.date, "EEE, MMM d")}</span>
+          <span className="hidden sm:inline">•</span>
+          <span>{workshop.time}</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="truncate">{workshop.location}</span>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 mt-2 sm:mt-1">
+          <span className="inline-flex items-center px-2 py-1 text-xs bg-[hsl(var(--surface-2))] rounded-md">
+            {workshop.skillLevel}
+          </span>
+          <span className="inline-flex items-center px-2 py-1 text-xs bg-[hsl(var(--surface-2))] rounded-md">
+            {workshop.category}
+          </span>
+        </div>
       </div>
 
-      {/* Title */}
-      <h3 className="font-semibold text-xl text-[hsl(var(--text-strong))] leading-tight mb-6">
+      {/* Title - Mobile optimized */}
+      <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-[hsl(var(--text-strong))] leading-tight mb-3 sm:mb-4 lg:mb-6 line-clamp-2">
         {workshop.name}
       </h3>
 
-      {/* Description */}
-      <p className="text-[hsl(var(--text-muted))] leading-relaxed text-base line-clamp-3 mb-10">
+      {/* Description - Mobile optimized */}
+      <p className="text-sm sm:text-base text-[hsl(var(--text-muted))] leading-relaxed line-clamp-2 sm:line-clamp-3 mb-4 sm:mb-6 lg:mb-10 flex-grow">
         {workshop.description}
       </p>
 
-      {/* Capacity */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between text-base">
+      {/* Capacity - Mobile optimized */}
+      <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+        <div className="flex items-center justify-between text-sm sm:text-base">
           <span className="text-[hsl(var(--text-muted))]">Available spots</span>
           <span className="font-medium text-[hsl(var(--text-strong))]">
-            {workshop.spotsRemaining} / {workshop.maxCapacity}
+            {workshop.registrationsCount} / {workshop.maxCapacity}
           </span>
         </div>
-        <div className="wk-progress mt-1">
-          <i style={{ width: `${percentFilled}%` }}></i>
+        <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-1.5 sm:h-2 overflow-hidden">
+          <div 
+            className="bg-gradient-to-r from-[hsl(var(--accent-a))] to-[hsl(var(--accent-b))] h-full rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${Math.max(0, Math.min(100, (workshop.registrationsCount / workshop.maxCapacity) * 100))}%` }}
+          />
         </div>
       </div>
 
-      {/* Footer - aligned action */}
-      <div className="mt-auto pt-10 border-t border-[hsl(var(--border))] flex justify-between items-center">
+      {/* Footer - Mobile optimized */}
+      <div className="mt-4 sm:mt-6 lg:mt-auto lg:pt-10 lg:border-t lg:border-[hsl(var(--border))] flex justify-between items-center">
         {workshop.spotsRemaining > 0 ? (
           <Button
             variant="ios"
             size="default"
-            className="min-w-[120px] w-full sm:w-auto"
+            className="w-full sm:min-w-[120px] sm:w-auto h-10 sm:h-auto text-sm sm:text-base touch-manipulation"
             onClick={handleRegister}
-            aria-label="Register for this workshop"
+            aria-label={`Register for ${workshop.name}`}
           >
             Register
           </Button>
@@ -82,9 +107,9 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
           <Button
             variant="outline"
             size="default"
-            className="min-w-[120px] w-full sm:w-auto"
+            className="w-full sm:min-w-[120px] sm:w-auto h-10 sm:h-auto text-sm sm:text-base touch-manipulation"
             onClick={handleWaitlist}
-            aria-label="Join the waitlist for this workshop"
+            aria-label={`Join waitlist for ${workshop.name}`}
           >
             Waitlist
           </Button>
