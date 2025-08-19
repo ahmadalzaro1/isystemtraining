@@ -141,7 +141,20 @@ const { data: workshops = [], isLoading: isWorkshopsLoading, isError: isWorkshop
               >
                 My registrations
               </Button>
-            ) : null}
+            ) : (
+              <Button 
+                variant="secondaryOutline" 
+                onClick={() => navigate('/auth')} 
+                aria-label="Admin Login"
+                className={`transform transition-all duration-300 ${
+                  isVisible 
+                    ? 'scale-100' 
+                    : 'scale-95'
+                } ${prefersReducedMotion ? '' : 'hover:scale-105 delay-75'}`}
+              >
+                Admin Login
+              </Button>
+            )}
           </div>
         </div>
       </section>
