@@ -453,7 +453,8 @@ export class RegistrationService {
       `;
 
       // Send email via the edge function with detailed logging
-      console.log('[RegistrationService] Attempting to invoke send-confirmation-email function...');
+      console.log('[RegistrationService] 🔍 About to call supabase.functions.invoke...');
+      console.log('[RegistrationService] 📧 Attempting to invoke send-confirmation-email function...');
       console.log('[RegistrationService] Email payload:', {
         to: participantEmail,
         subject: `Registration Confirmed: ${workshop.name}`,
@@ -468,9 +469,11 @@ export class RegistrationService {
         }
       });
 
-      console.log('[RegistrationService] Function invoke result:', {
+      console.log('[RegistrationService] 📬 Function invoke completed with result:', {
         hasError: !!emailResult.error,
-        hasData: !!emailResult.data
+        hasData: !!emailResult.data,
+        errorMessage: emailResult.error?.message,
+        dataKeys: emailResult.data ? Object.keys(emailResult.data) : []
       });
 
       if (emailResult.error) {

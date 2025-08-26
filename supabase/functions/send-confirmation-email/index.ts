@@ -49,7 +49,7 @@ serve(async (req: Request): Promise<Response> => {
     }
 
     const provider = 'resend'; // Always use Resend
-    const from = 'iSystem Training <noreply@isystem-training.com>';
+    const from = 'iSystem Training <noreply@isystemwoskhop.com>';
 
     // Enhanced error messaging for missing API key
     if (!apiKey || apiKey.trim() === '') {
