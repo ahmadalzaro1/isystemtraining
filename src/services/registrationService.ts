@@ -89,8 +89,8 @@ export class RegistrationService {
       // Save detailed form responses for guest registration
       await RegistrationService.saveRegistrationResponses(fullRow.id, formData, null);
 
-      // TODO: Email confirmation temporarily disabled
-      // await RegistrationService.sendConfirmationEmail(fullRow, formData);
+      // Send confirmation email for guest registration
+      await RegistrationService.sendConfirmationEmail(fullRow, formData);
 
       log('Guest registration created', { id: fullRow.id });
       return fullRow;
@@ -139,8 +139,8 @@ export class RegistrationService {
     // Save detailed form responses for authenticated user registration
     await RegistrationService.saveRegistrationResponses(data?.id, formData, authenticatedUserId);
 
-    // TODO: Email confirmation temporarily disabled
-    // await RegistrationService.sendConfirmationEmail(data, formData);
+    // Send confirmation email for authenticated user registration
+    await RegistrationService.sendConfirmationEmail(data, formData);
 
     log('Registration created', { id: data?.id });
     return data;
