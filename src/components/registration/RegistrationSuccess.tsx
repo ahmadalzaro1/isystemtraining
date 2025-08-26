@@ -64,17 +64,72 @@ export const RegistrationSuccess = ({
   };
 
   const addToCalendar = () => {
-    const event = {
-      title: workshop.name,
-      description: workshop.description,
-      location: "Online",
-      startTime: workshop.date,
-      endTime: new Date(workshop.date.getTime() + 2 * 60 * 60 * 1000),
-    };
+    try {
+      const formatDate = (date: Date): string => {
+        return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+      };
 
-    toast.success("Added to calendar!", {
-      description: "Check your calendar app for details",
-    });
+      const now = new Date();
+      const startDate = new Date(workshop.date);
+      const endDate = new Date(startDate);
+      endDate.setHours(startDate.getHours() + 2); // Assume 2-hour workshops
+
+      const uid = `workshop-${workshop.id}@isystem-training.com`;
+      const dtStamp = formatDate(now);
+      const dtStart = formatDate(startDate);
+      const dtEnd = formatDate(endDate);
+
+      const icalContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//iSystem Training//Workshop Calendar//EN',
+        'CALSCALE:GREGORIAN',
+        'METHOD:PUBLISH',
+        'BEGIN:VEVENT',
+        `UID:${uid}`,
+        `DTSTAMP:${dtStamp}`,
+        `DTSTART:${dtStart}`,
+        `DTEND:${dtEnd}`,
+        `SUMMARY:${workshop.name}`,
+        `DESCRIPTION:${workshop.description}\\n\\nLevel: ${workshop.skillLevel}\\nTime: ${formatTime(workshop.time)}\\nInstructor: ${workshop.instructor}`,
+        `LOCATION:${workshop.location}`,
+        `STATUS:CONFIRMED`,
+        `TRANSP:OPAQUE`,
+        `CATEGORIES:${workshop.category}`,
+        'BEGIN:VALARM',
+        'TRIGGER:-PT30M',
+        'ACTION:DISPLAY',
+        'DESCRIPTION:Workshop starting in 30 minutes',
+        'END:VALARM',
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n') + '\r\n';
+
+      // Create and download the file
+      const blob = new Blob([icalContent], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      
+      link.href = url;
+      link.download = `${workshop.name.toLowerCase().replace(/\s+/g, '-')}.ics`;
+      link.style.display = 'none';
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up
+      URL.revokeObjectURL(url);
+
+      toast.success("Calendar file downloaded!", {
+        description: "Open the .ics file to add to your calendar",
+      });
+    } catch (error) {
+      console.error('Calendar export failed:', error);
+      toast.error("Failed to create calendar file", {
+        description: "Please try again",
+      });
+    }
   };
 
   const toggleSmsReminders = () => {
