@@ -294,10 +294,6 @@ export class RegistrationService {
       confirmationCode: registration.confirmation_code
     });
     
-    // Also use window.alert to force visibility if console is being suppressed
-    if (typeof window !== 'undefined') {
-      window.alert('sendConfirmationEmail function called! Check console for details.');
-    }
 
     try {
       console.log('[RegistrationService] 📋 Fetching workshop details...');
