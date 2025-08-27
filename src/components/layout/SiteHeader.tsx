@@ -10,12 +10,29 @@ export function SiteHeader(): JSX.Element {
   return (
     <header className="sticky top-0 z-50 bg-[hsl(var(--background))] border-b border-[hsl(var(--border))] supports-[backdrop-filter]:bg-[color-mix(in_oklab,hsl(var(--background))_92%,white)]/90 backdrop-blur-md">
       <div className="mx-auto max-w-7xl h-[56px] px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-6 min-w-0">
           <Link to="/" className="font-medium tracking-tight text-[hsl(var(--text-strong))] truncate focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-a))] rounded-sm">
             iSystem Training
           </Link>
+          
+          {/* Main Navigation */}
+          <nav aria-label="Main navigation" className="hidden sm:flex items-center gap-4">
+            <Link 
+              to="/#workshops" 
+              className="text-[hsl(var(--text-muted))] hover:text-[hsl(var(--text-strong))] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-a))] rounded-sm px-2 py-1"
+            >
+              Workshops
+            </Link>
+            <Link 
+              to="/guides" 
+              className="text-[hsl(var(--text-muted))] hover:text-[hsl(var(--text-strong))] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-a))] rounded-sm px-2 py-1"
+            >
+              Guides
+            </Link>
+          </nav>
         </div>
-        <nav aria-label="Primary" className="flex items-center gap-2">
+        
+        <nav aria-label="User navigation" className="flex items-center gap-2">
           {user ? (
             <>
               <Button

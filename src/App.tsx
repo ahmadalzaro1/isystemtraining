@@ -20,6 +20,7 @@ const Auth = lazy(() => import("./pages/Auth").then(module => ({ default: module
 const Admin = lazy(() => import("./pages/Admin").then(module => ({ default: module.default })));
 const MyRegistrations = lazy(() => import("./pages/MyRegistrations").then(module => ({ default: module.default })));
 const RegistrationPage = lazy(() => import("./pages/RegistrationPage").then(module => ({ default: module.default })));
+const Guides = lazy(() => import("./pages/Guides").then(module => ({ default: module.default })));
 
 // Create QueryClient instance outside of component to avoid dispatcher issues
 const queryClient = new QueryClient({
@@ -103,6 +104,7 @@ function App(): JSX.Element {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/auth" element={<Auth />} />
+                  <Route path="/guides" element={<Guides />} />
                   <Route path="/registration/:workshopId" element={<RegistrationPage />} />
                   <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
                   <Route path="/my-registrations" element={<ProtectedRoute><MyRegistrations /></ProtectedRoute>} />
