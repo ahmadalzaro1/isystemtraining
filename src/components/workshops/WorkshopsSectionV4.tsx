@@ -186,7 +186,7 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                       </div>
                       <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                         <span>🕐 {formatTime(workshop.time)}</span>
-                        <span className="truncate">📍 {workshop.location}</span>
+                        <span className="truncate bg-red-50 px-2 py-1 rounded">📍 {workshop.location}</span>
                       </div>
                     </div>
                     
