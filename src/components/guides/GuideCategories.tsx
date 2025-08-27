@@ -1,18 +1,28 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const categories = [
-  "All",
-  "Development", 
-  "Version Control",
-  "JavaScript",
-  "Database",
-  "Security",
-  "Design"
-];
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-export function GuideCategories() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+interface GuideCategoriesProps {
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+}
+
+export function GuideCategories({ selectedCategory, onCategoryChange }: GuideCategoriesProps) {
+  const { data: categories } = useQuery({
+    queryKey: ["guide-categories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("guide_categories")
+        .select("*")
+        .eq("is_active", true)
+        .order("sort_order");
+      
+      if (error) throw error;
+      return data;
+    },
+  });
 
   return (
     <div className="space-y-4">
@@ -21,15 +31,23 @@ export function GuideCategories() {
       </h3>
       
       <div className="flex flex-wrap gap-2">
-        {categories.map((category) => (
+        <Button
+          variant={selectedCategory === "All" ? "default" : "outline"}
+          size="sm"
+          onClick={() => onCategoryChange("All")}
+          className="transition-all duration-200"
+        >
+          All
+        </Button>
+        {categories?.map((category) => (
           <Button
-            key={category}
-            variant={selectedCategory === category ? "default" : "outline"}
+            key={category.id}
+            variant={selectedCategory === category.slug ? "default" : "outline"}
             size="sm"
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => onCategoryChange(category.slug)}
             className="transition-all duration-200"
           >
-            {category}
+            {category.name}
           </Button>
         ))}
       </div>

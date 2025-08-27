@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { GuidesList } from "@/components/guides/GuidesList";
 import { GuideCategories } from "@/components/guides/GuideCategories";
 
 export default function Guides(): JSX.Element {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
   return (
     <>
       {/* SEO Meta Tags */}
@@ -33,8 +35,11 @@ export default function Guides(): JSX.Element {
         {/* Guides Content */}
         <section className="container-page pb-24">
           <div className="space-y-12">
-            <GuideCategories />
-            <GuidesList />
+            <GuideCategories 
+              selectedCategory={selectedCategory} 
+              onCategoryChange={setSelectedCategory} 
+            />
+            <GuidesList selectedCategory={selectedCategory} />
           </div>
         </section>
       </div>
