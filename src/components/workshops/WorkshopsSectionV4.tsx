@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { cn, formatTime } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { shouldHideCapacity } from '@/utils/workshopUtils';
 
 interface WorkshopsSectionV4Props {
   workshops: Workshop[];
@@ -215,14 +216,16 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                       </div>
                       
                       {/* Availability Status */}
-                      <div className="text-left lg:text-right">
-                        <div className="text-xs sm:text-sm text-[hsl(var(--text-muted))] mb-1">
-                          Registered
+                      {!shouldHideCapacity(workshop.location) && (
+                        <div className="text-left lg:text-right">
+                          <div className="text-xs sm:text-sm text-[hsl(var(--text-muted))] mb-1">
+                            Registered
+                          </div>
+                          <div className="text-base sm:text-lg font-semibold text-[hsl(var(--text-strong))]">
+                            {workshop.registrationsCount} / {workshop.maxCapacity}
+                          </div>
                         </div>
-                        <div className="text-base sm:text-lg font-semibold text-[hsl(var(--text-strong))]">
-                          {workshop.registrationsCount} / {workshop.maxCapacity}
-                        </div>
-                      </div>
+                      )}
                       
                       {/* Register Button */}
                       <Button
@@ -246,12 +249,14 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
                 </div>
                 
                 {/* Progress Bar - Mobile optimized */}
-                <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-1.5 sm:h-2 overflow-hidden">
-                  <div 
-                    className="bg-gradient-to-r from-[hsl(var(--accent-a))] to-[hsl(var(--accent-b))] h-full rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${Math.max(0, Math.min(100, (workshop.registrationsCount / workshop.maxCapacity) * 100))}%` }}
-                  />
-                </div>
+                {!shouldHideCapacity(workshop.location) && (
+                  <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-1.5 sm:h-2 overflow-hidden">
+                    <div 
+                      className="bg-gradient-to-r from-[hsl(var(--accent-a))] to-[hsl(var(--accent-b))] h-full rounded-full transition-all duration-500 ease-out"
+                      style={{ width: `${Math.max(0, Math.min(100, (workshop.registrationsCount / workshop.maxCapacity) * 100))}%` }}
+                    />
+                  </div>
+                )}
               </div>
             </Card>
           ))}
