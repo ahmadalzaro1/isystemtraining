@@ -21,7 +21,7 @@ export type Database = {
           created_at: string
           details: Json | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           target_user_id: string | null
           user_agent: string | null
         }
@@ -31,7 +31,7 @@ export type Database = {
           created_at?: string
           details?: Json | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           target_user_id?: string | null
           user_agent?: string | null
         }
@@ -41,7 +41,7 @@ export type Database = {
           created_at?: string
           details?: Json | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           target_user_id?: string | null
           user_agent?: string | null
         }
@@ -51,7 +51,7 @@ export type Database = {
         Row: {
           ended_at: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           is_active: boolean
           last_activity: string
           session_start: string
@@ -61,7 +61,7 @@ export type Database = {
         Insert: {
           ended_at?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           is_active?: boolean
           last_activity?: string
           session_start?: string
@@ -71,7 +71,7 @@ export type Database = {
         Update: {
           ended_at?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           is_active?: boolean
           last_activity?: string
           session_start?: string
@@ -86,7 +86,7 @@ export type Database = {
           event_data: Json | null
           event_name: string
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           page_url: string | null
           referrer: string | null
           session_id: string | null
@@ -98,7 +98,7 @@ export type Database = {
           event_data?: Json | null
           event_name: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           page_url?: string | null
           referrer?: string | null
           session_id?: string | null
@@ -110,7 +110,7 @@ export type Database = {
           event_data?: Json | null
           event_name?: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           page_url?: string | null
           referrer?: string | null
           session_id?: string | null
@@ -976,18 +976,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      anonymize_expired_analytics: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      anonymize_guest_data_enhanced: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      anonymize_old_guest_registrations: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
+      anonymize_expired_analytics: { Args: never; Returns: number }
+      anonymize_guest_data_enhanced: { Args: never; Returns: number }
+      anonymize_old_guest_registrations: { Args: never; Returns: number }
       anonymize_user_data: {
         Args: { target_user_id: string }
         Returns: boolean
@@ -1007,23 +998,17 @@ export type Database = {
           user_id: string | null
           workshop_id: string
         }
+        SetofOptions: {
+          from: "*"
+          to: "workshop_registrations"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
-      check_guest_access_rate_limit: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      check_guest_access_rate_limit_enhanced: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      cleanup_expired_analytics_data: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      cleanup_expired_guest_registrations: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
+      check_guest_access_rate_limit: { Args: never; Returns: boolean }
+      check_guest_access_rate_limit_enhanced: { Args: never; Returns: boolean }
+      cleanup_expired_analytics_data: { Args: never; Returns: number }
+      cleanup_expired_guest_registrations: { Args: never; Returns: number }
       create_guest_registration: {
         Args: {
           p_email: string
@@ -1090,6 +1075,12 @@ export type Database = {
           user_id: string | null
           workshop_id: string
         }[]
+        SetofOptions: {
+          from: "*"
+          to: "workshop_registrations"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       get_workshops_week: {
         Args: {
@@ -1114,14 +1105,8 @@ export type Database = {
           time_text: string
         }[]
       }
-      is_current_user_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      link_guest_regs_to_user: {
-        Args: { p_email: string }
-        Returns: number
-      }
+      is_current_user_admin: { Args: never; Returns: boolean }
+      link_guest_regs_to_user: { Args: { p_email: string }; Returns: number }
       log_security_event: {
         Args: {
           p_event_details?: Json
@@ -1139,10 +1124,7 @@ export type Database = {
         }
         Returns: undefined
       }
-      sanitize_text_input: {
-        Args: { input_text: string }
-        Returns: string
-      }
+      sanitize_text_input: { Args: { input_text: string }; Returns: string }
       track_admin_session: {
         Args: { p_ip_address?: unknown; p_user_agent?: string }
         Returns: string
