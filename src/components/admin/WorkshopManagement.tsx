@@ -379,6 +379,7 @@ const WorkshopManagement: React.FC = () => {
                             <SelectItem value="iSystem Mecca Street">iSystem Mecca Street</SelectItem>
                             <SelectItem value="iSystem Swefieh">iSystem Swefieh</SelectItem>
                             <SelectItem value="iSystem City Mall">iSystem City Mall</SelectItem>
+                            <SelectItem value="Mecca Mall - SmartTech">Mecca Mall - SmartTech</SelectItem>
                             <SelectItem value="Online">Online</SelectItem>
                           </SelectContent>
                         </Select>
