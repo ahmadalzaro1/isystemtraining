@@ -12,3 +12,7 @@ export const isWorkshopAlmostFull = (workshop: Workshop): boolean => {
 export const getSpotPercentage = (workshop: Workshop, totalSeats: number): number => {
   return ((totalSeats - workshop.spotsRemaining) / totalSeats) * 100;
 };
+
+export const shouldHideCapacity = (location: string): boolean => {
+  return location === "Mecca Mall - SmartTech";
+};

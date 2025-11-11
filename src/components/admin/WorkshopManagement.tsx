@@ -32,7 +32,7 @@ const workshopSchema = z.object({
   skill_level: z.enum(['Beginner', 'Intermediate', 'Advanced']),
   category: z.enum(['Mac', 'iPhone', 'Apple Watch', 'AI', 'Digital Safety', 'Creativity', 'Productivity', 'iCloud']),
   instructor: z.string().min(1, 'Instructor is required'),
-  location: z.enum(['iSystem Khalda', 'iSystem Abdoun', 'iSystem Mecca Street', 'iSystem Swefieh', 'iSystem City Mall', 'Online']),
+  location: z.enum(['iSystem Khalda', 'iSystem Abdoun', 'iSystem Mecca Street', 'iSystem Swefieh', 'iSystem City Mall', 'Mecca Mall - SmartTech', 'Online']),
 });
 
 type WorkshopFormData = z.infer<typeof workshopSchema>;

@@ -7,6 +7,7 @@ import { cn, formatTime } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { IOSCard } from "@/components/ui/ios-card";
 import { useNavigate } from "react-router-dom";
+import { shouldHideCapacity } from "@/utils/workshopUtils";
 
 interface WorkshopCardProps {
   workshop: Workshop;
@@ -17,8 +18,9 @@ interface WorkshopCardProps {
 export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) => {
   const navigate = useNavigate();
   const totalSeats = 12;
-  const isTrending = workshop.spotsRemaining <= 4;
-  const isAlmostFull = workshop.spotsRemaining <= 2;
+  const hideCapacity = shouldHideCapacity(workshop.location);
+  const isTrending = !hideCapacity && workshop.spotsRemaining <= 4;
+  const isAlmostFull = !hideCapacity && workshop.spotsRemaining <= 2;
 
   const handleWaitlist = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -82,17 +84,19 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         </p>
 
         {/* Seats Progress */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-[clamp(12px,2.5vw,14px)]">
-            <span className="text-[hsl(var(--text-muted))]">Available Spots</span>
-            <span className="font-medium text-[hsl(var(--text-strong))]">
-              {workshop.spotsRemaining} / {totalSeats}
-            </span>
+        {!hideCapacity && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-[clamp(12px,2.5vw,14px)]">
+              <span className="text-[hsl(var(--text-muted))]">Available Spots</span>
+              <span className="font-medium text-[hsl(var(--text-strong))]">
+                {workshop.spotsRemaining} / {totalSeats}
+              </span>
+            </div>
+            <div className="wk-progress mt-3">
+              <i style={{width: `${((totalSeats - workshop.spotsRemaining) / totalSeats) * 100}%`}}></i>
+            </div>
           </div>
-          <div className="wk-progress mt-3">
-            <i style={{width: `${((totalSeats - workshop.spotsRemaining) / totalSeats) * 100}%`}}></i>
-          </div>
-        </div>
+        )}
 
         {/* Footer */}
         <div className="mt-auto flex items-center justify-between pt-[clamp(12px,3vw,16px)] border-t border-[hsl(var(--border))]">

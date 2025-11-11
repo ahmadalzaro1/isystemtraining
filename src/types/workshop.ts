@@ -11,7 +11,7 @@ export type Workshop = {
   skillLevel: "Beginner" | "Intermediate" | "Advanced";
   category: "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud";
   instructor: string;
-  location: "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Online";
+  location: "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Mecca Mall - SmartTech" | "Online";
 };
 
 export type WorkshopFilters = {

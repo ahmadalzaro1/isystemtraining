@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { formatTime } from "@/lib/utils";
+import { shouldHideCapacity } from "@/utils/workshopUtils";
 
 interface WorkshopCardV2Props {
   workshop: Workshop;
@@ -77,20 +78,22 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       </p>
 
       {/* Capacity - Mobile optimized */}
-      <div className="space-y-3 sm:space-y-4 lg:space-y-6">
-        <div className="flex items-center justify-between text-sm sm:text-base">
-          <span className="text-[hsl(var(--text-muted))]">Available spots</span>
-          <span className="font-medium text-[hsl(var(--text-strong))]">
-            {workshop.registrationsCount} / {workshop.maxCapacity}
-          </span>
+      {!shouldHideCapacity(workshop.location) && (
+        <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+          <div className="flex items-center justify-between text-sm sm:text-base">
+            <span className="text-[hsl(var(--text-muted))]">Available spots</span>
+            <span className="font-medium text-[hsl(var(--text-strong))]">
+              {workshop.registrationsCount} / {workshop.maxCapacity}
+            </span>
+          </div>
+          <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-1.5 sm:h-2 overflow-hidden">
+            <div 
+              className="bg-gradient-to-r from-[hsl(var(--accent-a))] to-[hsl(var(--accent-b))] h-full rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${Math.max(0, Math.min(100, (workshop.registrationsCount / workshop.maxCapacity) * 100))}%` }}
+            />
+          </div>
         </div>
-        <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-1.5 sm:h-2 overflow-hidden">
-          <div 
-            className="bg-gradient-to-r from-[hsl(var(--accent-a))] to-[hsl(var(--accent-b))] h-full rounded-full transition-all duration-500 ease-out"
-            style={{ width: `${Math.max(0, Math.min(100, (workshop.registrationsCount / workshop.maxCapacity) * 100))}%` }}
-          />
-        </div>
-      </div>
+      )}
 
       {/* Footer - Mobile optimized */}
       <div className="mt-4 sm:mt-6 lg:mt-auto lg:pt-10 lg:border-t lg:border-[hsl(var(--border))] flex justify-between items-center">

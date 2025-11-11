@@ -27,7 +27,7 @@ export interface CreateWorkshopData {
   skill_level: "Beginner" | "Intermediate" | "Advanced";
   category: "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud";
   instructor: string;
-  location: "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Online";
+  location: "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Mecca Mall - SmartTech" | "Online";
 }
 
 export class WorkshopService {
@@ -218,7 +218,7 @@ export class WorkshopService {
       skillLevel: dbWorkshop.skill_level as "Beginner" | "Intermediate" | "Advanced",
       category: dbWorkshop.category as "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud",
       instructor: dbWorkshop.instructor,
-      location: dbWorkshop.location as "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Online",
+      location: dbWorkshop.location as "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Mecca Mall - SmartTech" | "Online",
     };
   }
 }
