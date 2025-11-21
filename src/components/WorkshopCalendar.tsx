@@ -90,7 +90,7 @@ export const WorkshopCalendar = memo(({ onSelect, variant = 'v2' }: WorkshopCale
 
 
   // Build explorer UI data
-  const allCategories: Workshop["category"][] = ["Mac","iPhone","Apple Watch","AI","Digital Safety","Creativity","Productivity","iCloud"];
+  const allCategories: Workshop["category"][] = ["Mac","iPhone","Apple Watch","AI","Digital Safety","Creativity","Productivity","iCloud","Digital Art on iPad"];
   const weekDays = useMemo(() => {
     return Object.entries(workshopsByDate)
       .sort(([a],[b]) => a.localeCompare(b))

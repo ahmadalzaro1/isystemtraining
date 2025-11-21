@@ -25,7 +25,7 @@ export interface CreateWorkshopData {
   spots_remaining: number;
   max_capacity: number;
   skill_level: "Beginner" | "Intermediate" | "Advanced";
-  category: "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud";
+  category: "Mac" | "iPhone" | "Apple Watch" | "AI" | "Digital Safety" | "Creativity" | "Productivity" | "iCloud" | "Digital Art on iPad";
   instructor: string;
   location: "iSystem Khalda" | "iSystem Abdoun" | "iSystem Mecca Street" | "iSystem Swefieh" | "iSystem City Mall" | "Mecca Mall - SmartTech" | "Online";
 }

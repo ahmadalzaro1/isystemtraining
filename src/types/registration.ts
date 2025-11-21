@@ -15,7 +15,7 @@ export interface WorkshopTopic {
   selected: boolean;
 }
 
-export type WorkshopCategory = "fundamentals" | "productivity" | "creativity" | "creative" | "security" | "cloud" | "ai" | "home" | "essentials" | "advanced" | "business";
+export type WorkshopCategory = "fundamentals" | "productivity" | "creativity" | "creative" | "security" | "cloud" | "ai" | "home" | "essentials" | "advanced" | "business" | "digital-art";
 
 export interface FormData {
   // User Type & Platform

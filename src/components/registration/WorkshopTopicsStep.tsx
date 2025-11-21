@@ -96,6 +96,15 @@ const WORKSHOP_CATEGORIES: { category: WorkshopCategory; title: string; topics: 
       "Apple TV & Streaming Best Practices",
       "Integrating Apple Devices with Non-Apple Tech"
     ]
+  },
+  {
+    category: "digital-art",
+    title: "🎨 Digital Art on iPad",
+    topics: [
+      "Procreate Fundamentals & Techniques",
+      "Apple Pencil Mastery & Gestures",
+      "Digital Illustration & Animation on iPad"
+    ]
   }
 ];
 
