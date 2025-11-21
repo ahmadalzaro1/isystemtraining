@@ -40,7 +40,8 @@ export const WorkshopFilterBar = ({ filters, onChange }: WorkshopFilterBarProps)
     { value: "Digital Safety", label: "🔐 Digital Safety" },
     { value: "Creativity", label: "🎨 Creativity" },
     { value: "Productivity", label: "🚀 Productivity" },
-    { value: "iCloud", label: "☁️ iCloud" }
+    { value: "iCloud", label: "☁️ iCloud" },
+    { value: "Digital Art on iPad", label: "🎨✏️ Digital Art" }
   ];
 
   return (
