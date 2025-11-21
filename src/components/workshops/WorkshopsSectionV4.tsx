@@ -132,7 +132,8 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
               {[
                 { value: 'Digital Safety', label: '🔐 Digital Safety & Security' },
                 { value: 'AI', label: '🤖 AI Tools for Everyday Life' },
-                { value: 'Parental Controls', label: '👨‍👩‍👧‍👦 Parental Controls & Child Tech' }
+                { value: 'Parental Controls', label: '👨‍👩‍👧‍👦 Parental Controls & Child Tech' },
+                { value: 'Digital Art on iPad', label: '🎨 Digital Art on iPad' }
               ].map(({ value, label }) => (
                 <Badge
                   key={value}
