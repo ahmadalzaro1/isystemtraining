@@ -30,7 +30,7 @@ const workshopSchema = z.object({
   spots_remaining: z.number().min(0, 'Spots must be 0 or more'),
   max_capacity: z.number().min(1, 'Capacity must be at least 1'),
   skill_level: z.enum(['Beginner', 'Intermediate', 'Advanced']),
-  category: z.enum(['Mac', 'iPhone', 'Apple Watch', 'AI', 'Digital Safety', 'Creativity', 'Productivity', 'iCloud']),
+  category: z.enum(['Mac', 'iPhone', 'Apple Watch', 'AI', 'Digital Safety', 'Creativity', 'Productivity', 'iCloud', 'Digital Art on iPad']),
   instructor: z.string().min(1, 'Instructor is required'),
   location: z.enum(['iSystem Khalda', 'iSystem Abdoun', 'iSystem Mecca Street', 'iSystem Swefieh', 'iSystem City Mall', 'Mecca Mall - SmartTech', 'Online']),
 });
