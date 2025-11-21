@@ -355,6 +355,7 @@ const WorkshopManagement: React.FC = () => {
                             <SelectItem value="Creativity">Creativity</SelectItem>
                             <SelectItem value="Productivity">Productivity</SelectItem>
                             <SelectItem value="iCloud">iCloud</SelectItem>
+                            <SelectItem value="Digital Art on iPad">Digital Art on iPad</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
