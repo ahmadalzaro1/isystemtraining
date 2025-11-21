@@ -20,3 +20,10 @@ export type WorkshopFilters = {
   category: Workshop["category"] | "All";
   location: Workshop["location"] | "All";
 };
+
+export interface NextAvailableWeek {
+  hasWorkshops: boolean;
+  weekStart?: Date;
+  weekEnd?: Date;
+  workshopCount?: number;
+}

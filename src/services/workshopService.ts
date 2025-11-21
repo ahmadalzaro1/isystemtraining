@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { Workshop, WorkshopFilters } from "@/types/workshop";
+import { addWeeks, endOfWeek } from "date-fns";
 
 export interface DatabaseWorkshop {
   id: string;
@@ -102,6 +103,44 @@ export class WorkshopService {
       instructor: row.instructor,
       location: row.location || 'Online',
     } as Workshop));
+  }
+
+  static async getNextAvailableWeek(
+    currentWeekStart: Date,
+    filters: WorkshopFilters
+  ): Promise<{
+    hasWorkshops: boolean;
+    weekStart?: Date;
+    weekEnd?: Date;
+    workshopCount?: number;
+  } | null> {
+    try {
+      // Check next 3 weeks
+      for (let weekOffset = 1; weekOffset <= 3; weekOffset++) {
+        const nextWeekStart = addWeeks(currentWeekStart, weekOffset);
+        const nextWeekEnd = endOfWeek(nextWeekStart, { weekStartsOn: 0 });
+        
+        const workshops = await this.getWorkshopsWeek(
+          nextWeekStart, 
+          nextWeekEnd, 
+          filters
+        );
+        
+        if (workshops.length > 0) {
+          return {
+            hasWorkshops: true,
+            weekStart: nextWeekStart,
+            weekEnd: nextWeekEnd,
+            workshopCount: workshops.length
+          };
+        }
+      }
+      
+      return { hasWorkshops: false };
+    } catch (error) {
+      console.error('Error checking next available week:', error);
+      return null;
+    }
   }
 
   static async createWorkshop(workshopData: CreateWorkshopData): Promise<Workshop> {

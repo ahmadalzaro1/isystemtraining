@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { format, addWeeks, startOfWeek, endOfWeek } from 'date-fns';
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import { Workshop, WorkshopFilters } from '@/types/workshop';
@@ -8,6 +8,8 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { cn, formatTime } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { shouldHideCapacity } from '@/utils/workshopUtils';
+import { WorkshopService } from '@/services/workshopService';
+import { NoWorkshopsFound } from './NoWorkshopsFound';
 
 interface WorkshopsSectionV4Props {
   workshops: Workshop[];
@@ -23,6 +25,13 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
     category: "All",
     location: "All"
   });
+  const [nextAvailableWeek, setNextAvailableWeek] = useState<{
+    hasWorkshops: boolean;
+    weekStart?: Date;
+    weekEnd?: Date;
+    workshopCount?: number;
+  } | null>(null);
+  const [isCheckingNext, setIsCheckingNext] = useState(false);
 
   // Group workshops by week
   const weekWorkshops = useMemo(() => {
@@ -45,6 +54,27 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
 
   const handleFilterChange = (newFilters: Partial<WorkshopFilters>) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
+  };
+
+  // Check next available week when current week is empty
+  useEffect(() => {
+    const checkNextWeek = async () => {
+      if (weekWorkshops.length === 0 && !isCheckingNext) {
+        setIsCheckingNext(true);
+        const weekStart = startOfWeek(currentWeek, { weekStartsOn: 0 });
+        const result = await WorkshopService.getNextAvailableWeek(weekStart, filters);
+        setNextAvailableWeek(result);
+        setIsCheckingNext(false);
+      }
+    };
+    
+    checkNextWeek();
+  }, [weekWorkshops.length, currentWeek, filters, isCheckingNext]);
+
+  // Handler for jumping to week
+  const handleJumpToWeek = (weekStart: Date) => {
+    setCurrentWeek(weekStart);
+    setNextAvailableWeek(null); // Reset to avoid stale data
   };
 
   return (
@@ -263,15 +293,13 @@ export function WorkshopsSectionV4({ workshops, onSelect }: WorkshopsSectionV4Pr
           ))}
           
           {weekWorkshops.length === 0 && (
-            <div className="col-span-full text-center py-[clamp(32px,8vw,64px)]">
-              <div className="text-[clamp(48px,10vw,96px)] mb-[clamp(16px,3vw,24px)]">📅</div>
-              <h3 className="text-[clamp(20px,3.8vw,28px)] font-semibold text-[hsl(var(--text-strong))] mb-2">
-                No workshops this week
-              </h3>
-              <p className="text-[clamp(16px,3.2vw,20px)] text-[hsl(var(--text-muted))]">
-                Try navigating to a different week or adjusting your filters.
-              </p>
-            </div>
+            <NoWorkshopsFound
+              filters={filters}
+              onReset={() => setFilters({ search: "", skillLevel: "All", category: "All", location: "All" })}
+              nextAvailableWeek={nextAvailableWeek}
+              onJumpToWeek={handleJumpToWeek}
+              isLoading={isCheckingNext}
+            />
           )}
         </div>
       </div>

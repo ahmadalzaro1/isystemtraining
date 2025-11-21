@@ -33,6 +33,13 @@ export const WorkshopCalendar = memo(({ onSelect, variant = 'v2' }: WorkshopCale
   });
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [nextAvailableWeek, setNextAvailableWeek] = useState<{
+    hasWorkshops: boolean;
+    weekStart?: Date;
+    weekEnd?: Date;
+    workshopCount?: number;
+  } | null>(null);
+  const [isCheckingNext, setIsCheckingNext] = useState(false);
 
   // Load workshops for the current week via RPC, keep UUIDs intact
   useEffect(() => {
@@ -88,6 +95,26 @@ export const WorkshopCalendar = memo(({ onSelect, variant = 'v2' }: WorkshopCale
     return grouped;
   }, [currentWeekWorkshops]);
 
+  // Check next available week when current week is empty
+  useEffect(() => {
+    const checkNextWeek = async () => {
+      if (currentWeekWorkshops.length === 0 && !isCheckingNext && !isLoading) {
+        setIsCheckingNext(true);
+        const weekStart = startOfWeek(currentWeek, { weekStartsOn: 0 });
+        const result = await WorkshopService.getNextAvailableWeek(weekStart, filters);
+        setNextAvailableWeek(result);
+        setIsCheckingNext(false);
+      }
+    };
+    
+    checkNextWeek();
+  }, [currentWeekWorkshops.length, currentWeek, filters, isCheckingNext, isLoading]);
+
+  // Handler for jumping to week
+  const handleJumpToWeek = useCallback((weekStart: Date) => {
+    setCurrentWeek(weekStart);
+    setNextAvailableWeek(null); // Reset to avoid stale data
+  }, []);
 
   // Build explorer UI data
   const allCategories: Workshop["category"][] = ["Mac","iPhone","Apple Watch","AI","Digital Safety","Creativity","Productivity","iCloud","Digital Art on iPad"];
@@ -155,6 +182,9 @@ export const WorkshopCalendar = memo(({ onSelect, variant = 'v2' }: WorkshopCale
               <NoWorkshopsFound 
                 filters={filters}
                 onReset={resetFilters}
+                nextAvailableWeek={nextAvailableWeek}
+                onJumpToWeek={handleJumpToWeek}
+                isLoading={isCheckingNext}
               />
             )}
           </>
