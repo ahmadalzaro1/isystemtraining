@@ -2,12 +2,13 @@
 import { Clock, CheckCircle, Flame, Zap, UserCircle2 } from "lucide-react";
 import { Workshop } from "@/types/workshop";
 import { SeatsProgressBar } from "./SeatsProgressBar";
-import { toast } from "sonner";
 import { cn, formatTime } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { IOSCard } from "@/components/ui/ios-card";
 import { useNavigate } from "react-router-dom";
 import { shouldHideCapacity } from "@/utils/workshopUtils";
+import { WaitlistDialog } from "./WaitlistDialog";
+import { useState } from "react";
 
 interface WorkshopCardProps {
   workshop: Workshop;
@@ -17,6 +18,7 @@ interface WorkshopCardProps {
 
 export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) => {
   const navigate = useNavigate();
+  const [showWaitlistDialog, setShowWaitlistDialog] = useState(false);
   const totalSeats = 12;
   const hideCapacity = shouldHideCapacity(workshop.location);
   const isTrending = !hideCapacity && workshop.spotsRemaining <= 4;
@@ -24,9 +26,7 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
 
   const handleWaitlist = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toast.success("Added to waitlist", {
-      description: "We'll notify you if a spot becomes available"
-    });
+    setShowWaitlistDialog(true);
   };
 
   const handleRegister = (e: React.MouseEvent) => {
@@ -35,7 +35,11 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
   };
 
   const handleCardClick = () => {
-    navigate(`/registration/${workshop.id}`);
+    if (workshop.spotsRemaining > 0) {
+      navigate(`/registration/${workshop.id}`);
+    } else {
+      setShowWaitlistDialog(true);
+    }
   };
 
   return (
@@ -123,6 +127,12 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
           )}
         </div>
       </div>
+
+      <WaitlistDialog
+        workshop={workshop}
+        open={showWaitlistDialog}
+        onOpenChange={setShowWaitlistDialog}
+      />
     </div>
   );
 };
