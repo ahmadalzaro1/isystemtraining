@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { format } from "date-fns";
 import { Workshop } from "@/types/workshop";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { formatTime } from "@/lib/utils";
 import { shouldHideCapacity } from "@/utils/workshopUtils";
+import { WaitlistDialog } from "./WaitlistDialog";
 
 interface WorkshopCardV2Props {
   workshop: Workshop;
@@ -15,8 +15,8 @@ interface WorkshopCardV2Props {
 
 export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Props) => {
   const navigate = useNavigate();
+  const [showWaitlistDialog, setShowWaitlistDialog] = useState(false);
   console.log('WorkshopCardV2 workshop data:', workshop);
-  const percentFilled = ((workshop.maxCapacity - workshop.spotsRemaining) / workshop.maxCapacity) * 100;
 
   const handleRegister = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -25,13 +25,15 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
 
   const handleWaitlist = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toast.success("Added to waitlist", {
-      description: "We'll notify you if a spot becomes available",
-    });
+    setShowWaitlistDialog(true);
   };
 
   const handleCardClick = () => {
-    navigate(`/registration/${workshop.id}`);
+    if (workshop.spotsRemaining > 0) {
+      navigate(`/registration/${workshop.id}`);
+    } else {
+      setShowWaitlistDialog(true);
+    }
   };
 
   return (
@@ -119,6 +121,12 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
           </Button>
         )}
       </div>
+
+      <WaitlistDialog
+        workshop={workshop}
+        open={showWaitlistDialog}
+        onOpenChange={setShowWaitlistDialog}
+      />
     </div>
   );
 };

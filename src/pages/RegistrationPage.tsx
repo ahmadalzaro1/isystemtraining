@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatTime } from "@/lib/utils";
+import { WaitlistDialog } from "@/components/workshops/WaitlistDialog";
 
 export default function RegistrationPage() {
   const { workshopId } = useParams<{ workshopId: string }>();
@@ -25,6 +26,7 @@ export default function RegistrationPage() {
   const [step, setStep] = useState<"registration" | "success">("registration");
   const [registrationData, setRegistrationData] = useState<FormData | null>(null);
   const [registration, setRegistration] = useState<WorkshopRegistration | null>(null);
+  const [showWaitlistDialog, setShowWaitlistDialog] = useState(false);
 
   // Fetch workshop data
   const { data: workshops = [], isLoading, isError, error } = useQuery({
@@ -92,6 +94,60 @@ export default function RegistrationPage() {
               Browse Available Workshops
             </Button>
           </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // If workshop is full, show waitlist option
+  if (workshop.spotsRemaining <= 0) {
+    return (
+      <div className="min-h-screen bg-[hsl(var(--surface))] py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <Button 
+            variant="secondaryOutline" 
+            onClick={handleGoBack}
+            className="mb-6"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Workshops
+          </Button>
+          
+          <Card className="p-8 text-center lgx-card">
+            <div className="text-6xl mb-6">📋</div>
+            <h1 className="text-2xl font-semibold text-[hsl(var(--text-strong))] mb-2">
+              Workshop Full
+            </h1>
+            <p className="text-lg mb-2 text-[hsl(var(--text-strong))]">{workshop.name}</p>
+            <p className="text-sm text-[hsl(var(--text-muted))] mb-2">
+              {workshop.date.toLocaleDateString()} • {formatTime(workshop.time)} • {workshop.skillLevel}
+            </p>
+            <p className="text-[hsl(var(--text-muted))] mb-8 max-w-md mx-auto">
+              This workshop is currently at capacity. Join the waitlist to be notified when a spot opens up.
+            </p>
+            
+            <Button 
+              variant="primaryPill" 
+              onClick={() => setShowWaitlistDialog(true)}
+              className="mb-4"
+            >
+              Join Waitlist
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              onClick={handleGoBack}
+              className="rounded-full"
+            >
+              Browse Other Workshops
+            </Button>
+          </Card>
+
+          <WaitlistDialog
+            workshop={workshop}
+            open={showWaitlistDialog}
+            onOpenChange={setShowWaitlistDialog}
+          />
         </div>
       </div>
     );

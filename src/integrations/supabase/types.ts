@@ -873,6 +873,47 @@ export type Database = {
           },
         ]
       }
+      waitlist: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          name: string | null
+          notified_at: string | null
+          phone: string | null
+          status: string | null
+          workshop_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          name?: string | null
+          notified_at?: string | null
+          phone?: string | null
+          status?: string | null
+          workshop_id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string | null
+          notified_at?: string | null
+          phone?: string | null
+          status?: string | null
+          workshop_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waitlist_workshop_id_fkey"
+            columns: ["workshop_id"]
+            isOneToOne: false
+            referencedRelation: "workshops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       workshop_registrations: {
         Row: {
           confirmation_code: string
@@ -976,6 +1017,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_to_waitlist: {
+        Args: {
+          p_email: string
+          p_name?: string
+          p_phone?: string
+          p_workshop_id: string
+        }
+        Returns: {
+          id: string
+          queue_position: number
+        }[]
+      }
       anonymize_expired_analytics: { Args: never; Returns: number }
       anonymize_guest_data_enhanced: { Args: never; Returns: number }
       anonymize_old_guest_registrations: { Args: never; Returns: number }
