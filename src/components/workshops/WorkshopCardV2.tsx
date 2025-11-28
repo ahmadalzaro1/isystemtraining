@@ -85,13 +85,13 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
           <div className="flex items-center justify-between text-sm sm:text-base">
             <span className="text-[hsl(var(--text-muted))]">Available spots</span>
             <span className="font-medium text-[hsl(var(--text-strong))]">
-              {workshop.registrationsCount} / {workshop.maxCapacity}
+              {workshop.spotsRemaining} / {workshop.maxCapacity}
             </span>
           </div>
           <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-1.5 sm:h-2 overflow-hidden">
             <div 
               className="bg-gradient-to-r from-[hsl(var(--accent-a))] to-[hsl(var(--accent-b))] h-full rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${Math.max(0, Math.min(100, (workshop.registrationsCount / workshop.maxCapacity) * 100))}%` }}
+              style={{ width: `${Math.max(0, Math.min(100, ((workshop.maxCapacity - workshop.spotsRemaining) / workshop.maxCapacity) * 100))}%` }}
             />
           </div>
         </div>
