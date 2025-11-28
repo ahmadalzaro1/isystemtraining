@@ -19,7 +19,6 @@ interface WorkshopCardProps {
 export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) => {
   const navigate = useNavigate();
   const [showWaitlistDialog, setShowWaitlistDialog] = useState(false);
-  const totalSeats = 12;
   const hideCapacity = shouldHideCapacity(workshop.location);
   const isTrending = !hideCapacity && workshop.spotsRemaining <= 4;
   const isAlmostFull = !hideCapacity && workshop.spotsRemaining <= 2;
@@ -93,11 +92,11 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
             <div className="flex items-center justify-between text-[clamp(12px,2.5vw,14px)]">
               <span className="text-[hsl(var(--text-muted))]">Available Spots</span>
               <span className="font-medium text-[hsl(var(--text-strong))]">
-                {workshop.spotsRemaining} / {totalSeats}
+                {workshop.spotsRemaining} / {workshop.maxCapacity}
               </span>
             </div>
             <div className="wk-progress mt-3">
-              <i style={{width: `${((totalSeats - workshop.spotsRemaining) / totalSeats) * 100}%`}}></i>
+              <i style={{width: `${((workshop.maxCapacity - workshop.spotsRemaining) / workshop.maxCapacity) * 100}%`}}></i>
             </div>
           </div>
         )}
