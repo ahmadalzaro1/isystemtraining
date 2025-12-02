@@ -83,10 +83,18 @@ export const WorkshopCardV2 = ({ workshop, onSelect, index }: WorkshopCardV2Prop
       {!shouldHideCapacity(workshop.location) && (
         <div className="space-y-3 sm:space-y-4 lg:space-y-6">
           <div className="flex items-center justify-between text-sm sm:text-base">
-            <span className="text-[hsl(var(--text-muted))]">Available spots</span>
-            <span className="font-medium text-[hsl(var(--text-strong))]">
-              {workshop.spotsRemaining} / {workshop.maxCapacity}
+            <span className="text-[hsl(var(--text-muted))]">
+              {workshop.spotsRemaining > 0 ? "Available spots" : "Status"}
             </span>
+            {workshop.spotsRemaining > 0 ? (
+              <span className="font-medium text-[hsl(var(--text-strong))]">
+                {workshop.spotsRemaining} / {workshop.maxCapacity}
+              </span>
+            ) : (
+              <span className="font-semibold text-[hsl(var(--accent-b))]">
+                Fully booked
+              </span>
+            )}
           </div>
           <div className="w-full bg-[hsl(var(--surface-2))] rounded-full h-1.5 sm:h-2 overflow-hidden">
             <div 
