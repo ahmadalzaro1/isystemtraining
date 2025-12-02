@@ -90,10 +90,18 @@ export const WorkshopCard = ({ workshop, onSelect, index }: WorkshopCardProps) =
         {!hideCapacity && (
           <div className="space-y-2">
             <div className="flex items-center justify-between text-[clamp(12px,2.5vw,14px)]">
-              <span className="text-[hsl(var(--text-muted))]">Available Spots</span>
-              <span className="font-medium text-[hsl(var(--text-strong))]">
-                {workshop.spotsRemaining} / {workshop.maxCapacity}
+              <span className="text-[hsl(var(--text-muted))]">
+                {workshop.spotsRemaining > 0 ? "Available spots" : "Status"}
               </span>
+              {workshop.spotsRemaining > 0 ? (
+                <span className="font-medium text-[hsl(var(--text-strong))]">
+                  {workshop.spotsRemaining} / {workshop.maxCapacity}
+                </span>
+              ) : (
+                <span className="font-semibold text-[hsl(var(--accent-b))]">
+                  Fully booked
+                </span>
+              )}
             </div>
             <div className="wk-progress mt-3">
               <i style={{width: `${((workshop.maxCapacity - workshop.spotsRemaining) / workshop.maxCapacity) * 100}%`}}></i>
