@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, BookOpen, BarChart3, Calendar, Settings, UserCheck, Shield, UserCog, Book } from 'lucide-react';
+import { Users, BookOpen, BarChart3, Calendar, Settings, UserCheck, Shield, UserCog, Book, Clock } from 'lucide-react';
 import { useAdminSessionTracking } from '@/hooks/useAdminSessionTracking';
 
 import { UserManagement } from '@/components/admin/UserManagement';
@@ -9,6 +9,7 @@ import { CourseManagement } from '@/components/admin/CourseManagement';
 import { AnalyticsDashboard } from '@/components/admin/AnalyticsDashboard';
 import WorkshopManagement from '@/components/admin/WorkshopManagement';
 import RegistrationManagement from '@/components/admin/RegistrationManagement';
+import WaitlistManagement from '@/components/admin/WaitlistManagement';
 import { CategoryManagement } from '@/components/admin/CategoryManagement';
 import { SubjectManagement } from '@/components/admin/SubjectManagement';
 import { RegistrationStepManagement } from '@/components/admin/RegistrationStepManagement';
@@ -40,6 +41,9 @@ const Admin = () => {
                 <TabsTrigger value="registrations" className="flex-shrink-0 h-10 px-4 rounded-pill">
                   <UserCheck className="h-4 w-4" />
                 </TabsTrigger>
+                <TabsTrigger value="waitlist" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                  <Clock className="h-4 w-4" />
+                </TabsTrigger>
                 <TabsTrigger value="users" className="flex-shrink-0 h-10 px-4 rounded-pill">
                   <UserCog className="h-4 w-4" />
                 </TabsTrigger>
@@ -60,7 +64,7 @@ const Admin = () => {
           </div>
           
           {/* Desktop: Grid layout */}
-          <TabsList className="hidden lg:grid w-full grid-cols-8 h-12 p-1">
+          <TabsList className="hidden lg:grid w-full grid-cols-9 h-12 p-1">
             <TabsTrigger value="workshops" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               <span>Workshops</span>
@@ -68,6 +72,10 @@ const Admin = () => {
             <TabsTrigger value="registrations" className="flex items-center gap-2">
               <UserCheck className="h-4 w-4" />
               <span>Registrations</span>
+            </TabsTrigger>
+            <TabsTrigger value="waitlist" className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>Waitlist</span>
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <UserCog className="h-4 w-4" />
@@ -101,6 +109,10 @@ const Admin = () => {
 
           <TabsContent value="registrations">
             <RegistrationManagement />
+          </TabsContent>
+
+          <TabsContent value="waitlist">
+            <WaitlistManagement />
           </TabsContent>
 
           <TabsContent value="users">
