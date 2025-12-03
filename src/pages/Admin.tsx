@@ -33,73 +33,76 @@ const Admin = () => {
         <Tabs defaultValue="workshops" className="space-y-6">
           {/* Mobile: Scrollable horizontal tabs */}
           <div className="lg:hidden">
-            <div className="flex overflow-x-auto pb-2 no-scrollbar gap-1">
-              <TabsList className="inline-flex gap-1 bg-transparent p-0">
-                <TabsTrigger value="workshops" className="flex-shrink-0 h-10 px-4 rounded-pill">
+            <div className="flex overflow-x-auto pb-2 no-scrollbar">
+              <TabsList className="inline-flex gap-1 bg-muted/50 p-1 rounded-lg">
+                <TabsTrigger value="workshops" className="flex-shrink-0 h-9 px-3 text-xs">
                   <Calendar className="h-4 w-4" />
                 </TabsTrigger>
-                <TabsTrigger value="registrations" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                <TabsTrigger value="registrations" className="flex-shrink-0 h-9 px-3 text-xs">
                   <UserCheck className="h-4 w-4" />
                 </TabsTrigger>
-                <TabsTrigger value="waitlist" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                <TabsTrigger value="waitlist" className="flex-shrink-0 h-9 px-3 text-xs">
                   <Clock className="h-4 w-4" />
                 </TabsTrigger>
-                <TabsTrigger value="users" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                <TabsTrigger value="users" className="flex-shrink-0 h-9 px-3 text-xs">
                   <UserCog className="h-4 w-4" />
                 </TabsTrigger>
-                <TabsTrigger value="courses" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                <TabsTrigger value="courses" className="flex-shrink-0 h-9 px-3 text-xs">
                   <BookOpen className="h-4 w-4" />
                 </TabsTrigger>
-                <TabsTrigger value="analytics" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                <TabsTrigger value="analytics" className="flex-shrink-0 h-9 px-3 text-xs">
                   <BarChart3 className="h-4 w-4" />
                 </TabsTrigger>
-                <TabsTrigger value="security" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                <TabsTrigger value="security" className="flex-shrink-0 h-9 px-3 text-xs">
                   <Shield className="h-4 w-4" />
                 </TabsTrigger>
-                <TabsTrigger value="settings" className="flex-shrink-0 h-10 px-4 rounded-pill">
+                <TabsTrigger value="guides" className="flex-shrink-0 h-9 px-3 text-xs">
+                  <Book className="h-4 w-4" />
+                </TabsTrigger>
+                <TabsTrigger value="settings" className="flex-shrink-0 h-9 px-3 text-xs">
                   <Settings className="h-4 w-4" />
                 </TabsTrigger>
               </TabsList>
             </div>
           </div>
           
-          {/* Desktop: Grid layout */}
-          <TabsList className="hidden lg:grid w-full grid-cols-9 h-12 p-1">
-            <TabsTrigger value="workshops" className="flex items-center gap-2">
+          {/* Desktop: Flex layout for uniform sizing */}
+          <TabsList className="hidden lg:flex w-full h-12 p-1 gap-1">
+            <TabsTrigger value="workshops" className="flex-1 flex items-center justify-center gap-2">
               <Calendar className="h-4 w-4" />
-              <span>Workshops</span>
+              <span className="text-sm">Workshops</span>
             </TabsTrigger>
-            <TabsTrigger value="registrations" className="flex items-center gap-2">
+            <TabsTrigger value="registrations" className="flex-1 flex items-center justify-center gap-2">
               <UserCheck className="h-4 w-4" />
-              <span>Registrations</span>
+              <span className="text-sm">Registrations</span>
             </TabsTrigger>
-            <TabsTrigger value="waitlist" className="flex items-center gap-2">
+            <TabsTrigger value="waitlist" className="flex-1 flex items-center justify-center gap-2">
               <Clock className="h-4 w-4" />
-              <span>Waitlist</span>
+              <span className="text-sm">Waitlist</span>
             </TabsTrigger>
-            <TabsTrigger value="users" className="flex items-center gap-2">
+            <TabsTrigger value="users" className="flex-1 flex items-center justify-center gap-2">
               <UserCog className="h-4 w-4" />
-              <span>Users</span>
+              <span className="text-sm">Users</span>
             </TabsTrigger>
-            <TabsTrigger value="courses" className="flex items-center gap-2">
+            <TabsTrigger value="courses" className="flex-1 flex items-center justify-center gap-2">
               <BookOpen className="h-4 w-4" />
-              <span>Courses</span>
+              <span className="text-sm">Courses</span>
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
+            <TabsTrigger value="analytics" className="flex-1 flex items-center justify-center gap-2">
               <BarChart3 className="h-4 w-4" />
-              <span>Analytics</span>
+              <span className="text-sm">Analytics</span>
             </TabsTrigger>
-            <TabsTrigger value="security" className="flex items-center gap-2">
+            <TabsTrigger value="security" className="flex-1 flex items-center justify-center gap-2">
               <Shield className="h-4 w-4" />
-              <span>Security</span>
+              <span className="text-sm">Security</span>
             </TabsTrigger>
-            <TabsTrigger value="guides" className="flex items-center gap-2">
+            <TabsTrigger value="guides" className="flex-1 flex items-center justify-center gap-2">
               <Book className="h-4 w-4" />
-              <span>Guides</span>
+              <span className="text-sm">Guides</span>
             </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
+            <TabsTrigger value="settings" className="flex-1 flex items-center justify-center gap-2">
               <Settings className="h-4 w-4" />
-              <span>Settings</span>
+              <span className="text-sm">Settings</span>
             </TabsTrigger>
           </TabsList>
 
